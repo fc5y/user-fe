@@ -8,6 +8,7 @@ function HomePage() {
     <div className={styles.container}>
       <h1>Home Page</h1>
       <h4>Hello World</h4>
+      <h2>Võ Trường Trung Hiếu</h2>
       <Link to="/about">Go to AboutPage</Link>
     </div>
   );
