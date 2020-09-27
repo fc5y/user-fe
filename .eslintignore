@@ -1,3 +1,4 @@
 webpack/**/*
 postcss.config
 *.test.js*
+*.scss
