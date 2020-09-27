@@ -59,7 +59,6 @@ module.exports = {
     extensions: ['*', '.js', '.jsx'],
   },
   devServer: {
-    // contentBase: path.join(root, "build"),
     port: 3000,
     historyApiFallback: true,
   },
@@ -68,6 +67,7 @@ module.exports = {
     new CleanWebpackPlugin(),
     new HtmlWebPackPlugin({
       template: path.join(root, 'public', 'index.html'),
+      favicon: path.join(root, 'manifest', 'favicon.png'),
     }),
   ],
 };
