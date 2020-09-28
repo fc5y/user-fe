@@ -5,6 +5,8 @@ import HomePage from './components/HomePage';
 import AboutPage from './components/AboutPage';
 import Page404 from './components/Page404';
 
+import './style.scss';
+
 export default function App() {
   return (
     <BrowserRouter>

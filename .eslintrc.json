@@ -15,6 +15,7 @@
         "extensions": [".js", ".jsx"]
       }
     ],
-    "react/prefer-stateless-function": "off"
+    "react/prefer-stateless-function": "off",
+    "no-nested-ternary": "off"
   }
 }

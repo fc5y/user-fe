@@ -8,7 +8,7 @@
   "scripts": {
     "dev": "webpack-dev-server --env=dev --config webpack/webpack.config.js --mode development",
     "build": "webpack --config webpack/webpack.config.js --env=prod",
-    "lint": "./node_modules/.bin/eslint \"./src/**/*\"",
+    "lint": "./node_modules/.bin/eslint \"./src/**/*.{js,jsx}\"",
     "test": "jest"
   },
   "husky": {
@@ -58,6 +58,7 @@
   },
   "dependencies": {
     "jest": "^26.4.2",
+    "prop-types": "^15.7.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-route-config": "^2.0.1",

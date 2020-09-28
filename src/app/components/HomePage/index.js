@@ -1,15 +1,25 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
+
+import Header from '../NavBar/Header';
+import Content from './Content';
 
 import styles from './style.scss';
+
+// To check if users have logined or not. Waiting for Item name.
+let username = JSON.parse(localStorage.getItem('username'));
+// To set username:
+// localStorage.setItem('username', JSON.stringify(username_value));
+if (username === null) username = '';
+
+// Set joinDisabled to 'true' to block users.
+const joinDisabled = false;
 
 function HomePage() {
   return (
     <div className={styles.container}>
-      <h1>Home Page</h1>
-      <h4>Hello World</h4>
-      <h2>Nguyễn Quốc Tuấn</h2>
-      <Link to="/about">Go to AboutPage</Link>
+      <Header username={username} />
+      <Content username={username} disabled={joinDisabled} />
     </div>
   );
 }
