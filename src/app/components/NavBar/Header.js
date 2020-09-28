@@ -3,10 +3,10 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import styles from './header.scss';
-import LoginAndSignup from './loginAndSignup';
-import Username from './username';
+import LoginAndSignup from './LoginAndSignup';
+import Username from './Username';
 
-function Header({ uname }) {
+function Header({ username }) {
   return (
     <div className={styles.header}>
       <div className={styles.nav}>
@@ -24,14 +24,14 @@ function Header({ uname }) {
             </li>
           </ul>
         </div>
-        <div className={styles.user}>{uname === '' ? <LoginAndSignup /> : <Username />}</div>
+        <div className={styles.user}>{username === '' ? <LoginAndSignup /> : <Username />}</div>
       </div>
     </div>
   );
 }
 
 Header.propTypes = {
-  uname: PropTypes.string.isRequired,
+  username: PropTypes.string.isRequired,
 };
 
 export default Header;

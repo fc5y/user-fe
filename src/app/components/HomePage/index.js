@@ -1,8 +1,8 @@
 import React from 'react';
 // import { Link } from 'react-router-dom';
 
-import Header from '../NavBar/header';
-import Content from './content';
+import Header from '../NavBar/Header';
+import Content from './Content';
 
 import styles from './style.scss';
 
@@ -13,13 +13,13 @@ let username = JSON.parse(localStorage.getItem('username'));
 if (username === null) username = '';
 
 // Set joinDisabled to 'true' to block users.
-const joinDisabled = 'true';
+const joinDisabled = false;
 
 function HomePage() {
   return (
     <div className={styles.container}>
-      <Header uname={username} />
-      <Content uname={username} disabled={joinDisabled} />
+      <Header username={username} />
+      <Content username={username} disabled={joinDisabled} />
     </div>
   );
 }
