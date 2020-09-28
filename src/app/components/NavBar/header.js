@@ -12,7 +12,7 @@ function Header({ uname }) {
       <div className={styles.nav}>
         <div className={styles.logo}>
           <Link to="/">
-            <img src="./../public/images/logo.png" alt="logo" />
+            <img src="../src/assets/images/logo.png" alt="logo" />
           </Link>
         </div>
         <div className={styles.menu}>

@@ -10,7 +10,7 @@ function Username() {
     <ul className={styles.username}>
       <li>{username}</li>
       <li className={styles.toggle}>
-        <img src="./../public/images/Vector.png" alt="toggle" />
+        <img src="../src/assets/images/Vector.png" alt="toggle" />
       </li>
     </ul>
   );

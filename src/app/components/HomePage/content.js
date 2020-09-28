@@ -4,9 +4,9 @@ import PropTypes from 'prop-types';
 
 import styles from './content.scss';
 
-import BtnLoginAndSignup from './btnLoginAndSignup';
-import BtnJoin from './btnJoin';
-import BtnDisabled from './btnDisabled';
+import BtnLoginAndSignup from '../Button/btnLoginAndSignup';
+import BtnJoin from '../Button/btnJoin';
+import BtnDisabled from '../Button/btnDisabled';
 
 function Content({ uname, disabled }) {
   return (
