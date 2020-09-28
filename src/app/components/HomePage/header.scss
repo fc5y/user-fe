@@ -1,0 +1,45 @@
+:local {
+  .header {
+    width: 100%;
+    height: 48px;
+    background-color: white;
+    color: rgba(0, 0, 0, 0.5);
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 25px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    letter-spacing: -1px;
+  }
+  .nav {
+    width: 1200px;
+    height: 48x;
+    margin: 0 auto;
+  }
+  .logo {
+    width: 36px;
+    height: 36px;
+    margin-top: 6px;
+    float: left;
+    img {
+      width: 100%;
+      height: 100%;
+    }
+  }
+  .menu {
+    width: 935px;
+    height: 48px;
+    float: left;
+    ul {
+      list-style-type: none;
+      margin: 0px;
+      padding: 0px;
+      padding-left: 29px;
+      margin-top: 11px;
+    }
+  }
+  .user {
+    width: 229px;
+    height: 48px;
+    float: left;
+  }
+}
