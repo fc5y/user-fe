@@ -6,12 +6,12 @@ const username = JSON.parse(localStorage.getItem('username'));
 
 function Username() {
   return (
-    <ul className={styles.username}>
-      <li>{username}</li>
-      <li className={styles.toggle}>
+    <div className={styles.username}>
+      <div>{username}</div>
+      <div className={styles.toggle}>
         <img src={vectorLogo} alt="toggle" />
-      </li>
-    </ul>
+      </div>
+    </div>
   );
 }
 

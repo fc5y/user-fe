@@ -1,12 +1,11 @@
 :local {
-  @import url('https://fonts.googleapis.com/css?family=Mulish&display=swap');
-  body {
-    background-color: #F5F8FA;
+  * {
     margin: 0px;
-    margin-top: 2px;
     padding: 0px;
-    font-family: Mulish, sans-serif;
-    font-style: normal;
+  }
 
+  body {
+    background-color: #f5f8fa;
+    font-family: Mulish, sans-serif;
   }
 }

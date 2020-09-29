@@ -18,15 +18,11 @@ function Header({ username }) {
           </Link>
         </div>
         <div className={styles.menu}>
-          <ul>
-            <li>
-              <Link to="/info" style={{ textDecoration: 'none', color: 'rgba(0, 0, 0, 0.5)' }}>
-                Thông tin
-              </Link>
-            </li>
-          </ul>
+          <Link to="/info" style={{ textDecoration: 'none', color: 'rgba(0, 0, 0, 0.5)' }}>
+            Thông tin
+          </Link>
         </div>
-        <div className={styles.user}>{username === '' ? <LoginAndSignup /> : <Username />}</div>
+        {username === '' ? <LoginAndSignup /> : <Username />}
       </div>
     </div>
   );
