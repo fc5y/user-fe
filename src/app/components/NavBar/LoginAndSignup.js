@@ -5,18 +5,18 @@ import styles from './loginAndSignup.scss';
 
 function LoginAndSignup() {
   return (
-    <ul className={styles.loginAndSignup}>
-      <li>
-        <Link to="/login" style={{ textDecoration: 'none', color: 'rgba(0, 0, 0, 0.5)' }}>
-          Đăng nhập
-        </Link>
-      </li>
-      <li className={styles.regis}>
-        <Link to="/signup" style={{ textDecoration: 'none', color: 'rgba(0, 0, 0, 0.5)' }}>
-          Tạo tài khoản
-        </Link>
-      </li>
-    </ul>
+    <div className={styles.loginAndSignup}>
+      <Link to="/login" style={{ textDecoration: 'none', color: 'rgba(0, 0, 0, 0.5)' }}>
+        Đăng nhập
+      </Link>
+      <Link
+        to="/signup"
+        className={styles.regis}
+        style={{ textDecoration: 'none', color: 'rgba(0, 0, 0, 0.5)' }}
+      >
+        Tạo tài khoản
+      </Link>
+    </div>
   );
 }
 

@@ -16,6 +16,7 @@
       }
     ],
     "react/prefer-stateless-function": "off",
-    "no-nested-ternary": "off"
+    "no-nested-ternary": "off",
+    "import/no-unresolved": "off"
   }
 }

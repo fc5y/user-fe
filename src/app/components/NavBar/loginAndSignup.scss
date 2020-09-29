@@ -1,13 +1,9 @@
 :local {
   .loginAndSignup {
     list-style-type: none;
-    padding: 0px;
-    margin: 0px;
-    margin-top: 11px;
-    li {
-      margin-left: 2px;
-      display: inline;
-    }
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
   .regis {
     margin-left: 36px !important;

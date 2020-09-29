@@ -1,4 +1,8 @@
-![](https://dev.azure.com/fc5y/test/_apis/build/status/main/fc5y.user-fe?branchName=master) ![](https://vsrm.dev.azure.com/fc5y/_apis/public/Release/badge/5733aefa-7440-4173-9990-437724df1c84/4/5) ![](https://vsrm.dev.azure.com/fc5y/_apis/public/Release/badge/5733aefa-7440-4173-9990-437724df1c84/4/6)
+|            |                      URL                       |                                                  Status                                                  |
+| :--------: | :--------------------------------------------: | :------------------------------------------------------------------------------------------------------: |
+|     CI     |                    Private                     |       ![](https://dev.azure.com/fc5y/test/_apis/build/status/main/fc5y.user-fe?branchName=master)        |
+|  Staging   | test.freecontest.net, test.fyt.freecontest.net | ![](https://vsrm.dev.azure.com/fc5y/_apis/public/Release/badge/5733aefa-7440-4173-9990-437724df1c84/4/5) |
+| Production |      freecontest.net, fyt.freecontest.net      | ![](https://vsrm.dev.azure.com/fc5y/_apis/public/Release/badge/5733aefa-7440-4173-9990-437724df1c84/4/6) |
 
 # Description
 

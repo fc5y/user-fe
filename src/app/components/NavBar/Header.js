@@ -2,9 +2,11 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-import styles from './header.scss';
 import LoginAndSignup from './LoginAndSignup';
 import Username from './Username';
+
+import logoImage from '../../../assets/images/logo.png';
+import styles from './header.scss';
 
 function Header({ username }) {
   return (
@@ -12,19 +14,15 @@ function Header({ username }) {
       <div className={styles.nav}>
         <div className={styles.logo}>
           <Link to="/">
-            <img src="../src/assets/images/logo.png" alt="logo" />
+            <img src={logoImage} alt="logo" />
           </Link>
         </div>
         <div className={styles.menu}>
-          <ul>
-            <li>
-              <Link to="/info" style={{ textDecoration: 'none', color: 'rgba(0, 0, 0, 0.5)' }}>
-                Thông tin
-              </Link>
-            </li>
-          </ul>
+          <Link to="/info" style={{ textDecoration: 'none', color: 'rgba(0, 0, 0, 0.5)' }}>
+            Thông tin
+          </Link>
         </div>
-        <div className={styles.user}>{username === '' ? <LoginAndSignup /> : <Username />}</div>
+        {username === '' ? <LoginAndSignup /> : <Username />}
       </div>
     </div>
   );

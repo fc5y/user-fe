@@ -1,18 +1,17 @@
 import React from 'react';
-// import { Link } from 'react-router-dom';
-
+import vectorLogo from '../../../assets/images/vector.png';
 import styles from './username.scss';
 
 const username = JSON.parse(localStorage.getItem('username'));
 
 function Username() {
   return (
-    <ul className={styles.username}>
-      <li>{username}</li>
-      <li className={styles.toggle}>
-        <img src="../src/assets/images/Vector.png" alt="toggle" />
-      </li>
-    </ul>
+    <div className={styles.username}>
+      <div>{username}</div>
+      <div className={styles.toggle}>
+        <img src={vectorLogo} alt="toggle" />
+      </div>
+    </div>
   );
 }
 
