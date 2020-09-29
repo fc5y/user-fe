@@ -1,6 +1,5 @@
 import React from 'react';
-// import { Link } from 'react-router-dom';
-
+import vectorLogo from '../../../assets/images/vector.png';
 import styles from './username.scss';
 
 const username = JSON.parse(localStorage.getItem('username'));
@@ -10,7 +9,7 @@ function Username() {
     <ul className={styles.username}>
       <li>{username}</li>
       <li className={styles.toggle}>
-        <img src="../src/assets/images/Vector.png" alt="toggle" />
+        <img src={vectorLogo} alt="toggle" />
       </li>
     </ul>
   );
