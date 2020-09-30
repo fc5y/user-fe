@@ -13,6 +13,7 @@ module.exports = {
   output: {
     path: path.join(root, 'build'),
     filename: '[name].bundle.js',
+    publicPath: '/',
   },
   mode: 'production',
   module: {

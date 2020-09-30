@@ -11,6 +11,7 @@ module.exports = {
   output: {
     path: path.join(root, 'build'),
     filename: 'bundle.js',
+    publicPath: '/',
   },
   mode: 'development',
   module: {
