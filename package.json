@@ -6,8 +6,8 @@
   "author": "Nhan <ngohuynhnhan@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "dev": "webpack-dev-server --env=dev --config webpack/webpack.config.js --mode development",
-    "build": "webpack --config webpack/webpack.config.js --env=prod",
+    "dev": "ENV=dev webpack-dev-server --config webpack/webpack.config.js --mode development",
+    "build": "ENV=prod webpack --config webpack/webpack.config.js",
     "lint": "./node_modules/.bin/eslint \"./src/**/*.js\"",
     "test": "jest"
   },
@@ -23,6 +23,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.11.4",
+    "@babel/plugin-transform-runtime": "^7.11.5",
     "@babel/preset-env": "^7.11.0",
     "@babel/preset-react": "^7.10.4",
     "babel-eslint": "^10.1.0",
@@ -58,6 +59,8 @@
     "webpack-dev-server": "^3.11.0"
   },
   "dependencies": {
+    "@babel/runtime": "^7.11.2",
+    "axios": "^0.20.0",
     "jest": "^26.4.2",
     "prop-types": "^15.7.2",
     "react": "^16.13.1",

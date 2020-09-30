@@ -1,8 +1,8 @@
 const path = require('path');
+const webpack = require('webpack');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-
 const root = path.resolve(__dirname, '../');
 
 module.exports = {
@@ -84,6 +84,9 @@ module.exports = {
     new HtmlWebPackPlugin({
       template: path.join(root, 'public', 'index.html'),
       favicon: path.join(root, 'manifest', 'favicon.png'),
+    }),
+    new webpack.DefinePlugin({
+      'process.env.ENV': JSON.stringify(process.env.ENV || 'prod'),
     }),
   ],
 };
