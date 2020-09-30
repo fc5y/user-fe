@@ -3,6 +3,8 @@ const webpack = require('webpack');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
+
 const root = path.resolve(__dirname, '../');
 
 module.exports = {
@@ -74,6 +76,18 @@ module.exports = {
   },
   resolve: {
     extensions: ['*', '.js', '.jsx'],
+  },
+  optimization: {
+    minimizer: [
+      new TerserPlugin({
+        sourceMap: true,
+        terserOptions: {
+          compress: {
+            drop_console: true,
+          },
+        },
+      }),
+    ],
   },
   plugins: [
     new MiniCssExtractPlugin({

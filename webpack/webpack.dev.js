@@ -13,6 +13,7 @@ module.exports = {
     filename: 'bundle.js',
     publicPath: '/',
   },
+  devtool: 'cheap-module-source-map',
   mode: 'development',
   module: {
     rules: [
