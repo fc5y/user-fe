@@ -1,13 +1,17 @@
 :local {
-  .joinBtn {
-    width: 162px;
+  .aBtn {
+    text-decoration: none;
+  }
+  .goBackBtn {
+    width: 168px;
     height: 42px;
-    float: left;
-    margin-left: 222px;
+    margin: 24px 0 0 216px;
     text-align: center; 
     background: #1C83C6;
     border-radius: 4px;
     color: white;
     padding-top: 9px;
+    font-size: 16px;
+    line-height: 25px;
   }
 }
