@@ -1,7 +1,9 @@
 const path = require('path');
+const webpack = require('webpack');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 
 const root = path.resolve(__dirname, '../');
 
@@ -13,6 +15,7 @@ module.exports = {
   output: {
     path: path.join(root, 'build'),
     filename: '[name].bundle.js',
+    publicPath: '/',
   },
   mode: 'production',
   module: {
@@ -74,6 +77,18 @@ module.exports = {
   resolve: {
     extensions: ['*', '.js', '.jsx'],
   },
+  optimization: {
+    minimizer: [
+      new TerserPlugin({
+        sourceMap: true,
+        terserOptions: {
+          compress: {
+            drop_console: true,
+          },
+        },
+      }),
+    ],
+  },
   plugins: [
     new MiniCssExtractPlugin({
       filename: '[name].css',
@@ -84,6 +99,9 @@ module.exports = {
     new HtmlWebPackPlugin({
       template: path.join(root, 'public', 'index.html'),
       favicon: path.join(root, 'manifest', 'favicon.png'),
+    }),
+    new webpack.DefinePlugin({
+      'process.env.ENV': JSON.stringify(process.env.ENV || 'prod'),
     }),
   ],
 };

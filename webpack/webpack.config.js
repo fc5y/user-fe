@@ -1,3 +1,3 @@
-module.exports = (env) => {
-  return require(`./webpack.${env}.js`);
+module.exports = () => {
+  return require(`./webpack.${process.env.ENV.toLowerCase()}.js`);
 };
