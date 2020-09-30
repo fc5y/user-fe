@@ -1,10 +1,7 @@
 import React from 'react';
-// import { Link } from 'react-router-dom';
 
 import Header from '../NavBar/Header';
 import Content from './Content';
-
-import styles from './style.scss';
 
 // To check if users have logined or not. Waiting for Item name.
 const username = JSON.parse(localStorage.getItem('username')) || '';
@@ -13,7 +10,7 @@ const username = JSON.parse(localStorage.getItem('username')) || '';
 
 function HomePage() {
   return (
-    <div className={styles.container}>
+    <div>
       <Header username={username} />
       <Content />
     </div>
