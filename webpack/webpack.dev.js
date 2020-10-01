@@ -64,6 +64,14 @@ module.exports = {
           },
         ],
       },
+      {
+        test: /\.md$/i,
+        use: [
+          {
+            loader: 'raw-loader',
+          }
+        ]
+      },
     ],
   },
   resolve: {
