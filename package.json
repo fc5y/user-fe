@@ -55,12 +55,12 @@
     "style-loader": "^1.2.1",
     "webpack": "^4.44.1",
     "webpack-cli": "^3.3.12",
-    "webpack-dev-server": "^3.11.0"
+    "webpack-dev-server": "^3.11.0",
+    "raw-loader": "^4.0.1"
   },
   "dependencies": {
     "jest": "^26.4.2",
     "prop-types": "^15.7.2",
-    "raw-loader": "^4.0.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-markdown": "^4.3.1",
