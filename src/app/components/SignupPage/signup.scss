@@ -1,0 +1,236 @@
+@import url('https://fonts.googleapis.com/css?family=Mulish');
+
+:local {
+  .popup {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 1920px;
+    height: 1080px;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 2;
+    mix-blend-mode: normal;
+  }
+
+  .signupForm {
+    position: absolute;
+    width: 600px;
+    height: 1037px;
+    left: 660px;
+    top: 96px;
+    padding-left: 36px;
+    padding-top: 36px;
+
+    background: #FFFFFF;
+    box-shadow: 0px 0px 12px rgba(188, 188, 188, 0.25);
+    border-radius: 4px;
+
+    .titleBar {
+      font-family: 'Mulish';
+      font-style: normal;
+      font-weight: 600;
+      font-size: 24px;
+      line-height: 30px;
+
+      color: #1C83C6;
+    }
+
+    .reminder {
+      position: absolute;
+      width: 523px;
+      height: 50px;
+      top: 90px;
+
+      font-family: 'Mulish';
+      font-style: normal;
+      font-weight: normal;
+      font-size: 16px;
+      line-height: 25px;
+
+      color: rgba(0, 0, 0, 0.6);
+    }
+
+    .content {
+      div {
+        margin: 0px;
+        width: 528px;
+        height: 80px;
+      }
+
+      .errorMessage {
+        padding: 0px;
+        margin: 0px;
+        width: 528px;
+        height: 25px;
+        bottom: 0px;
+
+        font-family: 'Mulish';
+        font-style: normal;
+        font-weight: normal;
+        font-size: 12px;
+        line-height: 25px;
+
+        color: rgba(235, 87, 87, 0.7);
+      }
+
+      input[type=text], input[type=password] {
+        position: relative;
+        height: 30px;
+        width: 526px;
+        left: 0px;
+        right: 2px;
+        top: 0px;
+  
+        font-family: 'Mulish';
+        font-style: normal;
+        font-weight: normal;
+        font-size: 16px;
+        line-height: 25px;
+        
+        color: rgba(0, 0, 0, 0.8);
+  
+        border: 0;
+        outline: 0;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.24);
+      }
+
+      input[type=radio] {
+        position: static;
+        width: 20px;
+        height: 20px;
+        left: 0px;
+        top: 2px;
+
+        /* Other/White */
+        background: #FFFFFF;
+        /* Primary/Default */
+        border: 6px solid #1C83C6;
+        box-sizing: border-box;
+        border-radius: 50px;
+
+        /* Inside Auto Layout */
+        flex: none;
+        order: 0;
+        align-self: center;
+        flex-grow: 0;
+        margin: 6px 0px;
+      }
+
+      .inputRadio {
+        width: 500px;
+        height: 86px;
+        
+        span {
+          position: static;
+          left: 0px;
+          right: 0px;
+          top: 0px;
+          bottom: 0px;
+          font-family: 'Mulish';
+          font-style: normal;
+          font-weight: normal;
+          font-size: 16px;
+          line-height: 25px;
+          color: rgba(0, 0, 0, 0.8);
+
+          flex: none;
+          order: 0;
+          align-self: flex-start;
+          flex-grow: 0;
+          margin: 0px 6px;
+        }
+
+        .isStudent {
+          margin-top: 11.5px;
+        }
+      }
+
+      .fullname {
+        position: absolute;
+        top: 163px;
+        margin-top: 0px;
+      }
+
+      .isAgreed {
+        position: absolute;
+        margin-top: 24px;
+    
+        div {
+          border-color: black;
+        }
+        .unchecked { 
+          margin: 0px;
+          padding: 0px;
+          width: 24px;
+          height: 23px;
+          border-radius: 2px;
+          border: 1px solid black;
+          display: inline-block;
+        }
+    
+        .checked {
+          margin: 0px;
+          padding: 0px;
+          width: 24px;
+          height: 23px;
+          background: #1C83C6;
+          border-radius: 2px;
+          display: inline-block;
+          img {
+            position: absolute;
+            margin-top: 4.8px;
+            margin-left: 3px;
+          }
+        }
+    
+        span {
+          float: flex;
+          font-family: 'Mulish';
+          font-style: normal;
+          font-weight: normal;
+          font-size: 16px;
+          line-height: 25px;
+    
+          color: rgba(0, 0, 0, 0.6);
+        }
+      }
+    }
+  }
+
+  button {
+    position: absolute;
+    width: 162px;
+    height: 42px;
+    top: 973px;
+    left: 219px; 
+
+    background: #1C83C6;
+    border-radius: 4px;
+
+    font-family: 'Mulish';
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 20px;
+    align-items: center;
+    text-align: center;
+
+    color: #FFFFFF;
+  }
+
+  small {
+    position: relative;
+    height: 25px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+
+    font-family: 'Mulish';
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 25px;
+
+    color: rgba(0, 0, 0, 0.6);
+  }
+}
