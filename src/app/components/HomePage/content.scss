@@ -1,12 +1,13 @@
 :local {
   .content {
-    height: 322px;
     width: 605px;
     margin: 0 auto;
     margin-top: 48px;
+    padding-bottom: 30px;
     box-shadow: 0px 0px 12px rgba(188, 188, 188, 0.25);
     background-color: white;
     color: rgba(0, 0, 0, 0.6);
+    overflow: auto;
   }
   .title {
     width: 100%;
@@ -24,33 +25,14 @@
       padding: 0px;
     }
   }
-  .dayOne {
+  .info {
     width: 100%;
     float: left;
-    height: 25px;
     font-size: 16px;
     font-weight: 400;
     line-height: 25px;
     padding-left: 36px;
     margin-top: 24px;
-    p {
-      margin: 0px;
-      padding: 0px;
-    }
-  }
-  .dayTwo {
-    width: 100%;
-    float: left;
-    height: 25px;
-    font-size: 16px;
-    font-weight: 400;
-    line-height: 25px;
-    padding-left: 36px;
-    margin-top: 12px;
-    p {
-      margin: 0px;
-      padding: 0px;
-    }
   }
   .alert {
     width: 100%;

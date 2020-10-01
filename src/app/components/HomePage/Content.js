@@ -1,21 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Markdown from 'react-markdown';
 
 import styles from './content.scss';
 
 import BtnLoginAndSignup from '../Button/BtnLoginAndSignup';
 import BtnJoin from '../Button/BtnJoin';
 import BtnDisabled from '../Button/BtnDisabled';
+import md from './Info.md';
 
 function Content({ username, disabled }) {
   return (
     <div className={styles.content}>
       <div className={styles.title}>FYT Code Cup</div>
-      <div className={styles.dayOne}>
-        <p>Ngày 1: 19:30 - 22:30 10/10/2020</p>
-      </div>
-      <div className={styles.dayTwo}>
-        <p>Ngày 2: 19:30 - 22:30 11/10/2020</p>
+      <div className={styles.info}>
+        <Markdown source={md} escapeHtml={false} />
       </div>
       <div className={styles.alert}>
         {username === ''
