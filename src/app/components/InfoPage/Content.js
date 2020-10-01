@@ -5,13 +5,14 @@ import styles from './content.scss';
 
 import md from './Info.md';
 
-const ok = false;
+const escape = false;
+
 function Content() {
   return (
     <div className={styles.content}>
       <p className={styles.title}>Thông tin về kỳ thi FYT Code Cup</p>
       <span className={styles.text}>
-        <Markdown source={md} escapeHtml={ok} />
+        <Markdown source={md} escapeHtml={escape} />
       </span>
     </div>
   );
