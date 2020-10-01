@@ -1,13 +1,17 @@
 import React from 'react';
+import Markdown from 'react-markdown';
 
 import styles from './content.scss';
 
+import md from './Info.md';
+
+const ok = false;
 function Content() {
   return (
     <div className={styles.content}>
       <p className={styles.title}>Thông tin về kỳ thi FYT Code Cup</p>
       <span className={styles.text}>
-        Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+        <Markdown source={md} escapeHtml={ok} />
       </span>
     </div>
   );
