@@ -8,7 +8,7 @@ import md from './Info.md';
 function Content() {
   return (
     <div className={styles.content}>
-      <p className={styles.title}>Thông tin về kỳ thi FYT Code Cup</p>
+      <p className={styles.title}>Quy chế thi</p>
       <span className={styles.text}>
         <Markdown source={md} escapeHtml={false} />
       </span>
