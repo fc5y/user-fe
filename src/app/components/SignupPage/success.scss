@@ -1,91 +1,89 @@
-@import url('https://fonts.googleapis.com/css?family=Mulish');
-
 .popupBackground {
-  position: absolute;
+  position: fixed;
   left: 0px;
-  top: 0px;
+  top: 301px;
   width: 100%;
   height: 100%;
-  z-index: 2;
+  z-index: 3;
+}
 
-  .successPopup {
-    position: absolute;
-    width: 600px;
-    height: 270px;
-    left: 660px;
-    top: 301px;
-    opacity: 1;
-    z-index: 3;
-    background: #FFFFFF;
-    box-shadow: 0px 0px 12px rgba(188, 188, 188, 0.25);
-    border-radius: 10px;
-  
-    .titleBar {
-      height: 56px;
-      border-bottom: 1px solid rgba(0, 0, 0, 0.16);
-      align-items: center;
-      display: flex;
-  
-      h5 {
-        padding-left: 24px;
-        font-family: 'Mulish';
-        font-style: normal;
-        font-weight: 600;
-        font-size: 24px;
-        line-height: 30px;
-        color: rgba(39, 174, 96, 0.7);
-      }
-    }
-  
-    .content {
-      position: absolute;
-      height: 120px;
-      left: 24px;
-      top: 80px;
-      right: 24px;
-  
-      font-family: 'Mulish';
-      font-style: normal;
-      font-weight: normal;
-      font-size: 16px;
-      line-height: 25px;
-      
-      display: flex;
-      align-items: center;
-      text-align: center;
-      justify-content: center;
-      color: rgba(0, 0, 0, 0.6);
-    }
-  
-    button {
-      /* background */
-      width: 160px;
-      height: 42px;
-      left: 220px;
-      top: 200px;
-      position: absolute;
-      background: #076DAF;
-      border-radius: 4px;
-  
-      /* text */
-      font-family: 'Mulish';
-      font-style: normal;
-      font-weight: normal;
-      font-size: 16px;
-      line-height: 25px;
-  
-      display: flex;
-      align-items: center;
-      text-align: center;
-      justify-content: center;
-  
-      color: #FFFFFF;
-    }
-  }
+.successPopup {
+  position: relative;
+  width: 600px;
+  height: 270px;
+  left: 660px;
+  opacity: 1;
+  z-index: 3;
+  background: #FFFFFF;
+  box-shadow: 0px 0px 12px rgba(188, 188, 188, 0.25);
+  border-radius: 10px;
+}
 
-  img {
-    position: absolute;
-    top: 19px;
-    right: 29px;
-  }
+.titleBar {
+  height: 56px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.16);
+  align-items: center;
+  display: flex;
+}
+
+.titleContent {
+  padding-left: 24px;
+  font-family: 'Mulish';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 30px;
+  color: rgba(39, 174, 96, 0.7);
+}
+
+.content {
+  position: relative;
+  height: 120px;
+  width: 552px;
+  left: 24px;
+  top: 24px;
+  right: 24px;
+
+  font-family: 'Mulish';
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 25px;
+  
+  display: flex;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+  color: rgba(0, 0, 0, 0.8);
+}
+
+.closeBtn {
+  /* background */
+  width: 160px;
+  height: 42px;
+  left: 220px;
+  top: 200px;
+  position: absolute;
+  background: #076DAF;
+  border-radius: 4px;
+
+  /* text */
+  font-family: 'Mulish';
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 25px;
+
+  display: flex;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+
+  color: #FFFFFF;
+}
+
+.closeImg {
+  position: absolute;
+  top: 19px;
+  right: 29px;
 }

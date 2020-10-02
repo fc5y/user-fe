@@ -21,20 +21,27 @@ class EnterPage extends Component {
       <div>
         <Header username="" />
         <div className={styles.enter}>
-          <h5>Vào thi</h5>
+          <h5 className={styles.titleContent}>Vào thi</h5>
           <div className={styles.enterContest}>
-            <h6>
+            <h6 className={styles.textDecoration}>
               1. Truy cập vào địa chỉ:&nbsp;
-              <a href="contest.freecontest.net" target="_blank">
+              <a className={styles.linkDecoration} href="contest.freecontest.net" target="_blank">
                 contest.freecontest.net
               </a>
             </h6>
           </div>
 
           <div className={styles.userInfo}>
-            <h6>2. Đăng nhập với thông tin đăng nhập như sau:</h6> <br />
-            <h6>- &nbsp;&nbsp;Username: {userInfo.username}</h6>
-            <h6>- &nbsp;&nbsp;Password: {userInfo.contestPassword}</h6>
+            <h6 className={styles.textDecoration}>2. Đăng nhập với thông tin đăng nhập như sau:</h6>{' '}
+            <br />
+            <h6 className={styles.textDecoration}>
+              - <span style={{ paddingLeft: '0.5em' }} />
+              Username: {userInfo.username}
+            </h6>
+            <h6 className={styles.textDecoration}>
+              - <span style={{ paddingLeft: '0.5em' }} />
+              Password: {userInfo.contestPassword}
+            </h6>
           </div>
         </div>
       </div>

@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './success.scss';
 
-import CloseButton from '../../../assets/images/XMLID 1429.png';
+import CloseButton from '../../../assets/images/close-button.png';
 
-class Success extends Component {
+class PopupSuccess extends Component {
   constructor() {
     super();
     this.generatePassword = this.generatePassword.bind(this);
@@ -13,7 +13,7 @@ class Success extends Component {
   generatePassword() {
     const characters = 'abcdefghijklmnopqrstuvwxyz1234567890';
     let newPassword = '';
-    for (let i = 0; i < characters.length; i += 1)
+    for (let i = 0; i < 20; i += 1)
       newPassword += characters[Math.floor(Math.random() * characters.length)];
 
     const userInfo = { ...this.props, ...{ contestPassword: newPassword } };
@@ -25,16 +25,16 @@ class Success extends Component {
       <div className={styles.popupBackground}>
         <div className={styles.successPopup}>
           <div className={styles.titleBar}>
-            <h5>Đăng ký thành công</h5>
+            <h5 className={styles.titleContent}>Đăng ký thành công</h5>
             <Link to="/login" onClick={this.generatePassword}>
-              <img src={CloseButton} alt="close" />
+              <img className={styles.closeImg} src={CloseButton} alt="close" />
             </Link>
           </div>
           <div className={styles.content}>
             <p>Cảm ơn bạn đã đăng ký tham gia FYT Code Cup! Vui lòng đăng nhập để tiếp tục.</p>
           </div>
           <Link to="/login">
-            <button type="submit" onClick={this.generatePassword}>
+            <button className={styles.closeBtn} type="submit" onClick={this.generatePassword}>
               Đăng nhập
             </button>
           </Link>
@@ -44,4 +44,4 @@ class Success extends Component {
   }
 }
 
-export default Success;
+export default PopupSuccess;

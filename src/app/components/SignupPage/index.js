@@ -3,28 +3,16 @@ import React, { Component } from 'react';
 import checkImage from '../../../assets/images/vector 1.png';
 
 import styles from './signup.scss';
-import Success from './Success';
-import Failed from './Failed';
+import PopupSuccess from './PopupSuccess';
+import PopupFailed from './PopupFailed';
 import Header from '../NavBar/Header';
 
-let isSuccess = 0;
-let isPopup = false;
-let chkPassword = true;
 const testPassword = new RegExp('^(?=.*[0-9])(?=.*[a-zA-Z]).{8,}$');
 const testEmail = new RegExp('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+[a-zA-Z0-9-.]+$');
-let isMatchPassword = true;
-let chkFullname = true;
-let chkUsername = true;
-let chkEmail = true;
-let chkAddress = true;
-let chkSchool = true;
-let chkAgreed = true;
 
-const ShowError = ({ chk, s1, s2 }) => {
-  if (chk) {
-    return s1;
-  }
-  return s2;
+const ShowError = ({ chk, errMess }) => {
+  if (!chk) return errMess;
+  return '';
 };
 
 class SignupPage extends Component {
@@ -41,18 +29,30 @@ class SignupPage extends Component {
       participationForm: '0',
       isStudent: true,
       isAgreed: false,
+      isMatchPassword: true,
+      chkFullname: true,
+      chkUsername: true,
+      chkEmail: true,
+      chkAddress: true,
+      chkSchool: true,
+      chkAgreed: true,
+      isSuccess: 0,
+      isPopup: false,
+      chkPassword: true,
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleCheck = this.handleCheck.bind(this);
     this.handlePopup = this.handlePopup.bind(this);
+    this.closePopup = this.closePopup.bind(this);
+    this.inputText = this.inputText.bind(this);
   }
 
   handleChange(event) {
-    const name = [event.target.name];
-    let value = [event.target.value];
-    if (name[0] === 'isStudent') {
-      value = Boolean(value[0] === 'true');
+    const { name } = event.target;
+    let { value } = event.target;
+    if (name === 'isStudent') {
+      value = Boolean(value === 'true');
     }
     this.setState({
       [name]: value,
@@ -78,13 +78,24 @@ class SignupPage extends Component {
       school,
       isAgreed,
     } = this.state;
-    chkFullname = fullname[0] !== '' && fullname[0] !== undefined;
-    chkUsername = username[0] !== '' && username[0] !== undefined;
-    chkEmail = testEmail.test(email[0]);
-    chkPassword = testPassword.test(userPassword[0]);
-    isMatchPassword = userPassword[0] === confirmUserPassword[0];
-    chkAddress = address[0] !== '' && address[0] !== undefined;
-    chkSchool = school[0] !== '' && school[0] !== undefined;
+    let {
+      chkFullname,
+      chkUsername,
+      chkEmail,
+      chkPassword,
+      isMatchPassword,
+      chkAddress,
+      chkSchool,
+      isSuccess,
+      chkAgreed,
+    } = this.state;
+    chkFullname = fullname !== '' && fullname !== undefined;
+    chkUsername = username !== '' && username !== undefined;
+    chkEmail = testEmail.test(email);
+    chkPassword = testPassword.test(userPassword);
+    isMatchPassword = userPassword === confirmUserPassword;
+    chkAddress = address !== '' && address !== undefined;
+    chkSchool = school !== '' && school !== undefined;
     chkAgreed = isAgreed;
     isSuccess =
       chkFullname &&
@@ -95,13 +106,29 @@ class SignupPage extends Component {
       chkAddress &&
       chkSchool &&
       chkAgreed;
-    isPopup = true;
-    this.forceUpdate();
+    this.setState({
+      chkFullname,
+      chkUsername,
+      chkEmail,
+      chkPassword,
+      isMatchPassword,
+      chkAddress,
+      chkSchool,
+      isSuccess,
+      chkAgreed,
+      isPopup: true,
+    });
+  }
+
+  closePopup() {
+    this.setState({
+      isPopup: false,
+    });
   }
 
   handlePopup() {
+    const { isPopup, isSuccess } = this.state;
     if (isPopup) {
-      isPopup = false;
       if (isSuccess) {
         const {
           fullname,
@@ -116,7 +143,7 @@ class SignupPage extends Component {
           isStudent,
         } = this.state;
         return (
-          <Success
+          <PopupSuccess
             fullname={fullname}
             username={username}
             email={email}
@@ -130,76 +157,121 @@ class SignupPage extends Component {
           />
         );
       }
-      return <Failed />;
+      return <PopupFailed closePopup={this.closePopup} />;
     }
     return '';
   }
 
+  inputText(content, inpType, inputName, inputValue, chkType, err) {
+    return (
+      <div>
+        <small>{content}</small> <br />
+        <input type={inpType} name={inputName} value={inputValue} onChange={this.handleChange} />
+        <div className={styles.errorMessage}>
+          <ShowError chk={chkType} errMess={err} />
+        </div>
+      </div>
+    );
+  }
+
   render() {
-    const { isAgreed } = this.state;
+    const {
+      isAgreed,
+      fullname,
+      username,
+      email,
+      userPassword,
+      confirmUserPassword,
+      address,
+      school,
+      chkFullname,
+      chkUsername,
+      chkEmail,
+      chkPassword,
+      isMatchPassword,
+      chkAddress,
+      chkSchool,
+      chkAgreed,
+      isPopup,
+    } = this.state;
     return (
       <div>
         <Header username="" />
         <div className={styles.signupForm}>
-          <div className={isPopup === true ? styles.popup : ''}>{this.handlePopup()}</div>
+          <div className={isPopup === true ? styles.overlay : ''}>{this.handlePopup()}</div>
           <form onSubmit={this.handleSubmit}>
             <div className={styles.titleBar}>
               <h5>Đăng ký tham gia FYT Code Cup</h5>
               <div className={styles.reminder}>
-                <p>Để tham gia FYT Code Cup, hãy đăng ký trước 19:30 ngày 09/10/2020 bạn nhé!</p>
+                <span className={styles.reminderContent}>
+                  Để tham gia FYT Code Cup, hãy đăng ký trước 19:30 ngày 09/10/2020 bạn nhé!
+                </span>
               </div>
             </div>
             <div className={styles.content}>
               <div className={styles.fullname}>
-                <small>Họ và tên</small> <br />
-                <input type="text" name="fullname" onChange={this.handleChange} />
-                <div className={styles.errorMessage}>
-                  <ShowError chk={chkFullname} s1="" s2="Xin vui lòng điền thông tin" />
-                </div>
+                {this.inputText(
+                  'Họ và tên',
+                  'text',
+                  'fullname',
+                  fullname,
+                  chkFullname,
+                  'Xin vui lòng điền thông tin',
+                )}
                 <div>
-                  <small>Tên đăng nhập</small> <br />
-                  <input type="text" name="username" onChange={this.handleChange} />
-                  <div className={styles.errorMessage}>
-                    <ShowError chk={chkUsername} s1="" s2="Xin vui lòng điền thông tin" />
-                  </div>
+                  {this.inputText(
+                    'Tên đăng nhập',
+                    'text',
+                    'username',
+                    username,
+                    chkUsername,
+                    'Xin vui lòng điền thông tin',
+                  )}
                   <div>
-                    <small>Email</small> <br />
-                    <input type="text" name="email" onChange={this.handleChange} />
-                    <div className={styles.errorMessage}>
-                      <ShowError chk={chkEmail} s1="" s2="Xin vui lòng nhập email hợp lệ" />
-                    </div>
+                    {this.inputText(
+                      'Email',
+                      'text',
+                      'email',
+                      email,
+                      chkEmail,
+                      'Xin vui lòng nhập email hợp lệ',
+                    )}
                     <div>
-                      <small>Mật khẩu</small> <br />
-                      <input type="password" name="userPassword" onChange={this.handleChange} />
-                      <div className={styles.errorMessage}>
-                        <ShowError
-                          chk={chkPassword}
-                          s1=""
-                          s2="Mật khẩu phải có ít nhất 8 kí tự, bao gồm một chữ cái, một chữ số"
-                        />
-                      </div>
+                      {this.inputText(
+                        'Mật khẩu',
+                        'password',
+                        'userPassword',
+                        userPassword,
+                        chkPassword,
+                        'Mật khẩu phải có ít nhất 8 kí tự, bao gồm một chữ cái, một chữ số',
+                      )}
                       <div>
-                        <small>Xác nhận mật khẩu</small> <br />
-                        <input
-                          type="password"
-                          name="confirmUserPassword"
-                          onChange={this.handleChange}
-                        />
-                        <div className={styles.errorMessage}>
-                          <ShowError chk={isMatchPassword} s1="" s2="Mật khẩu không trùng" />
-                        </div>
+                        {this.inputText(
+                          'Xác nhận mật khẩu',
+                          'password',
+                          'confirmUserPassword',
+                          confirmUserPassword,
+                          isMatchPassword,
+                          'Mật khẩu không trùng',
+                        )}
                         <div>
-                          <small>Địa chỉ (để xác nhận giải thưởng)</small> <br />
-                          <input type="text" name="address" onChange={this.handleChange} />
-                          <div className={styles.errorMessage}>
-                            <ShowError chk={chkAddress} s1="" s2="Xin vui lòng điền thông tin" />
-                          </div>
+                          {this.inputText(
+                            'Địa chỉ (để xác nhận giải thưởng)',
+                            'text',
+                            'address',
+                            address,
+                            chkAddress,
+                            'Xin vui lòng điền thông tin',
+                          )}
                           <div>
-                            <small>Trường</small> <br />
-                            <input type="text" name="school" onChange={this.handleChange} />
-                            <div className={styles.errorMessage}>
-                              <ShowError chk={chkSchool} s1="" s2="Xin vui lòng điền thông tin" />
-                            </div>
+                            {this.inputText(
+                              'Trường',
+                              'text',
+                              'school',
+                              school,
+                              chkSchool,
+                              'Xin vui lòng điền thông tin',
+                            )}
                             <div className={styles.inputRadio}>
                               <small>Hình thức tham gia</small> <br />
                               <input
@@ -209,7 +281,7 @@ class SignupPage extends Component {
                                 defaultChecked
                                 onChange={this.handleChange}
                               />
-                              <span>Chính thức</span>
+                              <span className={styles.inputRadioContent}>Chính thức</span>
                               <br />
                               <input
                                 type="radio"
@@ -217,7 +289,9 @@ class SignupPage extends Component {
                                 value="1"
                                 onChange={this.handleChange}
                               />
-                              <span>Không chính thức (không xét giải, ẩn khỏi bảng điểm)</span>
+                              <span className={styles.inputRadioContent}>
+                                Không chính thức (không xét giải, ẩn khỏi bảng điểm)
+                              </span>
                               <div className={styles.isStudent}>
                                 <small>
                                   Bạn có đang là học sinh/sinh viên chính thức trong trường?
@@ -230,7 +304,7 @@ class SignupPage extends Component {
                                   defaultChecked
                                   onChange={this.handleChange}
                                 />
-                                <span>Có</span>
+                                <span className={styles.inputRadioContent}>Có</span>
                                 <br />
                                 <input
                                   type="radio"
@@ -238,7 +312,7 @@ class SignupPage extends Component {
                                   value="false"
                                   onChange={this.handleChange}
                                 />
-                                <span>Không</span>
+                                <span className={styles.inputRadioContent}>Không</span>
                                 <div className={styles.isAgreed}>
                                   {isAgreed ? (
                                     <div
@@ -248,7 +322,11 @@ class SignupPage extends Component {
                                       onKeyDown={this.handleCheck}
                                       tabIndex="0"
                                     >
-                                      <img src={checkImage} alt="checked" />
+                                      <img
+                                        className={styles.checkImg}
+                                        src={checkImage}
+                                        alt="checked"
+                                      />
                                     </div>
                                   ) : (
                                     <div
@@ -261,14 +339,13 @@ class SignupPage extends Component {
                                       <span />
                                     </div>
                                   )}
-                                  <span>
+                                  <span className={styles.isAgreedContent}>
                                     Tôi đã đọc và đồng ý với quy chế thi của
-                                    <span style={{ color: '#1C83C6' }}>FYT Code Cup</span>
+                                    <span style={{ color: '#1C83C6' }}> FYT Code Cup</span>
                                     <div className={styles.errorMessage}>
                                       <ShowError
                                         chk={chkAgreed}
-                                        s1=""
-                                        s2="Bạn cần đọc và đồng ý với quy chế thi"
+                                        errMess="Bạn cần đọc và đồng ý với quy chế thi"
                                       />
                                     </div>
                                   </span>
@@ -283,7 +360,9 @@ class SignupPage extends Component {
                 </div>
               </div>
             </div>
-            <button type="submit">Tạo tài khoản</button>
+            <button className={styles.submitBtn} type="submit">
+              Tạo tài khoản
+            </button>
           </form>
         </div>
       </div>
