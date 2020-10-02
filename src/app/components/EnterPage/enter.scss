@@ -1,0 +1,60 @@
+:local {
+  .enter {
+    position: relative;
+    width: 426px;
+    height: 238px;
+    left: 50%;
+    margin-top: 48px;
+    transform: translateX(-50%);
+
+    padding: 0px;
+    background: #FFFFFF;
+
+    box-shadow: 0px 0px 12px rgba(188, 188, 188, 0.25);
+  }
+
+  .linkDecoration {
+    text-decoration: none;
+    color:#1C83C6;
+  }
+
+  .titleContent {
+    position: absolute;
+    left: 36px;
+    top: 24px;
+
+    margin: 0px;
+    font-family: 'Mulish';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 30px;
+
+    color: #1C83C6;
+  }
+
+  .textDecoration {
+    font-family: 'Mulish';
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 20px;
+    margin: 0px;
+    padding: 0px;
+
+    color: rgba(0, 0, 0, 0.6);
+  }
+
+  .enterContest {
+    position: relative;
+    left: 36px;
+    top: 90px;
+  }
+
+  .userInfo {
+    position: relative;
+    width: 354px;
+    height: 80px;
+    left: 36px;
+    top: 98px;
+  }
+}
