@@ -7,7 +7,7 @@
     box-shadow: 0px 0px 12px rgba(188, 188, 188, 0.25);
     background-color: white;
     color: rgba(0, 0, 0, 0.6);
-    overflow: auto;
+    overflow: auto; 
   }
   .title {
     width: 100%;
@@ -27,15 +27,18 @@
   }
   .info {
     width: 100%;
-    float: left;
     font-size: 16px;
     font-weight: 400;
     line-height: 25px;
     padding-left: 36px;
-    margin-top: 24px;
+    padding-right: 36px;
+    margin-top: 103px;
     a {
       color: #076DAF;
       text-decoration: none;
+    }
+    p {
+      margin-bottom: 20px;
     }
   }
   .alert {
