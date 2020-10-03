@@ -1,0 +1,72 @@
+:local {
+  .enter {
+    display: block;
+    width: 426px;
+    height: 238px;
+    margin-left: 50%;
+    margin-top: 48px;
+    transform: translateX(-50%);
+    background: #ffffff;
+    box-shadow: 0px 0px 12px rgba(188, 188, 188, 0.25);
+  }
+
+  .linkDecoration {
+    text-decoration: none;
+    color: #1c83c6;
+  }
+
+  .titleContent {
+    padding-left: 36px;
+    padding-top: 24px;
+
+    font-family: 'Mulish';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 30px;
+
+    color: #1c83c6;
+  }
+
+  .textDecoration {
+    font-family: 'Mulish';
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 20px;
+    margin: 0px;
+    padding: 0px;
+
+    color: rgba(0, 0, 0, 0.6);
+  }
+
+  .enterContest {
+    margin: 36px 0px 0px 36px;
+  }
+
+  .userInfo {
+    width: 354px;
+    height: 80px;
+    margin: 12px 0px 0px 36px;
+  }
+
+  .info {
+    padding-left: 22px;
+    padding-top: 22px;
+    list-style: none;
+  }
+
+  .lstInfo {
+    font-family: 'Mulish';
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 20px;
+
+    color: rgba(0, 0, 0, 0.6);
+  }
+
+  .lstInfo:before {
+    content: '-';
+    margin-left: -1.25em;
+    margin-right: 0.75em;
+  }
+}
