@@ -6,6 +6,7 @@ import AboutPage from './components/AboutPage';
 import Page404 from './components/Page404';
 import InfoPage from './components/InfoPage';
 import InfoRulesPage from './components/InfoRulesPage';
+import EnterPage from './components/EnterPage';
 
 import './style.scss';
 
@@ -17,6 +18,7 @@ export default function App() {
         <Route exact path="/info" component={InfoPage} />
         <Route exact path="/info/rules" component={InfoRulesPage} />
         <Route exact path="/about" component={AboutPage} />
+        <Route exact path="/enter" component={EnterPage} />
         <Route exact path="*" component={Page404} />
       </Switch>
     </BrowserRouter>
