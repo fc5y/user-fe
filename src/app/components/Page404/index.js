@@ -1,20 +1,16 @@
 import React from 'react';
 
-import Header from '../NavBar/Header';
-import Content from './Content';
+import ButtonGoBack from '../Button/BtnGoBack';
+import styles from './style.scss';
 
-// To check if users have logined or not. Waiting for Item name.
-const username = JSON.parse(localStorage.getItem('username')) || '';
-// To set username:
-// localStorage.setItem('username', JSON.stringify(username_value));
-
-function HomePage() {
+function Page404() {
   return (
-    <div>
-      <Header username={username} />
-      <Content />
+    <div className={styles.content}>
+      <p className={styles.title}>404</p>
+      <span className={styles.text}>Trang bạn yêu cầu hiện không thể tìm thấy</span>
+      <ButtonGoBack />
     </div>
   );
 }
 
-export default HomePage;
+export default Page404;

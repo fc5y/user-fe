@@ -4,9 +4,8 @@ import PropTypes from 'prop-types';
 
 import LoginAndSignup from './LoginAndSignup';
 import Username from './Username';
-
 import logoImage from '../../../assets/images/logo.png';
-import styles from './header.scss';
+import styles from './style.scss';
 
 function Header({ username }) {
   return (
