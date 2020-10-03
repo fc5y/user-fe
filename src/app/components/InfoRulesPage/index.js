@@ -1,20 +1,18 @@
 import React from 'react';
+import Markdown from 'react-markdown';
 
-import Header from '../NavBar/Header';
-import Content from './Content';
+import styles from './style.scss';
+import md from './Info.md';
 
-// To check if users have logined or not. Waiting for Item name.
-const username = JSON.parse(localStorage.getItem('username')) || '';
-// To set username:
-// localStorage.setItem('username', JSON.stringify(username_value));
-
-function HomePage() {
+function InfoRulesPage() {
   return (
-    <div>
-      <Header username={username} />
-      <Content />
+    <div className={styles.content}>
+      <p className={styles.title}>Quy chế thi</p>
+      <span className={styles.text}>
+        <Markdown source={md} />
+      </span>
     </div>
   );
 }
 
-export default HomePage;
+export default InfoRulesPage;

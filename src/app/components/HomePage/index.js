@@ -1,28 +1,41 @@
 import React from 'react';
-
-import Header from '../NavBar/Header';
-import Content from './Content';
-
+import Markdown from 'react-markdown';
 import { get } from '../../../utils/fetchUtils';
+import PropTypes from 'prop-types';
 
-// To check if users have logined or not. Waiting for Item name.
-const username = JSON.parse(localStorage.getItem('username')) || '';
-// To set username:
-// localStorage.setItem('username', JSON.stringify(username_value));
+import BtnLoginAndSignup from '../Button/BtnLoginAndSignup';
+import BtnJoin from '../Button/BtnJoin';
+import BtnDisabled from '../Button/BtnDisabled';
+import md from './Info.md';
+import styles from './style.scss';
 
-// Set joinDisabled to 'true' to block users.
-const joinDisabled = false;
-
-function HomePage() {
+function HomePage({ username, disabled }) {
   React.useEffect(() => {
     get('/get-contest-name/get-contest-name').then(console.log);
   });
   return (
-    <div>
-      <Header username={username} />
-      <Content username={username} disabled={joinDisabled} />
+    <div className={styles.content}>
+      <div className={styles.title}>FYT Code Cup</div>
+      <div className={styles.info}>
+        <Markdown source={md} />
+      </div>
+      <div className={styles.alert}>
+        {username === ''
+          ? 'Để tham gia thi, bạn cần tạo tài khoản'
+          : disabled
+          ? 'Trang kỳ thi sẽ chỉ được bật một ít phút trước khi kỳ thi bắt đầu'
+          : 'Để tham gia thi, bạn chỉ cần nhấn vào nút “Vào thi”'}
+      </div>
+      <div className={styles.btn}>
+        {username === '' ? <BtnLoginAndSignup /> : disabled ? <BtnDisabled /> : <BtnJoin />}
+      </div>
     </div>
   );
 }
+
+HomePage.propTypes = {
+  username: PropTypes.string.isRequired,
+  disabled: PropTypes.bool.isRequired,
+};
 
 export default HomePage;
