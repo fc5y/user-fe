@@ -3,6 +3,42 @@ import { Redirect } from 'react-router-dom';
 import PopupFailed from './PopupFailed';
 import styles from './login.scss';
 import Header from '../NavBar/Header';
+import PropTypes from 'prop-types';
+
+function InputText(props) {
+  const { label, type, id, name, value, hasError, errorMessage, onChange } = props;
+  return (
+    <div>
+      <label className={styles.formLabel} htmlFor={id}>
+        {label}
+      </label>
+      <input type={type} name={name} value={value} id={id} onChange={onChange} />
+      <div className={styles.errorMessage}>{hasError ? errorMessage : ''}</div>
+    </div>
+  );
+}
+
+InputText.propTypes = {
+  label: PropTypes.string,
+  type: PropTypes.string,
+  id: PropTypes.string,
+  name: PropTypes.string,
+  value: PropTypes.string,
+  hasError: PropTypes.bool,
+  errorMessage: PropTypes.string,
+  onChange: PropTypes.func,
+};
+
+InputText.defaultProps = {
+  label: '',
+  type: '',
+  id: '',
+  name: '',
+  value: '',
+  hasError: false,
+  errorMessage: '',
+  onChange: null,
+};
 
 class LoginPage extends Component {
   constructor() {
@@ -64,31 +100,35 @@ class LoginPage extends Component {
   }
 
   render() {
-    const { linkTo, isPopup } = this.state;
+    const { linkTo, isPopup, username, password } = this.state;
     return (
       <div>
         <Header username="" />
         <div className={styles.login}>
           <form onSubmit={this.handleSubmit}>
             <h5 className={styles.titleContent}>Đăng nhập:</h5>
-            <div className={styles.username}>
-              <small className={styles.usernameSmall}>Tên đăng nhập</small> <br />
-              <input
-                className={styles.usernameInput}
-                type="text"
-                name="username"
-                onChange={this.handleChange}
-              />
-            </div>
-            <div className={styles.password}>
-              <small className={styles.passwordSmall}>Mật khẩu</small> <br />
-              <input
-                className={styles.passwordInp}
-                type="password"
-                name="userPassword"
-                onChange={this.handleChange}
-              />
-            </div>
+
+            <InputText
+              id="username-input"
+              label="Tên đăng nhập"
+              type="text"
+              name="username"
+              value={username}
+              hasError={false}
+              errorMessage="Bắt buộc"
+              onChange={this.handleChange}
+            />
+
+            <InputText
+              id="password-input"
+              label="Mật khẩu"
+              type="password"
+              name="password"
+              value={password}
+              hasError={false}
+              errorMessage="Bắt buộc"
+              onChange={this.handleChange}
+            />
             <button className={styles.loginBtn} type="submit">
               Đăng nhập
             </button>
