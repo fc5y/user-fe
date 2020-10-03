@@ -1,0 +1,226 @@
+:local {
+  .overlay {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 2;
+    mix-blend-mode: normal;
+  }
+
+  .signupForm {
+    width: 600px;
+    height: 1037px;
+    margin-left: 50%;
+    margin-top: 48px;
+    transform: translateX(-50%);
+    padding-left: 36px;
+    padding-top: 36px;
+
+    background: #ffffff;
+    box-shadow: 0px 0px 12px rgba(188, 188, 188, 0.25);
+    border-radius: 4px;
+  }
+
+  .titleBar {
+    font-family: 'Mulish';
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 30px;
+
+    color: #1c83c6;
+  }
+
+  .reminderContent {
+    font-family: 'Mulish';
+    font-size: 16px;
+    line-height: 25px;
+
+    color: rgba(0, 0, 0, 0.6);
+  }
+
+  .reminder {
+    width: 530px;
+    height: 50px;
+    margin-top: 17px;
+  }
+
+  .content {
+    margin-top: 28px;
+    width: 528px;
+    height: 80px;
+  }
+
+  .errorMessage {
+    padding: 0px;
+    margin: 0px;
+    width: 528px;
+    height: 25px;
+    bottom: 0px;
+
+    font-family: 'Mulish';
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 25px;
+
+    color: rgba(235, 87, 87, 0.7);
+  }
+
+  input[type='text'],
+  input[type='password'] {
+    height: 30px;
+    width: 526px;
+    left: 0px;
+    right: 2px;
+    top: 0px;
+
+    font-family: 'Mulish';
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 25px;
+
+    color: rgba(0, 0, 0, 0.8);
+
+    border: 0;
+    outline: 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.24);
+  }
+
+  input[type='radio'] {
+    position: static;
+    width: 20px;
+    height: 20px;
+    left: 0px;
+    top: 2px;
+
+    /* Other/White */
+    background: #ffffff;
+    /* Primary/Default */
+    border: 6px solid #1c83c6;
+    box-sizing: border-box;
+    border-radius: 50px;
+
+    /* Inside Auto Layout */
+    flex: none;
+    order: 0;
+    align-self: center;
+    flex-grow: 0;
+    margin: 6px 0px;
+  }
+
+  .inputRadio {
+    width: 500px;
+    height: 86px;
+  }
+
+  .inputRadioContent {
+    position: static;
+    left: 0px;
+    right: 0px;
+    top: 0px;
+    bottom: 0px;
+    font-family: 'Mulish';
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 25px;
+    color: rgba(0, 0, 0, 0.8);
+
+    flex: none;
+    order: 0;
+    align-self: flex-start;
+    flex-grow: 0;
+    margin: 0px 6px;
+  }
+
+  .isStudent {
+    margin-top: 11.5px;
+  }
+
+  .isAgreed {
+    position: absolute;
+    margin-top: 24px;
+  }
+
+  .unchecked {
+    margin: 0px;
+    padding: 0px;
+    width: 24px;
+    height: 23px;
+    border-radius: 2px;
+    border: 1px solid black;
+    display: inline-block;
+  }
+
+  .checked {
+    margin: 0px;
+    padding: 0px;
+    width: 24px;
+    height: 23px;
+    background: #1c83c6;
+    border-radius: 2px;
+    display: inline-block;
+  }
+
+  .checkImg {
+    position: absolute;
+    margin-top: 4.8px;
+    margin-left: 3px;
+  }
+
+  .isAgreedContent {
+    float: flex;
+    font-family: 'Mulish';
+    font-size: 16px;
+    line-height: 25px;
+    align-items: center;
+    padding-left: 6px;
+    color: rgba(0, 0, 0, 0.6);
+  }
+
+  .submitBtn {
+    width: 162px;
+    height: 42px;
+    margin-left: 176.5px;
+
+    background: #1c83c6;
+    border-radius: 4px;
+
+    font-family: 'Mulish';
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 20px;
+    align-items: center;
+    text-align: center;
+
+    color: #ffffff;
+  }
+
+  .formLabel {
+    height: 25px;
+
+    font-family: 'Mulish';
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 25px;
+
+    color: rgba(0, 0, 0, 0.6);
+  }
+
+  .option {
+    list-style: none;
+    padding: 0px;
+  }
+
+  .specialText {
+    color: #1c83c6;
+  }
+}
