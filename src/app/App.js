@@ -1,10 +1,10 @@
 import React from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
-import HomePage from './components/HomePage';
-import Page404 from './components/Page404';
-import InfoPage from './components/InfoPage';
-import InfoRulesPage from './components/InfoRulesPage';
+import HomePage from './containers/HomePage';
+import Page404 from './containers/Page404';
+import InfoPage from './containers/InfoPage';
+import InfoRulesPage from './containers/InfoRulesPage';
 import Header from './components/NavBar';
 
 import './style.scss';
@@ -15,7 +15,7 @@ const username = JSON.parse(localStorage.getItem('username')) || '';
 // localStorage.setItem('username', JSON.stringify(username_value));
 
 // Set joinDisabled to 'true' to block users.
-const joinDisabled = true;
+const joinDisabled = false;
 
 export default function App() {
   return (

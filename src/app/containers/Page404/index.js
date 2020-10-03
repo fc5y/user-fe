@@ -1,6 +1,6 @@
 import React from 'react';
 
-import ButtonGoBack from '../Button/BtnGoBack';
+import ButtonGoBack from '../../components/Button/BtnGoBack';
 import styles from './style.scss';
 
 function Page404() {
