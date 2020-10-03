@@ -3,9 +3,9 @@ import Markdown from 'react-markdown';
 import { get } from '../../../utils/fetchUtils';
 import PropTypes from 'prop-types';
 
-import BtnLoginAndSignup from '../Button/BtnLoginAndSignup';
-import BtnJoin from '../Button/BtnJoin';
-import BtnDisabled from '../Button/BtnDisabled';
+import BtnLoginAndSignup from '../../components/Button/BtnLoginAndSignup';
+import BtnJoin from '../../components/Button/BtnJoin';
+import BtnDisabled from '../../components/Button/BtnDisabled';
 import md from './Info.md';
 import styles from './style.scss';
 
