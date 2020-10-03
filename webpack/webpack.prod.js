@@ -6,6 +6,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 
 const root = path.resolve(__dirname, '../');
+const { META_TAG } = require('./config');
 
 module.exports = {
   stats: {
@@ -69,6 +70,9 @@ module.exports = {
         use: [
           {
             loader: 'file-loader',
+            options: {
+              esModule: false,
+            },
           },
         ],
       },
@@ -77,8 +81,8 @@ module.exports = {
         use: [
           {
             loader: 'raw-loader',
-          }
-        ]
+          },
+        ],
       },
     ],
   },
@@ -105,8 +109,9 @@ module.exports = {
     }),
     new CleanWebpackPlugin(),
     new HtmlWebPackPlugin({
-      template: path.join(root, 'public', 'index.html'),
-      favicon: path.join(root, 'manifest', 'favicon.png'),
+      template: path.join(root, 'public', 'index.ejs'),
+      favicon: path.join(root, 'src', 'assets', 'images', 'logo.png'),
+      imageMetaUrl: META_TAG.image_url,
     }),
     new webpack.DefinePlugin({
       'process.env.ENV': JSON.stringify(process.env.ENV || 'prod'),
