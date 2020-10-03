@@ -13,5 +13,4 @@ Các thí sinh nằm trong top 10 sẽ nhận được những giải thưởng 
 Ngoài ra, mỗi thí sinh nằm trong top 10 sẽ nhận được một áo phông kỷ niệm.  
 Chú ý, chỉ những thí sinh hiện đang là học sinh, sinh viên, hiện đang ở Việt Nam mới được xét giải. Các thí sinh còn lại có thể tham gia không chính thức và bị ẩn khỏi bảng xếp hạng.
 
-Xem thêm:  
-[Quy chế thi](/info/rules)
+Xem thêm:
