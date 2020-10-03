@@ -1,6 +1,7 @@
 import React from 'react';
 import Markdown from 'react-markdown';
 import { get } from '../../../utils/fetchUtils';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import BtnLoginAndSignup from '../../components/Button/BtnLoginAndSignup';
@@ -18,6 +19,9 @@ function HomePage({ username, disabled }) {
       <div className={styles.title}>FYT Code Cup</div>
       <div className={styles.info}>
         <Markdown source={md} />
+        <Link to="/info">Thông tin kỳ thi</Link>
+        <br />
+        <Link to="/info/rules">Quy chế thi</Link>
       </div>
       <div className={styles.alert}>
         {username === ''
