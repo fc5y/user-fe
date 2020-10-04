@@ -24,6 +24,7 @@
     font-family: 'Mulish';
     font-size: 16px;
     line-height: 25px;
+    word-wrap: break-word;
 
     color: rgba(0, 0, 0, 0.6);
 
@@ -38,6 +39,8 @@
 
   .titleBar {
     width: 100%;
+    font-family: 'Mulish';
+    font-style: normal;
     font-weight: 600;
     font-size: 24px;
     line-height: 30px;
@@ -47,19 +50,19 @@
   .reminderContent {
     font-size: 16px;
     line-height: 25px;
+    font-weight: 400;
     width: 88%;
     color: rgba(0, 0, 0, 0.6);
   }
 
   .reminder {
     width: 95%;
-    height: 50px;
+    height: auto;
     margin-top: 24px;
   }
 
   .content {
     margin-top: 28px;
-    width: 100%;
     height: auto;
     display: block;
   }
@@ -81,6 +84,7 @@
     width: 93%;
     right: 2px;
 
+    font-family: 'Mulish';
     font-size: 16px;
     line-height: 25px;
     color: rgba(0, 0, 0, 0.8);
@@ -90,50 +94,28 @@
     border-bottom: 1px solid rgba(0, 0, 0, 0.24);
   }
 
-  input[type='radio'] {
-    position: static;
-    width: 20px;
-    height: 20px;
-    top: 2px;
-
-    /* Other/White */
-    background: #ffffff;
-    /* Primary/Default */
-    border: 6px solid #1c83c6;
-    box-sizing: border-box;
-    border-radius: 50px;
-
-    /* Inside Auto Layout */
-    flex: none;
-    order: 0;
-    align-self: center;
-    flex-grow: 0;
-    margin: 6px 0px;
-  }
-
   .inputRadio {
-    width: 500px;
-    height: 86px;
+    width: auto;
+    height: auto;
+    margin-top: 11.5px;
   }
 
   .inputRadioContent {
-    position: static;
+    float: flex;
 
+    align-items: center;
+    padding-left: 6px;
+    color: rgba(0, 0, 0, 0.6);
     color: rgba(0, 0, 0, 0.8);
-
-    flex: none;
     order: 0;
     align-self: flex-start;
     flex-grow: 0;
     margin: 0px 6px;
   }
 
-  .isStudent {
-    margin-top: 11.5px;
-  }
-
   .isAgreed {
     margin-top: 24px;
+    height: auto;
   }
 
   .unchecked {
@@ -185,7 +167,7 @@
 
   .formLabel {
     display: block;
-    height: 25px;
+    height: auto;
     font-size: 12px;
     line-height: 25px;
   }

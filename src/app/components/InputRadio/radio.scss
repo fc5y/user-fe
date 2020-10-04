@@ -1,0 +1,42 @@
+.unchecked {
+  position: static;
+  width: 20px;
+  height: 20px;
+  left: 0px;
+  top: 2px;
+
+  /* Other/White */
+  background: #FFFFFF;
+  /* DarkGray/Default */
+  border: 1px solid rgba(0, 0, 0, 0.6);
+  box-sizing: border-box;
+  border-radius: 50px;
+
+  /* Inside Auto Layout */
+  order: 1;
+  align-self: center;
+  flex-grow: 0;
+  display: inline-block;
+}
+
+.checked {
+  position: static;
+  width: 20px;
+  height: 20px;
+  left: 0px;
+  top: 2px;
+
+  /* Other/White */
+  background: #FFFFFF;
+  /* Primary/Default */
+  border: 6px solid #1C83C6;
+  box-sizing: border-box;
+  border-radius: 50px;
+
+  /* Inside Auto Layout */
+  order: 0;
+  align-self: center;
+  flex-grow: 0;
+
+  display: inline-block;
+}

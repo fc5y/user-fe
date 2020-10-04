@@ -6,6 +6,7 @@ import styles from './signup.scss';
 import PopupSuccess from './PopupSuccess';
 import PopupFailed from './PopupFailed';
 import InputText from '../../components/InputText';
+import InputText from '../../components/InputRadio';
 
 const testPassword = new RegExp('^(?=.*[0-9])(?=.*[a-zA-Z]).{8,}$');
 const testEmail = new RegExp('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+[a-zA-Z0-9-.]+$');
@@ -21,7 +22,7 @@ class SignupPage extends Component {
       confirmUserPassword: '',
       address: '',
       school: '',
-      participationForm: '0',
+      participationForm: true,
       isStudent: true,
       isAgreed: false,
       isMatchPassword: true,
@@ -43,21 +44,31 @@ class SignupPage extends Component {
   }
 
   handleChange(event) {
-    const { name } = event.target;
-    let { value } = event.target;
-    if (name === 'isStudent') {
-      value = Boolean(value === 'true');
-    }
+    const { name, value } = event.target;
     this.setState({
       [name]: value,
     });
   }
 
-  handleCheck() {
-    const { isAgreed } = this.state;
-    this.setState({
-      isAgreed: !isAgreed,
-    });
+  handleCheck(event) {
+    const { id } = event.target;
+    const { isAgreed, isStudent, participationForm } = this.state;
+    console.log(id);
+    console.log(typeof id);
+    console.log(id === 'isStudent-id');
+    if (id === 'participationForm-id') {
+      this.setState({
+        participationForm: !participationForm,
+      });
+    } else if (id === 'isStudent-id') {
+      this.setState({
+        isStudent: !isStudent,
+      });
+    } else {
+      this.setState({
+        isAgreed: !isAgreed,
+      });
+    }
   }
 
   handleSubmit(event) {
@@ -175,6 +186,8 @@ class SignupPage extends Component {
       chkSchool,
       chkAgreed,
       isPopup,
+      isStudent,
+      participationForm,
     } = this.state;
     return (
       <div>
@@ -204,18 +217,6 @@ class SignupPage extends Component {
                   onChange={this.handleChange}
                 />
                 <InputText
-                  label="Tên đăng nhập"
-                  type="text"
-                  id="username-id"
-                  name="username"
-                  labelStyle={styles.formLabel}
-                  value={username}
-                  isNotError={chkUsername}
-                  errorMessage="Xin vui lòng điền thông tin"
-                  errorStyle={styles.errorMessage}
-                  onChange={this.handleChange}
-                />
-                <InputText
                   label="Email"
                   type="text"
                   id="email-id"
@@ -224,6 +225,18 @@ class SignupPage extends Component {
                   value={email}
                   isNotError={chkEmail}
                   errorMessage="Xin vui lòng nhập email hợp lệ"
+                  errorStyle={styles.errorMessage}
+                  onChange={this.handleChange}
+                />
+                <InputText
+                  label="Tên đăng nhập"
+                  type="text"
+                  id="username-id"
+                  name="username"
+                  labelStyle={styles.formLabel}
+                  value={username}
+                  isNotError={chkUsername}
+                  errorMessage="Xin vui lòng điền thông tin"
                   errorStyle={styles.errorMessage}
                   onChange={this.handleChange}
                 />
@@ -275,80 +288,48 @@ class SignupPage extends Component {
                   errorStyle={styles.errorMessage}
                   onChange={this.handleChange}
                 />
-                <div className={styles.inputRadio}>
-                  <small className={styles.formLabel}>Hình thức tham gia</small>
-                  <ul className={styles.option}>
-                    <li>
-                      <input
-                        type="radio"
-                        name="participationForm"
-                        value="0"
-                        defaultChecked
-                        onChange={this.handleChange}
-                      />
-                      <span className={styles.inputRadioContent}>Chính thức</span>
-                    </li>
-                    <li>
-                      <input
-                        type="radio"
-                        name="participationForm"
-                        value="1"
-                        onChange={this.handleChange}
-                      />
-                      <span className={styles.inputRadioContent}>
-                        Không chính thức (không xét giải, ẩn khỏi bảng điểm)
-                      </span>
-                    </li>
-                  </ul>
-                </div>
-                <div className={styles.isStudent}>
-                  <small className={styles.formLabel}>
-                    Bạn có đang là học sinh/sinh viên chính thức trong trường?
-                  </small>
-                  <ul className={styles.option}>
-                    <li>
-                      <input
-                        type="radio"
-                        name="isStudent"
-                        value="true"
-                        defaultChecked
-                        onChange={this.handleChange}
-                      />
-                      <span className={styles.inputRadioContent}>Có</span>
-                    </li>
-                    <li>
-                      <input
-                        type="radio"
-                        name="isStudent"
-                        value="false"
-                        onChange={this.handleChange}
-                      />
-                      <span className={styles.inputRadioContent}>Không</span>
-                    </li>
-                  </ul>
-                </div>
+                <InputRadio
+                  inputRadio={styles.inputRadio}
+                  labelStyle={styles.formLabel}
+                  isFirstOption={participationForm}
+                  id="participationForm-id"
+                  label="Hình thức tham gia"
+                  option={styles.option}
+                  inputContent={styles.inputRadioContent}
+                  type="radio"
+                  name="participationForm"
+                  onChange={this.handleCheck}
+                  op1="Chính thức"
+                  op2="Không chính thức (không xét giải, ẩn khỏi bảng điểm)"
+                />
+                <InputRadio
+                  inputRadio={styles.inputRadio}
+                  labelStyle={styles.formLabel}
+                  isFirstOption={isStudent}
+                  id="isStudent-id"
+                  label="Bạn có đang là học sinh/sinh viên chính thức trong trường?"
+                  option={styles.option}
+                  inputContent={styles.inputRadioContent}
+                  type="radio"
+                  name="isStudent"
+                  onChange={this.handleCheck}
+                  op1="Có"
+                  op2="Không"
+                />
                 <div className={styles.isAgreed}>
-                  {isAgreed ? (
-                    <div
-                      role="button"
-                      className={styles.checked}
-                      onClick={this.handleCheck}
-                      onKeyDown={this.handleCheck}
-                      tabIndex="0"
-                    >
+                  <div
+                    role="button"
+                    className={isAgreed ? styles.checked : styles.unchecked}
+                    onClick={this.handleCheck}
+                    onKeyDown={this.handleCheck}
+                    tabIndex="0"
+                  >
+                    {isAgreed ? (
                       <img className={styles.checkImg} src={checkImage} alt="checked" />
-                    </div>
-                  ) : (
-                    <div
-                      role="button"
-                      className={styles.unchecked}
-                      onClick={this.handleCheck}
-                      onKeyDown={this.handleCheck}
-                      tabIndex="0"
-                    >
-                      <span />
-                    </div>
-                  )}
+                    ) : (
+                      ''
+                    )}
+                  </div>
                   <span className={styles.isAgreedContent}>
                     Tôi đã đọc và đồng ý với quy chế thi của
                     <span className={styles.specialText}> FYT Code Cup</span>
