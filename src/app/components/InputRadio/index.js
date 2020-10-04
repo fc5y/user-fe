@@ -10,7 +10,6 @@ function InputRadio(props) {
     option,
     id,
     inputContent,
-    type,
     name,
     onChange,
     op1,
@@ -65,7 +64,6 @@ InputRadio.propTypes = {
   option: PropTypes.string,
   inputContent: PropTypes.string,
   onChange: PropTypes.func,
-  type: PropTypes.string,
   name: PropTypes.string,
   isFirstOption: PropTypes.bool,
 };
@@ -77,7 +75,6 @@ InputRadio.defaultProps = {
   option: '',
   inputContent: '',
   onChange: null,
-  type: '',
   name: '',
   labelStyle: '',
   op1: '',

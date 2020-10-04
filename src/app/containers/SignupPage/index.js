@@ -6,7 +6,7 @@ import styles from './signup.scss';
 import PopupSuccess from './PopupSuccess';
 import PopupFailed from './PopupFailed';
 import InputText from '../../components/InputText';
-import InputText from '../../components/InputRadio';
+import InputRadio from '../../components/InputRadio';
 
 const testPassword = new RegExp('^(?=.*[0-9])(?=.*[a-zA-Z]).{8,}$');
 const testEmail = new RegExp('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+[a-zA-Z0-9-.]+$');
