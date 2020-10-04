@@ -1,10 +1,12 @@
 import React from 'react';
 import { apiGetUserInfo } from '../../api/authentication';
 import PropTypes from 'prop-types';
+import { __USE_BACKUP_API__ } from '../../../webpack/config';
 
 export const UserInfoContext = React.createContext({
   userInfo: { username: '', email: '', contestPassword: '', token: '' },
   setUserInfo: () => {},
+  clearUserInfo: () => {},
   isFetched: false,
 });
 
@@ -18,19 +20,33 @@ export function UserInfoProvider({ children }) {
   const [isFetched, setIsFetched] = React.useState(false);
 
   React.useEffect(() => {
-    const getUserInfo = async () => {
-      const data = apiGetUserInfo(userInfo.token);
-      if (data.data) {
-        setUserInfo({ username: data.data.username, email: data.data.email });
-      }
-      setIsFetched(true);
-    };
+    if (__USE_BACKUP_API__) {
+      const getUserInfo = async () => {
+        const { data } = await apiGetUserInfo(userInfo.token);
 
-    !!userInfo.token && getUserInfo();
+        if (data.data) {
+          setUserInfo({ ...userInfo, username: data.data.username });
+        }
+        setIsFetched(true);
+      };
+
+      !!userInfo.token && getUserInfo();
+    } else {
+      // TODO: Fetch Userinfo from primary API
+    }
   }, [userInfo.token]);
 
+  const clearUserInfo = () => {
+    setUserInfo({
+      username: null,
+      email: null,
+      contestPassword: null,
+      token: null,
+    });
+  };
+
   return (
-    <UserInfoContext.Provider value={{ userInfo, setUserInfo, isFetched }}>
+    <UserInfoContext.Provider value={{ userInfo, setUserInfo, clearUserInfo, isFetched }}>
       <>{children}</>
     </UserInfoContext.Provider>
   );

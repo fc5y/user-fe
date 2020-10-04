@@ -1,6 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+// Context
+import { UserInfoContext } from '../../../shared/context/UserInfo';
+
 // Components
 import ClickWrapper from '../../../shared/components/ClickWrapper';
 
@@ -13,12 +16,13 @@ import styles from './username.scss';
 function Username({ username }) {
   const [showDropDown, setShowDropDown] = React.useState(false);
   const dropdownRef = React.useRef(null);
+  const { clearUserInfo } = React.useContext(UserInfoContext);
 
   const onClickLogout = (event) => {
     // Prevent event propagation to out div
     event.stopPropagation();
 
-    // TODO: Add logout here
+    clearUserInfo();
   };
 
   return (

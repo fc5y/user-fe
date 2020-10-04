@@ -1,6 +1,6 @@
 import React from 'react';
+
 // Utils
-import { get } from '../../../utils/fetchUtils'; // Context
 import { UserInfoContext } from '../../../shared/context/UserInfo';
 
 // Components
@@ -19,9 +19,6 @@ import { __IS_CONTEST_READY__ } from '../../../../webpack/config';
 function HomePage() {
   const { userInfo } = React.useContext(UserInfoContext);
 
-  React.useEffect(() => {
-    get('/get-contest-name/get-contest-name').then(console.log);
-  }, []);
   return (
     <div className={styles.content}>
       <div className={styles.title}>FYT Code Cup</div>

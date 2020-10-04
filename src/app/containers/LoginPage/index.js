@@ -34,15 +34,19 @@ class LoginPage extends React.Component {
     event.preventDefault();
     const { username, password } = this.state;
 
-    const { data } = await apiLogin({ username, password });
-    if (!data.data || !data.data.token) {
-      this.setState({
-        showFalsePopup: true,
-      });
+    if (__USE_BACKUP_API__) {
+      const { data } = await apiLogin({ username, password });
+      if (!data.data || !data.data.token) {
+        this.setState({
+          showFalsePopup: true,
+        });
+      } else {
+        this.context.setUserInfo({ ...this.context.userInfo, token: data.data.token });
+        // eslint-disable-next-line react/prop-types
+        this.props.history.push('/');
+      }
     } else {
-      this.context.setUserInfo({ ...this.context.userInfo, token: data.data.token });
-      // eslint-disable-next-line react/prop-types
-      this.props.history.push('/');
+      // TODO: Integrate primary BE here
     }
   }
 

@@ -4,7 +4,6 @@ import { getFullURL } from './getUrl';
 const { ENV } = process.env;
 
 export const get = async (url, options = {}, fullURL = false) => {
-  console.log(!fullURL ? getFullURL(url, ENV) : url);
   const { data, status } = await axios.get(!fullURL ? getFullURL(url, ENV) : url, {
     ...options,
   });
