@@ -8,6 +8,8 @@ import PopupFailed from './PopupFailed';
 import InputText from '../../components/InputText';
 import InputRadio from '../../components/InputRadio';
 
+import { apiSignup } from '../../../api/authentication';
+
 const testPassword = new RegExp('^(?=.*[0-9])(?=.*[a-zA-Z]).{8,}$');
 const testEmail = new RegExp('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+[a-zA-Z0-9-.]+$');
 
@@ -61,7 +63,7 @@ class SignupPage extends Component {
     });
   }
 
-  handleSubmit(event) {
+  async handleSubmit(event) {
     event.preventDefault();
     const {
       fullname,
@@ -73,6 +75,17 @@ class SignupPage extends Component {
       school,
       isAgreed,
     } = this.state;
+
+    // ---TESTING
+    const data = await apiSignup({
+      username: 'nhan_test_1',
+      password: 'password_not_hash',
+      extra: JSON.stringify({ email: 'a@g.com', address: 'add', school: 'a' }),
+    });
+
+    console.log(data);
+    // ---TESTING
+
     let {
       chkFullname,
       chkUsername,

@@ -1,9 +1,6 @@
 import React from 'react';
-
 // Utils
-import { get } from '../../../utils/fetchUtils';
-
-// Context
+import { get } from '../../../utils/fetchUtils'; // Context
 import { UserInfoContext } from '../../../shared/context/UserInfo';
 
 // Components
@@ -17,6 +14,7 @@ import BtnDisabled from '../../components/Button/BtnDisabled';
 import md from './Info.md';
 
 import styles from './style.scss';
+import { __IS_CONTEST_READY__ } from '../../../../webpack/config';
 
 function HomePage() {
   const { userInfo } = React.useContext(UserInfoContext);
@@ -24,10 +22,6 @@ function HomePage() {
   React.useEffect(() => {
     get('/get-contest-name/get-contest-name').then(console.log);
   }, []);
-
-  // TODO: Change later with API fetching
-  const ableToEnterContest = false;
-
   return (
     <div className={styles.content}>
       <div className={styles.title}>FYT Code Cup</div>
@@ -42,7 +36,7 @@ function HomePage() {
           <div className={styles.alert}>Để tham gia thi, bạn cần tạo tài khoản</div>
           <BtnLoginAndSignup />
         </>
-      ) : ableToEnterContest ? (
+      ) : __IS_CONTEST_READY__ ? (
         <>
           <div className={styles.alert}>Để tham gia thi, bạn chỉ cần nhấn vào nút “Vào thi”</div>
           <BtnJoin />

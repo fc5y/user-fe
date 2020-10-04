@@ -1,5 +1,8 @@
 import React from 'react';
 
+// APIs
+import { apiLogin } from '../../../api/authentication';
+
 // HOC
 import { withRouter } from 'react-router-dom';
 import withUserNotLogin from '../../../shared/hoc/withUserNotLogin';
@@ -27,19 +30,17 @@ class LoginPage extends React.Component {
     this.setState({ showFalsePopup: false });
   }
 
-  handleSubmit(event) {
+  async handleSubmit(event) {
     event.preventDefault();
     const { username, password } = this.state;
 
-    // TODO: Add Login function here
-    console.log(username, password);
-    const login = () => false;
-    if (!login()) {
+    const { data } = await apiLogin({ username, password });
+    if (!data.data || !data.data.token) {
       this.setState({
         showFalsePopup: true,
       });
-      // TODO: After login success set UserInfo here using context
     } else {
+      this.context.setUserInfo({ ...this.context.userInfo, token: data.data.token });
       // eslint-disable-next-line react/prop-types
       this.props.history.push('/');
     }
