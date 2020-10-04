@@ -2,7 +2,20 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 function InputText(props) {
-  const { label, divStyle, labelStyle, inputStyle, type, id, name, value, onChange } = props;
+  const {
+    label,
+    divStyle,
+    labelStyle,
+    inputStyle,
+    type,
+    id,
+    name,
+    value,
+    onChange,
+    errorStyle,
+    isNotError,
+    errorMessage,
+  } = props;
   return (
     <div className={divStyle}>
       <label className={labelStyle} htmlFor={id}>
@@ -16,6 +29,7 @@ function InputText(props) {
         id={id}
         onChange={onChange}
       />
+      <div className={errorStyle}>{!isNotError ? errorMessage : ''}</div>
     </div>
   );
 }
@@ -30,6 +44,9 @@ InputText.propTypes = {
   divStyle: PropTypes.string,
   labelStyle: PropTypes.string,
   inputStyle: PropTypes.string,
+  isNotError: PropTypes.bool,
+  errorStyle: PropTypes.string,
+  errorMessage: PropTypes.string,
 };
 
 InputText.defaultProps = {
@@ -42,6 +59,9 @@ InputText.defaultProps = {
   divStyle: '',
   labelStyle: '',
   inputStyle: '',
+  isNotError: true,
+  errorMessage: '',
+  errorStyle: '',
 };
 
 export default InputText;
