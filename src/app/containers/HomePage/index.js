@@ -1,19 +1,24 @@
 import React from 'react';
-import Markdown from 'react-markdown';
-import { get } from '../../../utils/fetchUtils';
-import { Link } from 'react-router-dom';
-import PropTypes from 'prop-types';
 
+// Utils
+import { UserInfoContext } from '../../../shared/context/UserInfo';
+
+// Components
+import Markdown from 'react-markdown';
+import { Link } from 'react-router-dom';
 import BtnLoginAndSignup from '../../components/Button/BtnLoginAndSignup';
 import BtnJoin from '../../components/Button/BtnJoin';
 import BtnDisabled from '../../components/Button/BtnDisabled';
-import md from './Info.md';
-import styles from './style.scss';
 
-function HomePage({ username, disabled }) {
-  React.useEffect(() => {
-    get('/get-contest-name/get-contest-name').then(console.log);
-  });
+// Data
+import md from './Info.md';
+
+import styles from './style.scss';
+import { __IS_CONTEST_READY__ } from '../../../../webpack/config';
+
+function HomePage() {
+  const { userInfo } = React.useContext(UserInfoContext);
+
   return (
     <div className={styles.content}>
       <div className={styles.title}>FYT Code Cup</div>
@@ -23,23 +28,26 @@ function HomePage({ username, disabled }) {
         <br />
         <Link to="/info/rules">Quy chế thi</Link>
       </div>
-      <div className={styles.alert}>
-        {username === ''
-          ? 'Để tham gia thi, bạn cần tạo tài khoản'
-          : disabled
-          ? 'Trang kỳ thi sẽ chỉ được bật một ít phút trước khi kỳ thi bắt đầu'
-          : 'Để tham gia thi, bạn chỉ cần nhấn vào nút “Vào thi”'}
-      </div>
-      <div className={styles.btn}>
-        {username === '' ? <BtnLoginAndSignup /> : disabled ? <BtnDisabled /> : <BtnJoin />}
-      </div>
+      {!userInfo || !userInfo.username ? (
+        <>
+          <div className={styles.alert}>Để tham gia thi, bạn cần tạo tài khoản</div>
+          <BtnLoginAndSignup />
+        </>
+      ) : __IS_CONTEST_READY__ ? (
+        <>
+          <div className={styles.alert}>Để tham gia thi, bạn chỉ cần nhấn vào nút “Vào thi”</div>
+          <BtnJoin />
+        </>
+      ) : (
+        <>
+          <div className={styles.alert}>
+            Trang kỳ thi sẽ chỉ được bật một ít phút trước khi kỳ thi bắt đầu
+          </div>
+          <BtnDisabled />
+        </>
+      )}
     </div>
   );
 }
-
-HomePage.propTypes = {
-  username: PropTypes.string.isRequired,
-  disabled: PropTypes.bool.isRequired,
-};
 
 export default HomePage;

@@ -52,7 +52,6 @@ InputText.propTypes = {
 InputText.defaultProps = {
   label: '',
   type: '',
-  id: '',
   name: '',
   value: '',
   onChange: null,

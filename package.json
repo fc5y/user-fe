@@ -50,6 +50,7 @@
     "postcss-loader": "^4.0.2",
     "postcss-preset-env": "^6.7.0",
     "prettier": "^2.1.2",
+    "raw-loader": "^4.0.1",
     "react-test-renderer": "^16.13.1",
     "sass": "^1.26.11",
     "sass-loader": "^10.0.2",
@@ -57,8 +58,7 @@
     "terser-webpack-plugin": "^4.2.2",
     "webpack": "^4.44.1",
     "webpack-cli": "^3.3.12",
-    "webpack-dev-server": "^3.11.0",
-    "raw-loader": "^4.0.1"
+    "webpack-dev-server": "^3.11.0"
   },
   "dependencies": {
     "@babel/runtime": "^7.11.2",

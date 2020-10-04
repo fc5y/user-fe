@@ -1,12 +1,19 @@
 import React, { Component } from 'react';
 
-import checkImage from '../../../assets/images/vector 1.png';
+// HOC
+import withUserNotLogin from '../../../shared/hoc/withUserNotLogin';
 
-import styles from './signup.scss';
+// Components
 import PopupSuccess from './PopupSuccess';
 import PopupFailed from './PopupFailed';
 import InputText from '../../components/InputText';
 import InputRadio from '../../components/InputRadio';
+
+// APIs
+import { apiSignup } from '../../../api/authentication';
+
+import checkImage from '../../../assets/images/check.png';
+import styles from './signup.scss';
 
 const testPassword = new RegExp('^(?=.*[0-9])(?=.*[a-zA-Z]).{8,}$');
 const testEmail = new RegExp('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+[a-zA-Z0-9-.]+$');
@@ -32,15 +39,16 @@ class SignupPage extends Component {
       chkAddress: true,
       chkSchool: true,
       chkAgreed: true,
-      isSuccess: 0,
-      isPopup: false,
       chkPassword: true,
+      isSuccess: false,
+      showPopup: false,
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleCheck = this.handleCheck.bind(this);
     this.handlePopup = this.handlePopup.bind(this);
     this.closePopup = this.closePopup.bind(this);
+    this.signup = this.signup.bind(this);
   }
 
   handleChange(event) {
@@ -61,7 +69,29 @@ class SignupPage extends Component {
     });
   }
 
-  handleSubmit(event) {
+  async signup() {
+    if (this.state.isSuccess) {
+      // TODO: Add check here if register error then show failed popup
+      // Currently assume always success
+      await apiSignup({
+        username: this.state.username,
+        password: this.state.userPassword,
+        extra: {
+          email: this.state.email,
+          fullname: this.state.fullname,
+          address: this.state.address,
+          school: this.state.school,
+          isStudent: this.state.isStudent,
+          participationForm: this.state.participationForm,
+        },
+      });
+
+      // set isSuccess here to failed if API failed and vice versa
+      this.setState({ showPopup: true });
+    }
+  }
+
+  async handleSubmit(event) {
     event.preventDefault();
     const {
       fullname,
@@ -73,26 +103,16 @@ class SignupPage extends Component {
       school,
       isAgreed,
     } = this.state;
-    let {
-      chkFullname,
-      chkUsername,
-      chkEmail,
-      chkPassword,
-      isMatchPassword,
-      chkAddress,
-      chkSchool,
-      isSuccess,
-      chkAgreed,
-    } = this.state;
-    chkFullname = fullname !== '' && fullname !== undefined;
-    chkUsername = username !== '' && username !== undefined;
-    chkEmail = testEmail.test(email);
-    chkPassword = testPassword.test(userPassword);
-    isMatchPassword = userPassword === confirmUserPassword;
-    chkAddress = address !== '' && address !== undefined;
-    chkSchool = school !== '' && school !== undefined;
-    chkAgreed = isAgreed;
-    isSuccess =
+
+    const chkFullname = fullname !== '' && fullname !== undefined;
+    const chkUsername = username !== '' && username !== undefined;
+    const chkEmail = testEmail.test(email);
+    const chkPassword = testPassword.test(userPassword);
+    const isMatchPassword = userPassword === confirmUserPassword;
+    const chkAddress = address !== '' && address !== undefined;
+    const chkSchool = school !== '' && school !== undefined;
+    const chkAgreed = isAgreed;
+    const isSuccess =
       chkFullname &&
       chkUsername &&
       chkEmail &&
@@ -101,60 +121,44 @@ class SignupPage extends Component {
       chkAddress &&
       chkSchool &&
       chkAgreed;
-    this.setState({
-      chkFullname,
-      chkUsername,
-      chkEmail,
-      chkPassword,
-      isMatchPassword,
-      chkAddress,
-      chkSchool,
-      isSuccess,
-      chkAgreed,
-      isPopup: true,
-    });
+
+    this.setState(
+      {
+        chkFullname,
+        chkUsername,
+        chkEmail,
+        chkPassword,
+        isMatchPassword,
+        chkAddress,
+        chkSchool,
+        isSuccess,
+        chkAgreed,
+      },
+      () => {
+        if (isSuccess) {
+          this.signup();
+        } else {
+          this.setState({ showPopup: true });
+        }
+      },
+    );
   }
 
   closePopup() {
     this.setState({
-      isPopup: false,
+      showPopup: false,
     });
   }
 
   handlePopup() {
-    const { isPopup, isSuccess } = this.state;
-    if (isPopup) {
+    const { showPopup, isSuccess } = this.state;
+    if (showPopup) {
       if (isSuccess) {
-        const {
-          fullname,
-          username,
-          email,
-          userPassword,
-          confirmUserPassword,
-          address,
-          school,
-          participationForm,
-          isAgreed,
-          isStudent,
-        } = this.state;
-        return (
-          <PopupSuccess
-            fullname={fullname}
-            username={username}
-            email={email}
-            userPassword={userPassword}
-            confirmUserPassword={confirmUserPassword}
-            address={address}
-            school={school}
-            participationForm={participationForm}
-            isAgreed={isAgreed}
-            isStudent={isStudent}
-          />
-        );
+        return <PopupSuccess />;
       }
       return <PopupFailed closePopup={this.closePopup} />;
     }
-    return '';
+    return null;
   }
 
   render() {
@@ -175,13 +179,13 @@ class SignupPage extends Component {
       chkAddress,
       chkSchool,
       chkAgreed,
-      isPopup,
+      showPopup,
       isStudent,
       participationForm,
     } = this.state;
     return (
       <div>
-        <div className={isPopup === true ? styles.overlay : ''}>{this.handlePopup()}</div>
+        <div className={showPopup ? styles.overlay : ''}>{this.handlePopup()}</div>
         <div className={styles.container}>
           <form onSubmit={this.handleSubmit}>
             <div className={styles.formContent}>
@@ -340,4 +344,4 @@ class SignupPage extends Component {
   }
 }
 
-export default SignupPage;
+export default withUserNotLogin(SignupPage);
