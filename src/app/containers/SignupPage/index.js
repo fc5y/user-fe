@@ -152,7 +152,6 @@ class SignupPage extends Component {
 
   handlePopup() {
     const { showPopup, isSuccess } = this.state;
-    console.log(showPopup, isSuccess);
     if (showPopup) {
       if (isSuccess) {
         return <PopupSuccess />;
