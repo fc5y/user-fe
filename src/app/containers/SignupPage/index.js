@@ -53,9 +53,6 @@ class SignupPage extends Component {
   handleCheck(event) {
     const { id } = event.target;
     const { isAgreed, isStudent, participationForm } = this.state;
-    console.log(id);
-    console.log(typeof id);
-    console.log(id === 'isStudent-id');
     if (id === 'participationForm-id') {
       this.setState({
         participationForm: !participationForm,
