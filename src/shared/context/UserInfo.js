@@ -2,20 +2,29 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 export const UserInfoContext = React.createContext({
-  userInfo: { username: '', email: '' },
+  userInfo: { username: '', email: '', contestPassword: '' },
   setUserInfo: () => {},
+  isFetched: false,
 });
 
 export function UserInfoProvider({ children }) {
-  const [userInfo, setUserInfo] = React.useState({ username: null, email: null });
+  const [userInfo, setUserInfo] = React.useState({
+    username: null,
+    email: null,
+    contestPassword: null,
+  });
+  const [isFetched, setIsFetched] = React.useState(false);
 
   React.useEffect(() => {
     // TODO: Change to fetch userInfo here
-    setUserInfo({ username: 'test123', email: 'test@gmail.com' });
+    setTimeout(() => {
+      setUserInfo({ username: 'mick123', email: 'test@gmail.com' });
+      setIsFetched(true);
+    }, 1000);
   }, []);
 
   return (
-    <UserInfoContext.Provider value={{ userInfo, setUserInfo }}>
+    <UserInfoContext.Provider value={{ userInfo, setUserInfo, isFetched }}>
       <>{children}</>
     </UserInfoContext.Provider>
   );

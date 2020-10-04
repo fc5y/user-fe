@@ -4,7 +4,7 @@ import React from 'react';
 import { get } from '../../../utils/fetchUtils';
 
 // Context
-import { UserInfoContext } from '../../../shared/userInfo';
+import { UserInfoContext } from '../../../shared/context/UserInfo';
 
 // Components
 import Markdown from 'react-markdown';
@@ -23,7 +23,6 @@ function HomePage() {
 
   React.useEffect(() => {
     get('/get-contest-name/get-contest-name').then(console.log);
-    console.log(userInfo);
   }, []);
 
   // TODO: Change later with API fetching

@@ -7,6 +7,9 @@
     "node": true,
     "browser": true
   },
+  "globals": {
+    "__IS_CONTEST_READY__": "readonly"
+  },
   "rules": {
     "prettier/prettier": ["error", { "singleQuote": true }],
     "react/jsx-filename-extension": [
@@ -26,6 +29,8 @@
     "jsx-a11y/click-events-have-key-events": "off",
     "no-unused-expressions": "off",
     "react/require-default-props": "off",
+    "react/destructuring-assignment": "off",
+    "no-else-return": "off",
     "no-unused-vars": "warn"
   }
 }

@@ -1,21 +1,26 @@
 import React, { Component } from 'react';
-import styles from './enter.scss';
 
-let userInfo = [];
+import { Redirect } from 'react-router-dom';
+
+import { UserInfoContext } from '../../../shared/context/UserInfo';
+
+import styles from './enter.scss';
 
 class EnterPage extends Component {
   render() {
-    // get user's information
-    const json = localStorage.getItem('users');
-    if (json !== null) {
-      let user;
-      if (localStorage.users) {
-        user = JSON.parse(json);
-      }
-      if (user) {
-        userInfo = user;
-      }
+    if (!this.context || !this.context.isFetched) {
+      // Loading/Fetching state
+      return null;
+    } else if (
+      (!!this.context.userInfo && this.context.userInfo.username === null) ||
+      !__IS_CONTEST_READY__
+    ) {
+      // Check if user has login or not. If not redirect back to homepage
+      // Or the contest is not ready, we also need to redirect
+      return <Redirect to="/" />;
     }
+
+    const { username, contestPassword } = this.context.userInfo;
     return (
       <div className={styles.container}>
         <h5 className={styles.titleContent}>Vào thi</h5>
@@ -31,13 +36,15 @@ class EnterPage extends Component {
         <div className={styles.userInfo}>
           <h6 className={styles.textDecoration}>2. Đăng nhập với thông tin đăng nhập như sau:</h6>
           <ul className={styles.info}>
-            <li className={styles.lstInfo}>Username: {userInfo.username}</li>
-            <li className={styles.lstInfo}>Password: {userInfo.contestPassword}</li>
+            <li className={styles.lstInfo}>Username: {username}</li>
+            <li className={styles.lstInfo}>Password: {contestPassword}</li>
           </ul>
         </div>
       </div>
     );
   }
 }
+
+Component.contextType = UserInfoContext;
 
 export default EnterPage;

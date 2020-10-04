@@ -1,13 +1,21 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import PropTypes from 'prop-types';
 
+// Context
+import { UserInfoContext } from '../../../shared/context/UserInfo';
+
+// Components
+import { Link } from 'react-router-dom';
 import LoginAndSignup from './LoginAndSignup';
 import Username from './Username';
+
+// Data
 import logoImage from '../../../assets/images/logo.png';
+
 import styles from './style.scss';
 
-function Header({ username }) {
+function Header() {
+  const { userInfo } = React.useContext(UserInfoContext);
+  const { username = '' } = userInfo;
   return (
     <div className={styles.header}>
       <div className={styles.nav}>
@@ -26,9 +34,5 @@ function Header({ username }) {
     </div>
   );
 }
-
-Header.propTypes = {
-  username: PropTypes.string,
-};
 
 export default Header;

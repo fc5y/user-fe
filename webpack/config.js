@@ -10,6 +10,9 @@ const META_TAG = {
   image_url: 'http://kc97ble.fun/fyt-public/fyt-code-cup.jpg',
 };
 
+// NOTE: Only change this when the test is ready
+const __IS_CONTEST_READY__ = false;
+
 const proxyList = {
   '/api': {
     target: PROXY_SERVER,
@@ -19,4 +22,4 @@ const proxyList = {
   },
 };
 
-module.exports = { proxyList, BASE_URL, META_TAG };
+module.exports = { proxyList, BASE_URL, META_TAG, __IS_CONTEST_READY__ };
