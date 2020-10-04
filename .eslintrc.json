@@ -31,6 +31,7 @@
     "react/require-default-props": "off",
     "react/destructuring-assignment": "off",
     "no-else-return": "off",
+    "react/jsx-props-no-spreading": "off",
     "no-unused-vars": "warn"
   }
 }

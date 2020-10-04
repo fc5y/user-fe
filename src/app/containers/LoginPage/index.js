@@ -1,17 +1,22 @@
-import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
+import React from 'react';
+
+// HOC
+import { withRouter } from 'react-router-dom';
+import withUserNotLogin from '../../../shared/hoc/withUserNotLogin';
+
+// Component
 import PopupFailed from './PopupFailed';
-import styles from './login.scss';
 import InputText from '../../components/InputText';
 
-class LoginPage extends Component {
+import styles from './login.scss';
+
+class LoginPage extends React.Component {
   constructor() {
     super();
     this.state = {
       username: '',
-      userPassword: '',
-      linkTo: '',
-      isPopup: false,
+      password: '',
+      showFalsePopup: false,
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -19,36 +24,24 @@ class LoginPage extends Component {
   }
 
   closePopup() {
-    this.setState({
-      linkTo: '',
-      isPopup: false,
-    });
+    this.setState({ showFalsePopup: false });
   }
 
   handleSubmit(event) {
     event.preventDefault();
-    let userInfo = [];
-    const json = localStorage.getItem('users');
-    if (json !== null) {
-      let user;
-      if (localStorage.users) {
-        user = JSON.parse(json);
-      }
-      if (user) {
-        userInfo = user;
-      }
-    }
+    const { username, password } = this.state;
 
-    const { username, userPassword } = this.state;
-    if (username !== userInfo.username || userPassword !== userInfo.userPassword) {
+    // TODO: Add Login function here
+    console.log(username, password);
+    const login = () => false;
+    if (!login()) {
       this.setState({
-        linkTo: <PopupFailed closePopup={this.closePopup} />,
-        isPopup: true,
+        showFalsePopup: true,
       });
+      // TODO: After login success set UserInfo here using context
     } else {
-      this.setState({
-        linkTo: <Redirect to="/" />,
-      });
+      // eslint-disable-next-line react/prop-types
+      this.props.history.push('/');
     }
   }
 
@@ -60,10 +53,10 @@ class LoginPage extends Component {
   }
 
   render() {
-    const { linkTo, isPopup, username, userPassword } = this.state;
+    const { username, password } = this.state;
     return (
-      <div>
-        <div className={styles.container}>
+      <div className={styles.container}>
+        <div className={styles.formContainer}>
           <form onSubmit={this.handleSubmit}>
             <h5 className={styles.titleContent}>Đăng nhập:</h5>
             <InputText
@@ -72,7 +65,6 @@ class LoginPage extends Component {
               labelStyle={styles.usernameLabel}
               inputStyle={styles.usernameInput}
               type="text"
-              id="input-id"
               name="username"
               value={username}
               onChange={this.handleChange}
@@ -83,9 +75,8 @@ class LoginPage extends Component {
               labelStyle={styles.passwordLabel}
               inputStyle={styles.passwordInp}
               type="password"
-              id="password-id"
-              name="userPassword"
-              value={userPassword}
+              name="password"
+              value={password}
               onChange={this.handleChange}
             />
             <button className={styles.loginBtn} type="submit">
@@ -93,11 +84,15 @@ class LoginPage extends Component {
             </button>
           </form>
         </div>
-        <div className={isPopup ? styles.overlay : ''} />
-        {linkTo}
+        {this.state.showFalsePopup && (
+          <>
+            <div className={styles.overlay} />
+            <PopupFailed closePopup={this.closePopup} />
+          </>
+        )}
       </div>
     );
   }
 }
 
-export default LoginPage;
+export default withUserNotLogin(withRouter(LoginPage));

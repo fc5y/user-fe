@@ -18,7 +18,7 @@ export function UserInfoProvider({ children }) {
   React.useEffect(() => {
     // TODO: Change to fetch userInfo here
     setTimeout(() => {
-      setUserInfo({ username: 'mick123', email: 'test@gmail.com' });
+      // setUserInfo({ username: 'mick123', email: 'test@gmail.com' });
       setIsFetched(true);
     }, 1000);
   }, []);
@@ -33,3 +33,13 @@ export function UserInfoProvider({ children }) {
 UserInfoProvider.propTypes = {
   children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]).isRequired,
 };
+
+export function withUserContext(Component) {
+  return function WrapperComponent(props) {
+    return (
+      <UserInfoContext.Consumer>
+        {(state) => <Component {...props} context={state} />}
+      </UserInfoContext.Consumer>
+    );
+  };
+}

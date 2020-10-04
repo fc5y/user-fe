@@ -1,3 +1,5 @@
+@import 'variables';
+
 :local {
   .overlay {
     position: fixed;
@@ -12,18 +14,13 @@
   }
 
   .container {
-    width: 600px;
-    max-width: 100%;
-    margin: auto;
-    height: auto;
-    margin-top: 48px;
+    width: $content-width;
+    margin: 48px auto;
+  }
+
+  .formContainer {
+    width: 100%;
     padding-bottom: 42px;
-
-    font-family: 'Mulish';
-    font-weight: 400;
-    line-height: 25px;
-    font-size: 16px;
-
     background: #ffffff;
     box-shadow: 0px 0px 12px rgba(188, 188, 188, 0.25);
   }
@@ -97,6 +94,7 @@
 
     font-size: 16px;
     border-radius: 4px;
+    border: none;
     background: #1c83c6;
     font-size: 16px;
 

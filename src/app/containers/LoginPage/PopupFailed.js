@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+
 import styles from './failed.scss';
 import PropTypes from 'prop-types';
 
@@ -13,18 +13,18 @@ class PopupFailed extends Component {
         <div className={styles.failedPopup}>
           <div className={styles.titleBar}>
             <h5 className={styles.titleContent}>Đăng nhập không thành công</h5>
-            <Link to="/login" onClick={closePopup}>
+            <div className={styles.closeLogo} onClick={closePopup}>
               <img className={styles.closeImg} src={CloseButton} alt="close" />
-            </Link>
+            </div>
           </div>
           <div className={styles.content}>
             <p>Tên đăng nhập hoặc mật khẩu không chính xác. Vui lòng thử lại.</p>
           </div>
-          <Link className={styles.linkDecoration} to="/login" onClick={closePopup}>
+          <div className={styles.linkDecoration} onClick={closePopup}>
             <button className={styles.closeBtn} type="submit">
               OK
             </button>
-          </Link>
+          </div>
         </div>
       </div>
     );
@@ -36,7 +36,7 @@ PopupFailed.propTypes = {
 };
 
 PopupFailed.defaultProps = {
-  closePopup: '',
+  closePopup: () => {},
 };
 
 export default PopupFailed;
