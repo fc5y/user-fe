@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import styles from './radio.scss';
 
 function InputRadio(props) {
   const {
@@ -14,40 +13,31 @@ function InputRadio(props) {
     onChange,
     op1,
     op2,
-    isFirstOption,
   } = props;
   return (
     <div className={inputRadio}>
-      <label className={labelStyle} htmlFor={id}>
+      <label htmlFor={id} className={labelStyle}>
         {label}
       </label>
       <ul className={option}>
         <li>
-          <div
-            id={id}
+          <input
+            id={id + op1}
+            type="radio"
             name={name}
-            aria-label="choose-option"
-            role="button"
-            className={isFirstOption ? styles.checked : styles.unchecked}
-            onClick={onChange}
-            onKeyDown={onChange}
-            tabIndex="0"
+            defaultChecked
+            onChange={onChange}
             value="0"
           />
-          <span className={inputContent}>{op1}</span>
+          <label htmlFor={id + op1} className={inputContent}>
+            {op1}
+          </label>
         </li>
         <li>
-          <div
-            id={id}
-            aria-label="choose-option"
-            role="button"
-            className={!isFirstOption ? styles.checked : styles.unchecked}
-            onClick={onChange}
-            onKeyDown={onChange}
-            tabIndex="0"
-            value="1"
-          />
-          <span className={inputContent}>{op2}</span>
+          <input id={id + op2} type="radio" name={name} value="1" onChange={onChange} />
+          <label htmlFor={id + op2} className={inputContent}>
+            {op2}
+          </label>
         </li>
       </ul>
     </div>
@@ -65,7 +55,6 @@ InputRadio.propTypes = {
   inputContent: PropTypes.string,
   onChange: PropTypes.func,
   name: PropTypes.string,
-  isFirstOption: PropTypes.bool,
 };
 
 InputRadio.defaultProps = {
@@ -79,7 +68,6 @@ InputRadio.defaultProps = {
   labelStyle: '',
   op1: '',
   op2: '',
-  isFirstOption: true,
 };
 
 export default InputRadio;

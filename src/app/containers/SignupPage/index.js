@@ -44,28 +44,21 @@ class SignupPage extends Component {
   }
 
   handleChange(event) {
-    const { name, value } = event.target;
+    const { name } = event.target;
+    let { value } = event.target;
+    if (name === 'participationForm' || name === 'isStudent') {
+      value = Boolean(value === '0');
+    }
     this.setState({
       [name]: value,
     });
   }
 
-  handleCheck(event) {
-    const { id } = event.target;
-    const { isAgreed, isStudent, participationForm } = this.state;
-    if (id === 'participationForm-id') {
-      this.setState({
-        participationForm: !participationForm,
-      });
-    } else if (id === 'isStudent-id') {
-      this.setState({
-        isStudent: !isStudent,
-      });
-    } else {
-      this.setState({
-        isAgreed: !isAgreed,
-      });
-    }
+  handleCheck() {
+    const { isAgreed } = this.state;
+    this.setState({
+      isAgreed: !isAgreed,
+    });
   }
 
   handleSubmit(event) {
@@ -295,7 +288,7 @@ class SignupPage extends Component {
                   inputContent={styles.inputRadioContent}
                   type="radio"
                   name="participationForm"
-                  onChange={this.handleCheck}
+                  onChange={this.handleChange}
                   op1="Chính thức"
                   op2="Không chính thức (không xét giải, ẩn khỏi bảng điểm)"
                 />
@@ -309,7 +302,7 @@ class SignupPage extends Component {
                   inputContent={styles.inputRadioContent}
                   type="radio"
                   name="isStudent"
-                  onChange={this.handleCheck}
+                  onChange={this.handleChange}
                   op1="Có"
                   op2="Không"
                 />
