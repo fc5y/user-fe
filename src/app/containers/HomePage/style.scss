@@ -1,13 +1,15 @@
+@import 'variables';
+
 :local {
   .content {
-    width: 605px;
+    width: $content-width;
     margin: 0 auto;
     margin-top: 48px;
     padding-bottom: 30px;
     box-shadow: 0px 0px 12px rgba(188, 188, 188, 0.25);
     background-color: white;
     color: rgba(0, 0, 0, 0.6);
-    overflow: auto; 
+    overflow: auto;
   }
   .title {
     width: 100%;
@@ -34,7 +36,7 @@
     padding-right: 36px;
     margin-top: 103px;
     a {
-      color: #076DAF;
+      color: #076daf;
       text-decoration: none;
     }
     p {

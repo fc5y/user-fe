@@ -62,7 +62,15 @@ module.exports = {
             },
           },
           'postcss-loader',
-          'sass-loader',
+          {
+            loader: 'sass-loader',
+            options: {
+              sourceMap: true,
+              sassOptions: {
+                includePaths: [path.resolve(root, 'src', 'shared', 'styles')],
+              },
+            },
+          },
         ],
       },
       {
