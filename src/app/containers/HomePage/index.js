@@ -1,20 +1,27 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import Markdown from 'react-markdown';
+import { get } from '../../../utils/fetchUtils';
+import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
-import styles from './content.scss';
-
-import BtnLoginAndSignup from '../Button/BtnLoginAndSignup';
-import BtnJoin from '../Button/BtnJoin';
-import BtnDisabled from '../Button/BtnDisabled';
+import BtnLoginAndSignup from '../../components/Button/BtnLoginAndSignup';
+import BtnJoin from '../../components/Button/BtnJoin';
+import BtnDisabled from '../../components/Button/BtnDisabled';
 import md from './Info.md';
+import styles from './style.scss';
 
-function Content({ username, disabled }) {
+function HomePage({ username, disabled }) {
+  React.useEffect(() => {
+    get('/get-contest-name/get-contest-name').then(console.log);
+  });
   return (
     <div className={styles.content}>
       <div className={styles.title}>FYT Code Cup</div>
       <div className={styles.info}>
-        <Markdown source={md} escapeHtml={false} />
+        <Markdown source={md} />
+        <Link to="/info">Thông tin kỳ thi</Link>
+        <br />
+        <Link to="/info/rules">Quy chế thi</Link>
       </div>
       <div className={styles.alert}>
         {username === ''
@@ -30,9 +37,9 @@ function Content({ username, disabled }) {
   );
 }
 
-Content.propTypes = {
+HomePage.propTypes = {
   username: PropTypes.string.isRequired,
   disabled: PropTypes.bool.isRequired,
 };
 
-export default Content;
+export default HomePage;

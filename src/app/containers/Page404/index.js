@@ -1,10 +1,9 @@
 import React from 'react';
 
-import ButtonGoBack from '../Button/BtnGoBack';
+import ButtonGoBack from '../../components/Button/BtnGoBack';
+import styles from './style.scss';
 
-import styles from './content.scss';
-
-function Content() {
+function Page404() {
   return (
     <div className={styles.content}>
       <p className={styles.title}>404</p>
@@ -14,4 +13,4 @@ function Content() {
   );
 }
 
-export default Content;
+export default Page404;

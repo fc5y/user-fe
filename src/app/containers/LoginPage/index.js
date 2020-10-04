@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import PopupFailed from './PopupFailed';
 import styles from './login.scss';
-import Header from '../NavBar/Header';
-import InputText from '../InputText';
+import InputText from '../../components/InputText';
 
 class LoginPage extends Component {
   constructor() {
@@ -64,7 +63,6 @@ class LoginPage extends Component {
     const { linkTo, isPopup, username, userPassword } = this.state;
     return (
       <div>
-        <Header username="" />
         <div className={styles.container}>
           <form onSubmit={this.handleSubmit}>
             <h5 className={styles.titleContent}>Đăng nhập:</h5>

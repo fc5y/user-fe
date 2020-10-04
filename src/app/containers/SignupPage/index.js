@@ -5,8 +5,7 @@ import checkImage from '../../../assets/images/vector 1.png';
 import styles from './signup.scss';
 import PopupSuccess from './PopupSuccess';
 import PopupFailed from './PopupFailed';
-import Header from '../NavBar/Header';
-import InputText from '../InputText';
+import InputText from '../../components/InputText';
 
 const testPassword = new RegExp('^(?=.*[0-9])(?=.*[a-zA-Z]).{8,}$');
 const testEmail = new RegExp('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+[a-zA-Z0-9-.]+$');
@@ -179,7 +178,6 @@ class SignupPage extends Component {
     } = this.state;
     return (
       <div>
-        <Header username="" />
         <div className={isPopup === true ? styles.overlay : ''}>{this.handlePopup()}</div>
         <div className={styles.container}>
           <form onSubmit={this.handleSubmit}>
