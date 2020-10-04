@@ -19,11 +19,11 @@ import md from './Info.md';
 import styles from './style.scss';
 
 function HomePage() {
-  const { username, email } = React.useContext(UserInfoContext);
+  const { userInfo } = React.useContext(UserInfoContext);
 
   React.useEffect(() => {
     get('/get-contest-name/get-contest-name').then(console.log);
-    console.log(username, email);
+    console.log(userInfo);
   }, []);
 
   // TODO: Change later with API fetching
@@ -38,22 +38,24 @@ function HomePage() {
         <br />
         <Link to="/info/rules">Quy chế thi</Link>
       </div>
-      <div className={styles.alert}>
-        {username === ''
-          ? 'Để tham gia thi, bạn cần tạo tài khoản'
-          : ableToEnterContest
-          ? 'Trang kỳ thi sẽ chỉ được bật một ít phút trước khi kỳ thi bắt đầu'
-          : 'Để tham gia thi, bạn chỉ cần nhấn vào nút “Vào thi”'}
-      </div>
-      <div className={styles.btn}>
-        {username === '' ? (
+      {!userInfo || !userInfo.username ? (
+        <>
+          <div className={styles.alert}>Để tham gia thi, bạn cần tạo tài khoản</div>
           <BtnLoginAndSignup />
-        ) : ableToEnterContest ? (
-          <BtnDisabled />
-        ) : (
+        </>
+      ) : ableToEnterContest ? (
+        <>
+          <div className={styles.alert}>Để tham gia thi, bạn chỉ cần nhấn vào nút “Vào thi”</div>
           <BtnJoin />
-        )}
-      </div>
+        </>
+      ) : (
+        <>
+          <div className={styles.alert}>
+            Trang kỳ thi sẽ chỉ được bật một ít phút trước khi kỳ thi bắt đầu
+          </div>
+          <BtnDisabled />
+        </>
+      )}
     </div>
   );
 }

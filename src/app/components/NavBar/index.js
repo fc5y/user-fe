@@ -21,14 +21,14 @@ function Header({ username }) {
             Thông tin
           </Link>
         </div>
-        {username === '' ? <LoginAndSignup /> : <Username />}
+        {!username ? <LoginAndSignup /> : <Username username={username} />}
       </div>
     </div>
   );
 }
 
 Header.propTypes = {
-  username: PropTypes.string.isRequired,
+  username: PropTypes.string,
 };
 
 export default Header;

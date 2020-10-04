@@ -1,18 +1,55 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+
+// Components
+import ClickWrapper from '../../../shared/components/ClickWrapper';
+
+// Assets
 import vectorLogo from '../../../assets/images/vector.png';
+import logoutLogo from '../../../assets/images/logout.png';
+
 import styles from './username.scss';
 
-const username = JSON.parse(localStorage.getItem('username'));
+function Username({ username }) {
+  const [showDropDown, setShowDropDown] = React.useState(false);
+  const dropdownRef = React.useRef(null);
 
-function Username() {
+  const onClickLogout = (event) => {
+    // Prevent event propagation to out div
+    event.stopPropagation();
+
+    // TODO: Add logout here
+  };
+
   return (
     <div className={styles.username}>
-      <div>{username}</div>
-      <div className={styles.toggle}>
+      <div>{username || ''}</div>
+      <div
+        ref={dropdownRef}
+        className={styles.toggle}
+        onClick={() => setShowDropDown(!showDropDown)}
+      >
         <img src={vectorLogo} alt="toggle" />
+        {showDropDown && (
+          <ClickWrapper
+            onClickOutside={() => showDropDown && setShowDropDown(false)}
+            exclude={[dropdownRef.current]}
+          >
+            <div className={styles.dropdownContainer} onClick={onClickLogout}>
+              <div className={styles.dropdownLogout}>
+                <img className={styles.dropdownLogoutImage} src={logoutLogo} alt="log-out" />
+                <div className={styles.dropDownLogoutText}>Đăng Xuất</div>
+              </div>
+            </div>
+          </ClickWrapper>
+        )}
       </div>
     </div>
   );
 }
+
+Username.propTypes = {
+  username: PropTypes.string,
+};
 
 export default Username;
