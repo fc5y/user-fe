@@ -14,7 +14,6 @@ import BtnDisabled from '../../components/Button/BtnDisabled';
 import md from './Info.md';
 
 import styles from './style.scss';
-import { __IS_CONTEST_READY__ } from '../../../../webpack/config';
 
 function HomePage() {
   const { userInfo } = React.useContext(UserInfoContext);
