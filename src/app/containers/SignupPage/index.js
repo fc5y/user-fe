@@ -142,11 +142,8 @@ function SignupPage() {
             name="officialStudent"
             value={data.officialStudent || ''}
             options={[
-              { value: 'official', label: 'Chính thức' },
-              {
-                value: 'unofficial',
-                label: 'Không chính thức (không xét giải, ẩn khỏi bảng điểm)',
-              },
+              { value: 'yes', label: 'Có' },
+              { value: 'no', label: 'Không' },
             ]}
             error={errors.officialStudent}
             onChange={handleChange}
