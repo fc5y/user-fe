@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import * as React from 'react';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 import withUserNotLogin from '../../../shared/hoc/withUserNotLogin';
 import * as MainPanel from '../../common-ui/MainPanel';
 import * as Form from '../../common-ui/Form';
@@ -153,7 +153,11 @@ function SignupPage({ history }) {
         </Form.FieldSet>
         <Form.FieldSet>
           <LabeledCheckbox
-            label="Tôi đã đọc và đồng ý với quy chế thi của FYT Contest Cup"
+            label={
+              <span>
+                Tôi đã đọc và đồng ý với <Link to="/info">quy chế thi của FYT Code Cup</Link>
+              </span>
+            }
             name="iAgreeToTerms"
             value={data.iAgreeToTerms || ''}
             option="yes"

@@ -8,4 +8,24 @@
     background-color: #f5f8fa;
     font-family: Mulish, sans-serif;
   }
+
+  a {
+    color: #1c83c6;
+
+    &:hover {
+      color: rgba(63, 150, 206, 0.6);
+    }
+
+    &:visited {
+      color: #1c83c6;
+    }
+
+    &:active {
+      color: rgba(63, 150, 206, 0.6);
+    }
+  }
+
+  button {
+    cursor: pointer;
+  }
 }

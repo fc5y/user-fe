@@ -37,7 +37,7 @@ function LabeledCheckbox({ label, name, value, option, error, onChange }) {
 }
 
 LabeledCheckbox.propTypes = {
-  label: PropTypes.string,
+  label: PropTypes.node,
   name: PropTypes.string,
   value: PropTypes.string,
   option: PropTypes.string,
