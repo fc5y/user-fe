@@ -31,25 +31,29 @@ export function UserInfoProvider({ children }) {
 
       !!userInfo.token && getUserInfo();
     } else {
-      // TODO: Fetch Userinfo from primary API
+      const getUserInfo = async () => {
+        const { data } = await apiGetUserInfo(userInfo.token);
+        if (data) {
+          setUserInfo({ ...userInfo, username: data.username });
+        }
+        setIsFetched(true);
+      };
+
+      !!userInfo.token && getUserInfo();
     }
   }, [userInfo.token]);
 
   // Get from local storage
   React.useEffect(() => {
-    if (__USE_BACKUP_API__) {
-      const userInfoInLocalStorage = JSON.parse(localStorage.getItem('userinfo'));
-      if (!!userInfoInLocalStorage && !!userInfoInLocalStorage.token) {
-        setUserInfo({ ...userInfo, token: userInfoInLocalStorage.token });
-      }
+    const userInfoInLocalStorage = JSON.parse(localStorage.getItem('userinfo'));
+    if (!!userInfoInLocalStorage && !!userInfoInLocalStorage.token) {
+      setUserInfo({ ...userInfo, token: userInfoInLocalStorage.token });
     }
   }, []);
 
   // Save local storage
   React.useEffect(() => {
-    if (__USE_BACKUP_API__) {
-      localStorage.setItem('userinfo', JSON.stringify(userInfo));
-    }
+    localStorage.setItem('userinfo', JSON.stringify(userInfo));
   }, [userInfo]);
 
   const clearUserInfo = () => {
@@ -60,9 +64,7 @@ export function UserInfoProvider({ children }) {
       token: null,
     });
 
-    if (__USE_BACKUP_API__) {
-      localStorage.clear('userinfo');
-    }
+    localStorage.clear('userinfo');
   };
 
   return (

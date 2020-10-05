@@ -1,4 +1,4 @@
-const PROXY_SERVER = 'https://tolohl0rz9.execute-api.us-east-2.amazonaws.com';
+const PROXY_SERVER = 'https://asia-east2-fyt-code-cup.cloudfunctions.net/api';
 const PROXY_SERVER_BACKUP = 'http://54.254.71.192:3004';
 
 // TODO: change this to https after setting SSL
@@ -13,7 +13,7 @@ const META_TAG = {
 
 // NOTE: Only change this when the test is ready
 const __IS_CONTEST_READY__ = false;
-const __USE_BACKUP_API__ = true;
+const __USE_BACKUP_API__ = false;
 
 const proxyList = {
   '/api/**': {
