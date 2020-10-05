@@ -37,8 +37,8 @@ function SignupPage({ history }) {
     setData(sanitizedData);
     if (hasBlockingError(getErrors(sanitizedData))) return;
     // eslint-disable-next-line no-shadow
-    signupWithData(sanitizedData).then((data) => {
-      if (!data || !data.data || !data.data.username) {
+    signupWithData(sanitizedData).then(({ data, error }) => {
+      if (!!error || !data || !data.username) {
         // TODO: show popup
         alert(`Đăng ký không thành công\n\n`);
       } else {
