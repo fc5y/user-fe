@@ -9,7 +9,6 @@ import { ContestInfoProvider } from '../shared/context/ContestInfo';
 import HomePage from './containers/HomePage';
 import Page404 from './containers/Page404';
 import InfoPage from './containers/InfoPage';
-import InfoRulesPage from './containers/InfoRulesPage';
 import EnterPage from './containers/EnterPage';
 import LoginPage from './containers/LoginPage';
 import SignupPage from './containers/SignupPage';
@@ -32,9 +31,6 @@ export default function App() {
             </Route>
             <Route exact path="/info">
               <InfoPage />
-            </Route>
-            <Route exact path="/info/rules">
-              <InfoRulesPage />
             </Route>
             <Route exact path="/enter">
               <EnterPage />
