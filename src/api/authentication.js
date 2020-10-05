@@ -5,14 +5,14 @@ export function apiLogin({ username, password }) {
   if (!__USE_BACKUP_API__) {
     return post('', {}, { withCredentials: true });
   } else {
-    return post('http://54.254.71.192:3004/api/v1/login', { username, password }, {}, true);
+    return post('https://backdoor.freecontest.net/api/v1/login', { username, password }, {}, true);
   }
 }
 
 export function apiSignup({ username, password, extra }) {
   if (__USE_BACKUP_API__) {
     return post(
-      'http://54.254.71.192:3004/api/v1/signup',
+      'https://backdoor.freecontest.net/api/v1/signup',
       { username, password, extra: JSON.stringify(extra) },
       {},
       true,
@@ -30,7 +30,7 @@ export function apiGetUserInfo(token) {
     return get('', { withCredentials: true });
   } else {
     return get(
-      'http://54.254.71.192:3004/api/v1/user-info',
+      'https://backdoor.freecontest.net/api/v1/user-info',
       { headers: { Authorization: `Bearer ${token}` } },
       true,
     );
