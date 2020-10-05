@@ -46,8 +46,8 @@ class LoginPage extends React.Component {
         this.props.history.push('/');
       }
     } else {
-      const { data, error } = await apiLogin({ username, password });
-      if (!!error || !data || !data.token) {
+      const { data } = await apiLogin({ username, password });
+      if (!data || !data.token) {
         this.setState({
           showFalsePopup: true,
         });

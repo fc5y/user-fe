@@ -44,8 +44,8 @@ function SignupPage({ history }) {
       return;
     }
     // eslint-disable-next-line no-shadow
-    signupWithData(sanitizedData).then((data) => {
-      if (!data || !data.data || !data.data.username) {
+    signupWithData(sanitizedData).then(({ data, error }) => {
+      if (!!error || !data || !data.username) {
         // TODO: show popup
         setData({ ...data, isPopup: 1 });
         console.log({ data, error, errorMessage, debuggingInfo });
