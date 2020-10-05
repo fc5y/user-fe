@@ -5,6 +5,9 @@ import LabeledInput from '../../common-ui/LabeledInput';
 import LabeledRadioGroup from '../../common-ui/LabeledRadioGroup';
 import LabeledCheckbox from '../../common-ui/LabeledCheckbox';
 import * as Button from '../../common-ui/Button';
+import Popup from '../../common-ui/Popup';
+import { Link } from 'react-router-dom';
+import styles from './style.scss';
 
 import { getErrors, sanitize, hasBlockingError, signupWithData } from './utils';
 
@@ -22,6 +25,7 @@ function SignupPage() {
     officialContestant: null,
     officialStudent: null,
     iAgreeToTerms: null,
+    isPopup: 0,
   });
   const errors = getErrors(data);
 
@@ -32,23 +36,48 @@ function SignupPage() {
   const submit = React.useCallback(() => {
     const sanitizedData = sanitize(data);
     setData(sanitizedData);
-    if (hasBlockingError(getErrors(sanitizedData))) return;
+    if (hasBlockingError(getErrors(sanitizedData))) {
+      setData({ ...data, isPopup: 1 });
+      return;
+    }
     // eslint-disable-next-line no-shadow
     signupWithData(sanitizedData).then(({ data: { data, error, errorMessage, debuggingInfo } }) => {
       if (error || !data) {
         // TODO: show popup
-        alert(`Đăng ký không thành công\n\n${errorMessage}`);
+        setData({ ...data, isPopup: 1 });
         console.log({ data, error, errorMessage, debuggingInfo });
       } else {
-        // TODO: show popup
-        alert(`Đăng ký thành công!`);
-        window.location.href = '/login';
+        setData({ ...data, isPopup: 2 });
       }
     });
   }, [data]);
 
+  const handleClosePopup = React.useCallback(() => {
+    setData({ ...data, isPopup: 0 });
+  });
+
   return (
     <MainPanel.Container>
+      {data.isPopup === 0 || data.isPopup === undefined ? (
+        ''
+      ) : data.isPopup === 1 ? (
+        <Popup
+          closePopup={handleClosePopup}
+          titleContent="Đăng ký thất bại"
+          mainContent="Đã xảy ra lỗi trong quá trình đăng ký. Vui lòng kiểm tra lại."
+          contentBtn="OK"
+          linkTo="/signup"
+          isSuccess="0"
+        />
+      ) : (
+        <Popup
+          titleContent="Đăng ký thành công"
+          mainContent="Cảm ơn bạn đã đăng ký tham gia FYT Code Cup! Vui lòng đăng nhập để tiếp tục."
+          contentBtn="Đăng nhập"
+          linkTo="/login"
+          isSuccess="1"
+        />
+      )}
       <MainPanel.Title>Đăng ký tham gia FYT Code Cup</MainPanel.Title>
       <MainPanel.Description>
         Để tham gia FYT Code Cup, hãy đăng ký trước 19:30 ngày 09/10/2020 bạn nhé!
@@ -151,7 +180,12 @@ function SignupPage() {
         </Form.FieldSet>
         <Form.FieldSet>
           <LabeledCheckbox
-            label="Tôi đã đọc và đồng ý với quy chế thi của FYT Contest Cup"
+            label="Tôi đã đọc và đồng ý với quy chế thi của "
+            linkTo={
+              <Link className={styles.linkDecoration} to="/info/rules">
+                <span>FYT Contest Cup</span>
+              </Link>
+            }
             name="iAgreeToTerms"
             value={data.iAgreeToTerms || ''}
             option="yes"

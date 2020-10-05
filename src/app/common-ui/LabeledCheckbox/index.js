@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 // TODO: customize checkbox image
 
-function LabeledCheckbox({ label, name, value, option, error, onChange }) {
+function LabeledCheckbox({ label, name, value, option, error, onChange, linkTo }) {
   const id = React.useMemo(Math.random, []);
 
   const handleChange = React.useCallback(
@@ -29,6 +29,7 @@ function LabeledCheckbox({ label, name, value, option, error, onChange }) {
         />
         <label className={styles.checkLabel} htmlFor={id}>
           {label}
+          {linkTo}
         </label>
       </div>
       <div className={styles.error}>{error}</div>
@@ -43,6 +44,7 @@ LabeledCheckbox.propTypes = {
   option: PropTypes.string,
   error: PropTypes.string,
   onChange: PropTypes.func,
+  linkTo: PropTypes.node,
 };
 
 export default LabeledCheckbox;
