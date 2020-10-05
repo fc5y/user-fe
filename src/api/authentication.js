@@ -49,7 +49,7 @@ export function apiSignup({ username, password, extra }) {
       school: extra.school,
       officialContestant:
         !!extra.officialContestant && extra.officialContestant.toLowerCase() === 'official',
-      officialStudent: !!extra.officialStudent && !!extra.officialStudent.toLowerCase() === 'yes',
+      officialStudent: !!extra.officialStudent && extra.officialStudent.toLowerCase() === 'yes',
     },
     {},
     true,
