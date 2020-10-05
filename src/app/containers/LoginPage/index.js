@@ -11,6 +11,9 @@ import withUserNotLogin from '../../../shared/hoc/withUserNotLogin';
 import PopupFailed from './PopupFailed';
 import InputText from '../../components/InputText';
 
+// Constants
+import { API_PROGRESS } from '../../../shared/constants';
+
 import styles from './login.scss';
 
 class LoginPage extends React.Component {
@@ -20,6 +23,7 @@ class LoginPage extends React.Component {
       username: '',
       password: '',
       showFalsePopup: false,
+      apiProgress: API_PROGRESS.INIT,
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -34,11 +38,16 @@ class LoginPage extends React.Component {
     event.preventDefault();
     const { username, password } = this.state;
 
+    if (!username || !password) return;
+
+    this.setState({ apiProgress: API_PROGRESS.REQ });
+
     if (__USE_BACKUP_API__) {
       const { data } = await apiLogin({ username, password });
       if (!data.data || !data.data.token) {
         this.setState({
           showFalsePopup: true,
+          apiProgress: API_PROGRESS.FAILED,
         });
       } else {
         this.context.setUserInfo({ ...this.context.userInfo, token: data.data.token });
@@ -50,6 +59,7 @@ class LoginPage extends React.Component {
       if (!data || !data.token) {
         this.setState({
           showFalsePopup: true,
+          apiProgress: API_PROGRESS.FAILED,
         });
       } else {
         this.context.setUserInfo({ ...this.context.userInfo, token: data.token });
@@ -93,7 +103,11 @@ class LoginPage extends React.Component {
               value={password}
               onChange={this.handleChange}
             />
-            <button className={styles.loginBtn} type="submit">
+            <button
+              className={styles.loginBtn}
+              type="submit"
+              disabled={this.state.apiProgress === API_PROGRESS.REQ}
+            >
               Đăng nhập
             </button>
           </form>
