@@ -1,4 +1,7 @@
+/* eslint-disable react/prop-types */
 import * as React from 'react';
+import { withRouter } from 'react-router-dom';
+import withUserNotLogin from '../../../shared/hoc/withUserNotLogin';
 import * as MainPanel from '../../common-ui/MainPanel';
 import * as Form from '../../common-ui/Form';
 import LabeledInput from '../../common-ui/LabeledInput';
@@ -11,7 +14,7 @@ import styles from './style.scss';
 
 import { getErrors, sanitize, hasBlockingError, signupWithData } from './utils';
 
-function SignupPage() {
+function SignupPage({ history }) {
   const [data, setData] = React.useState({
     // null: pristine (user has not changed the value)
     // empty string: non-pristine (user has changed the value)
@@ -41,13 +44,18 @@ function SignupPage() {
       return;
     }
     // eslint-disable-next-line no-shadow
-    signupWithData(sanitizedData).then(({ data: { data, error, errorMessage, debuggingInfo } }) => {
-      if (error || !data) {
+    signupWithData(sanitizedData).then((data) => {
+      if (!data || !data.data || !data.data.username) {
         // TODO: show popup
         setData({ ...data, isPopup: 1 });
         console.log({ data, error, errorMessage, debuggingInfo });
       } else {
         setData({ ...data, isPopup: 2 });
+        alert(`Đăng ký không thành công\n\n`);
+      } else {
+        // TODO: show popup
+        alert(`Đăng ký thành công!`);
+        !!history && history.push('/login');
       }
     });
   }, [data]);
@@ -203,4 +211,4 @@ function SignupPage() {
   );
 }
 
-export default SignupPage;
+export default withUserNotLogin(withRouter(SignupPage));
