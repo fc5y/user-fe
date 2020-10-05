@@ -2,7 +2,6 @@
 import { get, post } from '../utils/fetchUtils';
 
 export function apiLogin({ username, password }) {
-  // TODO: Change this to use primary API
   if (!__USE_BACKUP_API__) {
     return post(
       'https://asia-east2-fyt-code-cup.cloudfunctions.net/api/login',
@@ -16,15 +15,6 @@ export function apiLogin({ username, password }) {
 }
 
 export function apiSignup({ username, password, extra }) {
-  // if (__USE_BACKUP_API__) {
-  //   return post(
-  //     'https://backdoor.freecontest.net/api/v1/signup',
-  //     { username, password, extra: JSON.stringify(extra) },
-  //     {},
-  //     true,
-  //   );
-  // }
-
   try {
     post(
       'https://backdoor.freecontest.net/api/v1/signup',
@@ -36,8 +26,6 @@ export function apiSignup({ username, password, extra }) {
     console.log(err);
   }
 
-  // TODO: Change this to use primary API
-  // return post('', {}, { withCredentials: true });
   return post(
     'https://asia-east2-fyt-code-cup.cloudfunctions.net/api/register',
     {
@@ -57,7 +45,6 @@ export function apiSignup({ username, password, extra }) {
 }
 
 export function apiGetUserInfo(token) {
-  // TODO: Change this to use primary API
   if (!__USE_BACKUP_API__) {
     return get(
       'https://asia-east2-fyt-code-cup.cloudfunctions.net/api/users/me',

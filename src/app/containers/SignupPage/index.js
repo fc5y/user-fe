@@ -1,7 +1,11 @@
 /* eslint-disable react/prop-types */
 import * as React from 'react';
+
+// HOC
 import { withRouter, Link } from 'react-router-dom';
 import withUserNotLogin from '../../../shared/hoc/withUserNotLogin';
+
+// UI
 import * as MainPanel from '../../common-ui/MainPanel';
 import * as Form from '../../common-ui/Form';
 import LabeledInput from '../../common-ui/LabeledInput';
@@ -9,9 +13,13 @@ import LabeledRadioGroup from '../../common-ui/LabeledRadioGroup';
 import LabeledCheckbox from '../../common-ui/LabeledCheckbox';
 import * as Button from '../../common-ui/Button';
 
+// Constants
+import { API_PROGRESS } from '../../../shared/constants/index';
+
 import { getErrors, sanitize, hasBlockingError, signupWithData } from './utils';
 
 function SignupPage({ history }) {
+  const [apiProgress, setApiProgress] = React.useState(API_PROGRESS.INIT);
   const [data, setData] = React.useState({
     // null: pristine (user has not changed the value)
     // empty string: non-pristine (user has changed the value)
@@ -32,21 +40,24 @@ function SignupPage({ history }) {
     setData({ ...data, [name]: value });
   });
 
-  const submit = React.useCallback(() => {
+  const submit = React.useCallback(async () => {
     const sanitizedData = sanitize(data);
     setData(sanitizedData);
     if (hasBlockingError(getErrors(sanitizedData))) return;
+    setApiProgress(API_PROGRESS.REQ);
     // eslint-disable-next-line no-shadow
-    signupWithData(sanitizedData).then(({ data, error }) => {
-      if (!!error || !data || !data.username) {
-        // TODO: show popup
-        alert(`Đăng ký không thành công\n\n`);
-      } else {
-        // TODO: show popup
-        alert(`Đăng ký thành công!`);
-        !!history && history.push('/login');
-      }
-    });
+    const { data: response, error } = await signupWithData(sanitizedData);
+
+    if (!!error || !response || !response.username) {
+      // TODO: show popup
+      alert(`Đăng ký không thành công\n\n${error}`);
+      setApiProgress(API_PROGRESS.FAILED);
+    } else {
+      // TODO: show popup
+      alert(`Đăng ký thành công!`);
+      setApiProgress(API_PROGRESS.SUCCESS);
+      !!history && history.push('/login');
+    }
   }, [data]);
 
   return (
@@ -166,7 +177,9 @@ function SignupPage({ history }) {
           />
         </Form.FieldSet>
         <Form.ButtonGroup>
-          <Button.Primary onClick={submit}>Tạo tài khoản</Button.Primary>
+          <Button.Primary disabled={apiProgress === API_PROGRESS.REQ} onClick={submit}>
+            Tạo tài khoản
+          </Button.Primary>
         </Form.ButtonGroup>
       </Form.Form>
     </MainPanel.Container>
