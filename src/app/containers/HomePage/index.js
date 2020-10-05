@@ -24,9 +24,7 @@ function HomePage() {
       <div className={styles.title}>FYT Code Cup</div>
       <div className={styles.info}>
         <Markdown source={md} />
-        <Link to="/info">Thông tin kỳ thi</Link>
-        <br />
-        <Link to="/info/rules">Quy chế thi</Link>
+        <Link to="/info">Quy chế của kỳ thi</Link>
       </div>
       {!userInfo || !userInfo.username ? (
         <>
