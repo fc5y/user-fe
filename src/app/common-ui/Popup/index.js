@@ -10,29 +10,39 @@ class Popup extends Component {
     const { closePopup, titleContent, mainContent, contentBtn, linkTo, isSuccess } = this.props;
     return (
       <div className={styles.overlay}>
-        <div className={styles.popupBackground}>
-          <div className={styles.container}>
-            <div className={styles.titleBar}>
-              <h5
-                className={`${styles.titleContent} ${
-                  isSuccess === '1' ? styles.titleColorSuccess : styles.titleColorFailed
-                }`}
-              >
-                {titleContent}
-              </h5>
+        <div className={styles.container}>
+          <div className={styles.titleBar}>
+            <h5
+              className={`${styles.titleContent} ${
+                isSuccess === '1' ? styles.titleColorSuccess : styles.titleColorFailed
+              }`}
+            >
+              {titleContent}
+            </h5>
+            {linkTo === '' ? (
+              <div onClick={closePopup}>
+                <img className={styles.closeImg} src={CloseButton} alt="close" />
+              </div>
+            ) : (
               <Link to={linkTo} onClick={closePopup}>
                 <img className={styles.closeImg} src={CloseButton} alt="close" />
               </Link>
-            </div>
-            <div className={styles.content}>
-              <p>{mainContent}</p>
-            </div>
+            )}
+          </div>
+          <div className={styles.content}>
+            <p>{mainContent}</p>
+          </div>
+          {linkTo === '' ? (
+            <button className={styles.closeBtn} type="submit" onClick={closePopup}>
+              {contentBtn}
+            </button>
+          ) : (
             <Link className={styles.linkDecoration} to={linkTo} onClick={closePopup}>
               <button className={styles.closeBtn} type="submit">
                 {contentBtn}
               </button>
             </Link>
-          </div>
+          )}
         </div>
       </div>
     );

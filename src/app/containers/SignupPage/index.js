@@ -40,6 +40,7 @@ function SignupPage() {
       setData({ ...data, isPopup: 1 });
       return;
     }
+    console.log(data);
     // eslint-disable-next-line no-shadow
     signupWithData(sanitizedData).then(({ data: { data, error, errorMessage, debuggingInfo } }) => {
       if (error || !data) {
@@ -66,7 +67,7 @@ function SignupPage() {
           titleContent="Đăng ký thất bại"
           mainContent="Đã xảy ra lỗi trong quá trình đăng ký. Vui lòng kiểm tra lại."
           contentBtn="OK"
-          linkTo="/signup"
+          linkTo=""
           isSuccess="0"
         />
       ) : (
@@ -180,11 +181,13 @@ function SignupPage() {
         </Form.FieldSet>
         <Form.FieldSet>
           <LabeledCheckbox
-            label="Tôi đã đọc và đồng ý với quy chế thi của "
-            linkTo={
-              <Link className={styles.linkDecoration} to="/info/rules">
-                <span>FYT Contest Cup</span>
-              </Link>
+            label={
+              <span>
+                Tôi đã đọc và đồng ý với quy chế thi của{' '}
+                <Link className={styles.linkDecoration} to="/info">
+                  <span>FYT Contest Cup</span>
+                </Link>
+              </span>
             }
             name="iAgreeToTerms"
             value={data.iAgreeToTerms || ''}
