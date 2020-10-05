@@ -11,7 +11,7 @@ export function apiLogin({ username, password }) {
 
 export function apiSignup({ username, password, extra }) {
   if (__USE_BACKUP_API__) {
-    post(
+    return post(
       'http://54.254.71.192:3004/api/v1/signup',
       { username, password, extra: JSON.stringify(extra) },
       {},

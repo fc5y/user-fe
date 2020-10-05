@@ -1,0 +1,29 @@
+:local {
+  .label {
+    display: block;
+    font-size: 12px;
+    line-height: 24px;
+    color: rgba(0, 0, 0, 0.6);
+    margin-bottom: 6px;
+  }
+
+  .option {
+    display: flex;
+    align-items: center;
+  }
+
+  .radioButton {
+    margin-right: 6px;
+  }
+
+  .radioLabel {
+    line-height: 120%;
+  }
+
+  .error {
+    font-size: 12px;
+    line-height: 24px;
+    color: rgba(235, 87, 87, 0.7);
+    height: 25px;
+  }
+}

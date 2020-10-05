@@ -1,0 +1,29 @@
+:local {
+  .container {
+    width: 600px;
+    padding: 36px;
+    margin: 48px auto;
+
+    background-color: white;
+    filter: drop-shadow(0px 0px 12px rgba(188, 188, 188, 0.25));
+
+    font-family: Mulish;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 120%;
+    color: rgba(0, 0, 0, 0.6);
+  }
+
+  .title {
+    color: #1c83c6;
+    margin-bottom: 18px;
+    font-size: 24px;
+    font-weight: 600;
+  }
+
+  .description {
+    margin-bottom: 30px;
+    line-height: 150%;
+  }
+}
