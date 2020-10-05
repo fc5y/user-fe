@@ -37,10 +37,9 @@ function SignupPage() {
     const sanitizedData = sanitize(data);
     setData(sanitizedData);
     if (hasBlockingError(getErrors(sanitizedData))) {
-      setData({ ...data, isPopup: 1 });
+      setData({ ...sanitizedData, isPopup: 1 });
       return;
     }
-    console.log(data);
     // eslint-disable-next-line no-shadow
     signupWithData(sanitizedData).then(({ data: { data, error, errorMessage, debuggingInfo } }) => {
       if (error || !data) {
