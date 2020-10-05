@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import * as React from 'react';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 import withUserNotLogin from '../../../shared/hoc/withUserNotLogin';
 import * as MainPanel from '../../common-ui/MainPanel';
 import * as Form from '../../common-ui/Form';
@@ -190,10 +190,7 @@ function SignupPage({ history }) {
           <LabeledCheckbox
             label={
               <span>
-                Tôi đã đọc và đồng ý với quy chế thi của{' '}
-                <Link className={styles.linkDecoration} to="/info">
-                  <span>FYT Contest Cup</span>
-                </Link>
+                Tôi đã đọc và đồng ý với <Link to="/info">quy chế thi của FYT Code Cup</Link>
               </span>
             }
             name="iAgreeToTerms"
