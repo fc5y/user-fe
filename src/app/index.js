@@ -17,6 +17,7 @@ import SignupPage from './containers/SignupPage';
 // Components
 import Header from './components/NavBar';
 
+import 'normalize.css';
 import './style.scss';
 
 export default function App() {

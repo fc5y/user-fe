@@ -1,7 +1,6 @@
 import React from 'react';
 import { apiGetUserInfo } from '../../api/authentication';
 import PropTypes from 'prop-types';
-import { __USE_BACKUP_API__ } from '../../../webpack/config';
 
 export const UserInfoContext = React.createContext({
   userInfo: { username: '', email: '', contestPassword: '', token: '' },

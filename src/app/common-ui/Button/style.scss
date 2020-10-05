@@ -1,0 +1,20 @@
+:local {
+  .button {
+    background: none;
+    border: 0;
+    box-shadow: none;
+    outline: none;
+
+    border-radius: 4px;
+    padding: 9px 12px;
+    min-width: 160px;
+
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+  }
+
+  .primaryButton {
+    background-color: #1c83c6;
+    color: white;
+  }
+}
