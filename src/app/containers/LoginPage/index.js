@@ -46,7 +46,16 @@ class LoginPage extends React.Component {
         this.props.history.push('/');
       }
     } else {
-      // TODO: Integrate primary BE here
+      const { data, error } = await apiLogin({ username, password });
+      if (!!error || !data || !data.token) {
+        this.setState({
+          showFalsePopup: true,
+        });
+      } else {
+        this.context.setUserInfo({ ...this.context.userInfo, token: data.token });
+        // eslint-disable-next-line react/prop-types
+        this.props.history.push('/');
+      }
     }
   }
 
