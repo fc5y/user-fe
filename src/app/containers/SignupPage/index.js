@@ -13,6 +13,7 @@ import LabeledRadioGroup from '../../common-ui/LabeledRadioGroup';
 import LabeledCheckbox from '../../common-ui/LabeledCheckbox';
 import * as Button from '../../common-ui/Button';
 import Popup from '../../common-ui/Popup';
+import styles from './style.scss';
 // Constants
 import { API_PROGRESS } from '../../../shared/constants/index';
 
@@ -56,7 +57,6 @@ function SignupPage({ history }) {
     if (!!error || !response || !response.username) {
       // TODO: show popup
       setData({ ...data, isPopup: 1 });
-      alert(`Đăng ký không thành công\n\n${error}`);
       setApiProgress(API_PROGRESS.FAILED);
     } else {
       // TODO: show popup
@@ -195,7 +195,10 @@ function SignupPage({ history }) {
           <LabeledCheckbox
             label={
               <span>
-                Tôi đã đọc và đồng ý với <Link to="/info">quy chế thi của FYT Code Cup</Link>
+                Tôi đã đọc và đồng ý với{' '}
+                <Link className={styles.linkDecoration} to="/info">
+                  quy chế thi của FYT Code Cup
+                </Link>
               </span>
             }
             name="iAgreeToTerms"
