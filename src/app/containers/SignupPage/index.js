@@ -13,9 +13,6 @@ import LabeledRadioGroup from '../../common-ui/LabeledRadioGroup';
 import LabeledCheckbox from '../../common-ui/LabeledCheckbox';
 import * as Button from '../../common-ui/Button';
 import Popup from '../../common-ui/Popup';
-import { Link } from 'react-router-dom';
-import styles from './style.scss';
-
 // Constants
 import { API_PROGRESS } from '../../../shared/constants/index';
 
@@ -47,39 +44,24 @@ function SignupPage({ history }) {
   const submit = React.useCallback(async () => {
     const sanitizedData = sanitize(data);
     setData(sanitizedData);
+    // eslint-disable-next-line no-shadow
     if (hasBlockingError(getErrors(sanitizedData))) {
       setData({ ...sanitizedData, isPopup: 1 });
       return;
     }
-    // eslint-disable-next-line no-shadow
-    signupWithData(sanitizedData).then(({ data, error }) => {
-      if (!!error || !data || !data.username) {
-        // TODO: show popup
-        setData({ ...data, isPopup: 1 });
-        console.log({ data, error, errorMessage, debuggingInfo });
-      } else {
-        setData({ ...data, isPopup: 2 });
-        alert(`Đăng ký không thành công\n\n`);
-      } else {
-        // TODO: show popup
-        alert(`Đăng ký thành công!`);
-        !!history && history.push('/login');
-      }
-    });
-    if (hasBlockingError(getErrors(sanitizedData))) return;
     setApiProgress(API_PROGRESS.REQ);
     // eslint-disable-next-line no-shadow
     const { data: response, error } = await signupWithData(sanitizedData);
 
     if (!!error || !response || !response.username) {
       // TODO: show popup
+      setData({ ...data, isPopup: 1 });
       alert(`Đăng ký không thành công\n\n${error}`);
       setApiProgress(API_PROGRESS.FAILED);
     } else {
       // TODO: show popup
-      alert(`Đăng ký thành công!`);
       setApiProgress(API_PROGRESS.SUCCESS);
-      !!history && history.push('/login');
+      setData({ ...data, isPopup: 2 });
     }
   }, [data]);
 
