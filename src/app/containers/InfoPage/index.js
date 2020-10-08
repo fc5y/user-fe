@@ -1,6 +1,5 @@
 import React from 'react';
 import Markdown from 'react-markdown';
-import { Link } from 'react-router-dom';
 
 import styles from './style.scss';
 import md from './Info.md';

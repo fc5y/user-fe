@@ -26,6 +26,8 @@ export const post = async (url, body, options = {}, fullURL = false) => {
 
     return { data };
   } catch (err) {
+    alert(JSON.stringify(err));
+    alert(JSON.stringify(err.response));
     return { error: (err.response && err.response.data && err.response.data.error) || true };
   }
 };

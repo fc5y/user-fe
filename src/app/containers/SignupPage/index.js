@@ -46,11 +46,12 @@ function SignupPage({ history }) {
     if (hasBlockingError(getErrors(sanitizedData))) return;
     setApiProgress(API_PROGRESS.REQ);
     // eslint-disable-next-line no-shadow
-    const { data: response, error } = await signupWithData(sanitizedData);
-
-    if (!!error || !response || !response.username) {
+    const response = await signupWithData(sanitizedData);
+    console.log(JSON.stringify(response));
+    if (!!response.error || !response.data || !response.data.username) {
+      alert(JSON.stringify(response));
       // TODO: show popup
-      alert(`Đăng ký không thành công\n\n${error}`);
+      alert(`Đăng ký không thành công\n\n${response.error}`);
       setApiProgress(API_PROGRESS.FAILED);
     } else {
       // TODO: show popup
