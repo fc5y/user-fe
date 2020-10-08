@@ -18,8 +18,10 @@ import { API_PROGRESS } from '../../../shared/constants/index';
 
 import { getErrors, sanitize, hasBlockingError, signupWithData } from './utils';
 
+const isRegisterClosed = false;
+
 function SignupPage({ history }) {
-  if (__IS_CONTEST_READY__) {
+  if (isRegisterClosed) {
     alert('Đã hết hạn đăng ký.');
     return <Redirect to="/" />;
   }
