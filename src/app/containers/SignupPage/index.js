@@ -13,12 +13,18 @@ import LabeledRadioGroup from '../../common-ui/LabeledRadioGroup';
 import LabeledCheckbox from '../../common-ui/LabeledCheckbox';
 import * as Button from '../../common-ui/Button';
 
+import SignupDisabledPage from '../SignupDisabledPage';
+
 // Constants
 import { API_PROGRESS } from '../../../shared/constants/index';
 
 import { getErrors, sanitize, hasBlockingError, signupWithData } from './utils';
 
 function SignupPage({ history }) {
+  if (__IS_CONTEST_READY__) {
+    return <SignupDisabledPage />;
+  }
+
   const [apiProgress, setApiProgress] = React.useState(API_PROGRESS.INIT);
   const [data, setData] = React.useState({
     // null: pristine (user has not changed the value)
