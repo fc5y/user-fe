@@ -6,34 +6,26 @@ import CloseButton from '../../../assets/images/close-button.png';
 
 function Popup(props) {
   const { onClose, title, content, buttonText, variant, onButtonClick } = props;
+
   return (
     <div className={styles.overlay}>
       <div className={styles.container}>
         <div className={styles.titleBar}>
-          <div>
-            <div
-              className={`${styles.title} ${
-                variant === 'success' ? styles.titleColorSuccess : styles.titleColorFailed
-              }`}
-            >
-              {title}
-            </div>
-          </div>
           <div
-            className={styles.closeImgDiv}
-            onClick={variant === 'error' ? onClose : onButtonClick}
+            className={`${styles.title} ${
+              variant === 'success' ? styles.titleColorSuccess : styles.titleColorFailed
+            }`}
           >
-            <img className={styles.closeImg} src={CloseButton} alt="close" />
+            {title}
+          </div>
+          <div className={styles.closeImg} onClick={onClose}>
+            <img src={CloseButton} alt="close" />
           </div>
         </div>
         <div className={styles.content}>
           <div>{content}</div>
         </div>
-        <button
-          className={styles.closeBtn}
-          type="submit"
-          onClick={variant === 'error' ? onClose : onButtonClick}
-        >
+        <button className={styles.closeBtn} type="submit" onClick={onButtonClick}>
           {buttonText}
         </button>
       </div>

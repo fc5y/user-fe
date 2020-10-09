@@ -76,9 +76,13 @@ function LoginPage() {
     setPopupState(false);
   });
 
+  const onButtonClick = React.useCallback(() => {
+    setRedirectState(true);
+  });
+
   return (
     <MainPanel.Container>
-      {redirectState ? <Redirect to="/" /> : ''}
+      {redirectState ? <Redirect to="/" /> : null}
       {popupState ? (
         <Popup
           onClose={handleClosePopup}
@@ -86,6 +90,7 @@ function LoginPage() {
           content="Tên đăng nhập hoặc mật khẩu không chính xác. Vui lòng thử lại."
           buttonText="OK"
           variant="error"
+          onButtonClick={onButtonClick}
         />
       ) : (
         ''
