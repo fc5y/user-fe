@@ -64,3 +64,7 @@ export function apiLogout() {
   // TODO: Change this to use primary API
   return post('', {}, { withCredentials: true });
 }
+
+export function apiGetTime() {
+  return get('https://asia-east2-fyt-code-cup.cloudfunctions.net/api/time', {}, true);
+}
