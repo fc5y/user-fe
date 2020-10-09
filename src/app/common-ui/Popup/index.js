@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 
 import CloseButton from '../../../assets/images/close-button.png';
 
+import cx from 'classnames';
+
 function Popup(props) {
   const { onClose, title, content, buttonText, variant, onButtonClick } = props;
 
@@ -12,9 +14,10 @@ function Popup(props) {
       <div className={styles.container}>
         <div className={styles.titleBar}>
           <div
-            className={`${styles.title} ${
-              variant === 'success' ? styles.titleColorSuccess : styles.titleColorFailed
-            }`}
+            className={cx(
+              styles.title,
+              variant === 'success' ? styles.titleColorSuccess : styles.titleColorFailed,
+            )}
           >
             {title}
           </div>
@@ -48,7 +51,7 @@ Popup.defaultProps = {
   title: '',
   buttonText: '',
   onButtonClick: null,
-  variant: '0',
+  variant: '',
 };
 
 export default Popup;

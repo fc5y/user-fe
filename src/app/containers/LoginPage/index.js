@@ -31,9 +31,12 @@ function LoginPage() {
   const [popupState, setPopupState] = React.useState(false);
   const [redirectState, setRedirectState] = React.useState(false);
 
-  const handleChange = React.useCallback((name, value) => {
-    setData({ ...data, [name]: value });
-  });
+  const handleChange = React.useCallback(
+    (name, value) => {
+      setData({ ...data, [name]: value });
+    },
+    [data],
+  );
 
   const handleSubmit = React.useCallback(
     async (event) => {
@@ -43,7 +46,6 @@ function LoginPage() {
         setPopupState(true);
         return;
       }
-      console.log(data);
       setApiProgress(API_PROGRESS.REQ);
       if (__USE_BACKUP_API__) {
         const { apiData } = await apiLogin({ username, password });
@@ -58,7 +60,6 @@ function LoginPage() {
         }
       } else {
         const { apiData } = await apiLogin({ username, password });
-        console.log(apiData);
         if (!apiData || !apiData.token) {
           setPopupState(true);
           setApiProgress(API_PROGRESS.FAILED);
@@ -74,26 +75,20 @@ function LoginPage() {
 
   const handleClosePopup = React.useCallback(() => {
     setPopupState(false);
-  });
-
-  const onButtonClick = React.useCallback(() => {
-    setRedirectState(true);
-  });
+  }, []);
 
   return (
     <MainPanel.Container>
       {redirectState ? <Redirect to="/" /> : null}
-      {popupState ? (
+      {popupState && (
         <Popup
           onClose={handleClosePopup}
           title="Đăng nhập không thành công"
           content="Tên đăng nhập hoặc mật khẩu không chính xác. Vui lòng thử lại."
           buttonText="OK"
           variant="error"
-          onButtonClick={onButtonClick}
+          onButtonClick={handleClosePopup}
         />
-      ) : (
-        ''
       )}
       <MainPanel.Title>Đăng nhập</MainPanel.Title>
       <Form.Form>
