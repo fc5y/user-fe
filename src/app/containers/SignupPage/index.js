@@ -2,7 +2,7 @@
 import * as React from 'react';
 
 // HOC
-import { withRouter, Link } from 'react-router-dom';
+import { withRouter, Link, Redirect } from 'react-router-dom';
 import withUserNotLogin from '../../../shared/hoc/withUserNotLogin';
 
 // UI
@@ -18,7 +18,14 @@ import { API_PROGRESS } from '../../../shared/constants/index';
 
 import { getErrors, sanitize, hasBlockingError, signupWithData } from './utils';
 
+const isRegisterClosed = false;
+
 function SignupPage({ history }) {
+  if (isRegisterClosed) {
+    alert('Đã hết hạn đăng ký.');
+    return <Redirect to="/" />;
+  }
+
   const [apiProgress, setApiProgress] = React.useState(API_PROGRESS.INIT);
   const [data, setData] = React.useState({
     // null: pristine (user has not changed the value)
