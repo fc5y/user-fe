@@ -4,123 +4,119 @@ import React from 'react';
 import { apiLogin } from '../../../api/authentication';
 
 // HOC
-import { withRouter } from 'react-router-dom';
+import { withRouter, Redirect } from 'react-router-dom';
 import withUserNotLogin from '../../../shared/hoc/withUserNotLogin';
+import { UserInfoContext } from '../../../shared/context/UserInfo';
 
-// Component
-import PopupFailed from './PopupFailed';
-import InputText from '../../components/InputText';
+// UI
+import * as MainPanel from '../../common-ui/MainPanel';
+import * as Form from '../../common-ui/Form';
+import LabeledInput from '../../common-ui/LabeledInput';
+import * as Button from '../../common-ui/Button';
+import Popup from '../../common-ui/Popup';
 
 // Constants
 import { API_PROGRESS } from '../../../shared/constants';
 
-import styles from './login.scss';
+function LoginPage() {
+  const [apiProgress, setApiProgress] = React.useState(API_PROGRESS.INIT);
+  const { userInfo } = React.useContext(UserInfoContext);
+  const [data, setData] = React.useState({
+    // null: pristine (user has not changed the value)
+    // empty string: non-pristine (user has changed the value)
+    username: '',
+    password: '',
+  });
 
-class LoginPage extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      username: '',
-      password: '',
-      showFalsePopup: false,
-      apiProgress: API_PROGRESS.INIT,
-    };
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleChange = this.handleChange.bind(this);
-    this.closePopup = this.closePopup.bind(this);
-  }
+  const [popupState, setPopupState] = React.useState(false);
+  const [redirectState, setRedirectState] = React.useState(false);
 
-  closePopup() {
-    this.setState({ showFalsePopup: false });
-  }
+  const handleChange = React.useCallback(
+    (name, value) => {
+      setData({ ...data, [name]: value });
+    },
+    [data],
+  );
 
-  async handleSubmit(event) {
-    event.preventDefault();
-    const { username, password } = this.state;
-
-    if (!username || !password) return;
-
-    this.setState({ apiProgress: API_PROGRESS.REQ });
-
-    if (__USE_BACKUP_API__) {
-      const { data } = await apiLogin({ username, password });
-      if (!data.data || !data.data.token) {
-        this.setState({
-          showFalsePopup: true,
-          apiProgress: API_PROGRESS.FAILED,
-        });
-      } else {
-        this.context.setUserInfo({ ...this.context.userInfo, token: data.data.token });
-        // eslint-disable-next-line react/prop-types
-        this.props.history.push('/');
+  const handleSubmit = React.useCallback(
+    async (event) => {
+      event.preventDefault();
+      const { username, password } = data;
+      if (!username || !password) {
+        setPopupState(true);
+        return;
       }
-    } else {
-      const { data } = await apiLogin({ username, password });
-      if (!data || !data.token) {
-        this.setState({
-          showFalsePopup: true,
-          apiProgress: API_PROGRESS.FAILED,
-        });
+      setApiProgress(API_PROGRESS.REQ);
+      if (__USE_BACKUP_API__) {
+        const { apiData } = await apiLogin({ username, password });
+        console.log(apiData);
+        if (!apiData.data || !apiData.data.token) {
+          setPopupState(true);
+          setApiProgress(API_PROGRESS.FAILED);
+        } else {
+          userInfo.setUserInfo({ ...userInfo.userInfo, userInfo: apiData.data.token });
+          // eslint-disable-next-line react/prop-types
+          setRedirectState(true);
+        }
       } else {
-        this.context.setUserInfo({ ...this.context.userInfo, token: data.token });
-        // eslint-disable-next-line react/prop-types
-        this.props.history.push('/');
+        const { apiData } = await apiLogin({ username, password });
+        if (!apiData || !apiData.token) {
+          setPopupState(true);
+          setApiProgress(API_PROGRESS.FAILED);
+        } else {
+          userInfo.setUserInfo({ ...userInfo.userInfo, userInfo: apiData.token });
+          // eslint-disable-next-line react/prop-types
+          setRedirectState(true);
+        }
       }
-    }
-  }
+    },
+    [data],
+  );
 
-  handleChange(event) {
-    const { name, value } = event.target;
-    this.setState({
-      [name]: value,
-    });
-  }
+  const handleClosePopup = React.useCallback(() => {
+    setPopupState(false);
+  }, []);
 
-  render() {
-    const { username, password } = this.state;
-    return (
-      <div className={styles.container}>
-        <div className={styles.formContainer}>
-          <form onSubmit={this.handleSubmit}>
-            <h5 className={styles.titleContent}>Đăng nhập:</h5>
-            <InputText
-              label="Tên đăng nhập"
-              divStyle={styles.username}
-              labelStyle={styles.usernameLabel}
-              inputStyle={styles.usernameInput}
-              type="text"
-              name="username"
-              value={username}
-              onChange={this.handleChange}
-            />
-            <InputText
-              label="Mật khẩu"
-              divStyle={styles.password}
-              labelStyle={styles.passwordLabel}
-              inputStyle={styles.passwordInp}
-              type="password"
-              name="password"
-              value={password}
-              onChange={this.handleChange}
-            />
-            <button
-              className={styles.loginBtn}
-              type="submit"
-              disabled={this.state.apiProgress === API_PROGRESS.REQ}
-            >
-              Đăng nhập
-            </button>
-          </form>
-        </div>
-        {this.state.showFalsePopup && (
-          <>
-            <div className={styles.overlay} />
-            <PopupFailed closePopup={this.closePopup} />
-          </>
-        )}
-      </div>
-    );
-  }
+  return (
+    <MainPanel.Container>
+      {redirectState ? <Redirect to="/" /> : null}
+      {popupState && (
+        <Popup
+          onClose={handleClosePopup}
+          title="Đăng nhập không thành công"
+          content="Tên đăng nhập hoặc mật khẩu không chính xác. Vui lòng thử lại."
+          buttonText="OK"
+          variant="error"
+          onButtonClick={handleClosePopup}
+        />
+      )}
+      <MainPanel.Title>Đăng nhập</MainPanel.Title>
+      <Form.Form>
+        <Form.FieldSet>
+          <LabeledInput
+            label="Tên đăng nhập"
+            name="username"
+            value={data.username || ''}
+            onChange={handleChange}
+          />
+        </Form.FieldSet>
+        <Form.FieldSet>
+          <LabeledInput
+            label="Mật khẩu"
+            name="password"
+            value={data.password || ''}
+            onChange={handleChange}
+            type="password"
+          />
+        </Form.FieldSet>
+      </Form.Form>
+      <Form.ButtonGroup>
+        <Button.Primary disabled={apiProgress === API_PROGRESS.REQ} onClick={handleSubmit}>
+          Đăng nhập
+        </Button.Primary>
+      </Form.ButtonGroup>
+    </MainPanel.Container>
+  );
 }
 
 export default withUserNotLogin(withRouter(LoginPage));
