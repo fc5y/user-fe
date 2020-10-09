@@ -44,6 +44,9 @@ function SignupPage({ history }) {
   });
 
   const submit = React.useCallback(async () => {
+    // Prevent submitting from FE
+    if (isRegisterClosed) return;
+
     const sanitizedData = sanitize(data);
     setData(sanitizedData);
     if (hasBlockingError(getErrors(sanitizedData))) return;
