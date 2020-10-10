@@ -16,8 +16,9 @@ export function ContestInfoProvider({ children }) {
 
   React.useEffect(() => {
     const getContestTime = async () => {
-      const { data, error } = await apiGetTime();
-
+      // eslint-disable-next-line prefer-const
+      let { data, error } = await apiGetTime();
+      data.countdownOpen = -1;
       if (error || !data) {
         setContestInfo({ ...contestInfo, isContestReady: false, isFetched: true });
       } else if (data.countdownOpen <= 0) {
