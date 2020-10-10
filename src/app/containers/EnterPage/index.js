@@ -15,6 +15,9 @@ class EnterPage extends Component {
     this.state = {
       isContestStart: null,
     };
+  }
+
+  componentDidMount() {
     const getRegisterTime = async () => {
       const { data: response, error } = await apiGetTime();
 
@@ -31,7 +34,7 @@ class EnterPage extends Component {
   }
 
   render() {
-    if (!this.context || !this.context.isFetched) {
+    if (!this.context || !this.context.isFetched || this.state.isContestStart === null) {
       // Loading/Fetching state
       return null;
     } else if (
