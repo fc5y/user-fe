@@ -5,7 +5,7 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const root = path.resolve(__dirname, '../');
 
-const { proxyList, META_TAG, __IS_CONTEST_READY__, __USE_BACKUP_API__ } = require('./config');
+const { proxyList, META_TAG, __USE_BACKUP_API__ } = require('./config');
 
 module.exports = {
   entry: path.join(root, 'src', 'index.js'),
@@ -105,7 +105,6 @@ module.exports = {
     }),
     new webpack.DefinePlugin({
       'process.env.ENV': JSON.stringify(process.env.ENV || 'dev'),
-      __IS_CONTEST_READY__,
       __USE_BACKUP_API__,
     }),
   ],

@@ -8,7 +8,6 @@
     "browser": true
   },
   "globals": {
-    "__IS_CONTEST_READY__": "readonly",
     "__USE_BACKUP_API__": "readonly"
   },
   "rules": {

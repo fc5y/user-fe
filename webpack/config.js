@@ -12,7 +12,6 @@ const META_TAG = {
 };
 
 // NOTE: Only change this when the test is ready
-const __IS_CONTEST_READY__ = false;
 const __USE_BACKUP_API__ = false;
 
 const proxyList = {
@@ -24,4 +23,4 @@ const proxyList = {
   },
 };
 
-module.exports = { proxyList, BASE_URL, META_TAG, __IS_CONTEST_READY__, __USE_BACKUP_API__ };
+module.exports = { proxyList, BASE_URL, META_TAG, __USE_BACKUP_API__ };
