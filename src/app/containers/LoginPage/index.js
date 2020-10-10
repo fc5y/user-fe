@@ -20,7 +20,7 @@ import { API_PROGRESS } from '../../../shared/constants';
 
 function LoginPage() {
   const [apiProgress, setApiProgress] = React.useState(API_PROGRESS.INIT);
-  const { setUserInfo, userInfo } = React.useContext(UserInfoContext);
+  const { userInfo, setUserInfo } = React.useContext(UserInfoContext);
   const [data, setData] = React.useState({
     // null: pristine (user has not changed the value)
     // empty string: non-pristine (user has changed the value)

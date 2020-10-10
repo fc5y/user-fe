@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import styles from './style.scss';
 import PropTypes from 'prop-types';
 
@@ -9,7 +10,7 @@ import cx from 'classnames';
 function Popup(props) {
   const { onClose, title, content, buttonText, variant, onButtonClick } = props;
 
-  return (
+  return ReactDOM.createPortal(
     <div className={styles.overlay}>
       <div className={styles.container}>
         <div className={styles.titleBar}>
@@ -32,7 +33,8 @@ function Popup(props) {
           {buttonText}
         </button>
       </div>
-    </div>
+    </div>,
+    document.querySelector('body'),
   );
 }
 
