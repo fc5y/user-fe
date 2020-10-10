@@ -2,8 +2,11 @@
 import * as React from 'react';
 
 // HOC
-import { withRouter, Link } from 'react-router-dom';
+import { withRouter, Link, Redirect } from 'react-router-dom';
 import withUserNotLogin from '../../../shared/hoc/withUserNotLogin';
+
+// APIs
+import { apiGetTime } from '../../../api/authentication';
 
 // UI
 import * as MainPanel from '../../common-ui/MainPanel';
@@ -19,6 +22,7 @@ import { API_PROGRESS } from '../../../shared/constants/index';
 import { getErrors, sanitize, hasBlockingError, signupWithData } from './utils';
 
 function SignupPage({ history }) {
+  const [isRegisterClosed, setIsRegisterClosed] = React.useState(null);
   const [apiProgress, setApiProgress] = React.useState(API_PROGRESS.INIT);
   const [data, setData] = React.useState({
     // null: pristine (user has not changed the value)
@@ -34,18 +38,20 @@ function SignupPage({ history }) {
     officialStudent: null,
     iAgreeToTerms: null,
   });
-  const errors = getErrors(data);
 
   const handleChange = React.useCallback((name, value) => {
     setData({ ...data, [name]: value });
   });
 
   const submit = React.useCallback(async () => {
+    // Prevent submitting from FE
+    if (isRegisterClosed) return;
+
     const sanitizedData = sanitize(data);
     setData(sanitizedData);
     if (hasBlockingError(getErrors(sanitizedData))) return;
     setApiProgress(API_PROGRESS.REQ);
-    // eslint-disable-next-line no-shadow
+
     const { data: response, error } = await signupWithData(sanitizedData);
 
     if (!!error || !response || !response.username) {
@@ -60,6 +66,30 @@ function SignupPage({ history }) {
     }
   }, [data]);
 
+  React.useEffect(() => {
+    const getRegisterTime = async () => {
+      const { data: response, error } = await apiGetTime();
+
+      if (error || (!!response && response.countdown > 0)) {
+        setIsRegisterClosed(false);
+      } else {
+        setIsRegisterClosed(true);
+      }
+    };
+
+    if (isRegisterClosed === null) {
+      getRegisterTime();
+    }
+  }, []);
+
+  if (isRegisterClosed === null) {
+    return <div />;
+  } else if (isRegisterClosed) {
+    alert('Đã hết hạn đăng ký.');
+    return <Redirect to="/" />;
+  }
+
+  const errors = getErrors(data);
   return (
     <MainPanel.Container>
       <MainPanel.Title>Đăng ký tham gia FYT Code Cup</MainPanel.Title>
