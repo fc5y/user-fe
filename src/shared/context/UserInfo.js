@@ -39,7 +39,7 @@ export function UserInfoProvider({ children }) {
         setIsFetched(true);
       };
 
-      !!userInfo.token && getUserInfo();
+      !!userInfo.token && !userInfo.username && getUserInfo();
     }
   }, [userInfo.token]);
 

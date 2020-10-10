@@ -20,7 +20,7 @@ import { API_PROGRESS } from '../../../shared/constants';
 
 function LoginPage() {
   const [apiProgress, setApiProgress] = React.useState(API_PROGRESS.INIT);
-  const { userInfo } = React.useContext(UserInfoContext);
+  const { setUserInfo, userInfo } = React.useContext(UserInfoContext);
   const [data, setData] = React.useState({
     // null: pristine (user has not changed the value)
     // empty string: non-pristine (user has changed the value)
@@ -48,24 +48,21 @@ function LoginPage() {
       }
       setApiProgress(API_PROGRESS.REQ);
       if (__USE_BACKUP_API__) {
-        const { apiData } = await apiLogin({ username, password });
-        console.log(apiData);
+        const { data: apiData } = await apiLogin({ username, password });
         if (!apiData.data || !apiData.data.token) {
           setPopupState(true);
           setApiProgress(API_PROGRESS.FAILED);
         } else {
-          userInfo.setUserInfo({ ...userInfo.userInfo, userInfo: apiData.data.token });
-          // eslint-disable-next-line react/prop-types
+          setUserInfo({ ...userInfo, token: apiData.data.token });
           setRedirectState(true);
         }
       } else {
-        const { apiData } = await apiLogin({ username, password });
+        const { data: apiData } = await apiLogin({ username, password });
         if (!apiData || !apiData.token) {
           setPopupState(true);
           setApiProgress(API_PROGRESS.FAILED);
         } else {
-          userInfo.setUserInfo({ ...userInfo.userInfo, userInfo: apiData.token });
-          // eslint-disable-next-line react/prop-types
+          setUserInfo({ ...userInfo, token: apiData.token });
           setRedirectState(true);
         }
       }
