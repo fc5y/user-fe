@@ -57,8 +57,11 @@ function EnterPage({ history }) {
       history.push('/');
     };
 
-    !!userInfo.token && !!userInfo.username && getCredential(userInfo.token);
-  }, [userInfo]);
+    !!contestInfo.isContestReady &&
+      !!userInfo.token &&
+      !!userInfo.username &&
+      getCredential(userInfo.token);
+  }, [userInfo, contestInfo.isContestReady]);
 
   if (!isUserInfoFetched || !contestInfo.isFetched) {
     // Loading/Fetching state
