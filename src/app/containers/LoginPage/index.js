@@ -54,7 +54,6 @@ function LoginPage() {
           setApiProgress(API_PROGRESS.FAILED);
         } else {
           setUserInfo({ ...userInfo, token: apiData.data.token });
-          // eslint-disable-next-line react/prop-types
           setRedirectState(true);
         }
       } else {
@@ -64,7 +63,6 @@ function LoginPage() {
           setApiProgress(API_PROGRESS.FAILED);
         } else {
           setUserInfo({ ...userInfo, token: apiData.token });
-          // eslint-disable-next-line react/prop-types
           setRedirectState(true);
         }
       }
