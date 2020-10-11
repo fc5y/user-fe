@@ -3,7 +3,7 @@ const webpack = require('webpack');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
-const { root, META_TAG } = require('./config');
+const { root, constants, META_TAG } = require('./config');
 
 module.exports = {
   entry: path.join(root, 'src', 'index.js'),
@@ -48,9 +48,10 @@ module.exports = {
       template: path.join(root, 'public', 'index.ejs'),
       favicon: path.join(root, 'src', 'assets', 'images', 'logo.png'),
       imageMetaUrl: META_TAG.image_url,
+      gitSHA: constants.__GIT_SHA__,
     }),
     new webpack.DefinePlugin({
-      __ENV__: JSON.stringify(process.env.ENV || 'prod'),
+      __ENV__: constants.__ENV__,
     }),
   ],
 };

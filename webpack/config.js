@@ -25,5 +25,9 @@ const proxyList = {
 
 // CONSTANTS
 const root = path.resolve(__dirname, '../');
+const constants = {
+  __ENV__: process.env.ENV || 'prod',
+  __GIT_SHA__: process.env.GIT_SHA || null,
+};
 
-module.exports = { proxyList, FYT_BASE_URL, META_TAG, root };
+module.exports = { proxyList, FYT_BASE_URL, META_TAG, root, constants };
