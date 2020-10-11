@@ -7,7 +7,7 @@ import { UserInfoContext } from '../../../shared/context/UserInfo';
 import { ContestInfoContext } from '../../../shared/context/ContestInfo';
 
 // APIs
-import { apiGetContestCredential, apiGetContestCredentialV2 } from '../../../api/contest';
+import { apiGetContestCredential, apiGetContestCredentialV2 } from '../../../api';
 
 import styles from './enter.scss';
 

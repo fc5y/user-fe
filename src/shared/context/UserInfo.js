@@ -1,5 +1,5 @@
 import React from 'react';
-import { apiGetUserInfo } from '../../api/authentication';
+import { apiGetUserInfo } from '../../api';
 import PropTypes from 'prop-types';
 
 export const UserInfoContext = React.createContext({
@@ -27,7 +27,7 @@ export function UserInfoProvider({ children }) {
       }
     };
 
-    if (isTokenLoaded && !userInfo.isFetched) {
+    if (isTokenLoaded) {
       if (!!userInfo.token && !userInfo.username) {
         getUserInfo();
       } else {

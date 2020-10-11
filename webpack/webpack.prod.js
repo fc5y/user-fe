@@ -6,7 +6,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 
 const root = path.resolve(__dirname, '../');
-const { META_TAG, __USE_BACKUP_API__ } = require('./config');
+const { META_TAG } = require('./config');
 
 module.exports = {
   stats: {
@@ -122,8 +122,7 @@ module.exports = {
       imageMetaUrl: META_TAG.image_url,
     }),
     new webpack.DefinePlugin({
-      'process.env.ENV': JSON.stringify(process.env.ENV || 'prod'),
-      __USE_BACKUP_API__,
+      __ENV__: JSON.stringify(process.env.ENV || 'prod'),
     }),
   ],
 };

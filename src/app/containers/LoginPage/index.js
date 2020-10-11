@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // APIs
-import { apiLogin } from '../../../api/authentication';
+import { apiLogin } from '../../../api';
 
 // HOC
 import { withRouter } from 'react-router-dom';

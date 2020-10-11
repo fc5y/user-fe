@@ -7,7 +7,9 @@
     "node": true,
     "browser": true
   },
-  "globals": {},
+  "globals": {
+    "__ENV__": "readonly"
+  },
   "rules": {
     "prettier/prettier": ["error", { "singleQuote": true }],
     "react/jsx-filename-extension": [

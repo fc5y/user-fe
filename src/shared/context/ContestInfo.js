@@ -1,11 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-// APIs
-import { apiGetTime } from '../../api';
-
-const DO_NOTHING = () => {};
-
 export const ContestInfoContext = React.createContext({
   contestInfo: { isContestReady: null, isRegisterClosed: null, isFetched: null },
 });

@@ -1,11 +1,9 @@
 import axios from 'axios';
 import { getFullURL } from './getUrl';
 
-const { ENV } = process.env;
-
 export const get = async (url, options = {}, fullURL = false) => {
   try {
-    const { data } = await axios.get(!fullURL ? getFullURL(url, ENV) : url, {
+    const { data } = await axios.get(!fullURL ? getFullURL(url) : url, {
       ...options,
     });
 
@@ -17,7 +15,7 @@ export const get = async (url, options = {}, fullURL = false) => {
 
 export const post = async (url, body, options = {}, fullURL = false) => {
   try {
-    const { data } = await axios.post(!fullURL ? getFullURL(url, ENV) : url, body, {
+    const { data } = await axios.post(!fullURL ? getFullURL(url) : url, body, {
       ...options,
       headers: {
         'Content-Type': 'application/json',
