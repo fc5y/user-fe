@@ -1,7 +1,7 @@
 import React from 'react';
 
 // Context
-import { UserInfoContext } from '../../../shared/context/UserInfo';
+import { UserInfoContext } from 'src/shared/context/UserInfo';
 
 // Components
 import { Link } from 'react-router-dom';
@@ -9,7 +9,7 @@ import LoginAndSignup from './LoginAndSignup';
 import Username from './Username';
 
 // Data
-import logoImage from '../../../assets/images/logo.png';
+import logoImage from 'src/assets/images/logo.png';
 
 import styles from './style.scss';
 
