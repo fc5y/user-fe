@@ -1,19 +1,31 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+// APIs
+import { apiGetTime } from '../../api';
+
+const DO_NOTHING = () => {};
+
 export const ContestInfoContext = React.createContext({
-  contestInfo: { isContestReady: null, isFetched: null },
+  contestInfo: { isContestReady: null, isRegisterClosed: null, isFetched: null },
 });
 
 export function ContestInfoProvider({ children }) {
   const [contestInfo, setContestInfo] = React.useState({
     isContestReady: null,
+    isRegisterClosed: null,
     isFetched: false,
   });
 
   React.useEffect(() => {
-    const getContestTime = () => {
-      setContestInfo({ ...contestInfo, isContestReady: true, isFetched: true });
+    const getContestTime = async () => {
+      // Due to unstability of apiGetTime, we hard code the time result here
+      setContestInfo({
+        ...contestInfo,
+        isRegisterClosed: true,
+        isContestReady: true,
+        isFetched: true,
+      });
     };
 
     !contestInfo.isFetched && getContestTime();

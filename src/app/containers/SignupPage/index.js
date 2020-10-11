@@ -5,8 +5,8 @@ import * as React from 'react';
 import { withRouter, Link, Redirect } from 'react-router-dom';
 import withUserNotLogin from '../../../shared/hoc/withUserNotLogin';
 
-// APIs
-import { apiGetTime } from '../../../api/authentication';
+// Contexts
+import { ContestInfoContext } from '../../../shared/context/ContestInfo';
 
 // UI
 import * as MainPanel from '../../common-ui/MainPanel';
@@ -22,7 +22,6 @@ import { API_PROGRESS } from '../../../shared/constants/index';
 import { getErrors, sanitize, hasBlockingError, signupWithData } from './utils';
 
 function SignupPage({ history }) {
-  const [isRegisterClosed, setIsRegisterClosed] = React.useState(null);
   const [apiProgress, setApiProgress] = React.useState(API_PROGRESS.INIT);
   const [data, setData] = React.useState({
     // null: pristine (user has not changed the value)
@@ -38,6 +37,7 @@ function SignupPage({ history }) {
     officialStudent: null,
     iAgreeToTerms: null,
   });
+  const { contestInfo } = React.useContext(ContestInfoContext);
 
   const handleChange = React.useCallback((name, value) => {
     setData({ ...data, [name]: value });
@@ -45,7 +45,7 @@ function SignupPage({ history }) {
 
   const submit = React.useCallback(async () => {
     // Prevent submitting from FE
-    if (isRegisterClosed) return;
+    if (contestInfo.isRegisterClosed) return;
 
     const sanitizedData = sanitize(data);
     setData(sanitizedData);
@@ -66,25 +66,9 @@ function SignupPage({ history }) {
     }
   }, [data]);
 
-  React.useEffect(() => {
-    const getRegisterTime = async () => {
-      const { data: response, error } = await apiGetTime();
-
-      if (error || (!!response && response.countdown > 0)) {
-        setIsRegisterClosed(false);
-      } else {
-        setIsRegisterClosed(true);
-      }
-    };
-
-    if (isRegisterClosed === null) {
-      getRegisterTime();
-    }
-  }, []);
-
-  if (isRegisterClosed === null) {
+  if (contestInfo.isRegisterClosed === null) {
     return <div />;
-  } else if (isRegisterClosed) {
+  } else if (contestInfo.isRegisterClosed) {
     alert('Đã hết hạn đăng ký.');
     return <Redirect to="/" />;
   }
