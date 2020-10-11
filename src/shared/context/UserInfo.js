@@ -3,45 +3,38 @@ import { apiGetUserInfo } from '../../api/authentication';
 import PropTypes from 'prop-types';
 
 export const UserInfoContext = React.createContext({
-  userInfo: { username: '', email: '', contestPassword: '', token: '' },
+  userInfo: { username: '', email: '', token: null, isFetched: null },
   setUserInfo: () => {},
   clearUserInfo: () => {},
-  isFetched: false,
 });
 
 export function UserInfoProvider({ children }) {
   const [userInfo, setUserInfo] = React.useState({
-    username: null,
-    email: null,
-    contestPassword: null,
+    username: '',
+    email: '',
     token: null,
+    isFetched: null,
   });
-  const [isFetched, setIsFetched] = React.useState(false);
+  const [isTokenLoaded, setIsTokenLoaded] = React.useState(false);
 
   React.useEffect(() => {
-    if (__USE_BACKUP_API__) {
-      const getUserInfo = async () => {
-        const { data } = await apiGetUserInfo(userInfo.token);
+    const getUserInfo = async () => {
+      const { data } = await apiGetUserInfo(userInfo.token);
+      if (data) {
+        setUserInfo({ ...userInfo, username: data.username, isFetched: true });
+      } else {
+        setUserInfo({ ...userInfo, isFetched: true });
+      }
+    };
 
-        if (data.data) {
-          setUserInfo({ ...userInfo, username: data.data.username });
-        }
-        setIsFetched(true);
-      };
-
-      !!userInfo.token && getUserInfo();
-    } else {
-      const getUserInfo = async () => {
-        const { data } = await apiGetUserInfo(userInfo.token);
-        if (data) {
-          setUserInfo({ ...userInfo, username: data.username });
-        }
-        setIsFetched(true);
-      };
-
-      !!userInfo.token && !userInfo.username && getUserInfo();
+    if (isTokenLoaded && !userInfo.isFetched) {
+      if (!!userInfo.token && !userInfo.username) {
+        getUserInfo();
+      } else {
+        setUserInfo({ ...userInfo, isFetched: true });
+      }
     }
-  }, [userInfo.token]);
+  }, [userInfo.token, isTokenLoaded]);
 
   // Get from local storage
   React.useEffect(() => {
@@ -49,6 +42,7 @@ export function UserInfoProvider({ children }) {
     if (!!userInfoInLocalStorage && !!userInfoInLocalStorage.token) {
       setUserInfo({ ...userInfo, token: userInfoInLocalStorage.token });
     }
+    setIsTokenLoaded(true);
   }, []);
 
   // Save local storage
@@ -60,7 +54,6 @@ export function UserInfoProvider({ children }) {
     setUserInfo({
       username: null,
       email: null,
-      contestPassword: null,
       token: null,
     });
 
@@ -68,7 +61,7 @@ export function UserInfoProvider({ children }) {
   };
 
   return (
-    <UserInfoContext.Provider value={{ userInfo, setUserInfo, clearUserInfo, isFetched }}>
+    <UserInfoContext.Provider value={{ userInfo, setUserInfo, clearUserInfo }}>
       <>{children}</>
     </UserInfoContext.Provider>
   );

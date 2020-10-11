@@ -2,30 +2,15 @@
 import { get, post } from '../utils/fetchUtils';
 
 export function apiLogin({ username, password }) {
-  if (!__USE_BACKUP_API__) {
-    return post(
-      'https://asia-east2-fyt-code-cup.cloudfunctions.net/api/login',
-      { username, password },
-      {},
-      true,
-    );
-  } else {
-    return post('https://backdoor.freecontest.net/api/v1/login', { username, password }, {}, true);
-  }
+  return post(
+    'https://asia-east2-fyt-code-cup.cloudfunctions.net/api/login',
+    { username, password },
+    {},
+    true,
+  );
 }
 
 export function apiSignup({ username, password, extra }) {
-  try {
-    post(
-      'https://backdoor.freecontest.net/api/v1/signup',
-      { username, password, extra: JSON.stringify(extra) },
-      {},
-      true,
-    );
-  } catch (err) {
-    console.log(err);
-  }
-
   return post(
     'https://asia-east2-fyt-code-cup.cloudfunctions.net/api/register',
     {
@@ -45,24 +30,11 @@ export function apiSignup({ username, password, extra }) {
 }
 
 export function apiGetUserInfo(token) {
-  if (!__USE_BACKUP_API__) {
-    return get(
-      'https://asia-east2-fyt-code-cup.cloudfunctions.net/api/users/me',
-      { headers: { Authorization: `Bearer ${token}`, 'Access-Control-Allow-Headers': '*' } },
-      true,
-    );
-  } else {
-    return get(
-      'https://backdoor.freecontest.net/api/v1/user-info',
-      { headers: { Authorization: `Bearer ${token}` } },
-      true,
-    );
-  }
-}
-
-export function apiLogout() {
-  // TODO: Change this to use primary API
-  return post('', {}, { withCredentials: true });
+  return get(
+    'https://asia-east2-fyt-code-cup.cloudfunctions.net/api/users/me',
+    { headers: { Authorization: `Bearer ${token}`, 'Access-Control-Allow-Headers': '*' } },
+    true,
+  );
 }
 
 export function apiGetTime() {

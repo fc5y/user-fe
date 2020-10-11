@@ -1,18 +1,21 @@
-/* eslint-disable react/prop-types */
 import React from 'react';
-
+import PropTypes from 'prop-types';
 import { Redirect, withRouter } from 'react-router-dom';
 
+// Contexts
 import { UserInfoContext } from '../../../shared/context/UserInfo';
 import { ContestInfoContext } from '../../../shared/context/ContestInfo';
 
+// APIs
 import { apiGetContestCredential, apiGetContestCredentialV2 } from '../../../api/contest';
 
 import styles from './enter.scss';
 
+const DO_NOTHING = () => {};
+
 function EnterPage({ history }) {
   const { contestInfo } = React.useContext(ContestInfoContext);
-  const { userInfo, isFetched: isUserInfoFetched } = React.useContext(UserInfoContext);
+  const { userInfo } = React.useContext(UserInfoContext);
   const [contestCredential, setContestCredential] = React.useState({
     username: '',
     password: '',
@@ -20,39 +23,33 @@ function EnterPage({ history }) {
 
   React.useEffect(() => {
     const getCredential = async (token) => {
-      let data = null;
-      let error = null;
-
       try {
-        const { data: v1data, error: v1error } = await apiGetContestCredential(token);
-        data = v1data;
-        error = v1error;
-        // eslint-disable-next-line no-empty
-      } catch (err) {}
-
-      if (!!data && !!data.username && !!data.password) {
-        setContestCredential({
-          username: data.username,
-          password: data.password,
-        });
-        return;
+        const { data } = await apiGetContestCredential(token);
+        if (!!data && !!data.username && !!data.password) {
+          setContestCredential({
+            username: data.username,
+            password: data.password,
+          });
+          return;
+        }
+      } catch {
+        DO_NOTHING();
       }
 
       try {
-        const { data: v2data, error: v2error } = await apiGetContestCredentialV2(userInfo.username);
-        data = v2data;
-        error = v2error;
-        // eslint-disable-next-line no-empty
-      } catch (err) {}
-
-      if (!!data && !!data.data && !!data.data.contestUsername && !!data.data.contestPassword) {
-        setContestCredential({
-          username: data.data.contestUsername,
-          password: data.data.contestPassword,
-        });
-        return;
+        const { data } = await apiGetContestCredentialV2(userInfo.username);
+        if (!!data && !!data.data && !!data.data.contestUsername && !!data.data.contestPassword) {
+          setContestCredential({
+            username: data.data.contestUsername,
+            password: data.data.contestPassword,
+          });
+          return;
+        }
+      } catch {
+        DO_NOTHING();
       }
 
+      // eslint-disable-next-line no-alert
       alert('You are not allowed to enter contest');
       history.push('/');
     };
@@ -63,10 +60,10 @@ function EnterPage({ history }) {
       getCredential(userInfo.token);
   }, [userInfo, contestInfo.isContestReady]);
 
-  if (!isUserInfoFetched || !contestInfo.isFetched) {
+  if (!userInfo.isFetched || !contestInfo.isFetched) {
     // Loading/Fetching state
     return null;
-  } else if ((!!userInfo && userInfo.username === null) || !contestInfo.isContestReady) {
+  } else if (!userInfo.username || !contestInfo.isContestReady) {
     // Check if user has login or not. If not redirect back to homepage
     // Or the contest is not ready, we also need to redirect
     return <Redirect to="/" />;
@@ -99,5 +96,9 @@ function EnterPage({ history }) {
     </div>
   );
 }
+
+EnterPage.propTypes = {
+  history: PropTypes.any,
+};
 
 export default withRouter(EnterPage);
