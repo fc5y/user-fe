@@ -3,10 +3,10 @@ import * as React from 'react';
 
 // HOC
 import { withRouter, Link, Redirect } from 'react-router-dom';
-import withUserNotLogin from '../../../shared/hoc/withUserNotLogin';
+import withUserNotLogin from 'src/shared/hoc/withUserNotLogin';
 
 // Contexts
-import { ContestInfoContext } from '../../../shared/context/ContestInfo';
+import { ContestInfoContext } from 'src/shared/context/ContestInfo';
 
 // UI
 import * as MainPanel from '../../common-ui/MainPanel';
@@ -17,7 +17,7 @@ import LabeledCheckbox from '../../common-ui/LabeledCheckbox';
 import * as Button from '../../common-ui/Button';
 
 // Constants
-import { API_PROGRESS } from '../../../shared/constants/index';
+import { API_PROGRESS } from 'src/shared/constants/index';
 
 import { getErrors, sanitize, hasBlockingError, signupWithData } from './utils';
 

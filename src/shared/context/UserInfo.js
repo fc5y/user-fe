@@ -1,5 +1,5 @@
 import React from 'react';
-import { apiGetUserInfo } from '../../api';
+import { apiGetUserInfo } from 'src/api';
 import PropTypes from 'prop-types';
 
 export const UserInfoContext = React.createContext({

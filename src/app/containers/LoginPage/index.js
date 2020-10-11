@@ -6,8 +6,8 @@ import { apiLogin } from '../../../api';
 
 // HOC
 import { withRouter } from 'react-router-dom';
-import withUserNotLogin from '../../../shared/hoc/withUserNotLogin';
-import { UserInfoContext } from '../../../shared/context/UserInfo';
+import withUserNotLogin from 'src/shared/hoc/withUserNotLogin';
+import { UserInfoContext } from 'src/shared/context/UserInfo';
 
 // UI
 import * as MainPanel from '../../common-ui/MainPanel';
@@ -17,7 +17,7 @@ import * as Button from '../../common-ui/Button';
 import Popup from '../../common-ui/Popup';
 
 // Constants
-import { API_PROGRESS } from '../../../shared/constants';
+import { API_PROGRESS } from 'src/shared/constants';
 
 function LoginPage({ history }) {
   const [apiProgress, setApiProgress] = React.useState(API_PROGRESS.INIT);

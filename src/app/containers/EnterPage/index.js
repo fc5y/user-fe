@@ -3,11 +3,11 @@ import PropTypes from 'prop-types';
 import { Redirect, withRouter } from 'react-router-dom';
 
 // Contexts
-import { UserInfoContext } from '../../../shared/context/UserInfo';
-import { ContestInfoContext } from '../../../shared/context/ContestInfo';
+import { UserInfoContext } from 'src/shared/context/UserInfo';
+import { ContestInfoContext } from 'src/shared/context/ContestInfo';
 
 // APIs
-import { apiGetContestCredential, apiGetContestCredentialV2 } from '../../../api';
+import { apiGetContestCredential, apiGetContestCredentialV2 } from 'src/api';
 
 import styles from './enter.scss';
 

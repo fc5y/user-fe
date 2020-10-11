@@ -1,17 +1,12 @@
 import React from 'react';
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 
 // Context
-import { UserInfoProvider } from '../shared/context/UserInfo';
-import { ContestInfoProvider } from '../shared/context/ContestInfo';
+import { UserInfoProvider } from 'src/shared/context/UserInfo';
+import { ContestInfoProvider } from 'src/shared/context/ContestInfo';
 
-// Containers
-import HomePage from './containers/HomePage';
-import Page404 from './containers/Page404';
-import InfoPage from './containers/InfoPage';
-import EnterPage from './containers/EnterPage';
-import LoginPage from './containers/LoginPage';
-import SignupPage from './containers/SignupPage';
+// Utils
+import { renderRoute } from './routes';
 
 // Components
 import Header from './components/NavBar';
@@ -25,26 +20,7 @@ export default function App() {
       <UserInfoProvider>
         <ContestInfoProvider>
           <Header />
-          <Switch>
-            <Route exact path="/">
-              <HomePage />
-            </Route>
-            <Route exact path="/info">
-              <InfoPage />
-            </Route>
-            <Route exact path="/enter">
-              <EnterPage />
-            </Route>
-            <Route exact path="/login">
-              <LoginPage />
-            </Route>
-            <Route exact path="/signup">
-              <SignupPage />
-            </Route>
-            <Route exact path="*">
-              <Page404 />
-            </Route>
-          </Switch>
+          {renderRoute()}
         </ContestInfoProvider>
       </UserInfoProvider>
     </BrowserRouter>

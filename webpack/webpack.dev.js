@@ -88,6 +88,9 @@ module.exports = {
   },
   resolve: {
     extensions: ['*', '.js', '.jsx'],
+    alias: {
+      src: path.resolve(root, 'src'),
+    },
   },
   devServer: {
     port: 3000,

@@ -1,8 +1,8 @@
 import React from 'react';
 
 // Utils
-import { UserInfoContext } from '../../../shared/context/UserInfo';
-import { ContestInfoContext } from '../../../shared/context/ContestInfo';
+import { UserInfoContext } from 'src/shared/context/UserInfo';
+import { ContestInfoContext } from 'src/shared/context/ContestInfo';
 
 // Components
 import Markdown from 'react-markdown';
