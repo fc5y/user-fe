@@ -1,19 +1,19 @@
-const PROXY_SERVER = 'https://asia-east2-fyt-code-cup.cloudfunctions.net/api';
-const PROXY_SERVER_BACKUP = 'http://54.254.71.192:3004';
+const path = require('path');
 
-// TODO: change this to https after setting SSL
-const BASE_URL = {
-  dev: 'http://test.fyt.freecontest.net',
-  prod: 'http://fyt.freecontest.net',
+// URL
+const PROXY_SERVER = 'https://asia-east2-fyt-code-cup.cloudfunctions.net/api';
+
+const FYT_BASE_URL = {
+  dev: 'https://test.fyt.freecontest.net',
+  prod: 'https://fyt.freecontest.net',
 };
 
+// META
 const META_TAG = {
   image_url: 'http://kc97ble.fun/fyt-public/fyt-code-cup.jpg',
 };
 
-// NOTE: Only change this when the test is ready
-const __USE_BACKUP_API__ = false;
-
+// PROXY
 const proxyList = {
   '/api/**': {
     target: PROXY_SERVER,
@@ -23,4 +23,11 @@ const proxyList = {
   },
 };
 
-module.exports = { proxyList, BASE_URL, META_TAG, __USE_BACKUP_API__ };
+// CONSTANTS
+const root = path.resolve(__dirname, '../');
+const constants = {
+  __ENV__: process.env.ENV || 'prod',
+  __GIT_SHA__: process.env.GIT_SHA || null,
+};
+
+module.exports = { proxyList, FYT_BASE_URL, META_TAG, root, constants };

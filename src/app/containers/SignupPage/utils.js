@@ -1,4 +1,4 @@
-import { apiSignup } from '../../../api/authentication';
+import { apiSignup } from 'src/api';
 
 export function getErrors(data) {
   // null: pristine (user has not changed the value)

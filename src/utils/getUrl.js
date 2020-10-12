@@ -1,6 +1,6 @@
 import { API_DOMAIN } from './config';
 
-export const getFullURL = (url, env) => {
+export const getFullURL = (url, env = __ENV__) => {
   if (!url || !env) return '';
   if (!Object.keys(API_DOMAIN).includes(env.toLowerCase())) return url;
 

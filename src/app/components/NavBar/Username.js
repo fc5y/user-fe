@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { UserInfoContext } from '../../../shared/context/UserInfo';
 
 // Components
-import ClickWrapper from '../../../shared/components/ClickWrapper';
+import ClickWrapper from '../../common-ui/ClickWrapper';
 
 // Assets
 import vectorLogo from '../../../assets/images/vector.png';
