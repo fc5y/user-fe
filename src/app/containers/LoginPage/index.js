@@ -15,6 +15,7 @@ import * as Form from '../../common-ui/Form';
 import LabeledInput from '../../common-ui/LabeledInput';
 import * as Button from '../../common-ui/Button';
 import Popup from '../../common-ui/Popup';
+import Loading from '../../common-ui/Loading';
 
 // Constants
 import { API_PROGRESS } from 'src/shared/constants';
@@ -22,6 +23,7 @@ import { API_PROGRESS } from 'src/shared/constants';
 function LoginPage({ history }) {
   const [apiProgress, setApiProgress] = React.useState(API_PROGRESS.INIT);
   const [popupState, setPopupState] = React.useState(false);
+  const [popupLoading, setPopupLoading] = React.useState(false);
   const [data, setData] = React.useState({
     // null: pristine (user has not changed the value)
     // empty string: non-pristine (user has changed the value)
@@ -47,6 +49,7 @@ function LoginPage({ history }) {
       }
 
       setApiProgress(API_PROGRESS.REQ);
+      setPopupLoading(true);
       const { data: apiData } = await apiLogin({ username, password });
       if (!apiData || !apiData.token) {
         setPopupState(true);
@@ -61,10 +64,12 @@ function LoginPage({ history }) {
 
   const handleClosePopup = React.useCallback(() => {
     setPopupState(false);
+    setPopupLoading(false);
   }, []);
 
   return (
     <MainPanel.Container>
+      {popupLoading && <Loading />}
       {popupState && (
         <Popup
           onClose={handleClosePopup}
