@@ -45,19 +45,21 @@ function LoginPage({ history }) {
   const handleSubmit = React.useCallback(
     async (event) => {
       event.preventDefault();
-      setPopupState({ isOpen: true, isClose: false });
       const { username, password } = data;
       if (!username || !password) {
+        setPopupState({ isOpen: true, isClose: false });
         return;
       }
       setApiProgress(API_PROGRESS.REQ);
       setPopupLoading(true);
       const { data: apiData } = await apiLogin({ username, password });
+      setPopupLoading(false);
       if (!apiData || !apiData.token) {
         // console.log('failed');
+        setPopupState({ isOpen: true, isClose: false });
         setApiProgress(API_PROGRESS.FAILED);
       } else {
-        setPopupState(false);
+        setPopupState({ isOpen: false, isClose: false });
         setUserInfo({ ...userInfo, token: apiData.token });
         history.push('/');
       }
@@ -66,8 +68,6 @@ function LoginPage({ history }) {
   );
 
   const handleClosePopup = React.useCallback(() => {
-    setPopupState(false);
-    setPopupLoading(false);
     setPopupState({ isOpen: false, isClose: true });
   }, []);
   return (
