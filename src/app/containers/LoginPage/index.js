@@ -22,8 +22,11 @@ import { API_PROGRESS } from 'src/shared/constants';
 
 function LoginPage({ history }) {
   const [apiProgress, setApiProgress] = React.useState(API_PROGRESS.INIT);
-  const [popupState, setPopupState] = React.useState(false);
   const [popupLoading, setPopupLoading] = React.useState(false);
+  const [popupState, setPopupState] = React.useState({
+    isOpen: false,
+    isClose: false,
+  });
   const [data, setData] = React.useState({
     // null: pristine (user has not changed the value)
     // empty string: non-pristine (user has changed the value)
@@ -42,19 +45,19 @@ function LoginPage({ history }) {
   const handleSubmit = React.useCallback(
     async (event) => {
       event.preventDefault();
+      setPopupState({ isOpen: true, isClose: false });
       const { username, password } = data;
       if (!username || !password) {
-        setPopupState(true);
         return;
       }
-
       setApiProgress(API_PROGRESS.REQ);
       setPopupLoading(true);
       const { data: apiData } = await apiLogin({ username, password });
       if (!apiData || !apiData.token) {
-        setPopupState(true);
+        // console.log('failed');
         setApiProgress(API_PROGRESS.FAILED);
       } else {
+        setPopupState(false);
         setUserInfo({ ...userInfo, token: apiData.token });
         history.push('/');
       }
@@ -65,14 +68,15 @@ function LoginPage({ history }) {
   const handleClosePopup = React.useCallback(() => {
     setPopupState(false);
     setPopupLoading(false);
+    setPopupState({ isOpen: false, isClose: true });
   }, []);
-
   return (
     <MainPanel.Container>
       {popupLoading && <Loading />}
-      {popupState && (
+      {(popupState.isOpen || popupState.isClose) && (
         <Popup
           onClose={handleClosePopup}
+          isClosed={popupState.isClose}
           title="Đăng nhập không thành công"
           content="Tên đăng nhập hoặc mật khẩu không chính xác. Vui lòng thử lại."
           buttonText="OK"
