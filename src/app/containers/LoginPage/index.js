@@ -22,7 +22,6 @@ import { API_PROGRESS } from 'src/shared/constants';
 
 function LoginPage({ history }) {
   const [apiProgress, setApiProgress] = React.useState(API_PROGRESS.INIT);
-  const [popupLoading, setPopupLoading] = React.useState(false);
   const [popupState, setPopupState] = React.useState({
     isOpen: false,
     isClose: false,
@@ -51,9 +50,7 @@ function LoginPage({ history }) {
         return;
       }
       setApiProgress(API_PROGRESS.REQ);
-      setPopupLoading(true);
       const { data: apiData } = await apiLogin({ username, password });
-      setPopupLoading(false);
       if (!apiData || !apiData.token) {
         // console.log('failed');
         setPopupState({ isOpen: true, isClose: false });
@@ -86,7 +83,7 @@ function LoginPage({ history }) {
 
   return (
     <MainPanel.Container>
-      {popupLoading && <Loading />}
+      {apiProgress === API_PROGRESS.REQ ? <Loading /> : null}
       {(popupState.isOpen || popupState.isClose) && (
         <Popup
           onClose={popupController}
