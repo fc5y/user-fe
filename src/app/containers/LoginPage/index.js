@@ -68,15 +68,28 @@ function LoginPage({ history }) {
   );
 
   const handleClosePopup = React.useCallback(() => {
+    if (popupState.isOpen && popupState.isClose) {
+      setPopupState({ isOpen: true, isClose: false });
+    } else if (popupState.isOpen) {
+      setPopupState({ isOpen: false, isClose: true });
+    } else {
+      setPopupState({ isOpen: false, isClose: false });
+    }
     setPopupState({ isOpen: false, isClose: true });
-  }, []);
+    return popupState;
+  }, [popupState]);
+
+  const popupController = {
+    status: popupState,
+    closePopup: handleClosePopup,
+  };
+
   return (
     <MainPanel.Container>
       {popupLoading && <Loading />}
       {(popupState.isOpen || popupState.isClose) && (
         <Popup
-          onClose={handleClosePopup}
-          isClosed={popupState.isClose}
+          onClose={popupController}
           title="Đăng nhập không thành công"
           content="Tên đăng nhập hoặc mật khẩu không chính xác. Vui lòng thử lại."
           buttonText="OK"

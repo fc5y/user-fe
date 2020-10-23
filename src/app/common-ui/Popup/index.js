@@ -8,7 +8,8 @@ import CloseButton from '../../../assets/images/close-button.png';
 import cx from 'classnames';
 
 function Popup(props) {
-  const { onClose, isClosed, title, content, buttonText, variant, onButtonClick } = props;
+  const { onClose, title, content, buttonText, variant, onButtonClick } = props;
+  const isClosed = onClose.status.isClose;
 
   return ReactDOM.createPortal(
     <div>
@@ -23,7 +24,7 @@ function Popup(props) {
             >
               {!isClosed && title}
             </div>
-            <div className={styles.closeImg} onClick={onClose}>
+            <div className={styles.closeImg} onClick={onClose.closePopup}>
               <img src={CloseButton} alt="close" />
             </div>
           </div>
@@ -39,8 +40,9 @@ function Popup(props) {
     document.querySelector('body'),
   );
 }
+
 Popup.propTypes = {
-  onClose: PropTypes.func,
+  onClose: PropTypes.any,
   isClosed: PropTypes.bool,
   content: PropTypes.string,
   title: PropTypes.string,
