@@ -8,33 +8,40 @@ import CloseButton from 'src/assets/images/close-button.png';
 import cx from 'classnames';
 
 function Popup(props) {
-  const { onClose, title, content, buttonText, variant, onButtonClick } = props;
-  const isClosed = onClose.status.isClose;
+  const { show, title, content, buttonText, variant, onButtonClick } = props;
+  const { isClose, isOpen } = show.status;
+  const handleClosePopup = React.useCallback(() => {
+    const { setStatus } = show;
+    setStatus({ isOpen: false, isClose: true });
+  }, []);
 
+  if (!isClose && !isOpen) return null;
   return ReactDOM.createPortal(
-    <div>
-      <div className={!isClosed ? styles.overlay : null}>
-        <div className={cx(styles.container, isClosed ? styles.close : styles.notClose)}>
-          <div className={styles.titleBar}>
-            <div
-              className={cx(
-                styles.title,
-                variant === 'success' ? styles.titleColorSuccess : styles.titleColorFailed,
-              )}
-            >
-              {!isClosed && title}
-            </div>
-            <div className={styles.closeImg} onClick={onClose.closePopup}>
-              <img src={CloseButton} alt="close" />
-            </div>
+    <div className={!isClose ? styles.overlay : null}>
+      <div className={cx(styles.container, isClose ? styles.close : styles.notClose)}>
+        <div className={styles.titleBar}>
+          <div
+            className={cx(
+              styles.title,
+              variant === 'success' ? styles.titleColorSuccess : styles.titleColorFailed,
+            )}
+          >
+            {!isClose && title}
           </div>
-          <div className={styles.content}>
-            <div>{!isClosed && content}</div>
+          <div className={styles.closeImg} onClick={handleClosePopup}>
+            <img src={CloseButton} alt="close" />
           </div>
-          <button className={styles.closeBtn} type="submit" onClick={onButtonClick}>
-            {!isClosed && buttonText}
-          </button>
         </div>
+        <div className={styles.content}>
+          <div>{!isClose && content}</div>
+        </div>
+        <button
+          className={styles.closeBtn}
+          type="submit"
+          onClick={onButtonClick === null ? handleClosePopup : onButtonClick}
+        >
+          {!isClose && buttonText}
+        </button>
       </div>
     </div>,
     document.querySelector('body'),
@@ -42,8 +49,8 @@ function Popup(props) {
 }
 
 Popup.propTypes = {
-  onClose: PropTypes.any,
-  isClosed: PropTypes.bool,
+  show: PropTypes.any,
+  isClose: PropTypes.bool,
   content: PropTypes.string,
   title: PropTypes.string,
   buttonText: PropTypes.string,
@@ -52,8 +59,8 @@ Popup.propTypes = {
 };
 
 Popup.defaultProps = {
-  onClose: null,
-  isClosed: false,
+  show: null,
+  isClose: false,
   content: '',
   title: '',
   buttonText: '',
