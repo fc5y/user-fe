@@ -1,0 +1,62 @@
+:local {
+  .overlay {
+    position: fixed;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    top: 0px;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 2;
+  }
+
+  .container {
+    font-family: 'Mulish';
+    font-size: 16px;
+    line-height: 25px;
+
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 3;
+    box-shadow: 0px 0px 12px rgba(188, 188, 188, 0.25);
+    border-radius: 10px;
+
+    align-items: center;
+    display: flex;
+    vertical-align: center;
+
+    animation: zoomInPopup all 0.25s ease-in-out both;
+  }
+
+  @keyframes zoomInPopup {
+    0% {
+      transform: translate(-50%, -50%) scale(0);
+    }
+    25% {
+      transform: translate(-50%, -50%) scale(0.25);
+    }
+    50% {
+      transform: translate(-50%, -50%) scale(0.5);
+    }
+    75% {
+      transform: translate(-50%, -50%) scale(0.75);
+    }
+    100% {
+      transform: translate(-50%, -50%) scale(1);
+    }
+
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  .spinner {
+    width: 50px;
+    height: 50px;
+    margin: 0 auto;
+  }
+}

@@ -1,45 +1,56 @@
-import React from 'react';
+import * as React from 'react';
 import ReactDOM from 'react-dom';
 import styles from './style.scss';
 import PropTypes from 'prop-types';
 
-import CloseButton from '../../../assets/images/close-button.png';
+import CloseButton from 'src/assets/images/close-button.png';
 
 import cx from 'classnames';
 
-function Popup(props) {
-  const { onClose, title, content, buttonText, variant, onButtonClick } = props;
+function Popup({ show, title, content, buttonText, variant, onButtonClick }) {
+  // Pristine is the early state of Popup which is not being opened or closed yet
+  const [isPristine, setIsPristine] = React.useState(true);
 
-  return ReactDOM.createPortal(
-    <div className={styles.overlay}>
-      <div className={styles.container}>
-        <div className={styles.titleBar}>
-          <div
-            className={cx(
-              styles.title,
-              variant === 'success' ? styles.titleColorSuccess : styles.titleColorFailed,
-            )}
-          >
-            {title}
+  React.useEffect(() => {
+    if (isPristine && show) {
+      setIsPristine(false);
+    }
+  }, [show]);
+
+  return !isPristine ? (
+    ReactDOM.createPortal(
+      <div className={cx(show && styles.overlay)}>
+        <div className={cx(styles.container, !show ? styles.close : styles.open)}>
+          <div className={styles.titleBar}>
+            <div
+              className={cx(
+                styles.title,
+                variant === 'success' ? styles.titleColorSuccess : styles.titleColorFailed,
+              )}
+            >
+              {title}
+            </div>
+            <div className={styles.closeImg} onClick={onButtonClick}>
+              <img src={CloseButton} alt="close" />
+            </div>
           </div>
-          <div className={styles.closeImg} onClick={onClose}>
-            <img src={CloseButton} alt="close" />
+          <div className={styles.content}>
+            <div>{content}</div>
           </div>
+          <button className={styles.closeBtn} type="submit" onClick={onButtonClick}>
+            {buttonText}
+          </button>
         </div>
-        <div className={styles.content}>
-          <div>{content}</div>
-        </div>
-        <button className={styles.closeBtn} type="submit" onClick={onButtonClick}>
-          {buttonText}
-        </button>
-      </div>
-    </div>,
-    document.querySelector('body'),
+      </div>,
+      document.querySelector('body'),
+    )
+  ) : (
+    <div />
   );
 }
 
 Popup.propTypes = {
-  onClose: PropTypes.func,
+  show: PropTypes.any,
   content: PropTypes.string,
   title: PropTypes.string,
   buttonText: PropTypes.string,
@@ -48,12 +59,12 @@ Popup.propTypes = {
 };
 
 Popup.defaultProps = {
-  onClose: null,
+  show: null,
   content: '',
   title: '',
   buttonText: '',
-  onButtonClick: null,
   variant: '',
+  onButtonClick: () => {},
 };
 
 export default Popup;

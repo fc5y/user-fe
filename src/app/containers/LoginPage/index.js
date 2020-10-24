@@ -15,13 +15,14 @@ import * as Form from '../../common-ui/Form';
 import LabeledInput from '../../common-ui/LabeledInput';
 import * as Button from '../../common-ui/Button';
 import Popup from '../../common-ui/Popup';
+import Loading from '../../common-ui/Loading';
 
 // Constants
 import { API_PROGRESS } from 'src/shared/constants';
 
 function LoginPage({ history }) {
   const [apiProgress, setApiProgress] = React.useState(API_PROGRESS.INIT);
-  const [popupState, setPopupState] = React.useState(false);
+  const [showPopup, setShowPopup] = React.useState(false);
   const [data, setData] = React.useState({
     // null: pristine (user has not changed the value)
     // empty string: non-pristine (user has changed the value)
@@ -42,14 +43,14 @@ function LoginPage({ history }) {
       event.preventDefault();
       const { username, password } = data;
       if (!username || !password) {
-        setPopupState(true);
+        setShowPopup(true);
         return;
       }
 
       setApiProgress(API_PROGRESS.REQ);
       const { data: apiData } = await apiLogin({ username, password });
       if (!apiData || !apiData.token) {
-        setPopupState(true);
+        setShowPopup(true);
         setApiProgress(API_PROGRESS.FAILED);
       } else {
         setUserInfo({ ...userInfo, token: apiData.token });
@@ -59,22 +60,17 @@ function LoginPage({ history }) {
     [data],
   );
 
-  const handleClosePopup = React.useCallback(() => {
-    setPopupState(false);
-  }, []);
-
   return (
     <MainPanel.Container>
-      {popupState && (
-        <Popup
-          onClose={handleClosePopup}
-          title="Đăng nhập không thành công"
-          content="Tên đăng nhập hoặc mật khẩu không chính xác. Vui lòng thử lại."
-          buttonText="OK"
-          variant="error"
-          onButtonClick={handleClosePopup}
-        />
-      )}
+      {apiProgress === API_PROGRESS.REQ && <Loading />}
+      <Popup
+        show={showPopup}
+        title="Đăng nhập không thành công"
+        content="Tên đăng nhập hoặc mật khẩu không chính xác. Vui lòng thử lại."
+        buttonText="OK"
+        variant="error"
+        onButtonClick={() => setShowPopup(false)}
+      />
       <MainPanel.Title>Đăng nhập</MainPanel.Title>
       <Form.Form>
         <Form.FieldSet>
