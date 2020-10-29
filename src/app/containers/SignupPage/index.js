@@ -20,6 +20,7 @@ import * as Button from '../../common-ui/Button';
 import { API_PROGRESS } from 'src/shared/constants/index';
 
 import { getErrors, sanitize, hasBlockingError, signupWithData } from './utils';
+import { Helmet } from 'react-helmet';
 
 function SignupPage({ history }) {
   const [apiProgress, setApiProgress] = React.useState(API_PROGRESS.INIT);
@@ -76,6 +77,9 @@ function SignupPage({ history }) {
   const errors = getErrors(data);
   return (
     <MainPanel.Container>
+      <Helmet>
+        <title>Đăng ký tài khoản</title>
+      </Helmet>
       <MainPanel.Title>Đăng ký tham gia FYT Code Cup</MainPanel.Title>
       <MainPanel.Description>
         Để tham gia FYT Code Cup, hãy đăng ký trước 19:30 ngày 09/10/2020 bạn nhé!

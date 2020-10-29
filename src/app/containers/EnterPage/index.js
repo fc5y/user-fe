@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Redirect, withRouter } from 'react-router-dom';
+import { Helmet } from 'react-helmet';
 
 // Contexts
 import { UserInfoContext } from 'src/shared/context/UserInfo';
@@ -71,6 +72,9 @@ function EnterPage({ history }) {
 
   return (
     <div className={styles.container}>
+      <Helmet>
+        <title>Vào thi</title>
+      </Helmet>
       <h5 className={styles.titleContent}>Vào thi</h5>
       <div className={styles.enterContest}>
         <h6 className={styles.textDecoration}>
