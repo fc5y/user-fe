@@ -27,12 +27,12 @@ function Username({ username }) {
 
   return (
     <div className={styles.username}>
-      <div>{username || ''}</div>
       <div
         ref={dropdownRef}
         className={styles.toggle}
         onClick={() => setShowDropDown(!showDropDown)}
       >
+        <div>{username || ''}</div>
         <img src={vectorLogo} alt="toggle" />
         {showDropDown && (
           <ClickWrapper

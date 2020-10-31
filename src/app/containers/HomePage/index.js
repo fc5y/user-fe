@@ -1,4 +1,5 @@
 import React from 'react';
+import { Helmet } from 'react-helmet';
 
 // Utils
 import { UserInfoContext } from 'src/shared/context/UserInfo';
@@ -22,6 +23,9 @@ function HomePage() {
 
   return (
     <div className={styles.content}>
+      <Helmet>
+        <title>Cổng đăng ký FYT Code Cup</title>
+      </Helmet>
       <div className={styles.title}>FYT Code Cup</div>
       <div className={styles.info}>
         <Markdown source={md} />

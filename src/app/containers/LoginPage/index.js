@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Helmet } from 'react-helmet';
 
 // APIs
 import { apiLogin } from 'src/api';
@@ -62,6 +63,9 @@ function LoginPage({ history }) {
 
   return (
     <MainPanel.Container>
+      <Helmet>
+        <title>Đăng nhập</title>
+      </Helmet>
       {apiProgress === API_PROGRESS.REQ && <Loading />}
       <Popup
         show={showPopup}
