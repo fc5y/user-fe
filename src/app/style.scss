@@ -1,3 +1,22 @@
+:root {
+  --form-text-error: #fd424b;
+  --form-text-error-focus: #fd424b;
+
+  --primary-lighter: #67adda;
+  --primary-light: #3f96ce;
+  --primary-default: #1c83c6;
+  --primary-dark: #076daf;
+  --primary-darker: #055081;
+
+  --link: var(--primary-default);
+  --link-hover: var(--primary-lighter);
+  --link-active: var(--primary-darker);
+
+  --button-primary: var(--primary-default);
+  --button-primary-hover: var(--primary-lighter);
+  --button-primary-active: var(--primary-darker);
+}
+
 :local {
   * {
     margin: 0px;
@@ -6,22 +25,25 @@
 
   body {
     background-color: #f5f8fa;
+    font-style: normal;
+    font-weight: normal;
     font-family: Mulish, sans-serif;
   }
 
   a {
-    color: #1c83c6;
-
-    &:hover {
-      color: rgba(63, 150, 206, 0.6);
-    }
+    color: var(--link);
+    text-decoration: none;
 
     &:visited {
-      color: #1c83c6;
+      color: var(--link);
+    }
+
+    &:hover {
+      color: var(--link-hover);
     }
 
     &:active {
-      color: rgba(63, 150, 206, 0.6);
+      color: var(--link-active);
     }
   }
 

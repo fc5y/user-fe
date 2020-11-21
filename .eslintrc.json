@@ -29,6 +29,7 @@
     "import/prefer-default-export": "off",
     "no-nested-ternary": "off",
     "no-console": "off",
+    "no-shadow": "off",
     "no-unused-expressions": "off",
     "no-else-return": "off",
     "no-unused-vars": "warn",
