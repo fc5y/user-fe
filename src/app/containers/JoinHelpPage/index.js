@@ -3,7 +3,7 @@ import Markdown from 'react-markdown';
 import { Helmet } from 'react-helmet';
 
 import styles from './style.scss';
-import md from './Info.md';
+import md from './content.md';
 
 function CmsHelpPage() {
   return (

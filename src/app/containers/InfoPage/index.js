@@ -16,8 +16,8 @@ function InfoPage() {
             <div className={styles.img}>
               <img src="/src/assets/images/item.png" alt="Item" />
             </div>
-            <div className={styles.itemcontent}>
-              <div className={styles.itemtitle}>
+            <div className={styles.itemContent}>
+              <div className={styles.itemTitle}>
                 <h2>Hướng dẫn tham gia Free Contest</h2>
               </div>
               <div className={styles.description}> Hướng dẫn tham gia Free Contest</div>
@@ -29,8 +29,8 @@ function InfoPage() {
             <div className={styles.img}>
               <img src="/src/assets/images/item.png" alt="Item" />
             </div>
-            <div className={styles.itemcontent}>
-              <div className={styles.itemtitle}>
+            <div className={styles.itemContent}>
+              <div className={styles.itemTitle}>
                 <h2>Hướng dẫn đăng ký thi trên hệ thống CMS</h2>
               </div>
               <div className={styles.description}> Hướng dẫn đăng ký thi trên hệ thống CMS </div>
