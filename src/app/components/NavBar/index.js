@@ -25,7 +25,13 @@ function Header() {
           </Link>
         </div>
         <div className={styles.menu}>
-          <Link to="/info" style={{ textDecoration: 'none', color: 'rgba(0, 0, 0, 0.5)' }}>
+          <Link to="/contest" style={{ textDecoration: 'none', color: 'rgba(0, 0, 0, 0.5)' }}>
+            Các kỳ thi
+          </Link>
+          <Link to="/ranking" style={{ textDecoration: 'none', color: 'rgba(0, 0, 0, 0.5)' }}>
+            Bảng xếp hạng
+          </Link>
+          <Link to="/help" style={{ textDecoration: 'none', color: 'rgba(0, 0, 0, 0.5)' }}>
             Thông tin
           </Link>
         </div>
