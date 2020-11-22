@@ -11,16 +11,16 @@ function InfoPage() {
       </Helmet>
       <div className={styles.content}>
         <div className={styles.title}>Hướng dẫn</div>
-        <Link to="/help/register">
+        <Link to="/help/join">
           <div className={styles.item}>
             <div className={styles.img}>
               <img src="/src/assets/images/item.png" alt="Item" />
             </div>
             <div className={styles.itemcontent}>
               <div className={styles.itemtitle}>
-                <h2>Hướng dẫn đăng ký Beginner Free Contest 24</h2>
+                <h2>Hướng dẫn tham gia Free Contest</h2>
               </div>
-              <div className={styles.description}> Hướng dẫn đăng ký Beginner Free Contest 24 </div>
+              <div className={styles.description}> Hướng dẫn tham gia Free Contest</div>
             </div>
           </div>
         </Link>

@@ -13,6 +13,7 @@
     padding: 24px 36px 24px 36px;
     a {
       color: rgba(0, 0, 0, 0.6);
+      text-decoration: none;
     }
     a:visited {
       color: rgba(0, 0, 0, 0.6);
@@ -28,7 +29,7 @@
     text-align: left;
     color: #1c83c6;
     font-weight: 600;
-    font-size: 34px;
+    font-size: 36px;
     line-height: 43px;
   }
   .item {
@@ -38,15 +39,12 @@
     display: flex;
     box-shadow: 0px 0px 12px rgba(188, 188, 188, 0.25);
     border-radius: 5px;
-    position: relative;
     background-color: white;
   }
   .img {
     width: 235px;
     height: 212px;
-    position: relative;
-    left: 20px;
-    top: 9px;
+    margin: 9px auto auto 20px;
     img {
       width: 100%;
       height: 100%;
@@ -55,10 +53,7 @@
   .itemcontent {
     width: 580px;
     height: 230px;
-    position: absolute;
     padding: 27px 0 0 42px;
-    top: 0px;
-    right: 0px;
     border-left: 1px solid rgba(0, 0, 0, 0.16);
   }
   .description {
