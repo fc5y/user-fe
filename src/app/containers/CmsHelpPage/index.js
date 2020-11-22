@@ -5,7 +5,7 @@ import { Helmet } from 'react-helmet';
 import styles from './style.scss';
 import md from './Info.md';
 
-function CMSHelper() {
+function CmsHelpPage() {
   return (
     <div className={styles.container}>
       <Helmet>
@@ -21,4 +21,4 @@ function CMSHelper() {
   );
 }
 
-export default CMSHelper;
+export default CmsHelpPage;

@@ -1,7 +1,7 @@
 import HomePage from '../containers/HomePage';
 import Page404 from '../containers/Page404';
 import InfoPage from '../containers/InfoPage';
-import CMSHelper from '../containers/CMSHelper';
+import CmsHelpPage from '../containers/CmsHelpPage';
 import EnterPage from '../containers/EnterPage';
 import LoginPage from '../containers/LoginPage';
 import SignupPage from '../containers/SignupPage';
@@ -20,7 +20,7 @@ const ROUTES = [
   {
     path: '/help/cms',
     exact: true,
-    component: CMSHelper,
+    component: CmsHelpPage,
   },
   {
     path: '/enter',
