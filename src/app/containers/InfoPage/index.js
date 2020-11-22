@@ -1,5 +1,6 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
+import { Link } from 'react-router-dom';
 import styles from './style.scss';
 
 function InfoPage() {
@@ -9,7 +10,33 @@ function InfoPage() {
         <title>Thông tin</title>
       </Helmet>
       <div className={styles.content}>
-        <p className={styles.title}>Hướng dẫn</p>
+        <div className={styles.title}>Hướng dẫn</div>
+        <Link to="/help/register">
+          <div className={styles.item}>
+            <div className={styles.img}>
+              <img src="/src/assets/images/item.png" alt="Item" />
+            </div>
+            <div className={styles.itemcontent}>
+              <div className={styles.itemtitle}>
+                <h2>Hướng dẫn đăng ký Beginner Free Contest 24</h2>
+              </div>
+              <div className={styles.description}> Hướng dẫn đăng ký Beginner Free Contest 24 </div>
+            </div>
+          </div>
+        </Link>
+        <Link to="/help/cms">
+          <div className={styles.item}>
+            <div className={styles.img}>
+              <img src="/src/assets/images/item.png" alt="Item" />
+            </div>
+            <div className={styles.itemcontent}>
+              <div className={styles.itemtitle}>
+                <h2>Hướng dẫn đăng ký thi trên hệ thống CMS</h2>
+              </div>
+              <div className={styles.description}> Hướng dẫn đăng ký thi trên hệ thống CMS </div>
+            </div>
+          </div>
+        </Link>
       </div>
     </div>
   );
