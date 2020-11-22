@@ -44,6 +44,11 @@ const ROUTES = [
     component: SignupPage,
   },
   {
+    path: '/auth/signup',
+    exact: true,
+    component: SignupPage,
+  },
+  {
     path: '*',
     exact: true,
     component: Page404,
