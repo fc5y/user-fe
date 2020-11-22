@@ -36,5 +36,19 @@
     margin: 0px;
     padding: 0px;
     padding-left: 29px;
+    a {
+      margin-right: 36px;
+      color: rgba(0, 0, 0, 0.5);
+      text-decoration: none;
+    }
+    a:visited {
+      color: rgba(0, 0, 0, 0.5);
+    }
+    a:active {
+      color: rgba(0, 0, 0, 0.5);
+    }
+    a:hover {
+      color: rgba(0, 0, 0, 0.5);
+    }
   }
 }

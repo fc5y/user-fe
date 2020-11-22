@@ -1,9 +1,7 @@
 import React from 'react';
-import Markdown from 'react-markdown';
 import { Helmet } from 'react-helmet';
-
+import { Link } from 'react-router-dom';
 import styles from './style.scss';
-import md from './Info.md';
 
 function InfoPage() {
   return (
@@ -12,10 +10,33 @@ function InfoPage() {
         <title>Thông tin</title>
       </Helmet>
       <div className={styles.content}>
-        <p className={styles.title}>Quy chế của kỳ thi</p>
-        <span className={styles.text}>
-          <Markdown source={md} escapeHtml={false} />
-        </span>
+        <div className={styles.title}>Hướng dẫn</div>
+        <Link to="/help/join">
+          <div className={styles.item}>
+            <div className={styles.img}>
+              <img src="/src/assets/images/item.png" alt="Item" />
+            </div>
+            <div className={styles.itemContent}>
+              <div className={styles.itemTitle}>
+                <h2>Hướng dẫn tham gia Free Contest</h2>
+              </div>
+              <div className={styles.description}> Hướng dẫn tham gia Free Contest</div>
+            </div>
+          </div>
+        </Link>
+        <Link to="/help/cms">
+          <div className={styles.item}>
+            <div className={styles.img}>
+              <img src="/src/assets/images/item.png" alt="Item" />
+            </div>
+            <div className={styles.itemContent}>
+              <div className={styles.itemTitle}>
+                <h2>Hướng dẫn đăng ký thi trên hệ thống CMS</h2>
+              </div>
+              <div className={styles.description}> Hướng dẫn đăng ký thi trên hệ thống CMS </div>
+            </div>
+          </div>
+        </Link>
       </div>
     </div>
   );

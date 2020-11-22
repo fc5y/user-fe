@@ -25,9 +25,9 @@ function Header() {
           </Link>
         </div>
         <div className={styles.menu}>
-          <Link to="/info" style={{ textDecoration: 'none', color: 'rgba(0, 0, 0, 0.5)' }}>
-            Thông tin
-          </Link>
+          <Link to="/contest">Các kỳ thi</Link>
+          <Link to="/ranking">Bảng xếp hạng</Link>
+          <Link to="/help">Thông tin</Link>
         </div>
         {!username ? <LoginAndSignup /> : <Username username={username} />}
       </div>
