@@ -20,13 +20,14 @@ module.exports = {
         use: ['babel-loader', 'eslint-loader'],
       },
       {
-        test: /\.(png|jpe?g|gif)$/i,
+        test: /\.(png|svg|jpg|gif|jpe?g)$/,
         use: [
           {
-            loader: 'file-loader',
             options: {
-              esModule: false,
+              outputPath: 'assets/',
+              esModule: true,
             },
+            loader: 'file-loader',
           },
         ],
       },
