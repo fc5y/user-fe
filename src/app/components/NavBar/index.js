@@ -9,7 +9,7 @@ import LoginAndSignup from './LoginAndSignup';
 import Username from './Username';
 
 // Data
-import logoImage from 'src/assets/images/logo.png';
+import logoImage from 'assets/images/logo.png';
 
 import styles from './style.scss';
 

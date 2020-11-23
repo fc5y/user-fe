@@ -5,7 +5,8 @@
     "allowSyntheticDefaultImports": false,
     "baseUrl": "./",
     "paths": {
-      "src": ["./src"]
+      "src/*": ["./src/*"],
+      "assets/*": ["./src/assets/*"]
     },
     "jsx": "react"
   },

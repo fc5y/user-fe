@@ -8,7 +8,7 @@ Thông báo của một kì thi thường được đăng trên trang Facebook [
 
 Để đăng kí tham gia thi trên Free Contest, các bạn cần phải có tài khoản. Việc thực hiện đăng kí tài khoản Free Contest bạn có thể nhấn vào link này: [https://freecontest.xyz/register](https://freecontest.xyz/register)
 
-![Create account](/src/assets/images/join_helper/createaccount.png)
+![Create account](/assets/images/join_helper/createaccount.png)
 
 Các bạn điền họ và tên, trường, năm sinh, tên đăng nhập và mật khẩu, rồi nhấn _Đăng ký_. Tài khoản này có thể sử dụng được với tất cả các kì thi trên Free Contest nên các bạn không cần đăng ký lại.
 

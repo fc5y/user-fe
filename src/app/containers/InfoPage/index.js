@@ -1,7 +1,7 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
 import { Link } from 'react-router-dom';
-import itemImage from 'src/assets/images/item.png';
+import itemImage from 'assets/images/item.png';
 
 import styles from './style.scss';
 

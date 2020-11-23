@@ -41,13 +41,14 @@ module.exports = {
     extensions: ['*', '.js', '.jsx'],
     alias: {
       src: path.resolve(root, 'src'),
+      assets: constants.ASSETS_PATH,
     },
   },
   plugins: [
     new CleanWebpackPlugin(),
     new HtmlWebPackPlugin({
       template: path.join(root, 'public', 'index.ejs'),
-      favicon: path.join(root, 'src', 'assets', 'images', 'logo.png'),
+      favicon: path.join(constants.ASSETS_PATH, 'images', 'logo.png'),
       imageMetaUrl: META_TAG.image_url,
       gitSHA: constants.__GIT_SHA__,
     }),
