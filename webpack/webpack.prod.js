@@ -1,10 +1,11 @@
 const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
 const commonConfig = require('./webpack.common');
 const { merge } = require('webpack-merge');
 
-const { root } = require('./config');
+const { root, constants } = require('./config');
 
 module.exports = merge(commonConfig, {
   mode: 'production',
@@ -76,6 +77,18 @@ module.exports = merge(commonConfig, {
       filename: '[name].css',
       chunkFilename: '[id].[name].css',
       ignoreOrder: false,
+    }),
+    new CopyPlugin({
+      patterns: [
+        {
+          from: path.join(constants.ASSETS_PATH, 'images/cms_helper'),
+          to: path.join(constants.PUBLIC_PATH, 'assets/images/cms_helper'),
+        },
+        {
+          from: path.join(constants.ASSETS_PATH, 'images/join_helper'),
+          to: path.join(constants.PUBLIC_PATH, 'assets/images/join_helper'),
+        },
+      ],
     }),
   ],
 });

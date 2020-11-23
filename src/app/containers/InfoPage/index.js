@@ -1,6 +1,8 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
 import { Link } from 'react-router-dom';
+import itemImage from 'assets/images/item.png';
+
 import styles from './style.scss';
 
 function InfoPage() {
@@ -14,7 +16,7 @@ function InfoPage() {
         <Link to="/help/join">
           <div className={styles.item}>
             <div className={styles.img}>
-              <img src="/src/assets/images/item.png" alt="Item" />
+              <img src={itemImage} alt="Item" />
             </div>
             <div className={styles.itemContent}>
               <div className={styles.itemTitle}>
@@ -27,7 +29,7 @@ function InfoPage() {
         <Link to="/help/cms">
           <div className={styles.item}>
             <div className={styles.img}>
-              <img src="/src/assets/images/item.png" alt="Item" />
+              <img src={itemImage} alt="Item" />
             </div>
             <div className={styles.itemContent}>
               <div className={styles.itemTitle}>

@@ -26,6 +26,10 @@ const proxyList = {
 // CONSTANTS
 const root = path.resolve(__dirname, '../');
 const constants = {
+  PUBLIC_PATH: path.join(root, 'build'),
+  ASSETS_PATH: path.join(root, 'src', 'assets'),
+  CONTENT_BASE: path.join(root, 'src'),
+
   __ENV__: process.env.ENV || 'prod',
   __GIT_SHA__: process.env.GIT_SHA || null,
 };

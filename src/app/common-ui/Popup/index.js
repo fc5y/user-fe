@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import styles from './style.scss';
 import PropTypes from 'prop-types';
 
-import CloseButton from 'src/assets/images/close-button.png';
+import CloseButton from 'assets/images/close-button.png';
 
 import cx from 'classnames';
 
