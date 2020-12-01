@@ -1,38 +1,37 @@
-import React from 'react';
+import * as React from 'react';
+import styled from 'styled-components';
 
-// Context
-import { UserInfoContext } from 'src/shared/context/UserInfo';
+import Logo from './Logo';
+import Left from './Left';
+import Right from './Right';
 
-// Components
-import { Link } from 'react-router-dom';
-import LoginAndSignup from './LoginAndSignup';
-import Username from './Username';
+const Container = styled.div`
+  position: sticky;
+  height: 50px;
+  width: 100%;
 
-// Data
-import logoImage from 'assets/images/logo.png';
+  background-color: white;
+  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.125);
 
-import styles from './style.scss';
+  display: flex;
+  justify-content: center;
+`;
 
-function Header() {
-  const { userInfo } = React.useContext(UserInfoContext);
-  const { username = '' } = userInfo;
+const Content = styled.div`
+  width: 100%;
+  max-width: 1200px;
+
+  display: flex;
+`;
+
+export default function NavBar() {
   return (
-    <div className={styles.header}>
-      <div className={styles.nav}>
-        <div className={styles.logo}>
-          <Link to="/">
-            <img src={logoImage} alt="logo" />
-          </Link>
-        </div>
-        <div className={styles.menu}>
-          <Link to="/contest">Các kỳ thi</Link>
-          <Link to="/ranking">Bảng xếp hạng</Link>
-          <Link to="/help">Thông tin</Link>
-        </div>
-        {!username ? <LoginAndSignup /> : <Username username={username} />}
-      </div>
-    </div>
+    <Container>
+      <Content>
+        <Logo />
+        <Left />
+        <Right />
+      </Content>
+    </Container>
   );
 }
-
-export default Header;
