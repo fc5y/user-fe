@@ -1,0 +1,40 @@
+:local {
+  .justifyContent {
+    margin-bottom: 18px;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .titleLeft {
+    color: #076daf;
+    font-size: 24px;
+    font-weight: 600;
+  }
+
+  .logoImage {
+    width: 63.76px;
+    height: 60px;
+  }
+
+  .forgotAccount {
+    font-family: 'Mulish';
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 15px;
+    cursor: pointer;
+
+    color: #1C83C6;
+  }
+
+  .createAccount {
+    font-family: 'Mulish';
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 15px;
+    text-align: right;
+    
+    color: #1C83C6;
+  }
+}

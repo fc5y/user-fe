@@ -39,6 +39,11 @@ const ROUTES = [
     component: LoginPage,
   },
   {
+    path: '/auth/login',
+    exact: true,
+    component: LoginPage,
+  },
+  {
     path: '/signup',
     exact: true,
     component: SignupPage,
