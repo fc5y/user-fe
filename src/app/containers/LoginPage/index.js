@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Helmet } from 'react-helmet';
 import LogoImage from 'assets/images/logo.png';
 import styles from './styles.scss';
-import { getPasswordErrorOrNull, getRequiredUsername } from './validators';
+import { getPasswordErrorOrNull, getUsernameErrorOrNull } from './validators';
 
 // APIs
 import { apiLogin } from 'src/api';
@@ -54,7 +54,7 @@ function validate(values) {
     password: values.password || '',
   };
   const errors = {
-    username: getRequiredUsername(newValues.username),
+    username: getUsernameErrorOrNull(newValues.username),
     password: getPasswordErrorOrNull(newValues.password),
   };
   const hasError = Object.values(errors).some((error) => !!error);

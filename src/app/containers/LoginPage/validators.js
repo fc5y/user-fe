@@ -9,7 +9,7 @@ const MSG_ERROR_INVALID_USERNAME =
 const EMAIL_REGEX = /.+@.+\..+/;
 const USERNAME_REGEX = /^[a-zA-z0-9-._]*$/;
 
-export function getRequiredUsername(username) {
+export function getUsernameErrorOrNull(username) {
   if (!EMAIL_REGEX.test(username)) {
     if (username.indexOf('@') !== -1) return MSG_ERROR_INVALID_EMAIL;
     if (!USERNAME_REGEX.test(username)) return MSG_ERROR_INVALID_USERNAME;
