@@ -65,7 +65,7 @@ Popup.propTypes = {
 Popup.defaultProps = {
   show: null,
   content: null,
-  variant: '',
+  variant: null,
   onButtonClick: () => {},
 };
 
