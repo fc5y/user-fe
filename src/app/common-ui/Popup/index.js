@@ -9,39 +9,39 @@ import SucessSign from 'assets/images/success.png';
 import WarningSign from 'assets/images/warning.png';
 import cx from 'classnames';
 
-const POPUP = {
-  init: 0,
-  error: 1,
-  success: 2,
-  warning: 3,
+const POPUP_VARIANT = {
+  INIT: 0,
+  ERROR: 1,
+  SUCESS: 2,
+  WARNING: 3,
 };
 
-function Popup({ show, title, content, buttonText, variant, onButtonClick }) {
+function Popup({ show, content, variant, onButtonClick }) {
   // Pristine is the early state of Popup which is not being opened or closed yet
   const [isPristine, setIsPristine] = React.useState(true);
 
   React.useEffect(() => {
-    if (isPristine && show !== POPUP.init) {
+    if (isPristine && show) {
       setIsPristine(false);
     }
   }, [show]);
 
-  const selectSign = (show) => {
-    if (show === POPUP.error) return ErrorSign;
-    if (show === POPUP.success) return SucessSign;
-    if (show === POPUP.warning) return WarningSign;
+  const selectSign = (variant) => {
+    if (variant === POPUP_VARIANT.ERROR) return ErrorSign;
+    if (variant === POPUP_VARIANT.SUCESS) return SucessSign;
+    if (variant === POPUP_VARIANT.WARNING) return WarningSign;
     return null;
   };
 
   return !isPristine ? (
     ReactDOM.createPortal(
-      <div className={cx(show !== POPUP.init && styles.overlay)}>
-        <div className={cx(styles.container, show === POPUP.init ? styles.close : styles.open)}>
+      <div className={cx(show && styles.overlay)}>
+        <div className={cx(styles.container, !show ? styles.close : styles.open)}>
           <div className={styles.closeImg} onClick={onButtonClick}>
             <img src={CloseButton} alt="close" />
           </div>
           <div className={styles.signDiv}>
-            <img className={styles.sign} src={selectSign(show)} alt="popupSign" />
+            <img className={styles.sign} src={selectSign(variant)} alt="popupSign" />
           </div>
           <div className={styles.content}>
             <div>{content}</div>
@@ -57,9 +57,7 @@ function Popup({ show, title, content, buttonText, variant, onButtonClick }) {
 
 Popup.propTypes = {
   show: PropTypes.any,
-  content: PropTypes.any,
-  title: PropTypes.string,
-  buttonText: PropTypes.string,
+  content: PropTypes.node,
   variant: PropTypes.string,
   onButtonClick: PropTypes.func,
 };
@@ -67,8 +65,6 @@ Popup.propTypes = {
 Popup.defaultProps = {
   show: null,
   content: null,
-  title: '',
-  buttonText: '',
   variant: '',
   onButtonClick: () => {},
 };

@@ -30,11 +30,11 @@ const labels = {
   password: 'Mật khẩu',
 };
 
-const POPUP = {
-  init: 0,
-  error: 1,
-  success: 2,
-  warning: 3,
+const POPUP_VARIANT = {
+  INIT: 0,
+  ERROR: 1,
+  SUCESS: 2,
+  WARNING: 3,
 };
 
 const POPUP_MSG = {
@@ -63,8 +63,9 @@ function validate(values) {
 
 function LoginPage({ history }) {
   const [apiProgress, setApiProgress] = React.useState(API_PROGRESS.INIT);
-  const [showPopup, setShowPopup] = React.useState(POPUP.init);
-  const [data, setData] = React.useState({
+  const [showPopup, setShowPopup] = React.useState(false);
+  const [popupVariant, setPopupVariant] = React.useState(POPUP_VARIANT.INIT);
+  const [values, setValues] = React.useState({
     // null: pristine (user has not changed the value)
     // empty string: non-pristine (user has changed the value)
     username: null,
@@ -76,30 +77,32 @@ function LoginPage({ history }) {
   const handleSubmit = React.useCallback(
     async (event) => {
       event.preventDefault();
-      const { username, password } = data;
-      const validation = validate(data);
-      setData(validation.newValues);
+      const { username, password } = values;
+      const validation = validate(values);
+      setValues(validation.newValues);
       setErrors(validation.errors);
       if (!username || !password || errors) {
-        setShowPopup(POPUP.error);
+        setShowPopup(true);
+        setPopupVariant(POPUP_VARIANT.ERROR);
         return;
       }
 
       setApiProgress(API_PROGRESS.REQ);
-      const { data: apiData } = await apiLogin({ username, password });
-      if (!apiData || !apiData.token) {
-        setShowPopup(POPUP.error);
+      const { values: apivalues } = await apiLogin({ username, password });
+      if (!apivalues || !apivalues.token) {
+        setShowPopup(true);
+        setPopupVariant(POPUP_VARIANT.ERROR);
         setApiProgress(API_PROGRESS.FAILED);
       } else {
-        setUserInfo({ ...userInfo, token: apiData.token });
+        setUserInfo({ ...userInfo, token: apivalues.token });
         history.push('/');
       }
     },
-    [data],
+    [values],
   );
 
   const handleChange = (name, value) => {
-    setData({ ...data, [name]: value });
+    setValues({ ...values, [name]: value });
     setErrors({ ...errors, [name]: null });
   };
 
@@ -111,10 +114,9 @@ function LoginPage({ history }) {
     error: errors[name],
   });
 
-  const selectContent = (showPopup) => {
-    console.log(showPopup);
-    if (showPopup === POPUP.error) return POPUP_MSG.error;
-    if (showPopup === POPUP.warning) return POPUP_MSG.warning[0];
+  const selectContent = (variant) => {
+    if (variant === POPUP_VARIANT.ERROR) return POPUP_MSG.error;
+    if (variant === POPUP_VARIANT.WARNING) return POPUP_MSG.warning[0];
     return null;
   };
 
@@ -126,11 +128,12 @@ function LoginPage({ history }) {
       {apiProgress === API_PROGRESS.REQ && <Loading />}
       <Popup
         show={showPopup}
-        title="Đăng nhập không thành công"
-        content={selectContent(showPopup)}
-        buttonText="OK"
-        variant="error"
-        onButtonClick={() => setShowPopup(POPUP.init)}
+        variant={popupVariant}
+        content={selectContent(popupVariant)}
+        onButtonClick={() => {
+          setShowPopup(false);
+          setPopupVariant(POPUP_VARIANT.INIT);
+        }}
       />
       <div className={styles.justifyContent}>
         <div className={styles.titleLeft}>Đăng nhập</div>
@@ -149,7 +152,13 @@ function LoginPage({ history }) {
         </Form.FieldSet>
       </Form.Form>
       <div className={styles.justifyContent}>
-        <div className={styles.forgotAccount} onClick={() => setShowPopup(POPUP.warning)}>
+        <div
+          className={styles.forgotAccount}
+          onClick={() => {
+            setShowPopup(true);
+            setPopupVariant(POPUP_VARIANT.WARNING);
+          }}
+        >
           Quên mật khẩu
         </div>
         <Link className={styles.createAccount} to="/signup">
