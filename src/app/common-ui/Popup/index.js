@@ -56,9 +56,9 @@ function Popup({ show, content, variant, onButtonClick }) {
 }
 
 Popup.propTypes = {
-  show: PropTypes.any,
+  show: PropTypes.bool,
   content: PropTypes.node,
-  variant: PropTypes.string,
+  variant: PropTypes.node,
   onButtonClick: PropTypes.func,
 };
 
