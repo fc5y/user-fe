@@ -26,10 +26,10 @@ function Popup({ show, content, variant, onButtonClick }) {
     }
   }, [show]);
 
-  const selectSign = (variant) => {
-    if (variant === POPUP_VARIANT.ERROR) return iconError;
-    if (variant === POPUP_VARIANT.SUCESS) return iconSuccess;
-    if (variant === POPUP_VARIANT.WARNING) return iconWarning;
+  const selectSign = (variantToIconUrl) => {
+    if (variantToIconUrl === POPUP_VARIANT.ERROR) return iconError;
+    if (variantToIconUrl === POPUP_VARIANT.SUCCESS) return iconSuccess;
+    if (variantToIconUrl === POPUP_VARIANT.WARNING) return iconWarning;
     return '';
   };
 
@@ -41,7 +41,7 @@ function Popup({ show, content, variant, onButtonClick }) {
             <img src={CloseButton} alt="close" />
           </div>
           <div className={styles.iconContainer}>
-            <img className={styles.sign} src={selectSign(variant)} alt="popupSign" />
+            <img className={styles.icon} src={selectSign(variant)} alt="popupSign" />
           </div>
           <div className={styles.content}>{content}</div>
         </div>
@@ -61,7 +61,7 @@ Popup.propTypes = {
 };
 
 Popup.defaultProps = {
-  show: null,
+  show: false,
   content: null,
   variant: POPUP_VARIANT.DEFAULT,
   onButtonClick: () => {},

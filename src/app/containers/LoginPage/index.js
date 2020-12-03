@@ -92,14 +92,14 @@ function LoginPage({ history }) {
       }
 
       setApiProgress(API_PROGRESS.REQ);
-      const { values: apivalues } = await apiLogin({ usernameOrEmail, password });
-      if (!apivalues || !apivalues.token) {
+      const { data: apiValues } = await apiLogin({ usernameOrEmail, password });
+      if (!apiValues || !apiValues.token) {
         setShowPopup(true);
         setPopupVariant(POPUP_VARIANT.ERROR);
         setPopupContent(POPUP_MSG.ERROR);
         setApiProgress(API_PROGRESS.FAILED);
       } else {
-        setUserInfo({ ...userInfo, token: apivalues.token });
+        setUserInfo({ ...userInfo, token: apiValues.token });
         history.push('/');
       }
     },
