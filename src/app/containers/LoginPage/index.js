@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Helmet } from 'react-helmet';
 import LogoImage from 'assets/images/logo.png';
 import styles from './styles.scss';
-import { getPasswordErrorOrNull, getUsernameErrorOrNull } from './validators';
+import { getPasswordErrorOrNull, getUsernameOrEmailErrorOrNull } from './validators';
 
 // APIs
 import { apiLogin } from 'src/api';
@@ -26,20 +26,21 @@ import { API_PROGRESS } from 'src/shared/constants';
 // import { validate } from 'webpack';
 
 const labels = {
-  username: 'Tên đăng nhập',
+  usernameOrEmail: 'Tên đăng nhập',
   password: 'Mật khẩu',
 };
 
 const POPUP_VARIANT = {
-  INIT: 0,
+  DEFAULT: 0,
   ERROR: 1,
-  SUCESS: 2,
+  SUCCESS: 2,
   WARNING: 3,
 };
 
 const POPUP_MSG = {
-  error: 'Đã xảy ra lỗi, vui lòng thử lại sau',
-  warning: [
+  DEFAULT: '',
+  ERROR: 'Đã xảy ra lỗi, vui lòng thử lại sau',
+  WARNING: [
     <span>
       Vui lòng liên hệ với fanpage tại địa chỉ{' '}
       <a href="https://facebook.com/kc97blf">https://facebook.com/kc97blf</a> để được hỗ trợ
@@ -50,11 +51,11 @@ const POPUP_MSG = {
 function validate(values) {
   const newValues = {
     ...values,
-    username: values.username || '',
+    usernameOrEmail: values.usernameOrEmail || '',
     password: values.password || '',
   };
   const errors = {
-    username: getUsernameErrorOrNull(newValues.username),
+    usernameOrEmail: getUsernameOrEmailErrorOrNull(newValues.usernameOrEmail),
     password: getPasswordErrorOrNull(newValues.password),
   };
   const hasError = Object.values(errors).some((error) => !!error);
@@ -64,11 +65,12 @@ function validate(values) {
 function LoginPage({ history }) {
   const [apiProgress, setApiProgress] = React.useState(API_PROGRESS.INIT);
   const [showPopup, setShowPopup] = React.useState(false);
-  const [popupVariant, setPopupVariant] = React.useState(POPUP_VARIANT.INIT);
+  const [popupVariant, setPopupVariant] = React.useState(POPUP_VARIANT.DEFAULT);
+  const [popupContent, setPopupContent] = React.useState(POPUP_MSG.DEFAULT);
   const [values, setValues] = React.useState({
     // null: pristine (user has not changed the value)
     // empty string: non-pristine (user has changed the value)
-    username: null,
+    usernameOrEmail: null,
     password: null,
   });
   const [errors, setErrors] = React.useState({});
@@ -77,21 +79,24 @@ function LoginPage({ history }) {
   const handleSubmit = React.useCallback(
     async (event) => {
       event.preventDefault();
-      const { username, password } = values;
+      const { usernameOrEmail, password } = values;
       const validation = validate(values);
       setValues(validation.newValues);
       setErrors(validation.errors);
-      if (!username || !password || errors) {
+      const isNoneErrors = !Object.values(errors).some((error) => error !== null);
+      if (!usernameOrEmail || !password || !isNoneErrors) {
         setShowPopup(true);
         setPopupVariant(POPUP_VARIANT.ERROR);
+        setPopupContent(POPUP_MSG.ERROR);
         return;
       }
 
       setApiProgress(API_PROGRESS.REQ);
-      const { values: apivalues } = await apiLogin({ username, password });
+      const { values: apivalues } = await apiLogin({ usernameOrEmail, password });
       if (!apivalues || !apivalues.token) {
         setShowPopup(true);
         setPopupVariant(POPUP_VARIANT.ERROR);
+        setPopupContent(POPUP_MSG.ERROR);
         setApiProgress(API_PROGRESS.FAILED);
       } else {
         setUserInfo({ ...userInfo, token: apivalues.token });
@@ -114,12 +119,6 @@ function LoginPage({ history }) {
     error: errors[name],
   });
 
-  const selectContent = (variant) => {
-    if (variant === POPUP_VARIANT.ERROR) return POPUP_MSG.error;
-    if (variant === POPUP_VARIANT.WARNING) return POPUP_MSG.warning[0];
-    return null;
-  };
-
   return (
     <MainPanel.Container>
       <Helmet>
@@ -129,10 +128,10 @@ function LoginPage({ history }) {
       <Popup
         show={showPopup}
         variant={popupVariant}
-        content={selectContent(popupVariant)}
+        content={popupContent}
         onButtonClick={() => {
           setShowPopup(false);
-          setPopupVariant(POPUP_VARIANT.INIT);
+          setPopupVariant(POPUP_VARIANT.DEFAULT);
         }}
       />
       <div className={styles.justifyContent}>
@@ -145,7 +144,7 @@ function LoginPage({ history }) {
       </div>
       <Form.Form>
         <Form.FieldSet>
-          <LabeledInput {...defaultProps('username')} type="text" />
+          <LabeledInput {...defaultProps('usernameOrEmail')} type="text" />
         </Form.FieldSet>
         <Form.FieldSet>
           <LabeledInput {...defaultProps('password')} type="password" />
@@ -157,11 +156,12 @@ function LoginPage({ history }) {
           onClick={() => {
             setShowPopup(true);
             setPopupVariant(POPUP_VARIANT.WARNING);
+            setPopupContent(POPUP_MSG.WARNING[0]);
           }}
         >
           Quên mật khẩu
         </div>
-        <Link className={styles.createAccount} to="/signup">
+        <Link className={styles.createAccount} to="/auth/signup">
           Tạo tài khoản
         </Link>
       </div>
