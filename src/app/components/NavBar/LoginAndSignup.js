@@ -6,7 +6,7 @@ import styles from './loginAndSignup.scss';
 function LoginAndSignup() {
   return (
     <div className={styles.loginAndSignup}>
-      <Link to="/login" style={{ textDecoration: 'none', color: 'rgba(0, 0, 0, 0.5)' }}>
+      <Link to="/auth/login" style={{ textDecoration: 'none', color: 'rgba(0, 0, 0, 0.5)' }}>
         Đăng nhập
       </Link>
       <Link

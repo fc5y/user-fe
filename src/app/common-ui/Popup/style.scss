@@ -90,6 +90,19 @@
     }
   }
 
+  .iconContainer {
+    height: auto;
+    width: 100%;
+    margin-top: 42px;
+    align-items: center;
+    display: flex;
+  }
+
+  .icon {
+    display: block;
+    margin: auto;
+  }
+
   .titleBar {
     width: 100%;
     height: 56px;
@@ -115,8 +128,8 @@
   }
 
   .content {
-    height: 120px;
-    margin: 24px 24px 0 24px;
+    height: auto;
+    margin: 12px 24px 0 24px;
 
     display: flex;
     align-items: center;
@@ -152,8 +165,8 @@
 
   .closeImg {
     position: absolute;
-    top: 19px;
-    right: 29px;
+    top: 24px;
+    right: 24px;
     cursor: pointer;
   }
 }

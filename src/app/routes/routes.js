@@ -34,7 +34,7 @@ const ROUTES = [
     component: EnterPage,
   },
   {
-    path: '/login',
+    path: '/auth/login',
     exact: true,
     component: LoginPage,
   },

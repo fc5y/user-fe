@@ -4,10 +4,19 @@ import styles from './style.scss';
 import PropTypes from 'prop-types';
 
 import CloseButton from 'assets/images/close-button.png';
-
+import iconError from 'assets/images/error.png';
+import iconSuccess from 'assets/images/success.png';
+import iconWarning from 'assets/images/warning.png';
 import cx from 'classnames';
 
-function Popup({ show, title, content, buttonText, variant, onButtonClick }) {
+const POPUP_VARIANT = {
+  DEFAULT: 0,
+  ERROR: 1,
+  SUCCESS: 2,
+  WARNING: 3,
+};
+
+function Popup({ show, content, variant, onButtonClick }) {
   // Pristine is the early state of Popup which is not being opened or closed yet
   const [isPristine, setIsPristine] = React.useState(true);
 
@@ -17,29 +26,24 @@ function Popup({ show, title, content, buttonText, variant, onButtonClick }) {
     }
   }, [show]);
 
+  const selectSign = (variantToIconUrl) => {
+    if (variantToIconUrl === POPUP_VARIANT.ERROR) return iconError;
+    if (variantToIconUrl === POPUP_VARIANT.SUCCESS) return iconSuccess;
+    if (variantToIconUrl === POPUP_VARIANT.WARNING) return iconWarning;
+    return '';
+  };
+
   return !isPristine ? (
     ReactDOM.createPortal(
       <div className={cx(show && styles.overlay)}>
         <div className={cx(styles.container, !show ? styles.close : styles.open)}>
-          <div className={styles.titleBar}>
-            <div
-              className={cx(
-                styles.title,
-                variant === 'success' ? styles.titleColorSuccess : styles.titleColorFailed,
-              )}
-            >
-              {title}
-            </div>
-            <div className={styles.closeImg} onClick={onButtonClick}>
-              <img src={CloseButton} alt="close" />
-            </div>
+          <div className={styles.closeImg} onClick={onButtonClick}>
+            <img src={CloseButton} alt="close" />
           </div>
-          <div className={styles.content}>
-            <div>{content}</div>
+          <div className={styles.iconContainer}>
+            <img className={styles.icon} src={selectSign(variant)} alt="popupSign" />
           </div>
-          <button className={styles.closeBtn} type="submit" onClick={onButtonClick}>
-            {buttonText}
-          </button>
+          <div className={styles.content}>{content}</div>
         </div>
       </div>,
       document.querySelector('body'),
@@ -50,20 +54,16 @@ function Popup({ show, title, content, buttonText, variant, onButtonClick }) {
 }
 
 Popup.propTypes = {
-  show: PropTypes.any,
-  content: PropTypes.string,
-  title: PropTypes.string,
-  buttonText: PropTypes.string,
-  variant: PropTypes.string,
+  show: PropTypes.bool,
+  content: PropTypes.node,
+  variant: PropTypes.oneOf(Object.values(POPUP_VARIANT)),
   onButtonClick: PropTypes.func,
 };
 
 Popup.defaultProps = {
-  show: null,
-  content: '',
-  title: '',
-  buttonText: '',
-  variant: '',
+  show: false,
+  content: null,
+  variant: POPUP_VARIANT.DEFAULT,
   onButtonClick: () => {},
 };
 

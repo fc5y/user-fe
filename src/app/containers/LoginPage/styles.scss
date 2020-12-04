@@ -1,0 +1,34 @@
+:local {
+  .justifyContent {
+    margin-bottom: 18px;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .titleLeft {
+    color: #076daf;
+    font-size: 24px;
+    font-weight: 600;
+  }
+
+  .logoImage {
+    width: 64px;
+    height: 60px;
+  }
+
+  .forgotAccount {
+    font-size: 12px;
+    line-height: 15px;
+    cursor: pointer;
+
+    color: #1C83C6;
+  }
+
+  .createAccount {
+    font-size: 12px;
+    line-height: 15px;
+    text-align: right;
+    
+    color: #1C83C6;
+  }
+}
