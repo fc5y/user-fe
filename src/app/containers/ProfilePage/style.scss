@@ -1,0 +1,118 @@
+@import 'variables.scss';
+
+:local {
+  .container {
+    min-width: $min-width-container;
+    width: 100%;
+  }
+  .content {
+    width: 1200px;
+    margin: 48px auto;
+    padding: 26px 24px 10px 46px;
+    box-shadow: 0px 0px 12px rgba(188, 188, 188, 0.25);
+    border-radius: 4px;
+    background-color: white;
+    color: rgba(0, 0, 0, 0.6);
+    a {
+      color: #076daf;
+      text-decoration: none;
+    }
+  }
+  .info {
+    display: flex;
+    width: 100%;
+    height: auto;
+  }
+  .personalInfo {
+    width: 708px;
+    height:auto;
+    margin-right: 135px;
+    display: flex;
+    margin-top: 27px;
+  }
+  .avatar {
+    margin-top: 10px;
+    width: 208px;
+    height: 248px;
+    display: flex;
+    flex-direction: column;
+    .ava {
+      width: 208px;
+      height: 208px;
+      img {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+      }
+    }
+    .changeAvatar {
+      width: 208px;
+      text-align: center;
+      padding-top: 20px;
+      color: #076DAF;
+    }
+  }
+  .infoContent {
+    width: 500px;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    padding: 0px 0px 20px 33px;
+    h3 {
+      font-size: 24px;
+      font-weight: 600;
+      line-height: 30px;
+      color: black;
+      font-style: normal;
+      margin-bottom: 11px;
+    }
+    span {
+      color: black;
+      margin-right: 28px;
+    }
+    div {
+      margin-bottom: 26px;
+      width: 467px;
+    }
+  }
+  .point {
+    width: 290px;
+    height: 353px;
+    display: flex;
+  }
+  .rankingAndRating {
+    width: 121px;
+    height: 79px;
+    border: 2px solid rgba(63, 150, 206, 0.6);
+    border-radius: 4px;
+    margin-left: 24px;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    font-weight: 600;
+  }
+  .pointTitle {
+    width: 100%;
+    height: 30px;
+    padding-top: 6px;
+    font-size: 16px;
+    line-height: 20px;
+    color: #1C83C6;
+  }
+  .rankingScore {
+    width: 100%;
+    height: 49px;
+    padding-top: 2px;
+    font-size: 34px;
+    line-height: 43px;
+    color: black;
+  }
+  .ratingScore {
+    width: 100%;
+    height: 49px;
+    padding-top: 2px;
+    font-size: 34px;
+    line-height: 43px;
+    color: #EB5757;
+  }
+}

@@ -1,0 +1,55 @@
+:local {
+
+  .pastContest {
+    width: 100%;
+    padding-left: 27px;
+  }
+  .pastContestTitle {
+    width: 100%;
+    height: 31px;
+    color: black;
+    font-size: 24px;
+    line-height: 30px;
+    font-weight: 600;
+  }
+  .pastContestContent {
+    padding-left: 13px;
+    width: 100%;
+    table {
+      border-collapse: collapse;
+      tr {
+        height: 36px;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        th {
+          text-align: left;
+        }
+      }
+    }
+  }
+  .tableNumber {
+    width: 60px;
+  }
+  .tableContest {
+    width: 320px;
+  }
+  .tableRanking {
+    width: 249px;
+  }
+  .tableRatingChange {
+    width: 290px;
+  }
+  .tableRating {
+    width: 131px;
+  }
+  .rowContest {
+    color: #1C83C6;
+  }
+  .pastContestPage {
+    text-align: right;
+    margin: 17px 45px 0px 0px;
+    span span {
+      color: #1C83C6;
+      letter-spacing: 4px;
+    }
+  }
+}
