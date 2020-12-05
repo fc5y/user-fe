@@ -14,7 +14,6 @@ import withUserNotLogin from 'src/shared/hoc/withUserNotLogin';
 import { UserInfoContext } from 'src/shared/context/UserInfo';
 
 // UI
-import * as MainPanel from '../../common-ui/MainPanel';
 import * as Form from '../../common-ui/Form';
 import LabeledInput from '../../common-ui/LabeledInput';
 import * as Button from '../../common-ui/Button';
