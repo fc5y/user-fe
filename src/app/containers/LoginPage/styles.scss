@@ -1,6 +1,16 @@
 :local {
+  .container {
+    height: auto;
+    margin: 48px auto;
+    width: 600px;
+    box-shadow: 0px 0px 12px rgba(188, 188, 188, 0.25);
+    padding: 24px 36px;
+    background-color: #FFFFFF;
+    border-radius: 4px;
+  }
+
   .justifyContent {
-    margin-bottom: 18px;
+    margin-bottom: 8px;
     display: flex;
     justify-content: space-between;
   }

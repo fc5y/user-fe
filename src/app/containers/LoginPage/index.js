@@ -26,7 +26,7 @@ import { API_PROGRESS } from 'src/shared/constants';
 // import { validate } from 'webpack';
 
 const labels = {
-  usernameOrEmail: 'Tên đăng nhập',
+  usernameOrEmail: 'Tên đăng nhập/Email',
   password: 'Mật khẩu',
 };
 
@@ -83,14 +83,13 @@ function LoginPage({ history }) {
       const validation = validate(values);
       setValues(validation.newValues);
       setErrors(validation.errors);
-      const isNoneErrors = !Object.values(errors).some((error) => error !== null);
+      const isNoneErrors = !Object.values(validation.errors).some((error) => error !== null);
       if (!usernameOrEmail || !password || !isNoneErrors) {
         setShowPopup(true);
         setPopupVariant(POPUP_VARIANT.ERROR);
         setPopupContent(POPUP_MSG.ERROR);
         return;
       }
-
       setApiProgress(API_PROGRESS.REQ);
       const { data: apiValues } = await apiLogin({ usernameOrEmail, password });
       if (!apiValues || !apiValues.token) {
@@ -120,7 +119,7 @@ function LoginPage({ history }) {
   });
 
   return (
-    <MainPanel.Container>
+    <div className={styles.container}>
       <Helmet>
         <title>Đăng nhập</title>
       </Helmet>
@@ -149,28 +148,28 @@ function LoginPage({ history }) {
         <Form.FieldSet>
           <LabeledInput {...defaultProps('password')} type="password" />
         </Form.FieldSet>
-      </Form.Form>
-      <div className={styles.justifyContent}>
-        <div
-          className={styles.forgotAccount}
-          onClick={() => {
-            setShowPopup(true);
-            setPopupVariant(POPUP_VARIANT.WARNING);
-            setPopupContent(POPUP_MSG.WARNING[0]);
-          }}
-        >
-          Quên mật khẩu
+        <div className={styles.justifyContent}>
+          <div
+            className={styles.forgotAccount}
+            onClick={() => {
+              setShowPopup(true);
+              setPopupVariant(POPUP_VARIANT.WARNING);
+              setPopupContent(POPUP_MSG.WARNING[0]);
+            }}
+          >
+            Quên mật khẩu?
+          </div>
+          <Link className={styles.createAccount} to="/auth/signup">
+            Tạo tài khoản
+          </Link>
         </div>
-        <Link className={styles.createAccount} to="/auth/signup">
-          Tạo tài khoản
-        </Link>
-      </div>
+      </Form.Form>
       <Form.ButtonGroup>
         <Button.Primary disabled={apiProgress === API_PROGRESS.REQ} onClick={handleSubmit}>
           Đăng nhập
         </Button.Primary>
       </Form.ButtonGroup>
-    </MainPanel.Container>
+    </div>
   );
 }
 
