@@ -6,7 +6,7 @@ import styles from './styles.scss';
 import { getPasswordErrorOrNull, getUsernameOrEmailErrorOrNull } from './validators';
 
 // APIs
-import { apiLogin } from 'src/api';
+import { post } from 'src/utils/fetchUtils';
 
 // HOC
 import { withRouter, Link } from 'react-router-dom';
@@ -90,14 +90,20 @@ function LoginPage({ history }) {
         return;
       }
       setApiProgress(API_PROGRESS.REQ);
-      const { data: apiValues } = await apiLogin({ usernameOrEmail, password });
-      if (!apiValues || !apiValues.token) {
+      const { data: apiValues } = await post(
+        'https://test.api.freecontest.net/api/v1/login',
+        { email_or_username: usernameOrEmail, password },
+        {},
+        true,
+      );
+      console.log(apiValues.data.access_token);
+      if (!apiValues || !apiValues.data.access_token) {
         setShowPopup(true);
         setPopupVariant(POPUP_VARIANT.ERROR);
         setPopupContent(POPUP_MSG.ERROR);
         setApiProgress(API_PROGRESS.FAILED);
       } else {
-        setUserInfo({ ...userInfo, token: apiValues.token });
+        setUserInfo({ ...userInfo, token: apiValues.data.access_token });
         history.push('/');
       }
     },
