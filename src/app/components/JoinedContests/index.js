@@ -15,10 +15,31 @@ function getPastContestsOfPage(numberOfItems, itemsPerPage, currentPage) {
   }
 }
 
+function splitPages(numberOfItems, itemsPerPage, page) {
+  if (Math.ceil(numberOfItems / itemsPerPage) <= 5) {
+    return [1, Math.ceil(numberOfItems / itemsPerPage)];
+  } else {
+    const [first, last] = [1, Math.ceil(numberOfItems / itemsPerPage)];
+    let [from, to] = [page - 2, page + 2];
+    if (to > last) {
+      from -= to - last;
+      to = last;
+    } else if (from < first) {
+      to += first - from;
+      from = first;
+    }
+    return [from, to];
+  }
+}
+
 function JoinedContests({ token }) {
   const [pastContests, setPastContests] = useState([]);
   const [page, setPage] = useState(1);
+  const pagesList = [];
+  const [from, to] = splitPages(pastContests.length, pastContestsPerPage, page);
+  for (let i = from; i <= to; i += 1) pagesList.push(i);
   get(
+    // Waiting for 'get joined contests' Api
     `https://test.api.freecontest.net/api/v1/users`,
     {
       headers: {
@@ -28,14 +49,15 @@ function JoinedContests({ token }) {
     true,
   ).then((res) => setPastContests(res.data));
   const [begin, end] = getPastContestsOfPage(pastContests.length, pastContestsPerPage, page);
+  console.log(begin);
+  console.log(end);
   const trList = pastContests.map((contest, index) =>
     index >= begin - 1 && index <= end - 1 ? (
-      <tr key={contest.id}>
-        <th className={styles.tableNumber}>{contest.id}</th>
-        <th className={styles.tableContest}>{contest.username}</th>
-        <th className={styles.tableRanking}>{contest.full_name}</th>
-        <th className={styles.tableRatingChange}>{contest.email}</th>
-        <th className={styles.tableRating}>{contest.shool}</th>
+      <tr className={styles.rowContest} key={contest.id}>
+        <th>{index + 1}</th>
+        <th>{contest.username}</th>
+        <th>{contest.full_name}</th>
+        <th>{contest.email}</th>
       </tr>
     ) : (
       ''
@@ -51,7 +73,6 @@ function JoinedContests({ token }) {
               <th className={styles.tableNumber}>#</th>
               <th className={styles.tableContest}>Kỳ thi</th>
               <th className={styles.tableRanking}>Thứ hạng</th>
-              <th className={styles.tableRatingChange}>Thay đổi rating</th>
               <th className={styles.tableRating}>Rating</th>
             </tr>
             {trList}
@@ -60,7 +81,25 @@ function JoinedContests({ token }) {
       </div>
       <div className={styles.pastContestPage}>
         <span>
-          Trang <span>1 2 3 4 5</span>
+          <b>Trang</b>
+          {pagesList[0] !== 1 ? <b>...</b> : ''}
+          <span>
+            {pagesList.map((index) => (
+              <b
+                key={index}
+                style={page === index ? { color: 'red' } : {}}
+                onClick={() => setPage(index)}
+              >
+                {index}
+              </b>
+            ))}
+          </span>
+          {pagesList[pagesList.length - 1] !==
+          Math.ceil(pastContests.length / pastContestsPerPage) ? (
+            <b>...</b>
+          ) : (
+            ''
+          )}
         </span>
       </div>
     </div>

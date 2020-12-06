@@ -9,8 +9,9 @@ import JoinedContests from '../../components/JoinedContests';
 import { get } from '../../../utils/fetchUtils';
 
 function ProfilePage({ match }) {
+  // currentUsername is stored in localstorage
   const currentUsername = 'hieu';
-  // This temporary token is for testing purposes.
+  // This temporary token is used for testing purposes.
   const token =
     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RlbWFpbEBnbWFpbC5jb20iLCJpYXQiOjE2MDcwMTEzODh9.Udv-7lmkBxlTnlZtgKJhYrrREtzsAtNKqrl80FQqlS0';
   const [userInfo, setInfo] = useState({
@@ -25,6 +26,7 @@ function ProfilePage({ match }) {
   });
 
   get(
+    // Waiting for 'get users' Api to allow filter by username
     `https://test.api.freecontest.net/api/v1/users?username=${match.params.username}`,
     {
       headers: {
@@ -40,8 +42,8 @@ function ProfilePage({ match }) {
       schoolName: res.data[0].school_namme || '',
       email: res.data[0].email || '',
       bio: '',
-      ranking: '',
-      rating: '',
+      ranking: 'NONE',
+      rating: 'NONE',
     }),
   );
 
