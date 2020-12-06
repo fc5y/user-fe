@@ -27,29 +27,35 @@
     }
   }
   .tableNumber {
-    width: 60px;
+    width: 89px;
   }
   .tableContest {
-    width: 320px;
+    width: 475px;
   }
   .tableRanking {
-    width: 249px;
-  }
-  .tableRatingChange {
-    width: 290px;
+    width: 370px;
   }
   .tableRating {
-    width: 131px;
+    width: 190px;
   }
   .rowContest {
-    color: #1C83C6;
+    th {
+      font-weight: 400;
+    }
   }
   .pastContestPage {
     text-align: right;
-    margin: 17px 45px 0px 0px;
-    span span {
-      color: #1C83C6;
-      letter-spacing: 4px;
+    margin: 17px 11px 0px 0px;
+    span {
+      b {
+        margin-right: 10px;
+      }
+      span {
+        color: #1C83C6;
+        b:hover {
+          cursor: pointer;
+        }
+      }
     }
   }
 }
