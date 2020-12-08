@@ -31,3 +31,12 @@ export function getPasswordErrorOrNull(password) {
   if (password.length > 255) return MSG_ERROR_INPUT_TOO_LONG;
   return null;
 }
+
+export function validate(values) {
+  const errors = {
+    usernameOrEmail: getUsernameOrEmailErrorOrNull(values.usernameOrEmail),
+    password: getPasswordErrorOrNull(values.password),
+  };
+  const hasError = Object.values(errors).some((error) => !!error);
+  return { errors, hasError };
+}

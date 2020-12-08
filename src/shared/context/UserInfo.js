@@ -38,7 +38,7 @@ export function UserInfoProvider({ children }) {
 
   // Get from local storage
   React.useEffect(() => {
-    const userInfoInLocalStorage = JSON.parse(localStorage.getItem('userinfo'));
+    const userInfoInLocalStorage = JSON.parse(sessionStorage.getItem('userinfo'));
     if (!!userInfoInLocalStorage && !!userInfoInLocalStorage.token) {
       setUserInfo({ ...userInfo, token: userInfoInLocalStorage.token });
     }
@@ -47,7 +47,7 @@ export function UserInfoProvider({ children }) {
 
   // Save local storage
   React.useEffect(() => {
-    localStorage.setItem('userinfo', JSON.stringify(userInfo));
+    sessionStorage.setItem('userinfo', JSON.stringify(userInfo));
   }, [userInfo]);
 
   const clearUserInfo = () => {
@@ -55,9 +55,10 @@ export function UserInfoProvider({ children }) {
       username: null,
       email: null,
       token: null,
+      isFetched: true,
     });
 
-    localStorage.clear('userinfo');
+    sessionStorage.clear('userinfo');
   };
 
   return (

@@ -1,5 +1,6 @@
 import * as React from 'react';
 import styled from 'styled-components';
+import { UserInfoContext } from 'src/shared/context/UserInfo';
 
 import Logo from './Logo';
 import Left from './Left';
@@ -25,12 +26,14 @@ const Content = styled.div`
 `;
 
 export default function NavBar() {
+  const { userInfo } = React.useContext(UserInfoContext);
+
   return (
     <Container>
       <Content>
         <Logo />
         <Left />
-        <Right />
+        <Right username={userInfo.username} />
       </Content>
     </Container>
   );

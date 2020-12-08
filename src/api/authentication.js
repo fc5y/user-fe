@@ -1,13 +1,8 @@
 /* eslint-disable no-unneeded-ternary */
 import { get, post } from '../utils/fetchUtils';
 
-export function apiLogin({ username, password }) {
-  return post(
-    'https://asia-east2-fyt-code-cup.cloudfunctions.net/api/login',
-    { username, password },
-    {},
-    true,
-  );
+export function apiLogin({ usernameOrEmail, password }) {
+  return post('/api/v1/login', { email_or_username: usernameOrEmail, password });
 }
 
 export function apiSignup({ username, password, extra }) {

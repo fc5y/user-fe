@@ -3,7 +3,7 @@ import Page404 from '../containers/Page404';
 import InfoPage from '../containers/InfoPage';
 import CmsHelpPage from '../containers/CmsHelpPage';
 import JoinHelpPage from '../containers/JoinHelpPage';
-import EnterPage from '../containers/EnterPage';
+import EnterPage from '../containers/Contests/EnterPage';
 import LoginPage from '../containers/LoginPage';
 import SignupPage from '../containers/SignupPage';
 import ProfilePage from '../containers/ProfilePage';
@@ -14,6 +14,9 @@ const ROUTES = [
     exact: true,
     component: HomePage,
   },
+  /**
+   * HELP REGION
+   */
   {
     path: '/help',
     exact: true,
@@ -29,30 +32,34 @@ const ROUTES = [
     exact: true,
     component: JoinHelpPage,
   },
+  /**
+   * USER REGION
+   */
   {
     path: '/users/:username',
     exact: true,
     component: ProfilePage,
   },
-  {
-    path: '/enter',
-    exact: true,
-    component: EnterPage,
-  },
+  /**
+   * AUTH REGION
+   */
   {
     path: '/auth/login',
     exact: true,
     component: LoginPage,
   },
   {
-    path: '/signup',
-    exact: true,
-    component: SignupPage,
-  },
-  {
     path: '/auth/signup',
     exact: true,
     component: SignupPage,
+  },
+  /**
+   * CONTEST REGION
+   */
+  {
+    path: '/contests/:id/enter',
+    exact: true,
+    component: EnterPage,
   },
   {
     path: '*',

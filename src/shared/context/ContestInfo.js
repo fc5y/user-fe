@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 export const ContestInfoContext = React.createContext({
-  contestInfo: { isContestReady: null, isRegisterClosed: null, isFetched: null },
+  contestInfo: { isContestReady: null, isRegisterClosed: null, isFetched: null, contestURL: '' },
 });
 
 export function ContestInfoProvider({ children }) {
@@ -10,21 +10,20 @@ export function ContestInfoProvider({ children }) {
     isContestReady: null,
     isRegisterClosed: null,
     isFetched: false,
+    contestURL: '',
   });
 
   React.useEffect(() => {
     const getContestTime = async () => {
-      // Due to unstability of apiGetTime, we hard code the time result here
+      // TODO: Add API to get Contest info
       setContestInfo({
         ...contestInfo,
-        isRegisterClosed: true,
-        isContestReady: true,
         isFetched: true,
       });
     };
 
     !contestInfo.isFetched && getContestTime();
-  }, [contestInfo.isFetched]);
+  }, []);
 
   return (
     <ContestInfoContext.Provider value={{ contestInfo }}>

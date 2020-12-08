@@ -1,4 +1,5 @@
 import * as React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Link, useHistory } from 'react-router-dom';
 
@@ -102,29 +103,15 @@ function IconCaretDown() {
   );
 }
 
-// TODO: fix this
-// for testing purpose, there are 50% chance that user is logged in
-function useAccountInfo() {
-  return Math.random() > 0.5
-    ? {
-        isLoggedIn: false,
-      }
-    : {
-        isLoggedIn: true,
-        username: 'xuanquang1999',
-      };
-}
-
-export default function Right() {
-  const accountInfo = useAccountInfo();
+export default function Right({ username }) {
   const history = useHistory();
 
   return (
     <Container>
-      {accountInfo.isLoggedIn ? (
+      {username ? (
         <StyleLinkAndDropdownContainer to="#">
           <UsernameAndDropdownIcon>
-            <Username>{accountInfo.username}</Username>
+            <Username>{username}</Username>
             <IconCaretDown />
           </UsernameAndDropdownIcon>
           <Dropdown>
@@ -141,3 +128,7 @@ export default function Right() {
     </Container>
   );
 }
+
+Right.propTypes = {
+  username: PropTypes.string,
+};

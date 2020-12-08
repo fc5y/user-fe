@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 import { Helmet } from 'react-helmet';
 import LogoImage from 'assets/images/logo.png';
 import styles from './styles.scss';
-import { getPasswordErrorOrNull, getUsernameOrEmailErrorOrNull } from './validators';
+import { validate } from './validators';
 
 // APIs
-import { post } from 'src/utils/fetchUtils';
+import { apiLogin } from 'src/api/authentication';
 
 // HOC
 import { withRouter, Link } from 'react-router-dom';
@@ -23,12 +23,6 @@ import Loading from '../../common-ui/Loading';
 
 // Constants
 import { API_PROGRESS } from 'src/shared/constants';
-// import { validate } from 'webpack';
-
-const labels = {
-  usernameOrEmail: 'Tên đăng nhập/Email',
-  password: 'Mật khẩu',
-};
 
 const POPUP_VARIANT = {
   DEFAULT: 0,
@@ -48,56 +42,57 @@ const POPUP_MSG = {
   ],
 };
 
-function validate(values) {
-  const newValues = {
-    ...values,
-    usernameOrEmail: values.usernameOrEmail || '',
-    password: values.password || '',
-  };
-  const errors = {
-    usernameOrEmail: getUsernameOrEmailErrorOrNull(newValues.usernameOrEmail),
-    password: getPasswordErrorOrNull(newValues.password),
-  };
-  const hasError = Object.values(errors).some((error) => !!error);
-  return { newValues, errors, hasError };
-}
-
 function LoginPage({ history }) {
   const [apiProgress, setApiProgress] = React.useState(API_PROGRESS.INIT);
   const [showPopup, setShowPopup] = React.useState(false);
   const [popupVariant, setPopupVariant] = React.useState(POPUP_VARIANT.DEFAULT);
   const [popupContent, setPopupContent] = React.useState(POPUP_MSG.DEFAULT);
-  const [values, setValues] = React.useState({
-    // null: pristine (user has not changed the value)
-    // empty string: non-pristine (user has changed the value)
-    usernameOrEmail: null,
-    password: null,
+  const [inputInfo, setInputInfo] = React.useState({
+    usernameOrEmail: {
+      value: '',
+      error: null,
+    },
+    password: {
+      value: '',
+      error: null,
+    },
   });
-  const [errors, setErrors] = React.useState({});
   const { userInfo, setUserInfo } = React.useContext(UserInfoContext);
 
   const handleSubmit = React.useCallback(
     async (event) => {
       event.preventDefault();
-      const { usernameOrEmail, password } = values;
-      const validation = validate(values);
-      setValues(validation.newValues);
-      setErrors(validation.errors);
-      const isNoneErrors = !Object.values(validation.errors).some((error) => error !== null);
-      if (!usernameOrEmail || !password || !isNoneErrors) {
+      const { usernameOrEmail, password } = inputInfo;
+      const validation = validate({
+        usernameOrEmail: usernameOrEmail.value,
+        password: password.value,
+      });
+
+      setInputInfo(() => ({
+        usernameOrEmail: {
+          value: usernameOrEmail.value,
+          error: validation.errors.usernameOrEmail,
+        },
+        password: {
+          value: password.value,
+          error: validation.errors.password,
+        },
+      }));
+
+      if (
+        !usernameOrEmail.value ||
+        !password.value ||
+        !!inputInfo.usernameOrEmail.error ||
+        !!inputInfo.password.error
+      ) {
         setShowPopup(true);
         setPopupVariant(POPUP_VARIANT.ERROR);
         setPopupContent(POPUP_MSG.ERROR);
         return;
       }
       setApiProgress(API_PROGRESS.REQ);
-      const { data: apiValues } = await post(
-        'https://test.api.freecontest.net/api/v1/login',
-        { email_or_username: usernameOrEmail, password },
-        {},
-        true,
-      );
-      console.log(apiValues.data.access_token);
+      const { data: apiValues } = await apiLogin({ usernameOrEmail, password });
+
       if (!apiValues || !apiValues.data.access_token) {
         setShowPopup(true);
         setPopupVariant(POPUP_VARIANT.ERROR);
@@ -108,21 +103,12 @@ function LoginPage({ history }) {
         history.push('/');
       }
     },
-    [values],
+    [inputInfo],
   );
 
   const handleChange = (name, value) => {
-    setValues({ ...values, [name]: value });
-    setErrors({ ...errors, [name]: null });
+    setInputInfo({ ...inputInfo, [name]: { value, error: null } });
   };
-
-  const defaultProps = (name, value) => ({
-    label: labels[name],
-    name,
-    value,
-    onChange: (name, value) => handleChange(name, value),
-    error: errors[name],
-  });
 
   return (
     <MainPanel.Container>
@@ -149,10 +135,24 @@ function LoginPage({ history }) {
       </div>
       <Form.Form>
         <Form.FieldSet>
-          <LabeledInput {...defaultProps('usernameOrEmail')} type="text" />
+          <LabeledInput
+            label="Tên đăng nhập"
+            name="usernameOrEmail"
+            value={inputInfo.usernameOrEmail.value}
+            onChange={handleChange}
+            error={inputInfo.usernameOrEmail.error}
+            type="text"
+          />
         </Form.FieldSet>
         <Form.FieldSet>
-          <LabeledInput {...defaultProps('password')} type="password" />
+          <LabeledInput
+            label="Mật khẩu"
+            name="password"
+            value={inputInfo.password.value}
+            onChange={handleChange}
+            error={inputInfo.password.error}
+            type="password"
+          />
         </Form.FieldSet>
         <div className={styles.justifyContent}>
           <div
