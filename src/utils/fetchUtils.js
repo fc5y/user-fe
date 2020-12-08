@@ -1,29 +1,34 @@
 import axios from 'axios';
 import { getFullURL } from './getUrl';
 
-export const get = async (url, options = {}, fullURL = false) => {
-  try {
-    const { data } = await axios.get(!fullURL ? getFullURL(url) : url, {
-      ...options,
-    });
+const reg = /^https?:\/\//i;
 
-    return { data };
-  } catch (err) {
-    return { error: (err.response && err.response.data && err.response.data.error) || true };
-  }
-};
-
-export const post = async (url, body, options = {}, fullURL = false) => {
+export const get = async (url, headers = {}) => {
   try {
-    const { data } = await axios.post(!fullURL ? getFullURL(url) : url, body, {
-      ...options,
+    const finalUrl = reg.test(url) ? url : getFullURL(url);
+    const { data } = await axios.get(finalUrl, {
       headers: {
-        'Content-Type': 'application/json',
+        ...headers,
       },
     });
 
     return { data };
   } catch (err) {
-    return { error: (err.response && err.response.data && err.response.data.error) || true };
+    return { error: (err.response && err.response.data && err.response.data.error) || -1 };
+  }
+};
+
+export const post = async (url, body, headers = {}) => {
+  try {
+    const finalUrl = reg.test(url) ? url : getFullURL(url);
+    const { data } = await axios.post(finalUrl, body, {
+      headers: {
+        ...headers,
+      },
+    });
+
+    return { data };
+  } catch (err) {
+    return { error: (err.response && err.response.data && err.response.data.error) || -1 };
   }
 };

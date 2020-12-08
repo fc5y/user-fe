@@ -1,25 +1,23 @@
 const path = require('path');
 
 // URL
-const PROXY_SERVER = 'https://asia-east2-fyt-code-cup.cloudfunctions.net/api';
-
-const FYT_BASE_URL = {
-  dev: 'https://test.fyt.freecontest.net',
-  prod: 'https://fyt.freecontest.net',
+const API_URL = {
+  test: 'https://test.api.freecontest.net',
+  prod: 'https://api.freecontest.net',
 };
+const PROXY_SERVER = '';
 
 // META
 const META_TAG = {
-  image_url: 'http://kc97ble.fun/fyt-public/fyt-code-cup.jpg',
+  image_url: '',
 };
 
 // PROXY
 const proxyList = {
   '/api/**': {
-    target: PROXY_SERVER,
+    target: API_URL.test,
     secure: false, // For testing only
     changeOrigin: true,
-    pathRewrite: { '^/api': '' },
   },
 };
 
@@ -34,4 +32,4 @@ const constants = {
   __GIT_SHA__: process.env.GIT_SHA || null,
 };
 
-module.exports = { proxyList, FYT_BASE_URL, META_TAG, root, constants };
+module.exports = { proxyList, META_TAG, root, constants };
