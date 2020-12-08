@@ -26,8 +26,8 @@ export function apiSignup({ username, password, extra }) {
 
 export function apiGetUserInfo(token) {
   return get(
-    'https://asia-east2-fyt-code-cup.cloudfunctions.net/api/users/me',
-    { headers: { Authorization: `Bearer ${token}`, 'Access-Control-Allow-Headers': '*' } },
+    '/api/v1/user',
+    { Authorization: `Bearer ${token}`, 'Access-Control-Allow-Headers': '*' },
     true,
   );
 }

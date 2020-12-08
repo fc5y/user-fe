@@ -18,18 +18,11 @@ import * as MainPanel from '../../common-ui/MainPanel';
 import * as Form from '../../common-ui/Form';
 import LabeledInput from '../../common-ui/LabeledInput';
 import * as Button from '../../common-ui/Button';
-import Popup from '../../common-ui/Popup';
+import Popup, { POPUP_VARIANT } from '../../common-ui/Popup';
 import Loading from '../../common-ui/Loading';
 
 // Constants
 import { API_PROGRESS } from 'src/shared/constants';
-
-const POPUP_VARIANT = {
-  DEFAULT: 0,
-  ERROR: 1,
-  SUCCESS: 2,
-  WARNING: 3,
-};
 
 const POPUP_MSG = {
   DEFAULT: '',
@@ -57,7 +50,7 @@ function LoginPage({ history }) {
       error: null,
     },
   });
-  const { userInfo, setUserInfo } = React.useContext(UserInfoContext);
+  const { setUserInfo } = React.useContext(UserInfoContext);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -103,7 +96,7 @@ function LoginPage({ history }) {
       setPopupContent(msg || POPUP_MSG.ERROR);
       setApiProgress(API_PROGRESS.FAILED);
     } else {
-      setUserInfo({ ...userInfo, token: data.access_token });
+      setUserInfo({ token: data.access_token });
       history.push('/');
     }
   };

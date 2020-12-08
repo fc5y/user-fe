@@ -1,7 +1,7 @@
 import * as React from 'react';
-import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Link, useHistory } from 'react-router-dom';
+import { UserInfoContext } from 'src/shared/context/UserInfo';
 
 const Container = styled.div`
   flex: 0 0 auto;
@@ -103,20 +103,23 @@ function IconCaretDown() {
   );
 }
 
-export default function Right({ username }) {
+export default function Right() {
+  const { userInfo, clearUserInfo } = React.useContext(UserInfoContext);
   const history = useHistory();
 
   return (
     <Container>
-      {username ? (
+      {!userInfo.isFetched ? (
+        <div />
+      ) : userInfo.username ? (
         <StyleLinkAndDropdownContainer to="#">
           <UsernameAndDropdownIcon>
-            <Username>{username}</Username>
+            <Username>{userInfo.username}</Username>
             <IconCaretDown />
           </UsernameAndDropdownIcon>
           <Dropdown>
             <DropdownItem onClick={() => history.push('/settings')}>Cài đặt</DropdownItem>
-            <DropdownItem onClick={() => alert('Đăng xuất')}>Đăng xuất</DropdownItem>
+            <DropdownItem onClick={() => clearUserInfo()}>Đăng xuất</DropdownItem>
           </Dropdown>
         </StyleLinkAndDropdownContainer>
       ) : (
@@ -128,7 +131,3 @@ export default function Right({ username }) {
     </Container>
   );
 }
-
-Right.propTypes = {
-  username: PropTypes.string,
-};

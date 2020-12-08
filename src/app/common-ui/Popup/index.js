@@ -9,7 +9,7 @@ import iconSuccess from 'assets/images/success.png';
 import iconWarning from 'assets/images/warning.png';
 import cx from 'classnames';
 
-const POPUP_VARIANT = {
+export const POPUP_VARIANT = {
   DEFAULT: 0,
   ERROR: 1,
   SUCCESS: 2,
