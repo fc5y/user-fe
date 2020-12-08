@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 export const ContestInfoContext = React.createContext({
-  contestInfo: { isContestReady: null, isRegisterClosed: null, isFetched: null, contestURL: '' },
+  contestInfo: { isContestReady: null, isRegisterClosed: null, isFetched: null },
 });
 
 export function ContestInfoProvider({ children }) {
@@ -10,7 +10,6 @@ export function ContestInfoProvider({ children }) {
     isContestReady: null,
     isRegisterClosed: null,
     isFetched: false,
-    contestURL: '',
   });
 
   React.useEffect(() => {

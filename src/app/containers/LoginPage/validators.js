@@ -27,7 +27,7 @@ export function getUsernameOrEmailErrorOrNull(usernameOrEmail) {
 
 export function getPasswordErrorOrNull(password) {
   if (!password) return MSG_ERROR_FIELD_IS_REQUIRED;
-  if (password.length < 8) return MSG_ERROR_PASSWORD_TOO_SHORT;
+  if (password.length < 2) return MSG_ERROR_PASSWORD_TOO_SHORT;
   if (password.length > 255) return MSG_ERROR_INPUT_TOO_LONG;
   return null;
 }

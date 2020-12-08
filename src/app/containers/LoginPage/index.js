@@ -59,52 +59,54 @@ function LoginPage({ history }) {
   });
   const { userInfo, setUserInfo } = React.useContext(UserInfoContext);
 
-  const handleSubmit = React.useCallback(
-    async (event) => {
-      event.preventDefault();
-      const { usernameOrEmail, password } = inputInfo;
-      const validation = validate({
-        usernameOrEmail: usernameOrEmail.value,
-        password: password.value,
-      });
+  const handleSubmit = async (event) => {
+    event.preventDefault();
 
+    const { usernameOrEmail, password } = inputInfo;
+    const { errors } = validate({
+      usernameOrEmail: usernameOrEmail.value,
+      password: password.value,
+    });
+
+    // Check if validation errors existed
+    if (
+      !usernameOrEmail.value ||
+      !password.value ||
+      !!errors.usernameOrEmail ||
+      !!errors.password
+    ) {
       setInputInfo(() => ({
         usernameOrEmail: {
           value: usernameOrEmail.value,
-          error: validation.errors.usernameOrEmail,
+          error: errors.usernameOrEmail,
         },
         password: {
           value: password.value,
-          error: validation.errors.password,
+          error: errors.password,
         },
       }));
+      setPopupVariant(POPUP_VARIANT.ERROR);
+      setPopupContent(POPUP_MSG.ERROR);
+      setShowPopup(true);
+      return;
+    }
 
-      if (
-        !usernameOrEmail.value ||
-        !password.value ||
-        !!inputInfo.usernameOrEmail.error ||
-        !!inputInfo.password.error
-      ) {
-        setShowPopup(true);
-        setPopupVariant(POPUP_VARIANT.ERROR);
-        setPopupContent(POPUP_MSG.ERROR);
-        return;
-      }
-      setApiProgress(API_PROGRESS.REQ);
-      const { data: apiValues } = await apiLogin({ usernameOrEmail, password });
+    setApiProgress(API_PROGRESS.REQ);
+    const { code, data, msg } = await apiLogin({
+      usernameOrEmail: usernameOrEmail.value,
+      password: password.value,
+    });
 
-      if (!apiValues || !apiValues.data.access_token) {
-        setShowPopup(true);
-        setPopupVariant(POPUP_VARIANT.ERROR);
-        setPopupContent(POPUP_MSG.ERROR);
-        setApiProgress(API_PROGRESS.FAILED);
-      } else {
-        setUserInfo({ ...userInfo, token: apiValues.data.access_token });
-        history.push('/');
-      }
-    },
-    [inputInfo],
-  );
+    if (!!code || !data || !data.access_token) {
+      setShowPopup(true);
+      setPopupVariant(POPUP_VARIANT.ERROR);
+      setPopupContent(msg || POPUP_MSG.ERROR);
+      setApiProgress(API_PROGRESS.FAILED);
+    } else {
+      setUserInfo({ ...userInfo, token: data.access_token });
+      history.push('/');
+    }
+  };
 
   const handleChange = (name, value) => {
     setInputInfo({ ...inputInfo, [name]: { value, error: null } });

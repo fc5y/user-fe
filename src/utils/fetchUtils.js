@@ -12,9 +12,9 @@ export const get = async (url, headers = {}) => {
       },
     });
 
-    return { data };
+    return { ...data };
   } catch (err) {
-    return { error: (err.response && err.response.data && err.response.data.error) || -1 };
+    return { code: -1, ...err.response.data };
   }
 };
 
@@ -26,9 +26,8 @@ export const post = async (url, body, headers = {}) => {
         ...headers,
       },
     });
-
-    return { data };
+    return { ...data };
   } catch (err) {
-    return { error: (err.response && err.response.data && err.response.data.error) || -1 };
+    return { code: -1, ...err.response.data };
   }
 };
