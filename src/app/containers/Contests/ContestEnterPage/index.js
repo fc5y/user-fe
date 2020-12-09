@@ -1,6 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Redirect, withRouter } from 'react-router-dom';
+
+// HOC
+import withUserLogin from 'src/shared/hoc/withUserLogin';
+
+// Components
 import { Helmet } from 'react-helmet';
 
 // Contexts
@@ -9,6 +14,9 @@ import { ContestInfoContext } from 'src/shared/context/ContestInfo';
 
 // APIs
 import { apiGetContestCredential, apiGetContestCredentialV2 } from 'src/api';
+
+// Constants
+import { ROUTE_LOGIN } from 'src/app/routes/constants';
 
 import styles from './enter.scss';
 
@@ -23,6 +31,7 @@ function EnterPage({ history }) {
   });
 
   React.useEffect(() => {
+    // Fetch credential
     const getCredential = async (token) => {
       try {
         const { data } = await apiGetContestCredential(token);
@@ -36,7 +45,6 @@ function EnterPage({ history }) {
       } catch {
         DO_NOTHING();
       }
-
       try {
         const { data } = await apiGetContestCredentialV2(userInfo.username);
         if (!!data && !!data.data && !!data.data.contestUsername && !!data.data.contestPassword) {
@@ -49,12 +57,10 @@ function EnterPage({ history }) {
       } catch {
         DO_NOTHING();
       }
-
       // eslint-disable-next-line no-alert
       alert('You are not allowed to enter contest');
       history.push('/');
     };
-
     !!contestInfo.isContestReady &&
       !!userInfo.token &&
       !!userInfo.username &&
@@ -105,4 +111,4 @@ EnterPage.propTypes = {
   history: PropTypes.any,
 };
 
-export default withRouter(EnterPage);
+export default withRouter(withUserLogin(ROUTE_LOGIN)(EnterPage));

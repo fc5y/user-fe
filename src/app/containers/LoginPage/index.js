@@ -1,9 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Helmet } from 'react-helmet';
-import LogoImage from 'assets/images/logo.png';
-import styles from './styles.scss';
-import { validate } from './validators';
 
 // APIs
 import { apiLogin } from 'src/api/authentication';
@@ -13,7 +9,8 @@ import { withRouter, Link } from 'react-router-dom';
 import withUserNotLogin from 'src/shared/hoc/withUserNotLogin';
 import { UserInfoContext } from 'src/shared/context/UserInfo';
 
-// UI
+// Components
+import { Helmet } from 'react-helmet';
 import * as MainPanel from '../../common-ui/MainPanel';
 import * as Form from '../../common-ui/Form';
 import LabeledInput from '../../common-ui/LabeledInput';
@@ -21,8 +18,14 @@ import * as Button from '../../common-ui/Button';
 import Popup, { POPUP_VARIANT } from '../../common-ui/Popup';
 import Loading from '../../common-ui/Loading';
 
-// Constants
+// Constants and utils
 import { API_PROGRESS } from 'src/shared/constants';
+import { validate } from './validators';
+
+// Assets
+import LogoImage from 'assets/images/logo.png';
+
+import styles from './styles.scss';
 
 const POPUP_MSG = {
   DEFAULT: '',
@@ -180,4 +183,4 @@ LoginPage.propTypes = {
   history: PropTypes.any,
 };
 
-export default withUserNotLogin(withRouter(LoginPage));
+export default withRouter(withUserNotLogin()(LoginPage));

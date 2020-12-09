@@ -6,7 +6,7 @@ import Page404 from '../containers/Page404';
 import InfoPage from '../containers/HelpPage/InfoPage';
 import CmsHelpPage from '../containers/HelpPage/CmsHelpPage';
 import JoinHelpPage from '../containers/HelpPage/JoinHelpPage';
-import EnterPage from '../containers/Contests/EnterPage';
+import EnterPage from '../containers/Contests/ContestEnterPage';
 import LoginPage from '../containers/LoginPage';
 import SignupPage from '../containers/SignupPage';
 import ProfilePage from '../containers/ProfilePage';
