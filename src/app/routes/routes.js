@@ -1,16 +1,22 @@
+import * as ROUTES from './constants';
+
+// Components
 import HomePage from '../containers/HomePage';
 import Page404 from '../containers/Page404';
-import InfoPage from '../containers/InfoPage';
-import CmsHelpPage from '../containers/CmsHelpPage';
-import JoinHelpPage from '../containers/JoinHelpPage';
+import InfoPage from '../containers/HelpPage/InfoPage';
+import CmsHelpPage from '../containers/HelpPage/CmsHelpPage';
+import JoinHelpPage from '../containers/HelpPage/JoinHelpPage';
 import EnterPage from '../containers/Contests/EnterPage';
 import LoginPage from '../containers/LoginPage';
 import SignupPage from '../containers/SignupPage';
 import ProfilePage from '../containers/ProfilePage';
 
-const ROUTES = [
+const ROUTES_CONFIG = [
+  /**
+   * HOME REGION
+   */
   {
-    path: '/',
+    path: ROUTES.ROUTE_HOMEPAGE,
     exact: true,
     component: HomePage,
   },
@@ -18,17 +24,17 @@ const ROUTES = [
    * HELP REGION
    */
   {
-    path: '/help',
+    path: ROUTES.ROUTE_HELP,
     exact: true,
     component: InfoPage,
   },
   {
-    path: '/help/cms',
+    path: ROUTES.ROUTE_HELP_CMS,
     exact: true,
     component: CmsHelpPage,
   },
   {
-    path: '/help/join',
+    path: ROUTES.ROUTE_HELP_JOIN,
     exact: true,
     component: JoinHelpPage,
   },
@@ -36,7 +42,7 @@ const ROUTES = [
    * USER REGION
    */
   {
-    path: '/users/:username',
+    path: ROUTES.ROUTE_USER_PROFILE,
     exact: true,
     component: ProfilePage,
   },
@@ -44,12 +50,12 @@ const ROUTES = [
    * AUTH REGION
    */
   {
-    path: '/auth/login',
+    path: ROUTES.ROUTE_LOGIN,
     exact: true,
     component: LoginPage,
   },
   {
-    path: '/auth/signup',
+    path: ROUTES.ROUTE_SIGNUP,
     exact: true,
     component: SignupPage,
   },
@@ -57,7 +63,7 @@ const ROUTES = [
    * CONTEST REGION
    */
   {
-    path: '/contests/:id/enter',
+    path: ROUTES.ROUTE_CONTEST_ENTER,
     exact: true,
     component: EnterPage,
   },
@@ -68,4 +74,4 @@ const ROUTES = [
   },
 ];
 
-export default ROUTES;
+export default ROUTES_CONFIG;
