@@ -137,6 +137,7 @@ function LoginPage({ history }) {
             onChange={handleChange}
             error={inputInfo.usernameOrEmail.error}
             type="text"
+            onKeyEnter={handleSubmit}
           />
         </Form.FieldSet>
         <Form.FieldSet>
@@ -147,6 +148,7 @@ function LoginPage({ history }) {
             onChange={handleChange}
             error={inputInfo.password.error}
             type="password"
+            onKeyEnter={handleSubmit}
           />
         </Form.FieldSet>
         <div className={styles.justifyContent}>

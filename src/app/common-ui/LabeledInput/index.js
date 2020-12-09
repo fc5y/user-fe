@@ -3,8 +3,14 @@ import cx from 'classnames';
 import styles from './style.scss';
 import PropTypes from 'prop-types';
 
-function LabeledInput({ label, name, value, type, error, onChange }) {
+function LabeledInput({ label, name, value, type, error, onChange, onKeyEnter }) {
   const id = React.useMemo(Math.random, []);
+
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      typeof onKeyEnter === 'function' && onKeyEnter(e);
+    }
+  };
 
   const handleChange = React.useCallback(
     (event) => {
@@ -26,6 +32,7 @@ function LabeledInput({ label, name, value, type, error, onChange }) {
         name={name}
         value={value}
         onChange={handleChange}
+        onKeyDown={handleKeyDown}
       />
       <div className={styles.error}>{error}</div>
     </div>
@@ -39,6 +46,7 @@ LabeledInput.propTypes = {
   type: PropTypes.string,
   error: PropTypes.string,
   onChange: PropTypes.func,
+  onKeyEnter: PropTypes.func,
 };
 
 export default LabeledInput;

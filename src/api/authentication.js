@@ -5,23 +5,8 @@ export function apiLogin({ usernameOrEmail, password }) {
   return post('/api/v1/login', { email_or_username: usernameOrEmail, password });
 }
 
-export function apiSignup({ username, password, extra }) {
-  return post(
-    'https://asia-east2-fyt-code-cup.cloudfunctions.net/api/register',
-    {
-      username,
-      password,
-      email: extra.email,
-      fullname: extra.fullname,
-      address: extra.address,
-      school: extra.school,
-      officialContestant:
-        !!extra.officialContestant && extra.officialContestant.toLowerCase() === 'official',
-      officialStudent: !!extra.officialStudent && extra.officialStudent.toLowerCase() === 'yes',
-    },
-    {},
-    true,
-  );
+export function apiSignup() {
+  return post('/api/v1/signup', {});
 }
 
 export function apiGetUserInfo(token) {
