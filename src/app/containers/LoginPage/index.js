@@ -6,21 +6,22 @@ import { apiLogin } from 'src/api/authentication';
 
 // HOC
 import { withRouter, Link } from 'react-router-dom';
-import withUserNotLogin from 'src/shared/hoc/withUserNotLogin';
 import { UserInfoContext } from 'src/shared/context/UserInfo';
+import withUserNotLogin from 'src/shared/hoc/withUserNotLogin';
 
 // Components
-import { Helmet } from 'react-helmet';
 import * as MainPanel from '../../common-ui/MainPanel';
 import * as Form from '../../common-ui/Form';
-import LabeledInput from '../../common-ui/LabeledInput';
 import * as Button from '../../common-ui/Button';
-import Popup, { POPUP_VARIANT } from '../../common-ui/Popup';
+import LabeledInput from '../../common-ui/LabeledInput';
 import Loading from '../../common-ui/Loading';
+import { Helmet } from 'react-helmet';
+import Popup, { POPUP_VARIANT } from '../../common-ui/Popup';
 
 // Constants and utils
 import { API_PROGRESS } from 'src/shared/constants';
 import { validate } from './validators';
+import { parseQuery } from 'src/utils/parseQuery';
 
 // Assets
 import LogoImage from 'assets/images/logo.png';
@@ -38,11 +39,12 @@ const POPUP_MSG = {
   ],
 };
 
-function LoginPage({ history }) {
+function LoginPage({ history, location }) {
   const [apiProgress, setApiProgress] = React.useState(API_PROGRESS.INIT);
   const [showPopup, setShowPopup] = React.useState(false);
   const [popupVariant, setPopupVariant] = React.useState(POPUP_VARIANT.DEFAULT);
   const [popupContent, setPopupContent] = React.useState(POPUP_MSG.DEFAULT);
+  const { setUserInfo } = React.useContext(UserInfoContext);
   const [inputInfo, setInputInfo] = React.useState({
     usernameOrEmail: {
       value: '',
@@ -53,8 +55,11 @@ function LoginPage({ history }) {
       error: null,
     },
   });
-  const { setUserInfo } = React.useContext(UserInfoContext);
 
+  // Query object
+  const query = parseQuery(location.search);
+
+  // Handle onSubmit
   const handleSubmit = async (event) => {
     event.preventDefault();
 
@@ -99,8 +104,15 @@ function LoginPage({ history }) {
       setPopupContent(msg || POPUP_MSG.ERROR);
       setApiProgress(API_PROGRESS.FAILED);
     } else {
-      setUserInfo({ token: data.access_token });
-      history.push('/');
+      // Save token and set isFetched to false to trigger fetching again
+      setUserInfo({ token: data.access_token, isFetched: false });
+
+      // Redirect to the correct URL
+      if (!!query && !!query.redirect_url) {
+        history.push(decodeURIComponent(query.redirect_url));
+      } else {
+        history.push('/');
+      }
     }
   };
 
@@ -181,6 +193,7 @@ function LoginPage({ history }) {
 
 LoginPage.propTypes = {
   history: PropTypes.any,
+  location: PropTypes.any,
 };
 
 export default withRouter(withUserNotLogin()(LoginPage));

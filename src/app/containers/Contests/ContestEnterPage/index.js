@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Redirect, withRouter } from 'react-router-dom';
 
 // HOC
+import { Redirect, withRouter } from 'react-router-dom';
 import withUserLogin from 'src/shared/hoc/withUserLogin';
 
 // Components
@@ -15,8 +15,8 @@ import { ContestInfoContext } from 'src/shared/context/ContestInfo';
 // APIs
 import { apiGetContestCredential, apiGetContestCredentialV2 } from 'src/api';
 
-// Constants
-import { ROUTE_LOGIN } from 'src/app/routes/constants';
+// Utils
+import compose from 'src/shared/hoc/compose';
 
 import styles from './enter.scss';
 
@@ -73,7 +73,7 @@ function EnterPage({ history }) {
   } else if (!userInfo.username || !contestInfo.isContestReady) {
     // Check if user has login or not. If not redirect back to homepage
     // Or the contest is not ready, we also need to redirect
-    return <Redirect to="/" />;
+    // return <Redirect to="/" />;
   }
 
   return (
@@ -111,4 +111,4 @@ EnterPage.propTypes = {
   history: PropTypes.any,
 };
 
-export default withRouter(withUserLogin(ROUTE_LOGIN)(EnterPage));
+export default compose(withRouter, withUserLogin(true))(EnterPage);

@@ -13,7 +13,7 @@ export default function withUserNotLogin(redirectRoute) {
    * `redirectRoute` route if it's defined or `/` (Homepage) as default.
    */
   return (Component) =>
-    function WrapperComponent() {
+    function WrapperComponent(props) {
       const { userInfo } = React.useContext(UserInfoContext);
 
       // Show nothing if userInfo hasn't been fetched
@@ -26,6 +26,6 @@ export default function withUserNotLogin(redirectRoute) {
         return <Redirect to={redirectRoute || '/'} />;
       }
 
-      return <Component />;
+      return <Component {...props} />;
     };
 }
