@@ -6,6 +6,7 @@ import JoinHelpPage from '../containers/JoinHelpPage';
 import EnterPage from '../containers/EnterPage';
 import LoginPage from '../containers/LoginPage';
 import SignupPage from '../containers/SignupPage';
+import ProfilePage from '../containers/ProfilePage';
 
 const ROUTES = [
   {
@@ -27,6 +28,11 @@ const ROUTES = [
     path: '/help/join',
     exact: true,
     component: JoinHelpPage,
+  },
+  {
+    path: '/users/:username',
+    exact: true,
+    component: ProfilePage,
   },
   {
     path: '/enter',
