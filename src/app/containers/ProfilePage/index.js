@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Helmet } from 'react-helmet';
 import { Link } from 'react-router-dom';
 import styles from './style.scss';
 
 import img from 'assets/images/avatar.png';
-import JoinedContests from '../../components/JoinedContests';
+import ParticipatedContests from '../../components/ParticipatedContests';
 import { get } from '../../../utils/fetchUtils';
 
 function ProfilePage({ match }) {
@@ -13,7 +13,7 @@ function ProfilePage({ match }) {
   const currentUsername = 'hieu';
   // This temporary token is used for testing purposes.
   const token =
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RlbWFpbEBnbWFpbC5jb20iLCJpYXQiOjE2MDcwMTEzODh9.Udv-7lmkBxlTnlZtgKJhYrrREtzsAtNKqrl80FQqlS0';
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRpbWVjbzkyODlAd25jbncuY29tIiwiaWQiOjIsImlhdCI6MTYwNzUwMjU1MH0.NyFS1w10XTCOHRFuyFzkpgLJkA4bZtN2uZJgGqK3Sp8';
   const [userInfo, setInfo] = useState({
     username: '',
     fullName: '',
@@ -25,27 +25,30 @@ function ProfilePage({ match }) {
     rating: '',
   });
 
-  get(
-    // Waiting for 'get users' Api to allow filter by username
-    `https://test.api.freecontest.net/api/v1/users?username=${match.params.username}`,
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
+  useEffect(() => {
+    get(
+      // Waiting for 'get users' Api to allow filter by username
+      `https://test.api.freecontest.net/api/v1/users?username=${match.params.username}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       },
-    },
-    true,
-  ).then((res) =>
-    setInfo({
-      username: res.data[0].username || '',
-      fullName: res.data[0].full_name || '',
-      dateOfBirth: '',
-      schoolName: res.data[0].school_namme || '',
-      email: res.data[0].email || '',
-      bio: '',
-      ranking: 'NONE',
-      rating: 'NONE',
-    }),
-  );
+      true,
+    ).then((res) =>
+      // Don't forget to check if the user doesn't exist or the server returns error codes.
+      setInfo({
+        username: res.data.data.users[0].username || '',
+        fullName: res.data.data.users[0].full_name || '',
+        dateOfBirth: '',
+        schoolName: res.data.data.users[0].school_namme || '',
+        email: res.data.data.users[0].email || '',
+        bio: '',
+        ranking: 'NONE',
+        rating: 'NONE',
+      }),
+    );
+  }, []);
 
   return (
     <div className={styles.container}>
@@ -99,7 +102,7 @@ function ProfilePage({ match }) {
             </div>
           </div>
         </div>
-        <JoinedContests token={token} />
+        <ParticipatedContests token={token} username={match.params.username} />
       </div>
     </div>
   );

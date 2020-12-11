@@ -17,8 +17,10 @@
     width: 100%;
     table {
       border-collapse: collapse;
+      width: 100%;
       tr {
         height: 36px;
+        width: 100%;
         border-bottom: 1px solid rgba(0, 0, 0, 0.05);
         th {
           text-align: left;
@@ -27,16 +29,16 @@
     }
   }
   .tableNumber {
-    width: 89px;
+    min-width: 89px;
   }
   .tableContest {
     width: 475px;
   }
   .tableRanking {
-    width: 370px;
+    min-width: 370px;
   }
   .tableRating {
-    width: 190px;
+    min-width: 190px;
   }
   .rowContest {
     th {
@@ -46,15 +48,13 @@
   .pastContestPage {
     text-align: right;
     margin: 17px 11px 0px 0px;
-    span {
-      b {
-        margin-right: 10px;
-      }
-      span {
-        color: #1C83C6;
-        b:hover {
-          cursor: pointer;
-        }
+    span strong {
+      margin-right: 10px;
+    }
+    span span {
+      color: #1C83C6;
+      strong:hover {
+        cursor: pointer;
       }
     }
   }
