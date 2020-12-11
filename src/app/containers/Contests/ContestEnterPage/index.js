@@ -12,19 +12,17 @@ import Loading from 'src/app/common-ui/Loading';
 
 // Contexts
 import { UserInfoContext } from 'src/shared/context/UserInfo';
-import { ContestInfoContext } from 'src/shared/context/ContestInfo';
 
 // APIs
 import { apiGetContestInfo, apiGetContestCredential } from 'src/api';
 
 // Utils and constants
 import cx from 'classnames';
-import { API_ERROR, API_PROGRESS, ERROR_MAP } from 'src/shared/constants';
+import { API_PROGRESS, ERROR_MAP } from 'src/shared/constants';
 
 import styles from './enter.scss';
 
-function EnterPage({ history }) {
-  const { contestInfo, getContestInfo } = React.useContext(ContestInfoContext);
+function EnterPage() {
   const { userInfo } = React.useContext(UserInfoContext);
   const [apiState, setApiState] = React.useState({
     progress: API_PROGRESS.INIT,
@@ -76,48 +74,52 @@ function EnterPage({ history }) {
   }, []);
 
   return (
-    <div className={styles.container}>
+    <>
       <Helmet>
         <title>Vào thi</title>
       </Helmet>
-      {apiState.progress === API_PROGRESS.REQ && <Loading />}
-      <div className={styles.title}>Vào thi</div>
-      {apiState.progress === API_PROGRESS.FAILED ? (
-        <div>{apiState.error_msg}</div>
+      {apiState.progress === API_PROGRESS.REQ ? (
+        <Loading />
+      ) : apiState.progress === API_PROGRESS.FAILED ? (
+        <div className={styles.container}>
+          <div className={styles.title}>Vào thi</div>
+          <div className={styles.error}>{apiState.error_msg}</div>
+        </div>
       ) : (
-        <>
-          <div className={styles.enterContest}>
-            <div className={styles.text}>
-              1. Truy cập vào địa chỉ:&nbsp;
-              <a
-                className={styles.linkDecoration}
-                href="https://contest.freecontest.net"
-                target="_blank"
-                rel="noreferrer"
-              >
-                https://code.fyt.freecontest.net
-              </a>
+        apiState.progress === API_PROGRESS.SUCCESS && (
+          <div className={styles.container}>
+            <div className={styles.title}>Vào thi</div>
+            <div className={styles.enterContest}>
+              <div className={styles.text}>
+                1. Truy cập vào địa chỉ:&nbsp;
+                <a
+                  className={styles.linkDecoration}
+                  href="https://contest.freecontest.net"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  https://code.fyt.freecontest.net
+                </a>
+              </div>
+            </div>
+            <div className={styles.userInfo}>
+              <div className={styles.text}>2. Đăng nhập với thông tin đăng nhập như sau:</div>
+              <ul className={cx(styles.info, styles.text)}>
+                <li className={styles.lstInfo}>
+                  Username: <span className={styles.credText}>{contestCredential.username}</span>
+                </li>
+                <li className={styles.lstInfo}>
+                  Password: <span className={styles.credText}>{contestCredential.password}</span>
+                </li>
+              </ul>
             </div>
           </div>
-          <div className={styles.userInfo}>
-            <div className={styles.text}>2. Đăng nhập với thông tin đăng nhập như sau:</div>
-            <ul className={cx(styles.info, styles.text)}>
-              <li className={styles.lstInfo}>
-                Username: <span className={styles.credText}>{contestCredential.username}</span>
-              </li>
-              <li className={styles.lstInfo}>
-                Password: <span className={styles.credText}>{contestCredential.password}</span>
-              </li>
-            </ul>
-          </div>
-        </>
+        )
       )}
-    </div>
+    </>
   );
 }
 
-EnterPage.propTypes = {
-  history: PropTypes.any,
-};
+EnterPage.propTypes = {};
 
 export default compose(withRouter, withUserLogin(true))(EnterPage);
