@@ -1,31 +1,28 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+/**
+ * contestInfo: {
+ *  [contestId]: { isContestReady: null, isRegisterClosed: null, isFetched: null },
+ * },
+ * getContestInfo: () => {}
+ */
 export const ContestInfoContext = React.createContext({
-  contestInfo: { isContestReady: null, isRegisterClosed: null, isFetched: null },
+  contestInfo: {},
 });
 
 export function ContestInfoProvider({ children }) {
-  const [contestInfo, setContestInfo] = React.useState({
-    isContestReady: null,
-    isRegisterClosed: null,
-    isFetched: false,
-  });
+  const [contestInfo, setContestInfo] = React.useState({});
 
-  React.useEffect(() => {
-    const getContestTime = async () => {
-      // TODO: Add API to get Contest info
-      setContestInfo({
-        ...contestInfo,
-        isFetched: true,
-      });
-    };
-
-    !contestInfo.isFetched && getContestTime();
-  }, []);
+  const getContestInfo = async ({ token, contestId }) => {
+    // TODO: Add API to get Contest info
+    setContestInfo({
+      ...contestInfo,
+    });
+  };
 
   return (
-    <ContestInfoContext.Provider value={{ contestInfo }}>
+    <ContestInfoContext.Provider value={{ contestInfo, getContestInfo }}>
       <>{children}</>
     </ContestInfoContext.Provider>
   );

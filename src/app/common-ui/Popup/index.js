@@ -16,7 +16,7 @@ export const POPUP_VARIANT = {
   WARNING: 3,
 };
 
-function Popup({ show, content, variant, onButtonClick }) {
+export default function Popup({ show, content, variant, onButtonClick }) {
   // Pristine is the early state of Popup which is not being opened or closed yet
   const [isPristine, setIsPristine] = React.useState(true);
 
@@ -67,4 +67,14 @@ Popup.defaultProps = {
   onButtonClick: () => {},
 };
 
-export default Popup;
+export function ErrorPopup(props) {
+  return <Popup {...props} variant={POPUP_VARIANT.ERROR} />;
+}
+
+export function WarningPopup(props) {
+  return <Popup {...props} variant={POPUP_VARIANT.WARNING} />;
+}
+
+export function SuccessPopup(props) {
+  return <Popup {...props} variant={POPUP_VARIANT.SUCCESS} />;
+}

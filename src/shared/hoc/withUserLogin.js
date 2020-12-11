@@ -1,8 +1,9 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
+import { Redirect, useLocation } from 'react-router-dom';
 
 // Components
-import { Redirect, useLocation } from 'react-router-dom';
+import Loading from 'src/app/common-ui/Loading';
 
 // Context
 import { UserInfoContext } from '../context/UserInfo';
@@ -23,7 +24,7 @@ export default function withUserLogin(redirectToLogin) {
 
       // Show nothing if userInfo hasn't been fetched
       if (!userInfo.isFetched) {
-        return <div />;
+        return <Loading />;
       }
 
       // Redirect if user not yet logged in

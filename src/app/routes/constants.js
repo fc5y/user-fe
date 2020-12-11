@@ -10,7 +10,7 @@ export const ROUTE_LOGIN = '/auth/login';
 export const ROUTE_SIGNUP = '/auth/signup';
 
 // Contest
-export const ROUTE_CONTEST_ENTER = '/contests/:id/enter';
+export const ROUTE_CONTEST_ENTER = '/contests/:contestName/enter';
 
 // Users
 export const ROUTE_USER_PROFILE = '/users/:username';
