@@ -3,11 +3,12 @@ import styles from './style.scss';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-import { get } from '../../../utils/fetchUtils';
+import { get } from 'src/utils/fetchUtils';
 
 const pastContestsPerPage = 10;
 let numberOfContests = 0;
 
+// This function lets us know the range of less than 6 indexes, denoting the pages next to that one users 're handling. In which, the page user 're handling is in the middle.
 function splitPages(numberOfItems, itemsPerPage, page) {
   if (Math.ceil(numberOfItems / itemsPerPage) <= 5) {
     return [1, Math.ceil(numberOfItems / itemsPerPage)];
@@ -59,8 +60,7 @@ function ParticipatedContests({ token, username }) {
       </th>
       <th className={styles.tableRating}>
         {contest.rating}
-        <span style={contest.rating_change < 0 ? { color: '#fd424b' } : { color: '#12cf74' }}>
-          {' '}
+        <span className={contest.rating_change < 0 ? styles.ratingRed : styles.ratingGreen}>
           ({contest.rating_change})
         </span>
       </th>
@@ -90,12 +90,12 @@ function ParticipatedContests({ token, username }) {
       <div className={styles.pastContestPage}>
         <span>
           <strong>Trang</strong>
-          {pagesList[0] !== 1 ? <strong>...</strong> : ''}
+          {pagesList[0] !== 1 && <strong>...</strong>}
           <span>
             {pagesList.map((index) => (
               <strong
                 key={index}
-                style={page === index ? { color: 'red' } : {}}
+                className={page === index && styles.indexOfHandlingPage}
                 onClick={() => setPage(index)}
               >
                 {index}
@@ -103,11 +103,7 @@ function ParticipatedContests({ token, username }) {
             ))}
           </span>
           {pagesList[pagesList.length - 1] !==
-          Math.ceil(pastContests.length / pastContestsPerPage) ? (
-            <strong>...</strong>
-          ) : (
-            ''
-          )}
+            Math.ceil(pastContests.length / pastContestsPerPage) && <strong>...</strong>}
         </span>
       </div>
     </div>

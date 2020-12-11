@@ -6,7 +6,7 @@ import styles from './style.scss';
 
 import img from 'assets/images/avatar.png';
 import ParticipatedContests from '../../components/ParticipatedContests';
-import { get } from '../../../utils/fetchUtils';
+import { get } from 'src/utils/fetchUtils';
 
 function ProfilePage({ match }) {
   // currentUsername is stored in localstorage
@@ -27,7 +27,6 @@ function ProfilePage({ match }) {
 
   useEffect(() => {
     get(
-      // Waiting for 'get users' Api to allow filter by username
       `https://test.api.freecontest.net/api/v1/users?username=${match.params.username}`,
       {
         headers: {
@@ -36,7 +35,7 @@ function ProfilePage({ match }) {
       },
       true,
     ).then((res) =>
-      // Don't forget to check if the user doesn't exist or the server returns error codes.
+      // Don't forget to handle errors
       setInfo({
         username: res.data.data.users[0].username || '',
         fullName: res.data.data.users[0].full_name || '',
@@ -63,10 +62,8 @@ function ProfilePage({ match }) {
                 <img src={img} alt="avatar" />
               </div>
               <div className={styles.changeAvatar}>
-                {currentUsername === match.params.username ? (
+                {currentUsername === match.params.username && (
                   <Link to="/settings">Thay đổi ảnh cá nhân</Link>
-                ) : (
-                  ''
                 )}
               </div>
             </div>

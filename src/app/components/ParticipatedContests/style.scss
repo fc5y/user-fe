@@ -28,6 +28,12 @@
       }
     }
   }
+  .ratingRed {
+    color: #fd424b;
+  }
+  .ratingGreen {
+    color: #12cf74;
+  }
   .tableNumber {
     width: 89px;
   }
@@ -57,5 +63,8 @@
         cursor: pointer;
       }
     }
+  }
+  .indexOfHandlingPage {
+    color: red;
   }
 }
