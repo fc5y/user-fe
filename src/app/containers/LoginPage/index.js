@@ -18,10 +18,11 @@ import { Helmet } from 'react-helmet';
 import { ErrorPopup, WarningPopup } from '../../common-ui/Popup';
 
 // Constants and utils
-import { API_PROGRESS, ERROR_MAP, FORGET_PASSWORD_HELP } from 'src/shared/constants';
+import { API_PROGRESS, FORGET_PASSWORD_HELP } from 'src/shared/constants';
 import { validate } from './validators';
 import { parseQuery } from 'src/utils/parseQuery';
 import { ROUTE_SIGNUP } from 'src/app/routes/constants';
+import { getErrorMessage } from 'src/utils/getErrorMessage';
 
 // Assets
 import LogoImage from 'assets/images/logo.png';
@@ -106,7 +107,7 @@ function LoginPage({ history, location }) {
       ) : apiState.progress === API_PROGRESS.FAILED ? (
         <ErrorPopup
           show
-          content={ERROR_MAP[apiState.error] || apiState.error_msg}
+          content={getErrorMessage({ code: apiState.error, msg: apiState.error_msg })}
           onButtonClick={() =>
             setApiState({ progress: API_PROGRESS.INIT, error: null, error_msg: null })
           }

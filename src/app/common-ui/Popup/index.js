@@ -53,6 +53,18 @@ export default function Popup({ show, content, variant, onButtonClick }) {
   );
 }
 
+export function ErrorPopup(props) {
+  return <Popup {...props} variant={POPUP_VARIANT.ERROR} />;
+}
+
+export function WarningPopup(props) {
+  return <Popup {...props} variant={POPUP_VARIANT.WARNING} />;
+}
+
+export function SuccessPopup(props) {
+  return <Popup {...props} variant={POPUP_VARIANT.SUCCESS} />;
+}
+
 Popup.propTypes = {
   show: PropTypes.bool,
   content: PropTypes.node,
@@ -66,15 +78,3 @@ Popup.defaultProps = {
   variant: POPUP_VARIANT.DEFAULT,
   onButtonClick: () => {},
 };
-
-export function ErrorPopup(props) {
-  return <Popup {...props} variant={POPUP_VARIANT.ERROR} />;
-}
-
-export function WarningPopup(props) {
-  return <Popup {...props} variant={POPUP_VARIANT.WARNING} />;
-}
-
-export function SuccessPopup(props) {
-  return <Popup {...props} variant={POPUP_VARIANT.SUCCESS} />;
-}

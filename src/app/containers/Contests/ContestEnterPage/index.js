@@ -20,7 +20,8 @@ import { apiGetContestCredential } from 'src/api';
 
 // Utils and constants
 import cx from 'classnames';
-import { API_PROGRESS, ERROR_MAP, CONTEST_LINK } from 'src/shared/constants';
+import { API_PROGRESS, CONTEST_LINK } from 'src/shared/constants';
+import { getErrorMessage } from 'src/utils/getErrorMessage';
 
 import styles from './enter.scss';
 
@@ -45,26 +46,30 @@ function EnterPage() {
       setApiState({ progress: API_PROGRESS.REQ });
 
       // Get contest info
-      const { code } = await getContestInfo({ token: userInfo.token, contestName });
+      const { code, msg } = await getContestInfo({ token: userInfo.token, contestName });
 
       if (code) {
         setApiState({ progress: API_PROGRESS.FAILED });
         setApiState({
           progress: API_PROGRESS.FAILED,
           error: code,
-          error_msg: ERROR_MAP[code],
+          error_msg: msg,
         });
         return;
       }
 
       // Get contest credential
-      const { code: credApiCode, data: credApiData } = await apiGetContestCredential(contestName);
+      const {
+        code: credApiCode,
+        data: credApiData,
+        msg: credApiMsg,
+      } = await apiGetContestCredential(contestName);
       if (credApiCode || !credApiData.contest_username || !credApiData.contest_password) {
         setApiState({ progress: API_PROGRESS.FAILED });
         setApiState({
           progress: API_PROGRESS.FAILED,
           error: credApiCode,
-          error_msg: ERROR_MAP[credApiCode],
+          error_msg: credApiMsg,
         });
       } else {
         setApiState({ progress: API_PROGRESS.SUCCESS });
@@ -91,7 +96,9 @@ function EnterPage() {
                 <div className={styles.title}>
                   {(contestInfo[contestName] && contestName) || 'Vào Thi'}
                 </div>
-                <div className={styles.error}>{apiState.error_msg}</div>
+                <div className={styles.error}>
+                  {getErrorMessage({ code: apiState.error, msg: apiState.error_msg })}
+                </div>
               </div>
             );
           case API_PROGRESS.SUCCESS:
