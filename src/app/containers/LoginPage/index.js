@@ -11,7 +11,7 @@ import withUserNotLogin from 'src/shared/hoc/withUserNotLogin';
 
 // Components
 import * as MainPanel from '../../common-ui/MainPanel';
-import * as Form from '../../common-ui/FormFC5Y';
+import * as Form from '../../common-ui/Form';
 import Loading from '../../common-ui/Loading';
 import { PrimaryButton } from '../../common-ui/Button';
 import { Helmet } from 'react-helmet';

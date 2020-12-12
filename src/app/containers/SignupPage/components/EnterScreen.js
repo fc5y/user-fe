@@ -2,7 +2,7 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
-import * as Form from 'src/app/common-ui/FormFC5Y';
+import * as Form from 'src/app/common-ui/Form';
 import { PrimaryButton } from 'src/app/common-ui/Button';
 import { validate } from '../utils/validators';
 
