@@ -17,6 +17,7 @@
     font-weight: 600;
     line-height: 30px;
     color: #1c83c6;
+    text-transform: capitalize;
   }
 
   .text {
@@ -54,5 +55,16 @@
 
   .credText {
     font-weight: bold;
+  }
+
+  .buttonWrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 15px;
+  }
+
+  .button {
+    padding: 10px;
   }
 }

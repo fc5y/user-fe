@@ -12,7 +12,7 @@ import withUserNotLogin from 'src/shared/hoc/withUserNotLogin';
 // Components
 import * as MainPanel from '../../common-ui/MainPanel';
 import * as Form from '../../common-ui/Form';
-import * as Button from '../../common-ui/Button';
+import { PrimaryButton } from '../../common-ui/Button';
 import LabeledInput from '../../common-ui/LabeledInput';
 import Loading from '../../common-ui/Loading';
 import { Helmet } from 'react-helmet';
@@ -183,9 +183,9 @@ function LoginPage({ history, location }) {
         </div>
       </Form.Form>
       <Form.ButtonGroup>
-        <Button.Primary disabled={apiProgress === API_PROGRESS.REQ} onClick={handleSubmit}>
+        <PrimaryButton disabled={apiProgress === API_PROGRESS.REQ} onClick={handleSubmit}>
           Đăng nhập
-        </Button.Primary>
+        </PrimaryButton>
       </Form.ButtonGroup>
     </MainPanel.Container>
   );

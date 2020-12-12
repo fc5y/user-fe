@@ -1,4 +1,7 @@
 export const API_ERROR = Object.freeze({
+  /**
+   * BE Errors
+   */
   // General
   SYSTEM_ERROR: 4002,
   DATABASE_ERROR: 4001,
@@ -7,7 +10,11 @@ export const API_ERROR = Object.freeze({
   // Constest
   CONTEST_NOT_FOUND: 2002,
   CONTEST_OVER: 3004,
-  CONTEST_NOT_STARTED: 999999, // TODO: @nhan Fill in later
+
+  /**
+   * FE Errors
+   */
+  CONTEST_NOT_STARTED: -2000,
 });
 
 export const ERROR_MAP = Object.freeze({

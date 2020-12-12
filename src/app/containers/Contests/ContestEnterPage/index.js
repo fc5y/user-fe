@@ -1,5 +1,5 @@
 import * as React from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 
 // HOC
 import compose from 'src/shared/hoc/compose';
@@ -9,21 +9,24 @@ import { withRouter, useParams } from 'react-router-dom';
 // Components
 import { Helmet } from 'react-helmet';
 import Loading from 'src/app/common-ui/Loading';
+import { PrimaryButton } from 'src/app/common-ui/Button';
 
 // Contexts
 import { UserInfoContext } from 'src/shared/context/UserInfo';
+import { ContestInfoContext } from 'src/shared/context/ContestInfo';
 
 // APIs
-import { apiGetContestInfo, apiGetContestCredential } from 'src/api';
+import { apiGetContestCredential } from 'src/api';
 
 // Utils and constants
 import cx from 'classnames';
-import { API_PROGRESS, ERROR_MAP } from 'src/shared/constants';
+import { API_PROGRESS, ERROR_MAP, CONTEST_LINK } from 'src/shared/constants';
 
 import styles from './enter.scss';
 
 function EnterPage() {
   const { userInfo } = React.useContext(UserInfoContext);
+  const { contestInfo, getContestInfo } = React.useContext(ContestInfoContext);
   const [apiState, setApiState] = React.useState({
     progress: API_PROGRESS.INIT,
     error: null,
@@ -38,10 +41,11 @@ function EnterPage() {
   const { contestName } = useParams();
 
   React.useEffect(() => {
-    // Get contest info
     const fetchInfo = async () => {
       setApiState({ progress: API_PROGRESS.REQ });
-      const { code, data } = await apiGetContestInfo({ token: userInfo.token, contestName });
+
+      // Get contest info
+      const { code } = await getContestInfo({ token: userInfo.token, contestName });
 
       if (code) {
         setApiState({ progress: API_PROGRESS.FAILED });
@@ -50,23 +54,24 @@ function EnterPage() {
           error: code,
           error_msg: ERROR_MAP[code],
         });
-      } else if (!!data && !!data.contest.can_enter) {
-        const { code, data } = await apiGetContestCredential(contestName);
+        return;
+      }
 
-        if (code || !data.contest_username || !data.contest_password) {
-          setApiState({ progress: API_PROGRESS.FAILED });
-          setApiState({
-            progress: API_PROGRESS.FAILED,
-            error: code,
-            error_msg: ERROR_MAP[code],
-          });
-        } else {
-          setApiState({ progress: API_PROGRESS.SUCCESS });
-          setContestCredential({
-            username: data.contest_username,
-            password: data.contest_password,
-          });
-        }
+      // Get contest credential
+      const { code: credApiCode, data: credApiData } = await apiGetContestCredential(contestName);
+      if (credApiCode || !credApiData.contest_username || !credApiData.contest_password) {
+        setApiState({ progress: API_PROGRESS.FAILED });
+        setApiState({
+          progress: API_PROGRESS.FAILED,
+          error: credApiCode,
+          error_msg: ERROR_MAP[credApiCode],
+        });
+      } else {
+        setApiState({ progress: API_PROGRESS.SUCCESS });
+        setContestCredential({
+          username: credApiData.contest_username,
+          password: credApiData.contest_password,
+        });
       }
     };
 
@@ -78,44 +83,63 @@ function EnterPage() {
       <Helmet>
         <title>Vào thi</title>
       </Helmet>
-      {apiState.progress === API_PROGRESS.REQ ? (
-        <Loading />
-      ) : apiState.progress === API_PROGRESS.FAILED ? (
-        <div className={styles.container}>
-          <div className={styles.title}>Vào thi</div>
-          <div className={styles.error}>{apiState.error_msg}</div>
-        </div>
-      ) : (
-        apiState.progress === API_PROGRESS.SUCCESS && (
-          <div className={styles.container}>
-            <div className={styles.title}>Vào thi</div>
-            <div className={styles.enterContest}>
-              <div className={styles.text}>
-                1. Truy cập vào địa chỉ:&nbsp;
-                <a
-                  className={styles.linkDecoration}
-                  href="https://contest.freecontest.net"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  https://code.fyt.freecontest.net
-                </a>
+      {(() => {
+        switch (apiState.progress) {
+          case API_PROGRESS.FAILED:
+            return (
+              <div className={styles.container}>
+                <div className={styles.title}>
+                  {(contestInfo[contestName] && contestName) || 'Vào Thi'}
+                </div>
+                <div className={styles.error}>{apiState.error_msg}</div>
               </div>
-            </div>
-            <div className={styles.userInfo}>
-              <div className={styles.text}>2. Đăng nhập với thông tin đăng nhập như sau:</div>
-              <ul className={cx(styles.info, styles.text)}>
-                <li className={styles.lstInfo}>
-                  Username: <span className={styles.credText}>{contestCredential.username}</span>
-                </li>
-                <li className={styles.lstInfo}>
-                  Password: <span className={styles.credText}>{contestCredential.password}</span>
-                </li>
-              </ul>
-            </div>
-          </div>
-        )
-      )}
+            );
+          case API_PROGRESS.SUCCESS:
+            return (
+              <div className={styles.container}>
+                <div className={styles.title}>
+                  {(contestInfo[contestName] && contestName) || 'Vào Thi'}
+                </div>
+                <div className={styles.enterContest}>
+                  <div className={styles.text}>
+                    1. Truy cập vào địa chỉ:&nbsp;
+                    <a
+                      className={styles.linkDecoration}
+                      href={CONTEST_LINK}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      {CONTEST_LINK}
+                    </a>
+                  </div>
+                </div>
+                <div className={styles.userInfo}>
+                  <div className={styles.text}>2. Đăng nhập với thông tin đăng nhập như sau:</div>
+                  <ul className={cx(styles.info, styles.text)}>
+                    <li className={styles.lstInfo}>
+                      Username:
+                      <span className={styles.credText}> {contestCredential.username}</span>
+                    </li>
+                    <li className={styles.lstInfo}>
+                      Password:
+                      <span className={styles.credText}> {contestCredential.password}</span>
+                    </li>
+                  </ul>
+                </div>
+                <div className={styles.buttonWrapper}>
+                  <PrimaryButton
+                    className={styles.button}
+                    onClick={() => window.open(CONTEST_LINK, '_blank', 'noopener noreferrer')}
+                  >
+                    Đi tới trang kì thi
+                  </PrimaryButton>
+                </div>
+              </div>
+            );
+          default:
+            return <Loading />;
+        }
+      })()}
     </>
   );
 }

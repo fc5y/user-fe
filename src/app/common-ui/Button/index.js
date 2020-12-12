@@ -16,7 +16,7 @@ Button.propTypes = {
   children: PropTypes.node,
 };
 
-function Primary({ className, children, ...otherProps }) {
+function PrimaryButton({ className, children, ...otherProps }) {
   return (
     <button
       className={cx(styles.button, styles.primaryButton, className)}
@@ -28,9 +28,9 @@ function Primary({ className, children, ...otherProps }) {
   );
 }
 
-Primary.propTypes = {
+PrimaryButton.propTypes = {
   className: PropTypes.string,
   children: PropTypes.node,
 };
 
-export { Button, Primary };
+export { Button, PrimaryButton };

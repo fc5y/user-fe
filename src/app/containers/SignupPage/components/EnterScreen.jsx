@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
 import * as Form from 'src/app/common-ui/FormFC5Y';
-import * as Button from 'src/app/common-ui/Button';
+import { PrimaryButton } from 'src/app/common-ui/Button';
 import {
   getEmailErrorOrNull,
   getPasswordErrorOrNull,
@@ -89,7 +89,7 @@ function EnterScreen({ submit }) {
         valueWhenUnchecked=""
       />
       <Form.ButtonGroup>
-        <Button.Primary onClick={validateAndSubmit}>Tạo tài khoản</Button.Primary>
+        <PrimaryButton onClick={validateAndSubmit}>Tạo tài khoản</PrimaryButton>
       </Form.ButtonGroup>
     </Form.Form>
   );
