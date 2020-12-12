@@ -3,7 +3,7 @@ import * as ROUTES from './constants';
 // Components
 import HomePage from '../containers/HomePage';
 import Page404 from '../containers/Page404';
-import InfoPage from '../containers/HelpPage/InfoPage';
+import InfoPage from '../containers/InfoPage';
 import CmsHelpPage from '../containers/HelpPage/CmsHelpPage';
 import JoinHelpPage from '../containers/HelpPage/JoinHelpPage';
 import EnterPage from '../containers/Contests/ContestEnterPage';

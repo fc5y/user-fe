@@ -33,10 +33,15 @@ export function getPasswordErrorOrNull(password) {
 }
 
 export function validate(values) {
+  const newValues = {
+    ...values,
+    usernameOrEmail: values.usernameOrEmail || '',
+    password: values.password || '',
+  };
   const errors = {
     usernameOrEmail: getUsernameOrEmailErrorOrNull(values.usernameOrEmail),
     password: getPasswordErrorOrNull(values.password),
   };
   const hasError = Object.values(errors).some((error) => !!error);
-  return { errors, hasError };
+  return { newValues, errors, hasError };
 }

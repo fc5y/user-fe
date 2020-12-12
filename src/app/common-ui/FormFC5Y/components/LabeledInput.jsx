@@ -57,9 +57,15 @@ function LabeledInput({
   onChange,
   // own props
   type,
+  onKeyEnter,
 }) {
   const id = React.useMemo(Math.random, []);
   const handleChange = (event) => onChange && onChange(event.target.value);
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      typeof onKeyEnter === 'function' && onKeyEnter(e);
+    }
+  };
 
   return (
     <FieldSet>
@@ -69,6 +75,7 @@ function LabeledInput({
         name={name}
         value={value || ''}
         onChange={handleChange}
+        onKeyDown={handleKeyDown}
         hasError={!!error}
         type={type}
       />

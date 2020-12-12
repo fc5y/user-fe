@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import PropTypes from 'prop-types';
 
 // APIs
@@ -11,49 +11,50 @@ import withUserNotLogin from 'src/shared/hoc/withUserNotLogin';
 
 // Components
 import * as MainPanel from '../../common-ui/MainPanel';
-import * as Form from '../../common-ui/Form';
-import { PrimaryButton } from '../../common-ui/Button';
-import LabeledInput from '../../common-ui/LabeledInput';
+import * as Form from '../../common-ui/FormFC5Y';
 import Loading from '../../common-ui/Loading';
+import { PrimaryButton } from '../../common-ui/Button';
 import { Helmet } from 'react-helmet';
-import Popup, { POPUP_VARIANT } from '../../common-ui/Popup';
+import { ErrorPopup, WarningPopup } from '../../common-ui/Popup';
 
 // Constants and utils
-import { API_PROGRESS } from 'src/shared/constants';
+import { API_PROGRESS, ERROR_MAP, FORGET_PASSWORD_HELP } from 'src/shared/constants';
 import { validate } from './validators';
 import { parseQuery } from 'src/utils/parseQuery';
+import { ROUTE_SIGNUP } from 'src/app/routes/constants';
 
 // Assets
 import LogoImage from 'assets/images/logo.png';
 
 import styles from './styles.scss';
 
-const POPUP_MSG = {
-  DEFAULT: '',
-  ERROR: 'Đã xảy ra lỗi, vui lòng thử lại sau',
-  WARNING: [
-    <span>
-      Vui lòng liên hệ với fanpage tại địa chỉ{' '}
-      <a href="https://facebook.com/kc97blf">https://facebook.com/kc97blf</a> để được hỗ trợ
-    </span>,
-  ],
+const labels = {
+  usernameOrEmail: 'Tên đăng nhập',
+  password: 'Mật khẩu',
 };
 
 function LoginPage({ history, location }) {
-  const [apiProgress, setApiProgress] = React.useState(API_PROGRESS.INIT);
-  const [showPopup, setShowPopup] = React.useState(false);
-  const [popupVariant, setPopupVariant] = React.useState(POPUP_VARIANT.DEFAULT);
-  const [popupContent, setPopupContent] = React.useState(POPUP_MSG.DEFAULT);
+  const [values, setValues] = React.useState({});
+  const [errors, setErrors] = React.useState({});
+  const [showWarningForgetPassword, setShowWarningForgetPassword] = React.useState(false);
+  const [apiState, setApiState] = React.useState({
+    progress: API_PROGRESS.INIT,
+    error: null,
+    error_msg: null,
+  });
   const { setUserInfo } = React.useContext(UserInfoContext);
-  const [inputInfo, setInputInfo] = React.useState({
-    usernameOrEmail: {
-      value: '',
-      error: null,
-    },
-    password: {
-      value: '',
-      error: null,
-    },
+
+  const updateValue = (name, value) => {
+    setValues({ ...values, [name]: value });
+    setErrors({ ...errors, [name]: null });
+  };
+
+  const defaultProps = (name) => ({
+    label: labels[name],
+    name,
+    value: values[name],
+    onChange: (newValue) => updateValue(name, newValue),
+    error: errors[name],
   });
 
   // Query object
@@ -63,47 +64,26 @@ function LoginPage({ history, location }) {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    const { usernameOrEmail, password } = inputInfo;
-    const { errors } = validate({
-      usernameOrEmail: usernameOrEmail.value,
-      password: password.value,
-    });
+    const validation = validate(values);
+    setValues(validation.newValues);
+    setErrors(validation.errors);
 
-    // Check if validation errors existed
-    if (
-      !usernameOrEmail.value ||
-      !password.value ||
-      !!errors.usernameOrEmail ||
-      !!errors.password
-    ) {
-      setInputInfo(() => ({
-        usernameOrEmail: {
-          value: usernameOrEmail.value,
-          error: errors.usernameOrEmail,
-        },
-        password: {
-          value: password.value,
-          error: errors.password,
-        },
-      }));
-      setPopupVariant(POPUP_VARIANT.ERROR);
-      setPopupContent(POPUP_MSG.ERROR);
-      setShowPopup(true);
+    // Return if error exists
+    if (validation.hasError) {
       return;
     }
 
-    setApiProgress(API_PROGRESS.REQ);
+    setApiState({ progress: API_PROGRESS.REQ, error: null, error_msg: null });
     const { code, data, msg } = await apiLogin({
-      usernameOrEmail: usernameOrEmail.value,
-      password: password.value,
+      usernameOrEmail: validation.newValues.usernameOrEmail,
+      password: validation.newValues.password,
     });
 
     if (!!code || !data || !data.access_token) {
-      setShowPopup(true);
-      setPopupVariant(POPUP_VARIANT.ERROR);
-      setPopupContent(msg || POPUP_MSG.ERROR);
-      setApiProgress(API_PROGRESS.FAILED);
+      setApiState({ progress: API_PROGRESS.FAILED, error: code, error_msg: msg });
     } else {
+      setApiState({ progress: API_PROGRESS.SUCCESS, error: code, error_msg: msg });
+
       // Save token and set isFetched to false to trigger fetching again
       setUserInfo({ token: data.access_token, isFetched: false });
 
@@ -116,25 +96,38 @@ function LoginPage({ history, location }) {
     }
   };
 
-  const handleChange = (name, value) => {
-    setInputInfo({ ...inputInfo, [name]: { value, error: null } });
-  };
-
   return (
     <MainPanel.Container>
       <Helmet>
         <title>Đăng nhập</title>
       </Helmet>
-      {apiProgress === API_PROGRESS.REQ && <Loading />}
-      <Popup
-        show={showPopup}
-        variant={popupVariant}
-        content={popupContent}
-        onButtonClick={() => {
-          setShowPopup(false);
-          setPopupVariant(POPUP_VARIANT.DEFAULT);
-        }}
-      />
+      {apiState.progress === API_PROGRESS.REQ ? (
+        <Loading />
+      ) : apiState.progress === API_PROGRESS.FAILED ? (
+        <ErrorPopup
+          show
+          content={ERROR_MAP[apiState.error] || apiState.error_msg}
+          onButtonClick={() =>
+            setApiState({ progress: API_PROGRESS.INIT, error: null, error_msg: null })
+          }
+        />
+      ) : (
+        showWarningForgetPassword && (
+          <WarningPopup
+            show
+            content={
+              <span>
+                Vui lòng liên hệ với fanpage tại địa chỉ&nbsp;
+                <a href={FORGET_PASSWORD_HELP} target="_blank" rel="noopener noreferrer">
+                  {FORGET_PASSWORD_HELP}
+                </a>{' '}
+                để được hỗ trợ
+              </span>
+            }
+            onButtonClick={() => setShowWarningForgetPassword(false)}
+          />
+        )
+      )}
       <div className={styles.justifyContent}>
         <div className={styles.titleLeft}>Đăng nhập</div>
         <div>
@@ -144,49 +137,30 @@ function LoginPage({ history, location }) {
         </div>
       </div>
       <Form.Form>
-        <Form.FieldSet>
-          <LabeledInput
-            label="Tên đăng nhập"
-            name="usernameOrEmail"
-            value={inputInfo.usernameOrEmail.value}
-            onChange={handleChange}
-            error={inputInfo.usernameOrEmail.error}
-            type="text"
-            onKeyEnter={handleSubmit}
-          />
-        </Form.FieldSet>
-        <Form.FieldSet>
-          <LabeledInput
-            label="Mật khẩu"
-            name="password"
-            value={inputInfo.password.value}
-            onChange={handleChange}
-            error={inputInfo.password.error}
-            type="password"
-            onKeyEnter={handleSubmit}
-          />
-        </Form.FieldSet>
+        <Form.LabeledInput
+          {...defaultProps('usernameOrEmail')}
+          type="text"
+          onKeyEnter={handleSubmit}
+        />
+        <Form.LabeledInput
+          {...defaultProps('password')}
+          type="password"
+          onKeyEnter={handleSubmit}
+        />
         <div className={styles.justifyContent}>
-          <div
-            className={styles.forgotAccount}
-            onClick={() => {
-              setShowPopup(true);
-              setPopupVariant(POPUP_VARIANT.WARNING);
-              setPopupContent(POPUP_MSG.WARNING[0]);
-            }}
-          >
+          <div className={styles.forgotAccount} onClick={() => setShowWarningForgetPassword(true)}>
             Quên mật khẩu?
           </div>
-          <Link className={styles.createAccount} to="/auth/signup">
+          <Link className={styles.createAccount} to={ROUTE_SIGNUP}>
             Tạo tài khoản
           </Link>
         </div>
+        <Form.ButtonGroup>
+          <PrimaryButton disabled={apiState.progress === API_PROGRESS.REQ} onClick={handleSubmit}>
+            Đăng nhập
+          </PrimaryButton>
+        </Form.ButtonGroup>
       </Form.Form>
-      <Form.ButtonGroup>
-        <PrimaryButton disabled={apiProgress === API_PROGRESS.REQ} onClick={handleSubmit}>
-          Đăng nhập
-        </PrimaryButton>
-      </Form.ButtonGroup>
     </MainPanel.Container>
   );
 }

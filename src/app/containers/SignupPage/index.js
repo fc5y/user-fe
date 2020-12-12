@@ -1,9 +1,15 @@
 import * as React from 'react';
+
+// Utils
 import styled from 'styled-components';
 import { Helmet } from 'react-helmet';
 import { Link } from 'react-router-dom';
 
+// Components
 import EnterScreen from './components/EnterScreen';
+
+// Constants
+import { ROUTE_LOGIN } from 'src/app/routes/constants';
 
 const Container = styled.div`
   width: 600px;
@@ -41,7 +47,7 @@ function SignupPageFC5Y() {
       <Title>
         <TitleLeft>Tạo tài khoản</TitleLeft>
         <TitleRight>
-          <Link to="/auth/login">Đăng nhập</Link>
+          <Link to={ROUTE_LOGIN}>Đăng nhập</Link>
         </TitleRight>
       </Title>
       <EnterScreen submit={(data) => alert(JSON.stringify(data, null, 2))} />

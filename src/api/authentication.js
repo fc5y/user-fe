@@ -1,18 +1,20 @@
-/* eslint-disable no-unneeded-ternary */
-import { get, post } from '../utils/fetchUtils';
+import { post } from '../utils/fetchUtils';
 
 export function apiLogin({ usernameOrEmail, password }) {
   return post('/api/v1/login', { email_or_username: usernameOrEmail, password });
 }
 
-export function apiSignup() {
-  return post('/api/v1/signup', {});
+export function apiSendOTPEmail({ email }) {
+  return post('/api/v1/send-otp', { email });
 }
 
-export function apiGetUserInfo(token) {
-  return get(
-    '/api/v1/user',
-    { Authorization: `Bearer ${token}`, 'Access-Control-Allow-Headers': '*' },
-    true,
-  );
+export function apiSignup({ username, otp, fullname, schoolName, email, password }) {
+  return post('/api/v1/signup', {
+    username,
+    otp,
+    full_name: fullname,
+    school_name: schoolName,
+    email,
+    password,
+  });
 }

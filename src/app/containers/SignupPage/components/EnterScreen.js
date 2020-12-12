@@ -4,16 +4,12 @@ import { Link } from 'react-router-dom';
 
 import * as Form from 'src/app/common-ui/FormFC5Y';
 import { PrimaryButton } from 'src/app/common-ui/Button';
-import {
-  getEmailErrorOrNull,
-  getPasswordErrorOrNull,
-  getRequiredFieldErrorOrNull,
-  getConfirmPasswordErrorOrNull,
-} from '../utils/validators';
+import { validate } from '../utils/validators';
 
 const labels = {
   fullname: 'Họ và tên',
   email: 'Email',
+  username: 'Tên đăng nhập',
   password: 'Mật khẩu',
   confirmPassword: 'Xác nhận mật khẩu',
   school: 'Trường',
@@ -27,28 +23,6 @@ const labels = {
     </span>
   ),
 };
-
-function validate(values) {
-  const newValues = {
-    ...values,
-    fullname: values.fullname || '',
-    email: values.email || '',
-    password: values.password || '',
-    confirmPassword: values.confirmPassword || '',
-    school: values.school || '',
-    isTermsAccepted: values.isTermsAccepted || '',
-  };
-  const errors = {
-    fullname: getRequiredFieldErrorOrNull(newValues.fullname),
-    email: getEmailErrorOrNull(newValues.email),
-    password: getPasswordErrorOrNull(newValues.password),
-    confirmPassword: getConfirmPasswordErrorOrNull(newValues.confirmPassword, newValues.password),
-    school: getRequiredFieldErrorOrNull(newValues.school),
-    isTermsAccepted: getRequiredFieldErrorOrNull(newValues.isTermsAccepted),
-  };
-  const hasError = Object.values(errors).some((error) => !!error);
-  return { newValues, errors, hasError };
-}
 
 function EnterScreen({ submit }) {
   const [values, setValues] = React.useState({});
@@ -80,6 +54,7 @@ function EnterScreen({ submit }) {
     <Form.Form>
       <Form.LabeledInput {...defaultProps('fullname')} type="text" />
       <Form.LabeledInput {...defaultProps('email')} type="email" />
+      <Form.LabeledInput {...defaultProps('username')} type="text" />
       <Form.LabeledInput {...defaultProps('password')} type="password" />
       <Form.LabeledInput {...defaultProps('confirmPassword')} type="password" />
       <Form.LabeledInput {...defaultProps('school')} type="text" />
