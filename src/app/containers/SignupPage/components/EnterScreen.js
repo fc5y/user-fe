@@ -120,8 +120,8 @@ function EnterScreen({ onSubmitForm }) {
           <ErrorPopup
             show
             content={getErrorMessage(apiState)}
-            onButtonClick={() =>
-              setApiState({ progress: API_PROGRESS.REQ, error: null, error_msg: null })
+            onClose={() =>
+              setApiState({ progress: API_PROGRESS.INIT, error: null, error_msg: null })
             }
           />
         )

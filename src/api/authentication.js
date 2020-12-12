@@ -5,7 +5,7 @@ export function apiLogin({ usernameOrEmail, password }) {
 }
 
 export function apiSendOTPEmail({ email }) {
-  return post('/api/v1/send_otp', { email });
+  return post('/api/v1/send-otp', { email });
 }
 
 export function apiSignup({ username, otp, fullname, schoolName, email, password }) {
