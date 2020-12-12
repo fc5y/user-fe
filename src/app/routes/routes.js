@@ -6,10 +6,11 @@ import Page404 from '../containers/Page404';
 import InfoPage from '../containers/InfoPage';
 import CmsHelpPage from '../containers/HelpPage/CmsHelpPage';
 import JoinHelpPage from '../containers/HelpPage/JoinHelpPage';
-import EnterPage from '../containers/Contests/ContestEnterPage';
 import LoginPage from '../containers/LoginPage';
 import SignupPage from '../containers/SignupPage';
 import ProfilePage from '../containers/ProfilePage';
+import ContestEnterPage from '../containers/Contests/ContestEnterPage';
+import ContestRegister from '../containers/Contests/ContestRegister';
 
 const ROUTES_CONFIG = [
   /**
@@ -65,7 +66,12 @@ const ROUTES_CONFIG = [
   {
     path: ROUTES.ROUTE_CONTEST_ENTER,
     exact: true,
-    component: EnterPage,
+    component: ContestEnterPage,
+  },
+  {
+    path: ROUTES.ROUTE_CONTEST_REGISTER,
+    exact: true,
+    component: ContestRegister,
   },
   {
     path: '*',

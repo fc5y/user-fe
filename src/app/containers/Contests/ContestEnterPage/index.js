@@ -12,7 +12,6 @@ import Loading from 'src/app/common-ui/Loading';
 import { PrimaryButton } from 'src/app/common-ui/Button';
 
 // Contexts
-import { UserInfoContext } from 'src/shared/context/UserInfo';
 import { ContestInfoContext } from 'src/shared/context/ContestInfo';
 
 // APIs
@@ -26,7 +25,6 @@ import { getErrorMessage } from 'src/utils/getErrorMessage';
 import styles from './enter.scss';
 
 function EnterPage() {
-  const { userInfo } = React.useContext(UserInfoContext);
   const { contestInfo, getContestInfo } = React.useContext(ContestInfoContext);
   const [apiState, setApiState] = React.useState({
     progress: API_PROGRESS.INIT,
@@ -46,10 +44,9 @@ function EnterPage() {
       setApiState({ progress: API_PROGRESS.REQ });
 
       // Get contest info
-      const { code, msg } = await getContestInfo({ token: userInfo.token, contestName });
+      const { code, msg } = await getContestInfo({ contestName });
 
       if (code) {
-        setApiState({ progress: API_PROGRESS.FAILED });
         setApiState({
           progress: API_PROGRESS.FAILED,
           code,
@@ -72,7 +69,7 @@ function EnterPage() {
           msg: credApiMsg,
         });
       } else {
-        setApiState({ progress: API_PROGRESS.SUCCESS });
+        setApiState({ progress: API_PROGRESS.SUCCESS, code: null, msg: null });
         setContestCredential({
           username: credApiData.contest_username,
           password: credApiData.contest_password,

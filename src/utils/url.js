@@ -15,6 +15,10 @@ export const getFullApiUrl = (url, env = __ENV__) => {
   return `${API_DOMAIN[env.toLowerCase()]}${url}`;
 };
 
+/**
+ * Util to check if the given url is absolute
+ * @param {strin} url
+ */
 export const isAbsoluteURL = (url) => {
   try {
     new URL(url);
@@ -23,6 +27,10 @@ export const isAbsoluteURL = (url) => {
   }
 };
 
+/**
+ * Util to check if given url is valid url (ends with "freecontest.net")
+ * @param {string} url
+ */
 export const isURLValid = (url) => {
   try {
     const urlObj = new URL(url);
@@ -30,4 +38,19 @@ export const isURLValid = (url) => {
   } catch {
     return false;
   }
+};
+
+/**
+ * Util to inject path params into route
+ * Ex: makeUrl('/api/:id/a', { id: "new" }) return '/api/new/a'
+ * @param {string} route
+ * @param {object} options
+ */
+export const makeUrl = (route, options) => {
+  if (typeof options !== 'object') return route;
+  let formattedRoute = route;
+  Object.keys(options).forEach((key) => {
+    formattedRoute = formattedRoute.replace(`:${key}`, options[key]);
+  });
+  return formattedRoute;
 };

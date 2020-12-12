@@ -21,8 +21,8 @@ export const ContestInfoContext = React.createContext({
 export function ContestInfoProvider({ children }) {
   const [contestInfo, setContestInfo] = React.useState({});
 
-  const getContestInfo = async ({ token, contestName }) => {
-    const { code, data } = await apiGetContestInfo({ token, contestName });
+  const getContestInfo = async ({ contestName }) => {
+    const { code, data } = await apiGetContestInfo({ contestName });
 
     // Save contest info if fetch successfully
     if (!code && !!data && !!data.contest) {
