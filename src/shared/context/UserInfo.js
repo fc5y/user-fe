@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { apiGetUserInfo } from 'src/api';
+import { apiGetMyUserInfo } from 'src/api';
 import PropTypes from 'prop-types';
 
 export const UserInfoContext = React.createContext({
@@ -21,7 +21,7 @@ export function UserInfoProvider({ children }) {
 
   React.useEffect(() => {
     const getUserInfo = async () => {
-      const { code, data } = await apiGetUserInfo(userInfo.token);
+      const { code, data } = await apiGetMyUserInfo({ token: userInfo.token });
 
       if (!code && data) {
         setUserInfo({

@@ -6,7 +6,7 @@ const MSG_ERROR_INPUT_TOO_LONG = 'Thông tin nhập quá dài';
 const MSG_ERROR_USERNAME_HAS_INVALID_CHARACTERS =
   'Tên đăng nhập chỉ được gồm các ký tự a-z, A-Z, 0-9, ".", "-", "_"';
 
-const EMAIL_REGEX = /.+@.+\..+/;
+const EMAIL_REGEX = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+$/;
 const USERNAME_REGEX = /^[a-zA-z0-9-._]*$/;
 
 export function getUsernameOrEmailErrorOrNull(usernameOrEmail) {
@@ -27,7 +27,7 @@ export function getUsernameOrEmailErrorOrNull(usernameOrEmail) {
 
 export function getPasswordErrorOrNull(password) {
   if (!password) return MSG_ERROR_FIELD_IS_REQUIRED;
-  if (password.length < 2) return MSG_ERROR_PASSWORD_TOO_SHORT;
+  if (password.length < 8) return MSG_ERROR_PASSWORD_TOO_SHORT;
   if (password.length > 255) return MSG_ERROR_INPUT_TOO_LONG;
   return null;
 }

@@ -4,8 +4,8 @@ import * as React from 'react';
 import { apiSignup } from 'src/api/index';
 
 // Components
-import EnterScreen from './components/EnterScreen';
-import EmailOTP from './components/EmailOTP';
+import EnterScreen from './EnterScreen';
+import EmailOTP from './EmailOTP';
 
 // Constants
 import { STATE } from './config';
@@ -19,15 +19,17 @@ function SignupPageFC5Y() {
     setUserInput(data);
   };
 
-  const onSignup = (otp) => {
-    return apiSignup({ ...userInput, otp });
-  };
-
   switch (state) {
     case STATE.ENTER_INFO:
       return <EnterScreen onSubmitForm={onSubmitForm} />;
     case STATE.EMAIL_OTP:
-      return <EmailOTP email={userInput.email} onSignup={onSignup} />;
+      return (
+        <EmailOTP
+          email={userInput.email}
+          onSignup={(otp) => apiSignup({ ...userInput, otp })}
+          onClickBack={() => setState(STATE.ENTER_INFO)}
+        />
+      );
     default:
       return null;
   }

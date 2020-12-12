@@ -7,7 +7,7 @@ const MSG_ERROR_CONFIRM_PASSWORD_MISMATCHED = 'Mật khẩu không khớp';
 const MSG_ERROR_USERNAME_WRONG_FORMAT = `Tên đăng nhập chỉ được gồm các ký tự a-z, A-Z, 0-9, ".", "-", "_"`;
 const MSG_ERROR_MINIMUM_LENGTH = 'Thông tin nhập quá ngắn';
 
-const EMAIL_REGEX = /.+@.+\..+/;
+const EMAIL_REGEX = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+$/;
 const USERNAME_REGEX = /^([a-zA-Z0-9\\.\-_]+$)/;
 const PASSWORD_REGEX = /^([\x20-\x7E]+$)/;
 

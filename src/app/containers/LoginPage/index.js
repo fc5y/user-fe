@@ -18,11 +18,11 @@ import { Helmet } from 'react-helmet';
 import { ErrorPopup, WarningPopup } from '../../common-ui/Popup';
 
 // Constants and utils
-import { API_PROGRESS, FORGET_PASSWORD_HELP } from 'src/shared/constants';
 import { validate } from './validators';
 import { parseQuery } from 'src/utils/parseQuery';
 import { ROUTE_SIGNUP } from 'src/app/routes/constants';
 import { getErrorMessage } from 'src/utils/getErrorMessage';
+import { API_PROGRESS, FORGET_PASSWORD_HELP } from 'src/shared/constants';
 
 // Assets
 import LogoImage from 'assets/images/logo.png';
@@ -119,8 +119,8 @@ function LoginPage({ history, location }) {
                 Vui lòng liên hệ với fanpage tại địa chỉ&nbsp;
                 <a href={FORGET_PASSWORD_HELP} target="_blank" rel="noopener noreferrer">
                   {FORGET_PASSWORD_HELP}
-                </a>{' '}
-                để được hỗ trợ
+                </a>
+                &nbsp;để được hỗ trợ
               </span>
             }
             onClose={() => setShowWarningForgetPassword(false)}

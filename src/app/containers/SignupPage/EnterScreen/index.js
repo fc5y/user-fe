@@ -8,7 +8,7 @@ import { apiSendOTPEmail } from 'src/api';
 import styled from 'styled-components';
 import { Helmet } from 'react-helmet';
 import { Link } from 'react-router-dom';
-import { validate } from '../utils/validators';
+import { validate } from './validators';
 import { getErrorMessage } from 'src/utils/getErrorMessage';
 
 // Components

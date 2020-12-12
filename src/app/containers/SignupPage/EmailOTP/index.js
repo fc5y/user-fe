@@ -9,14 +9,17 @@ import styled from 'styled-components';
 import { validate } from './validators';
 
 // Components
+import Loading from 'src/app/common-ui/Loading';
 import { Button, PrimaryButton } from 'src/app/common-ui/Button';
 import { LabeledInput } from 'src/app/common-ui/Form';
-import Loading from 'src/app/common-ui/Loading';
-import { SuccessPopup } from 'src/app/common-ui/Popup';
+import { SuccessPopup, ErrorPopup } from 'src/app/common-ui/Popup';
 
 // Constants
 import { API_PROGRESS } from 'src/shared/constants';
 import { ROUTE_LOGIN } from 'src/app/routes/constants';
+
+// Utils
+import { getErrorMessage } from 'src/utils/getErrorMessage';
 
 const Container = styled.div`
   width: 500px;
@@ -62,7 +65,7 @@ const labels = {
   otp: 'Mã xác minh',
 };
 
-function EmailOTP({ email, onSignup }) {
+function EmailOTP({ email, onSignup, onClickBack }) {
   const [values, setValues] = React.useState({});
   const [errors, setErrors] = React.useState({});
   const [apiState, setApiState] = React.useState({
@@ -111,12 +114,18 @@ function EmailOTP({ email, onSignup }) {
     <Container>
       {apiState.progress === API_PROGRESS.REQ ? (
         <Loading />
+      ) : apiState.progress === API_PROGRESS.SUCCESS ? (
+        <SuccessPopup
+          show
+          content="Tạo tài khoản thành công"
+          onClose={() => history.push(ROUTE_LOGIN)}
+        />
       ) : (
-        apiState.progress === API_PROGRESS.SUCCESS && (
-          <SuccessPopup
+        apiState.progress === API_PROGRESS.FAILED && (
+          <ErrorPopup
             show
-            content="Tạo tài khoản thành công"
-            onClose={() => history.push(ROUTE_LOGIN)}
+            content={getErrorMessage(apiState)}
+            onClose={() => setApiState({ progress: API_PROGRESS.REQ, code: null, msg: null })}
           />
         )
       )}
@@ -128,7 +137,7 @@ function EmailOTP({ email, onSignup }) {
         <LabeledInput {...defaultProps('otp')} type="text" onKeyEnter={handleSubmit} />
       </OTPInput>
       <ButtonGroups>
-        <Button>Trở về</Button>
+        <Button onClick={onClickBack}>Trở về</Button>
         <PrimaryButton onClick={handleSubmit}>Tạo tài khoản</PrimaryButton>
       </ButtonGroups>
     </Container>
@@ -138,6 +147,7 @@ function EmailOTP({ email, onSignup }) {
 EmailOTP.propTypes = {
   email: PropTypes.string,
   onSignup: PropTypes.func,
+  onClickBack: PropTypes.func,
 };
 
 export default EmailOTP;

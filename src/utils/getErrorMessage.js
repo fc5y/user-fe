@@ -5,5 +5,5 @@ export function getErrorMessage({ code, msg }) {
     return ERROR_MAP[API_ERROR.SYSTEM_ERROR];
   }
 
-  return msg || ERROR_MAP[code];
+  return ERROR_MAP[code] || msg;
 }
