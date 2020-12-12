@@ -1,10 +1,15 @@
 /* eslint-disable no-use-before-define */
 const MSG_ERROR_FIELD_IS_REQUIRED = 'Mục này là bắt buộc';
 const MSG_ERROR_INVALID_EMAIL = 'Email không hợp lệ';
-const MSG_ERROR_INVALID_PASSWORD = 'Mật khẩu phải có ít nhất 8 ký tự';
+const MSG_ERROR_PASSWORD_MINIMUM_LENGTH = 'Mật khẩu phải có ít nhất 8 ký tự';
+const MSG_ERROR_PASSWORD_WRONG_FORMAT = '"Mật khẩu chỉ được gồm các ký tự ASCII (#32..#126)';
 const MSG_ERROR_CONFIRM_PASSWORD_MISMATCHED = 'Mật khẩu không khớp';
+const MSG_ERROR_USERNAME_WRONG_FORMAT = `Tên đăng nhập chỉ được gồm các ký tự a-z, A-Z, 0-9, ".", "-", "_"`;
+const MSG_ERROR_MINIMUM_LENGTH = 'Thông tin nhập quá ngắn';
 
 const EMAIL_REGEX = /.+@.+\..+/;
+const USERNAME_REGEX = /^([a-zA-Z0-9\\.\-_]+$)/;
+const PASSWORD_REGEX = /^([\x20-\x7E]+$)/;
 
 export function validate(values) {
   const newValues = {
@@ -20,7 +25,7 @@ export function validate(values) {
   const errors = {
     fullname: getRequiredFieldErrorOrNull(newValues.fullname),
     email: getEmailErrorOrNull(newValues.email),
-    username: getRequiredFieldErrorOrNull(newValues.username),
+    username: getUsernameValidationError(newValues.username),
     password: getPasswordErrorOrNull(newValues.password),
     confirmPassword: getConfirmPasswordErrorOrNull(newValues.confirmPassword, newValues.password),
     school: getRequiredFieldErrorOrNull(newValues.school),
@@ -30,24 +35,32 @@ export function validate(values) {
   return { newValues, errors, hasError };
 }
 
-export function getRequiredFieldErrorOrNull(field) {
+function getRequiredFieldErrorOrNull(field) {
   if (!field) return MSG_ERROR_FIELD_IS_REQUIRED;
   return null;
 }
 
-export function getEmailErrorOrNull(email) {
+function getUsernameValidationError(username) {
+  if (!username) return MSG_ERROR_FIELD_IS_REQUIRED;
+  if (username.length < 3) return MSG_ERROR_MINIMUM_LENGTH;
+  if (!USERNAME_REGEX.test(username)) return MSG_ERROR_USERNAME_WRONG_FORMAT;
+  return null;
+}
+
+function getEmailErrorOrNull(email) {
   if (!email) return MSG_ERROR_FIELD_IS_REQUIRED;
   if (!EMAIL_REGEX.test(email)) return MSG_ERROR_INVALID_EMAIL;
   return null;
 }
 
-export function getPasswordErrorOrNull(password) {
+function getPasswordErrorOrNull(password) {
   if (!password) return MSG_ERROR_FIELD_IS_REQUIRED;
-  if (password.length < 8) return MSG_ERROR_INVALID_PASSWORD;
+  if (password.length < 8) return MSG_ERROR_PASSWORD_MINIMUM_LENGTH;
+  if (!PASSWORD_REGEX.test(password)) return MSG_ERROR_PASSWORD_WRONG_FORMAT;
   return null;
 }
 
-export function getConfirmPasswordErrorOrNull(confirmPassword, password) {
+function getConfirmPasswordErrorOrNull(confirmPassword, password) {
   if (!confirmPassword) return MSG_ERROR_FIELD_IS_REQUIRED;
   if (confirmPassword !== password) return MSG_ERROR_CONFIRM_PASSWORD_MISMATCHED;
   return null;

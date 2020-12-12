@@ -78,6 +78,7 @@ function LabeledInput({
         onKeyDown={handleKeyDown}
         hasError={!!error}
         type={type}
+        maxLength={255}
       />
       <Error>{error}</Error>
     </FieldSet>

@@ -71,8 +71,8 @@ function EnterScreen({ onSubmitForm }) {
   const [errors, setErrors] = React.useState({});
   const [apiState, setApiState] = React.useState({
     progress: API_PROGRESS.INIT,
-    error: null,
-    error_msg: null,
+    code: null,
+    msg: null,
   });
 
   const updateValue = (name, value) => {
@@ -97,11 +97,11 @@ function EnterScreen({ onSubmitForm }) {
       return;
     }
 
-    setApiState({ progress: API_PROGRESS.REQ, error: null, error_msg: null });
+    setApiState({ progress: API_PROGRESS.REQ, code: null, msg: null });
     const { code, data, msg } = await apiSendOTPEmail({ email: validation.newValues.email });
 
     if (code || !data) {
-      setApiState({ progress: API_PROGRESS.FAILED, error: code, error_msg: msg });
+      setApiState({ progress: API_PROGRESS.FAILED, code, msg });
     } else {
       setApiState({ ...apiState, progress: API_PROGRESS.SUCCESS });
       onSubmitForm(validation.newValues);
@@ -119,7 +119,7 @@ function EnterScreen({ onSubmitForm }) {
         apiState.progress === API_PROGRESS.FAILED && (
           <ErrorPopup
             show
-            content={getErrorMessage({ code: apiState.error, msg: apiState.error_msg })}
+            content={getErrorMessage(apiState)}
             onButtonClick={() =>
               setApiState({ progress: API_PROGRESS.REQ, error: null, error_msg: null })
             }

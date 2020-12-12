@@ -40,8 +40,8 @@ function LoginPage({ history, location }) {
   const [showWarningForgetPassword, setShowWarningForgetPassword] = React.useState(false);
   const [apiState, setApiState] = React.useState({
     progress: API_PROGRESS.INIT,
-    error: null,
-    error_msg: null,
+    code: null,
+    msg: null,
   });
   const { setUserInfo } = React.useContext(UserInfoContext);
 
@@ -74,16 +74,16 @@ function LoginPage({ history, location }) {
       return;
     }
 
-    setApiState({ progress: API_PROGRESS.REQ, error: null, error_msg: null });
+    setApiState({ progress: API_PROGRESS.REQ, code: null, msg: null });
     const { code, data, msg } = await apiLogin({
       usernameOrEmail: validation.newValues.usernameOrEmail,
       password: validation.newValues.password,
     });
 
     if (!!code || !data || !data.access_token) {
-      setApiState({ progress: API_PROGRESS.FAILED, error: code, error_msg: msg });
+      setApiState({ progress: API_PROGRESS.FAILED, code, msg });
     } else {
-      setApiState({ progress: API_PROGRESS.SUCCESS, error: code, error_msg: msg });
+      setApiState({ progress: API_PROGRESS.SUCCESS, code, msg });
 
       // Save token and set isFetched to false to trigger fetching again
       setUserInfo({ token: data.access_token, isFetched: false });
@@ -107,7 +107,7 @@ function LoginPage({ history, location }) {
       ) : apiState.progress === API_PROGRESS.FAILED ? (
         <ErrorPopup
           show
-          content={getErrorMessage({ code: apiState.error, msg: apiState.error_msg })}
+          content={getErrorMessage(apiState)}
           onButtonClick={() =>
             setApiState({ progress: API_PROGRESS.INIT, error: null, error_msg: null })
           }

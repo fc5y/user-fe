@@ -30,8 +30,8 @@ function EnterPage() {
   const { contestInfo, getContestInfo } = React.useContext(ContestInfoContext);
   const [apiState, setApiState] = React.useState({
     progress: API_PROGRESS.INIT,
-    error: null,
-    error_msg: null,
+    code: null,
+    msg: null,
   });
   const [contestCredential, setContestCredential] = React.useState({
     username: '',
@@ -52,8 +52,8 @@ function EnterPage() {
         setApiState({ progress: API_PROGRESS.FAILED });
         setApiState({
           progress: API_PROGRESS.FAILED,
-          error: code,
-          error_msg: msg,
+          code,
+          msg,
         });
         return;
       }
@@ -68,8 +68,8 @@ function EnterPage() {
         setApiState({ progress: API_PROGRESS.FAILED });
         setApiState({
           progress: API_PROGRESS.FAILED,
-          error: credApiCode,
-          error_msg: credApiMsg,
+          code: credApiCode,
+          msg: credApiMsg,
         });
       } else {
         setApiState({ progress: API_PROGRESS.SUCCESS });
@@ -96,9 +96,7 @@ function EnterPage() {
                 <div className={styles.title}>
                   {(contestInfo[contestName] && contestName) || 'Vào Thi'}
                 </div>
-                <div className={styles.error}>
-                  {getErrorMessage({ code: apiState.error, msg: apiState.error_msg })}
-                </div>
+                <div className={styles.error}>{getErrorMessage(apiState)}</div>
               </div>
             );
           case API_PROGRESS.SUCCESS:
