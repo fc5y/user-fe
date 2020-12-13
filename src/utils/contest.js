@@ -7,10 +7,12 @@ import { CONTEST_STATUS } from 'src/shared/constants';
  * @param {object} contestInfo
  */
 export function getContestStatus(contestInfo) {
+  if (!contestInfo || !contestInfo.start_time) return 0;
+
   const now = Date.now();
   const { start_time, duration, can_enter, materials = {} } = contestInfo;
-  const formattedStartTime = start_time ? start_time * 1000 : Number.MAX_SAFE_INTEGER;
-  const formattedDuration = duration * 1000;
+  const formattedStartTime = start_time * 1000;
+  const formattedDuration = duration * 100;
   const endTime = formattedStartTime + formattedDuration;
 
   if (now < formattedStartTime) {
@@ -49,13 +51,17 @@ export function convertTZ(date, tzString = 'Asia/Bangkok') {
  * @param {object} contestInfo
  */
 export function formatContestTime(contestInfo) {
-  const { start_time, duration = {} } = contestInfo;
-  const formattedStartTime = start_time ? start_time * 1000 : Number.MAX_SAFE_INTEGER;
+  if (!contestInfo || !contestInfo.start_time) return '';
+
+  const { start_time, duration } = contestInfo;
+  const formattedStartTime = start_time * 1000;
   const formattedDuration = duration * 1000;
   const endTime = new Date(formattedStartTime + formattedDuration);
 
   const startTimeObj = convertTZ(new Date(formattedStartTime));
-  const contestDate = `${startTimeObj.getDate()}/${startTimeObj.getMonth()}/${startTimeObj.getFullYear()}`;
+  const contestDate = `${startTimeObj.getDate()}/${
+    startTimeObj.getMonth() + 1
+  }/${startTimeObj.getFullYear()}`;
   const contestStartTime = `${startTimeObj.toTimeString().slice(0, 5)}`;
   const contestEndTime = `${endTime.toTimeString().slice(0, 5)}`;
 

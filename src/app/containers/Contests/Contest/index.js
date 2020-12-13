@@ -8,14 +8,19 @@ import { ContestInfoContext } from 'src/shared/context/ContestInfo';
 
 // Utils
 import styled from 'styled-components';
+import { formatContestTime, getContestStatus } from 'src/utils/contest';
 import { getErrorMessage } from 'src/utils/getErrorMessage';
 
 // Constants
-import { API_PROGRESS } from 'src/shared/constants';
+import { API_PROGRESS, CONTEST_STATUS } from 'src/shared/constants';
 
 // Components
 import Loading from 'src/app/common-ui/Loading';
 import ErrorContent from './components/ErrorContent';
+import ContestEnded from './components/ContestEnded';
+import ContestJustEnded from './components/ContestJustEnded';
+import ContestNotStarted from './components/ContestNotStarted';
+import ContestStarting from './components/ContestStarting';
 
 const ContainerWrapper = styled.div`
   width: 100%;
@@ -40,7 +45,7 @@ const ContestTitle = styled.div`
   color: var(--primary-default);
   font-weight: bold;
   font-size: 44px;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 `;
 
 const ContestTime = styled.div`
@@ -49,7 +54,8 @@ const ContestTime = styled.div`
 
 function Contest() {
   const { contestName } = useParams();
-  const { getContestInfo } = React.useContext(ContestInfoContext);
+  const { getContestInfo, contestInfo } = React.useContext(ContestInfoContext);
+  const [contestStatus, setContestStatus] = React.useState(CONTEST_STATUS.UNSET);
   const [apiState, setApiState] = React.useState({
     progress: API_PROGRESS.INIT,
     code: null,
@@ -76,14 +82,34 @@ function Contest() {
     fetchContestInfo();
   }, []);
 
+  React.useEffect(() => {
+    setContestStatus(getContestStatus(contestInfo && contestInfo[contestName]));
+  }, [contestInfo, contestName]);
+
   return (
     <ContainerWrapper>
       {apiState.progress === API_PROGRESS.FAILED ? (
         <ErrorContent content={getErrorMessage(apiState)} />
       ) : apiState.progress === API_PROGRESS.SUCCESS ? (
         <Container>
-          <ContestTitle>Free Contest 121</ContestTitle>
-          <ContestTime>28/11/2020 19:30 - 22:30</ContestTime>
+          <ContestTitle>
+            {(contestInfo[contestName] && contestInfo[contestName].contest_title) || contestName}
+          </ContestTitle>
+          <ContestTime>{formatContestTime(contestInfo[contestName]).startAndEndTime}</ContestTime>
+          {(() => {
+            switch (contestStatus) {
+              case CONTEST_STATUS.NOT_STARTED:
+                return <ContestNotStarted />;
+              case CONTEST_STATUS.STARTING:
+                return <ContestStarting />;
+              case CONTEST_STATUS.JUST_ENDED:
+                return <ContestJustEnded />;
+              case CONTEST_STATUS.ENDED:
+                return <ContestEnded />;
+              default:
+                return null;
+            }
+          })()}
         </Container>
       ) : (
         <Loading />
