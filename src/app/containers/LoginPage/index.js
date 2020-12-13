@@ -1,144 +1,132 @@
-import React from 'react';
+import * as React from 'react';
 import PropTypes from 'prop-types';
-import { Helmet } from 'react-helmet';
-import LogoImage from 'assets/images/logo.png';
-import styles from './styles.scss';
-import { getPasswordErrorOrNull, getUsernameOrEmailErrorOrNull } from './validators';
 
 // APIs
-import { post } from 'src/utils/fetchUtils';
+import { apiLogin } from 'src/api/authentication';
 
 // HOC
 import { withRouter, Link } from 'react-router-dom';
-import withUserNotLogin from 'src/shared/hoc/withUserNotLogin';
 import { UserInfoContext } from 'src/shared/context/UserInfo';
+import withUserNotLogin from 'src/shared/hoc/withUserNotLogin';
 
-// UI
+// Components
 import * as MainPanel from '../../common-ui/MainPanel';
 import * as Form from '../../common-ui/Form';
-import LabeledInput from '../../common-ui/LabeledInput';
-import * as Button from '../../common-ui/Button';
-import Popup from '../../common-ui/Popup';
 import Loading from '../../common-ui/Loading';
+import { PrimaryButton } from '../../common-ui/Button';
+import { Helmet } from 'react-helmet';
+import { ErrorPopup, WarningPopup } from '../../common-ui/Popup';
 
-// Constants
-import { API_PROGRESS } from 'src/shared/constants';
-// import { validate } from 'webpack';
+// Constants and utils
+import { validate } from './validators';
+import { parseQuery } from 'src/utils/parseQuery';
+import { ROUTE_SIGNUP } from 'src/app/routes/constants';
+import { getErrorMessage } from 'src/utils/getErrorMessage';
+import { API_PROGRESS, FORGET_PASSWORD_HELP } from 'src/shared/constants';
+
+// Assets
+import LogoImage from 'assets/images/logo.png';
+
+import styles from './styles.scss';
 
 const labels = {
-  usernameOrEmail: 'Tên đăng nhập/Email',
+  usernameOrEmail: 'Tên đăng nhập',
   password: 'Mật khẩu',
 };
 
-const POPUP_VARIANT = {
-  DEFAULT: 0,
-  ERROR: 1,
-  SUCCESS: 2,
-  WARNING: 3,
-};
-
-const POPUP_MSG = {
-  DEFAULT: '',
-  ERROR: 'Đã xảy ra lỗi, vui lòng thử lại sau',
-  WARNING: [
-    <span>
-      Vui lòng liên hệ với fanpage tại địa chỉ{' '}
-      <a href="https://facebook.com/kc97blf">https://facebook.com/kc97blf</a> để được hỗ trợ
-    </span>,
-  ],
-};
-
-function validate(values) {
-  const newValues = {
-    ...values,
-    usernameOrEmail: values.usernameOrEmail || '',
-    password: values.password || '',
-  };
-  const errors = {
-    usernameOrEmail: getUsernameOrEmailErrorOrNull(newValues.usernameOrEmail),
-    password: getPasswordErrorOrNull(newValues.password),
-  };
-  const hasError = Object.values(errors).some((error) => !!error);
-  return { newValues, errors, hasError };
-}
-
-function LoginPage({ history }) {
-  const [apiProgress, setApiProgress] = React.useState(API_PROGRESS.INIT);
-  const [showPopup, setShowPopup] = React.useState(false);
-  const [popupVariant, setPopupVariant] = React.useState(POPUP_VARIANT.DEFAULT);
-  const [popupContent, setPopupContent] = React.useState(POPUP_MSG.DEFAULT);
-  const [values, setValues] = React.useState({
-    // null: pristine (user has not changed the value)
-    // empty string: non-pristine (user has changed the value)
-    usernameOrEmail: null,
-    password: null,
-  });
+function LoginPage({ history, location }) {
+  const [values, setValues] = React.useState({});
   const [errors, setErrors] = React.useState({});
-  const { userInfo, setUserInfo } = React.useContext(UserInfoContext);
+  const [showWarningForgetPassword, setShowWarningForgetPassword] = React.useState(false);
+  const [apiState, setApiState] = React.useState({
+    progress: API_PROGRESS.INIT,
+    code: null,
+    msg: null,
+  });
+  const { setUserInfo } = React.useContext(UserInfoContext);
 
-  const handleSubmit = React.useCallback(
-    async (event) => {
-      event.preventDefault();
-      const { usernameOrEmail, password } = values;
-      const validation = validate(values);
-      setValues(validation.newValues);
-      setErrors(validation.errors);
-      const isNoneErrors = !Object.values(validation.errors).some((error) => error !== null);
-      if (!usernameOrEmail || !password || !isNoneErrors) {
-        setShowPopup(true);
-        setPopupVariant(POPUP_VARIANT.ERROR);
-        setPopupContent(POPUP_MSG.ERROR);
-        return;
-      }
-      setApiProgress(API_PROGRESS.REQ);
-      const { data: apiValues } = await post(
-        'https://test.api.freecontest.net/api/v1/login',
-        { email_or_username: usernameOrEmail, password },
-        {},
-        true,
-      );
-      console.log(apiValues.data.access_token);
-      if (!apiValues || !apiValues.data.access_token) {
-        setShowPopup(true);
-        setPopupVariant(POPUP_VARIANT.ERROR);
-        setPopupContent(POPUP_MSG.ERROR);
-        setApiProgress(API_PROGRESS.FAILED);
-      } else {
-        setUserInfo({ ...userInfo, token: apiValues.data.access_token });
-        history.push('/');
-      }
-    },
-    [values],
-  );
-
-  const handleChange = (name, value) => {
+  const updateValue = (name, value) => {
     setValues({ ...values, [name]: value });
     setErrors({ ...errors, [name]: null });
   };
 
-  const defaultProps = (name, value) => ({
+  const defaultProps = (name) => ({
     label: labels[name],
     name,
-    value,
-    onChange: (name, value) => handleChange(name, value),
+    value: values[name],
+    onChange: (newValue) => updateValue(name, newValue),
     error: errors[name],
   });
+
+  // Query object
+  const query = parseQuery(location.search);
+
+  // Handle onSubmit
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    const validation = validate(values);
+    setValues(validation.newValues);
+    setErrors(validation.errors);
+
+    // Return if error exists
+    if (validation.hasError) {
+      return;
+    }
+
+    setApiState({ progress: API_PROGRESS.REQ, code: null, msg: null });
+    const { code, data, msg } = await apiLogin({
+      usernameOrEmail: validation.newValues.usernameOrEmail,
+      password: validation.newValues.password,
+    });
+
+    if (!!code || !data || !data.access_token) {
+      setApiState({ progress: API_PROGRESS.FAILED, code, msg });
+    } else {
+      setApiState({ progress: API_PROGRESS.SUCCESS, code, msg });
+
+      // Save token and set isFetched to false to trigger fetching again
+      setUserInfo({ token: data.access_token, isFetched: false });
+
+      // Redirect to the correct URL
+      if (!!query && !!query.redirect_url) {
+        history.push(decodeURIComponent(query.redirect_url));
+      } else {
+        history.push('/');
+      }
+    }
+  };
 
   return (
     <MainPanel.Container>
       <Helmet>
         <title>Đăng nhập</title>
       </Helmet>
-      {apiProgress === API_PROGRESS.REQ && <Loading />}
-      <Popup
-        show={showPopup}
-        variant={popupVariant}
-        content={popupContent}
-        onButtonClick={() => {
-          setShowPopup(false);
-          setPopupVariant(POPUP_VARIANT.DEFAULT);
-        }}
-      />
+      {apiState.progress === API_PROGRESS.REQ ? (
+        <Loading />
+      ) : apiState.progress === API_PROGRESS.FAILED ? (
+        <ErrorPopup
+          show
+          content={getErrorMessage(apiState)}
+          onClose={() => setApiState({ progress: API_PROGRESS.INIT, error: null, error_msg: null })}
+        />
+      ) : (
+        showWarningForgetPassword && (
+          <WarningPopup
+            show
+            content={
+              <span>
+                Vui lòng liên hệ với fanpage tại địa chỉ&nbsp;
+                <a href={FORGET_PASSWORD_HELP} target="_blank" rel="noopener noreferrer">
+                  {FORGET_PASSWORD_HELP}
+                </a>
+                &nbsp;để được hỗ trợ
+              </span>
+            }
+            onClose={() => setShowWarningForgetPassword(false)}
+          />
+        )
+      )}
       <div className={styles.justifyContent}>
         <div className={styles.titleLeft}>Đăng nhập</div>
         <div>
@@ -148,39 +136,37 @@ function LoginPage({ history }) {
         </div>
       </div>
       <Form.Form>
-        <Form.FieldSet>
-          <LabeledInput {...defaultProps('usernameOrEmail')} type="text" />
-        </Form.FieldSet>
-        <Form.FieldSet>
-          <LabeledInput {...defaultProps('password')} type="password" />
-        </Form.FieldSet>
+        <Form.LabeledInput
+          {...defaultProps('usernameOrEmail')}
+          type="text"
+          onKeyEnter={handleSubmit}
+        />
+        <Form.LabeledInput
+          {...defaultProps('password')}
+          type="password"
+          onKeyEnter={handleSubmit}
+        />
         <div className={styles.justifyContent}>
-          <div
-            className={styles.forgotAccount}
-            onClick={() => {
-              setShowPopup(true);
-              setPopupVariant(POPUP_VARIANT.WARNING);
-              setPopupContent(POPUP_MSG.WARNING[0]);
-            }}
-          >
+          <div className={styles.forgotAccount} onClick={() => setShowWarningForgetPassword(true)}>
             Quên mật khẩu?
           </div>
-          <Link className={styles.createAccount} to="/auth/signup">
+          <Link className={styles.createAccount} to={ROUTE_SIGNUP}>
             Tạo tài khoản
           </Link>
         </div>
+        <Form.ButtonGroup>
+          <PrimaryButton disabled={apiState.progress === API_PROGRESS.REQ} onClick={handleSubmit}>
+            Đăng nhập
+          </PrimaryButton>
+        </Form.ButtonGroup>
       </Form.Form>
-      <Form.ButtonGroup>
-        <Button.Primary disabled={apiProgress === API_PROGRESS.REQ} onClick={handleSubmit}>
-          Đăng nhập
-        </Button.Primary>
-      </Form.ButtonGroup>
     </MainPanel.Container>
   );
 }
 
 LoginPage.propTypes = {
   history: PropTypes.any,
+  location: PropTypes.any,
 };
 
-export default withUserNotLogin(withRouter(LoginPage));
+export default withRouter(withUserNotLogin()(LoginPage));

@@ -1,58 +1,89 @@
+import * as ROUTES from './constants';
+
+// Components
 import HomePage from '../containers/HomePage';
 import Page404 from '../containers/Page404';
 import InfoPage from '../containers/InfoPage';
-import CmsHelpPage from '../containers/CmsHelpPage';
-import JoinHelpPage from '../containers/JoinHelpPage';
-import EnterPage from '../containers/EnterPage';
+import CmsHelpPage from '../containers/HelpPage/CmsHelpPage';
+import JoinHelpPage from '../containers/HelpPage/JoinHelpPage';
 import LoginPage from '../containers/LoginPage';
 import SignupPage from '../containers/SignupPage';
 import ProfilePage from '../containers/ProfilePage';
+import Contest from '../containers/Contests/Contest';
+import Contests from '../containers/Contests/Contests';
+import ContestEnterPage from '../containers/Contests/ContestEnterPage';
+import ContestRegister from '../containers/Contests/ContestRegister';
 
-const ROUTES = [
+const ROUTES_CONFIG = [
+  /**
+   * HOME REGION
+   */
   {
-    path: '/',
+    path: ROUTES.ROUTE_HOMEPAGE,
     exact: true,
     component: HomePage,
   },
+  /**
+   * HELP REGION
+   */
   {
-    path: '/help',
+    path: ROUTES.ROUTE_HELP,
     exact: true,
     component: InfoPage,
   },
   {
-    path: '/help/cms',
+    path: ROUTES.ROUTE_HELP_CMS,
     exact: true,
     component: CmsHelpPage,
   },
   {
-    path: '/help/join',
+    path: ROUTES.ROUTE_HELP_JOIN,
     exact: true,
     component: JoinHelpPage,
   },
+  /**
+   * USER REGION
+   */
   {
-    path: '/users/:username',
+    path: ROUTES.ROUTE_USER_PROFILE,
     exact: true,
     component: ProfilePage,
   },
+  /**
+   * AUTH REGION
+   */
   {
-    path: '/enter',
-    exact: true,
-    component: EnterPage,
-  },
-  {
-    path: '/auth/login',
+    path: ROUTES.ROUTE_LOGIN,
     exact: true,
     component: LoginPage,
   },
   {
-    path: '/signup',
+    path: ROUTES.ROUTE_SIGNUP,
     exact: true,
     component: SignupPage,
   },
+  /**
+   * CONTEST REGION
+   */
   {
-    path: '/auth/signup',
+    path: ROUTES.ROUTE_CONTEST,
     exact: true,
-    component: SignupPage,
+    component: Contest,
+  },
+  {
+    path: ROUTES.ROUTE_CONTESTS,
+    exact: true,
+    component: Contests,
+  },
+  {
+    path: ROUTES.ROUTE_CONTEST_ENTER,
+    exact: true,
+    component: ContestEnterPage,
+  },
+  {
+    path: ROUTES.ROUTE_CONTEST_REGISTER,
+    exact: true,
+    component: ContestRegister,
   },
   {
     path: '*',
@@ -61,4 +92,4 @@ const ROUTES = [
   },
 ];
 
-export default ROUTES;
+export default ROUTES_CONFIG;

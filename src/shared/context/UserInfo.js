@@ -1,5 +1,5 @@
-import React from 'react';
-import { apiGetUserInfo } from 'src/api';
+import * as React from 'react';
+import { apiGetMyUserInfo } from 'src/api';
 import PropTypes from 'prop-types';
 
 export const UserInfoContext = React.createContext({
@@ -10,18 +10,28 @@ export const UserInfoContext = React.createContext({
 
 export function UserInfoProvider({ children }) {
   const [userInfo, setUserInfo] = React.useState({
+    id: null,
     username: '',
     email: '',
     token: null,
+    fullname: '',
     isFetched: null,
   });
   const [isTokenLoaded, setIsTokenLoaded] = React.useState(false);
 
   React.useEffect(() => {
     const getUserInfo = async () => {
-      const { data } = await apiGetUserInfo(userInfo.token);
-      if (data) {
-        setUserInfo({ ...userInfo, username: data.username, isFetched: true });
+      const { code, data } = await apiGetMyUserInfo({ token: userInfo.token });
+
+      if (!code && data) {
+        setUserInfo({
+          ...userInfo,
+          username: data.user.username || userInfo.username,
+          id: data.user.id || userInfo.id,
+          email: data.user.email || userInfo.email,
+          fullname: data.user.full_name || userInfo.fullname,
+          isFetched: true,
+        });
       } else {
         setUserInfo({ ...userInfo, isFetched: true });
       }
@@ -50,18 +60,26 @@ export function UserInfoProvider({ children }) {
     localStorage.setItem('userinfo', JSON.stringify(userInfo));
   }, [userInfo]);
 
-  const clearUserInfo = () => {
+  const clearUserInfo = React.useCallback(() => {
     setUserInfo({
-      username: null,
-      email: null,
+      id: null,
+      username: '',
+      email: '',
       token: null,
+      fullname: '',
     });
 
     localStorage.clear('userinfo');
-  };
+  }, []);
 
   return (
-    <UserInfoContext.Provider value={{ userInfo, setUserInfo, clearUserInfo }}>
+    <UserInfoContext.Provider
+      value={{
+        userInfo,
+        setUserInfo: (data) => setUserInfo((userInfo) => ({ ...userInfo, ...data })),
+        clearUserInfo,
+      }}
+    >
       <>{children}</>
     </UserInfoContext.Provider>
   );

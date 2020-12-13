@@ -1,7 +1,17 @@
 :local {
+  .defaultButton {
+    background: none;
+    border: 1px solid var(--primary-default);
+    box-shadow: none;
+    outline: none;
+    padding: 9px 12px;
+    background-color: #fff;
+    color: var(--primary-default);
+  }
+
   .button {
     background: none;
-    border: 0;
+    border: 1px solid var(--primary-default);
     box-shadow: none;
     outline: none;
 
@@ -9,12 +19,18 @@
     padding: 9px 12px;
     min-width: 160px;
 
-    background-color: rgba(0, 0, 0, 0.8);
-    color: white;
+    background-color: #fff;
+    color: var(--primary-default);
   }
 
   .primaryButton {
-    background-color: #1c83c6;
+    background-color: var(--primary-default);
     color: white;
+  }
+
+  .secondaryButton {
+    background-color: var(--secondary-default);
+    color: white;
+    border: 1px solid var(--secondary-default);
   }
 }

@@ -1,6 +1,11 @@
 import React from 'react';
+
+// Utils and constants
 import { Helmet } from 'react-helmet';
 import { Link } from 'react-router-dom';
+import { ROUTE_HELP_JOIN, ROUTE_HELP_CMS } from 'src/app/routes/constants';
+
+// Assets
 import itemImage from 'assets/images/item.png';
 
 import styles from './style.scss';
@@ -13,7 +18,7 @@ function InfoPage() {
       </Helmet>
       <div className={styles.content}>
         <div className={styles.title}>Hướng dẫn</div>
-        <Link to="/help/join">
+        <Link to={ROUTE_HELP_JOIN}>
           <div className={styles.item}>
             <div className={styles.img}>
               <img src={itemImage} alt="Item" />
@@ -26,7 +31,7 @@ function InfoPage() {
             </div>
           </div>
         </Link>
-        <Link to="/help/cms">
+        <Link to={ROUTE_HELP_CMS}>
           <div className={styles.item}>
             <div className={styles.img}>
               <img src={itemImage} alt="Item" />

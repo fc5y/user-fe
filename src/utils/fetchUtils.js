@@ -1,29 +1,31 @@
 import axios from 'axios';
-import { getFullURL } from './getUrl';
+import { getFullApiUrl, isAbsoluteURL } from './url';
 
-export const get = async (url, options = {}, fullURL = false) => {
+export const get = async (url, headers = {}) => {
   try {
-    const { data } = await axios.get(!fullURL ? getFullURL(url) : url, {
-      ...options,
-    });
-
-    return { data };
-  } catch (err) {
-    return { error: (err.response && err.response.data && err.response.data.error) || true };
-  }
-};
-
-export const post = async (url, body, options = {}, fullURL = false) => {
-  try {
-    const { data } = await axios.post(!fullURL ? getFullURL(url) : url, body, {
-      ...options,
+    const finalUrl = isAbsoluteURL(url) ? url : getFullApiUrl(url);
+    const { data } = await axios.get(finalUrl, {
       headers: {
-        'Content-Type': 'application/json',
+        ...headers,
       },
     });
 
-    return { data };
+    return { ...data };
   } catch (err) {
-    return { error: (err.response && err.response.data && err.response.data.error) || true };
+    return { code: -1, ...err.response.data };
+  }
+};
+
+export const post = async (url, body, headers = {}) => {
+  try {
+    const finalUrl = isAbsoluteURL(url) ? url : getFullApiUrl(url);
+    const { data } = await axios.post(finalUrl, body, {
+      headers: {
+        ...headers,
+      },
+    });
+    return { ...data };
+  } catch (err) {
+    return { code: -1, ...err.response.data };
   }
 };

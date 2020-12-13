@@ -1,7 +1,7 @@
 const path = require('path');
 const commonConfig = require('./webpack.common');
 const { merge } = require('webpack-merge');
-const { root, proxyList, constants } = require('./config');
+const { root, constants } = require('./config');
 
 module.exports = merge(commonConfig, {
   devtool: 'cheap-module-source-map',
@@ -56,7 +56,6 @@ module.exports = merge(commonConfig, {
     port: 3000,
     historyApiFallback: true,
     inline: true,
-    proxy: proxyList,
     contentBase: constants.CONTENT_BASE,
   },
 });

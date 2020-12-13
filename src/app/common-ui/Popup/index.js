@@ -9,14 +9,14 @@ import iconSuccess from 'assets/images/success.png';
 import iconWarning from 'assets/images/warning.png';
 import cx from 'classnames';
 
-const POPUP_VARIANT = {
+export const POPUP_VARIANT = {
   DEFAULT: 0,
   ERROR: 1,
   SUCCESS: 2,
   WARNING: 3,
 };
 
-function Popup({ show, content, variant, onButtonClick }) {
+export default function Popup({ show, content, variant, onClose }) {
   // Pristine is the early state of Popup which is not being opened or closed yet
   const [isPristine, setIsPristine] = React.useState(true);
 
@@ -37,7 +37,7 @@ function Popup({ show, content, variant, onButtonClick }) {
     ReactDOM.createPortal(
       <div className={cx(show && styles.overlay)}>
         <div className={cx(styles.container, !show ? styles.close : styles.open)}>
-          <div className={styles.closeImg} onClick={onButtonClick}>
+          <div className={styles.closeImg} onClick={onClose}>
             <img src={CloseButton} alt="close" />
           </div>
           <div className={styles.iconContainer}>
@@ -53,18 +53,28 @@ function Popup({ show, content, variant, onButtonClick }) {
   );
 }
 
+export function ErrorPopup(props) {
+  return <Popup {...props} variant={POPUP_VARIANT.ERROR} />;
+}
+
+export function WarningPopup(props) {
+  return <Popup {...props} variant={POPUP_VARIANT.WARNING} />;
+}
+
+export function SuccessPopup(props) {
+  return <Popup {...props} variant={POPUP_VARIANT.SUCCESS} />;
+}
+
 Popup.propTypes = {
   show: PropTypes.bool,
   content: PropTypes.node,
   variant: PropTypes.oneOf(Object.values(POPUP_VARIANT)),
-  onButtonClick: PropTypes.func,
+  onClose: PropTypes.func,
 };
 
 Popup.defaultProps = {
   show: false,
   content: null,
   variant: POPUP_VARIANT.DEFAULT,
-  onButtonClick: () => {},
+  onClose: () => {},
 };
-
-export default Popup;

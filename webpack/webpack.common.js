@@ -50,10 +50,10 @@ module.exports = {
       template: path.join(root, 'public', 'index.ejs'),
       favicon: path.join(constants.ASSETS_PATH, 'images', 'logo.png'),
       imageMetaUrl: META_TAG.image_url,
-      gitSHA: constants.__GIT_SHA__,
+      gitSHA: process.env.GIT_SHA,
     }),
     new webpack.DefinePlugin({
-      __ENV__: constants.__ENV__,
+      __ENV__: JSON.stringify(process.env.ENV || 'test'),
     }),
   ],
 };

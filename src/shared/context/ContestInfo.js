@@ -1,33 +1,39 @@
-import React from 'react';
+import * as React from 'react';
 import PropTypes from 'prop-types';
 
+// API
+import { apiGetContestInfo } from 'src/api/index';
+
+/**
+ * contestInfo: {
+ *  [contestName]: <data>,
+ * },
+ * getContestInfo: () => {}
+ */
 export const ContestInfoContext = React.createContext({
-  contestInfo: { isContestReady: null, isRegisterClosed: null, isFetched: null },
+  contestInfo: {},
+  getContestInfo: async () => {},
 });
 
 export function ContestInfoProvider({ children }) {
-  const [contestInfo, setContestInfo] = React.useState({
-    isContestReady: null,
-    isRegisterClosed: null,
-    isFetched: false,
-  });
+  const [contestInfo, setContestInfo] = React.useState({});
 
-  React.useEffect(() => {
-    const getContestTime = async () => {
-      // Due to unstability of apiGetTime, we hard code the time result here
+  const getContestInfo = async ({ contestName }) => {
+    const { code, data } = await apiGetContestInfo({ contestName });
+
+    // Save contest info if fetch successfully
+    if (!code && !!data && !!data.contest) {
       setContestInfo({
         ...contestInfo,
-        isRegisterClosed: true,
-        isContestReady: true,
-        isFetched: true,
+        [contestName]: data.contest,
       });
-    };
+    }
 
-    !contestInfo.isFetched && getContestTime();
-  }, [contestInfo.isFetched]);
+    return { code };
+  };
 
   return (
-    <ContestInfoContext.Provider value={{ contestInfo }}>
+    <ContestInfoContext.Provider value={{ contestInfo, getContestInfo }}>
       <>{children}</>
     </ContestInfoContext.Provider>
   );
