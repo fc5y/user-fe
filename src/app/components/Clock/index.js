@@ -1,12 +1,10 @@
 import * as React from 'react';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 
 const Container = styled.div`
   background: #ffffff;
-  border: 2px solid #67adda;
   box-sizing: border-box;
-  box-shadow: 0px 0px 12px rgba(188, 188, 188, 0.25);
-  border-radius: 4px;
   display: flex;
   align-items: center;
   width: fit-content;
@@ -32,7 +30,7 @@ const Line1 = styled.div`
 
 const Line2 = styled.div`
   font-weight: 600;
-  font-size: 24px;
+  font-size: 22px;
   line-height: 30px;
   color: rgba(0, 0, 0, 0.6);
 `;
@@ -46,9 +44,9 @@ const Separator = styled.div`
   transition: opacity 100ms;
 `;
 
-export default function Clock() {
+export default function Clock({ endTime }) {
   const date1 = new Date(Date.now());
-  const date2 = new Date('2021-01-01T00:00:00.000+07:00');
+  const date2 = new Date(endTime * 1000);
   const delta = Math.max(date2 - date1, 0);
 
   const dd = Math.floor(delta / 24 / 60 / 60 / 1000);
@@ -86,3 +84,7 @@ export default function Clock() {
     </Container>
   );
 }
+
+Clock.propTypes = {
+  endTime: PropTypes.number,
+};

@@ -91,7 +91,8 @@ function EnterPage() {
             return (
               <div className={styles.container}>
                 <div className={styles.title}>
-                  {(contestInfo[contestName] && contestName) || 'Vào Thi'}
+                  {(contestInfo[contestName] && contestInfo[contestName].contest_title) ||
+                    'Vào Thi'}
                 </div>
                 <div className={styles.error}>{getErrorMessage(apiState)}</div>
               </div>
@@ -100,7 +101,8 @@ function EnterPage() {
             return (
               <div className={styles.container}>
                 <div className={styles.title}>
-                  {(contestInfo[contestName] && contestName) || 'Vào Thi'}
+                  {(contestInfo[contestName] && contestInfo[contestName].contest_title) ||
+                    'Vào Thi'}
                 </div>
                 <div className={styles.enterContest}>
                   <div className={styles.text}>

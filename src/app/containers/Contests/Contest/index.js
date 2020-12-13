@@ -29,7 +29,7 @@ const ContainerWrapper = styled.div`
 `;
 
 const Container = styled.div`
-  width: var(--content-width);
+  width: 650px;
   margin-top: 30px;
   background-color: #fff;
   box-shadow: 0px 0px 12px rgba(188, 188, 188, 0.25);
@@ -97,18 +97,19 @@ function Contest() {
           </ContestTitle>
           <ContestTime>{formatContestTime(contestInfo[contestName]).startAndEndTime}</ContestTime>
           {(() => {
-            switch (contestStatus) {
-              case CONTEST_STATUS.NOT_STARTED:
-                return <ContestNotStarted />;
-              case CONTEST_STATUS.STARTING:
-                return <ContestStarting />;
-              case CONTEST_STATUS.JUST_ENDED:
-                return <ContestJustEnded />;
-              case CONTEST_STATUS.ENDED:
-                return <ContestEnded />;
-              default:
-                return null;
-            }
+            return <ContestStarting />;
+            // switch (contestStatus) {
+            //   case CONTEST_STATUS.NOT_STARTED:
+            //     return <ContestNotStarted />;
+            //   case CONTEST_STATUS.STARTING:
+            //     return <ContestStarting />;
+            //   case CONTEST_STATUS.JUST_ENDED:
+            //     return <ContestJustEnded />;
+            //   case CONTEST_STATUS.ENDED:
+            //     return <ContestEnded />;
+            //   default:
+            //     return null;
+            // }
           })()}
         </Container>
       ) : (
