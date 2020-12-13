@@ -4,9 +4,6 @@ import PropTypes from 'prop-types';
 // API
 import { apiGetContestInfo } from 'src/api/index';
 
-// Constants
-import { API_ERROR } from 'src/shared/constants';
-
 /**
  * contestInfo: {
  *  [contestName]: <data>,
@@ -30,11 +27,6 @@ export function ContestInfoProvider({ children }) {
         ...contestInfo,
         [contestName]: data.contest,
       });
-    }
-
-    // Mark this error as FE error
-    if (!!data && !!data.contest && !data.contest.can_enter) {
-      return { code: API_ERROR.CONTEST_NOT_STARTED, data };
     }
 
     return { code };

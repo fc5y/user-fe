@@ -15,6 +15,13 @@
   --button-primary: var(--primary-default);
   --button-primary-hover: var(--primary-lighter);
   --button-primary-active: var(--primary-darker);
+
+  --black60: rgba(0, 0, 0, 0.6);
+  --black80: rgba(0, 0, 0, 0.8);
+
+  --content-width: 600px;
+  --min-width-container: 600px;
+  --navbar-height: 48px;
 }
 
 :local {

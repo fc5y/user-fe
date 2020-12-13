@@ -5,6 +5,7 @@ import { useHistory, useParams, Link } from 'react-router-dom';
 
 // Context
 import { UserInfoContext } from 'src/shared/context/UserInfo';
+import { ContestInfoContext } from 'src/shared/context/ContestInfo';
 
 // APIs
 import { apiRegisterContest } from 'src/api';
@@ -14,6 +15,7 @@ import styled from 'styled-components';
 import { Helmet } from 'react-helmet';
 import { validate } from './validators';
 import { makeUrl } from 'src/utils/url';
+import { formatContestTime } from 'src/utils/contest';
 import { getErrorMessage } from 'src/utils/getErrorMessage';
 
 // Components
@@ -55,11 +57,12 @@ const Title = styled.div`
 const ContestTitle = styled.div`
   margin: 5px 0;
   font-size: 24px;
+  font-weight: 600;
   color: var(--primary-dark);
 `;
 
 const ContestTime = styled.div`
-  margin: 5px 0;
+  margin: 10px 0;
   font-size: 14px;
   color: rgba(0, 0, 0, 0.6);
 `;
@@ -81,6 +84,7 @@ const labels = {
 
 function ContestRegister() {
   const { userInfo } = React.useContext(UserInfoContext);
+  const { contestInfo } = React.useContext(ContestInfoContext);
   const [values, setValues] = React.useState({});
   const [errors, setErrors] = React.useState({});
   const [apiState, setApiState] = React.useState({
@@ -114,19 +118,21 @@ function ContestRegister() {
     }
 
     setApiState({ progress: API_PROGRESS.REQ, code: null, msg: null });
-    const { code, data, msg } = await apiRegisterContest({ token: userInfo.token });
+    const { code, data, msg } = await apiRegisterContest({
+      token: userInfo.token,
+    });
 
     if (code || !data) {
       setApiState({ progress: API_PROGRESS.FAILED, code, msg });
     } else {
-      setApiState({ ...apiState, progress: API_PROGRESS.SUCCESS });
+      setApiState({ progress: API_PROGRESS.SUCCESS, code: null, msg: null });
     }
   };
 
   return (
     <Container>
       <Helmet>
-        <title>Tạo tài khoản</title>
+        <title>Đăng ký kỳ thi</title>
       </Helmet>
       {apiState.progress === API_PROGRESS.REQ ? (
         <Loading />
@@ -134,7 +140,13 @@ function ContestRegister() {
         <ErrorPopup
           show
           content={getErrorMessage(apiState)}
-          onClose={() => setApiState({ progress: API_PROGRESS.INIT, error: null, error_msg: null })}
+          onClose={() =>
+            setApiState({
+              progress: API_PROGRESS.INIT,
+              error: null,
+              error_msg: null,
+            })
+          }
         />
       ) : (
         apiState.progress === API_PROGRESS.SUCCESS && (
@@ -147,8 +159,10 @@ function ContestRegister() {
       )}
       <TitleContainer>
         <Title>Đăng ký kỳ thi</Title>
-        <ContestTitle>{contestName}</ContestTitle>
-        <ContestTime>TIMEE</ContestTime>
+        <ContestTitle>
+          {(contestInfo[contestName] && contestInfo[contestName].contest_title) || contestName}
+        </ContestTitle>
+        <ContestTime>{formatContestTime(contestInfo[contestName]).startAndEndTime}</ContestTime>
       </TitleContainer>
       <Form.Form>
         <Form.LabeledInput {...defaultProps('username')} type="text" />

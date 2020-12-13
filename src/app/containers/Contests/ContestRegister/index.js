@@ -1,5 +1,8 @@
 import * as React from 'react';
 
+// HOC
+import withUserLogin from 'src/shared/hoc/withUserLogin';
+
 // Hook
 import { useParams } from 'react-router-dom';
 
@@ -17,7 +20,7 @@ import { getErrorMessage } from 'src/utils/getErrorMessage';
 
 function ContestRegister() {
   const { contestName } = useParams();
-  const { contestInfo, getContestInfo } = React.useContext(ContestInfoContext);
+  const { getContestInfo } = React.useContext(ContestInfoContext);
   const [isRegisterEnable, setIsRegisterEnable] = React.useState(null);
   const [apiState, setApiState] = React.useState({
     progress: API_PROGRESS.INIT,
@@ -43,11 +46,7 @@ function ContestRegister() {
       }
     };
 
-    if (!!contestInfo && !!contestName[contestName]) {
-      setIsRegisterEnable(true);
-    } else {
-      fetchContestInfo();
-    }
+    fetchContestInfo();
   }, []);
 
   return isRegisterEnable === null ? (
@@ -59,4 +58,4 @@ function ContestRegister() {
   );
 }
 
-export default ContestRegister;
+export default withUserLogin(true)(ContestRegister);

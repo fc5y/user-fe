@@ -15,7 +15,7 @@ export const API_ERROR = Object.freeze({
   OTP_EXPIRED: 3009,
 
   // Constest
-  CONTEST_NOT_FOUND: 2002,
+  CONTEST_NOT_FOUND: 2101,
   CONTEST_OVER: 3004,
 
   /**
