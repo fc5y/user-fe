@@ -99,19 +99,18 @@ function Contest() {
           </ContestTitle>
           <ContestTime>{formatContestTime(contestInfo[contestName]).startAndEndTime}</ContestTime>
           {(() => {
-            return <ContestEnded />;
-            // switch (contestStatus) {
-            //   case CONTEST_STATUS.NOT_STARTED:
-            //     return <ContestNotStarted />;
-            //   case CONTEST_STATUS.STARTING:
-            //     return <ContestStarting />;
-            //   case CONTEST_STATUS.JUST_ENDED:
-            //     return <ContestJustEnded />;
-            //   case CONTEST_STATUS.ENDED:
-            //     return <ContestEnded />;
-            //   default:
-            //     return null;
-            // }
+            switch (contestStatus) {
+              case CONTEST_STATUS.NOT_STARTED:
+                return <ContestNotStarted />;
+              case CONTEST_STATUS.STARTING:
+                return <ContestStarting />;
+              case CONTEST_STATUS.JUST_ENDED:
+                return <ContestJustEnded />;
+              case CONTEST_STATUS.ENDED:
+                return <ContestEnded />;
+              default:
+                return null;
+            }
           })()}
         </Container>
       ) : (

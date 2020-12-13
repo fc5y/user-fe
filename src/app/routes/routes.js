@@ -9,8 +9,9 @@ import JoinHelpPage from '../containers/HelpPage/JoinHelpPage';
 import LoginPage from '../containers/LoginPage';
 import SignupPage from '../containers/SignupPage';
 import ProfilePage from '../containers/ProfilePage';
-import ContestEnterPage from '../containers/Contests/ContestEnterPage';
 import Contest from '../containers/Contests/Contest';
+import Contests from '../containers/Contests/Contests';
+import ContestEnterPage from '../containers/Contests/ContestEnterPage';
 import ContestRegister from '../containers/Contests/ContestRegister';
 
 const ROUTES_CONFIG = [
@@ -68,6 +69,11 @@ const ROUTES_CONFIG = [
     path: ROUTES.ROUTE_CONTEST,
     exact: true,
     component: Contest,
+  },
+  {
+    path: ROUTES.ROUTE_CONTESTS,
+    exact: true,
+    component: Contests,
   },
   {
     path: ROUTES.ROUTE_CONTEST_ENTER,
