@@ -8,7 +8,7 @@ import { ContestInfoContext } from 'src/shared/context/ContestInfo';
 
 // Components
 import Clock from 'src/app/components/Clock';
-import { PrimaryButton } from 'src/app/common-ui/Button';
+import { SecondaryButton } from 'src/app/common-ui/Button';
 
 // Utils
 import styled from 'styled-components';
@@ -23,21 +23,21 @@ const Container = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-top: 20px;
+  margin-top: 10px;
 `;
 
 const Title = styled.div`
   color: var(--black60);
-  font-size: 24px;
+  font-size: 16px;
   font-weight: 600;
-  margin-bottom: 15px;
+  margin-bottom: 10px;
 `;
 
-const Button = styled(PrimaryButton)`
-  margin-top: 10px;
+const Button = styled(SecondaryButton)`
+  margin-top: 5px;
 `;
 
-function ContestNotStarted() {
+function ContestStarting() {
   const history = useHistory();
   const { contestName } = useParams();
   const { contestInfo } = React.useContext(ContestInfoContext);
@@ -53,4 +53,4 @@ function ContestNotStarted() {
   );
 }
 
-export default ContestNotStarted;
+export default ContestStarting;

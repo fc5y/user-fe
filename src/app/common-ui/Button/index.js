@@ -3,7 +3,7 @@ import cx from 'classnames';
 import PropTypes from 'prop-types';
 import styles from './style.scss';
 
-function Button({ className, children, ...otherProps }) {
+export function Button({ className, children, ...otherProps }) {
   return (
     <button className={cx(styles.button, className)} type="button" {...otherProps}>
       {children}
@@ -16,7 +16,7 @@ Button.propTypes = {
   children: PropTypes.node,
 };
 
-function PrimaryButton({ className, children, ...otherProps }) {
+export function PrimaryButton({ className, children, ...otherProps }) {
   return (
     <button
       className={cx(styles.button, styles.primaryButton, className)}
@@ -33,4 +33,19 @@ PrimaryButton.propTypes = {
   children: PropTypes.node,
 };
 
-export { Button, PrimaryButton };
+export function SecondaryButton({ className, children, ...otherProps }) {
+  return (
+    <button
+      className={cx(styles.button, styles.secondaryButton, className)}
+      type="button"
+      {...otherProps}
+    >
+      {children}
+    </button>
+  );
+}
+
+SecondaryButton.propTypes = {
+  className: PropTypes.string,
+  children: PropTypes.node,
+};

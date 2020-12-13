@@ -23,14 +23,14 @@ const Container = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-top: 20px;
+  margin-top: 10px;
 `;
 
 const Title = styled.div`
   color: var(--black60);
-  font-size: 24px;
+  font-size: 16px;
   font-weight: 600;
-  margin-bottom: 15px;
+  margin-bottom: 10px;
 `;
 
 const Button = styled(PrimaryButton)`

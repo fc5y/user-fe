@@ -42,14 +42,16 @@ const Container = styled.div`
 `;
 
 const ContestTitle = styled.div`
-  color: var(--primary-default);
+  color: var(--primary-dark);
   font-weight: bold;
-  font-size: 44px;
+  font-size: 24px;
   margin-bottom: 10px;
 `;
 
 const ContestTime = styled.div`
   color: var(--black60);
+  font-size: 16px;
+  margin-bottom: 5px;
 `;
 
 function Contest() {
@@ -97,7 +99,7 @@ function Contest() {
           </ContestTitle>
           <ContestTime>{formatContestTime(contestInfo[contestName]).startAndEndTime}</ContestTime>
           {(() => {
-            return <ContestStarting />;
+            return <ContestEnded />;
             // switch (contestStatus) {
             //   case CONTEST_STATUS.NOT_STARTED:
             //     return <ContestNotStarted />;
