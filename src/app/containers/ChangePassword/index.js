@@ -22,6 +22,7 @@ import { ErrorPopup, SuccessPopup } from '../../common-ui/Popup';
 // Constants and utils
 import { API_PROGRESS } from 'src/shared/constants';
 import { validate } from './validators';
+import { ROUTE_LOGIN } from '../../routes/constants';
 
 const labels = {
   currentPassword: 'Thay đổi mật khẩu',
@@ -128,4 +129,4 @@ ChangePassword.propTypes = {
   location: PropTypes.any,
 };
 
-export default withRouter(withUserLogin('/auth/login')(ChangePassword));
+export default withRouter(withUserLogin(ROUTE_LOGIN)(ChangePassword));
