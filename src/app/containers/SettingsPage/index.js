@@ -71,7 +71,7 @@ function SettingsPage({ history, location }) {
       }
 
       setApiState({ progress: API_PROGRESS.REQ, code: null, msg: null });
-      const { code, data, msg } = await apiUpdateUserInfo({ email: validation.newValues.email });
+      const { code, data, msg } = await apiUpdateUserInfo({ fullname, school });
 
       if (code || !data) {
         setApiState({ progress: API_PROGRESS.FAILED, code, msg });
