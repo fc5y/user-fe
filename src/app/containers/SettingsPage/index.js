@@ -116,7 +116,7 @@ function SettingsPage({ history, location }) {
       <Form.Form>
         <Form.LabeledInput {...defaultProps('fullname')} type="text" />
         <Form.LabeledInput {...defaultProps('school')} type="text" />
-        <Form.LabeledInput {...defaultProps('email')} type="text" />
+        <Form.LabeledInput {...defaultProps('email')} isDisabled type="text" />
         <Form.ButtonGroup>
           <PrimaryButton disabled={apiState.progress === API_PROGRESS.REQ} onClick={handleSubmit}>
             Lưu thay đổi
