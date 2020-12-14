@@ -22,6 +22,7 @@ import { ErrorPopup, SuccessPopup } from '../../common-ui/Popup';
 // Constants and utils
 import { API_PROGRESS } from 'src/shared/constants';
 import { validate } from './validators';
+import { ROUTE_LOGIN } from '../../routes/constants';
 
 const labels = {
   fullname: 'Họ và tên',
@@ -132,4 +133,4 @@ SettingsPage.propTypes = {
   location: PropTypes.any,
 };
 
-export default withRouter(withUserLogin()(SettingsPage));
+export default withRouter(withUserLogin(ROUTE_LOGIN)(SettingsPage));
