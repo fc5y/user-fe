@@ -3,7 +3,6 @@ import styled, { css } from 'styled-components';
 import PropTypes from 'prop-types';
 import FieldSet from './FieldSet';
 import { commonInputPropTypes } from '../types';
-import { styles } from './style.scss';
 
 const Label = styled.label`
   display: block;
