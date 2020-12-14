@@ -1,58 +1,83 @@
 import React from 'react';
-import { Helmet } from 'react-helmet';
-// import styles from './styles.scss';
-import cx from 'classnames';
-// import { getPasswordErrorOrNull, getUsernameOrEmailErrorOrNull } from './validators';
+import PropTypes from 'prop-types';
 
 // APIs
-import { post } from 'src/utils/fetchUtils';
+import { apiGetMyUserInfo, apiUpdateUserInfo } from 'src/api/user';
 
 // HOC
-import { withRouter, Link } from 'react-router-dom';
-import withUserNotLogin from 'src/shared/hoc/withUserNotLogin';
+import { withRouter } from 'react-router-dom';
+import withUserLogin from 'src/shared/hoc/withUserLogin';
 import { UserInfoContext } from 'src/shared/context/UserInfo';
+
+// Components
+import Loading from '../../common-ui/Loading';
 
 // UI
 import * as MainPanel from '../../common-ui/MainPanel';
 import * as Form from '../../common-ui/Form';
-import * as Button from '../../common-ui/Button';
-import Popup from '../../common-ui/Popup';
-import Loading from '../../common-ui/Loading';
+import { PrimaryButton } from '../../common-ui/Button';
+import { Helmet } from 'react-helmet';
+import { ErrorPopup, SuccessPopup } from '../../common-ui/Popup';
 
-// Constants
+// Constants and utils
 import { API_PROGRESS } from 'src/shared/constants';
+import { validate } from './validators';
 
 const labels = {
   fullname: 'Họ và tên',
-  dob: 'Ngày sinh',
   school: 'Trường học',
   email: 'Email liên lạc',
-  bio: 'Bio',
-  currentPassword: 'Mật khẩu hiện tại',
-  newPassword: 'Mật khẩu mới',
-  confirmNewPassword: 'Xác nhận mật khẩu mới',
 };
 
-function SettingsPage() {
-  const [values, setValues] = React.useState({});
+function SettingsPage({ history, location }) {
+  const { userInfo } = React.useContext(UserInfoContext);
+  const { full_name: fullname, school_name: school, email } = apiGetMyUserInfo(userInfo.token);
+  const [values, setValues] = React.useState({
+    fullname,
+    school,
+    email,
+  });
   const [errors, setErrors] = React.useState({});
+  const [hasError, setHasError] = React.useState(false);
+  const [apiState, setApiState] = React.useState({
+    progress: API_PROGRESS.INIT,
+    code: null,
+    msg: null,
+  });
 
   const handleChange = (name, value) => {
     setValues({ ...values, [name]: value });
     setErrors({ ...errors, [name]: null });
   };
 
-  const defaultProps = (name, value) => ({
+  const defaultProps = (name) => ({
     label: labels[name],
     name,
-    value,
-    onChange: (name, value) => handleChange(name, value),
+    value: values[name],
+    onChange: (newValue) => handleChange(name, newValue),
     error: errors[name],
   });
 
   const handleSubmit = React.useCallback(
     async (event) => {
       event.preventDefault();
+      const validation = validate(values);
+      setValues(validation.newValues);
+      setErrors(validation.errors);
+
+      if (validation.hasError) {
+        setHasError(true);
+        return;
+      }
+
+      setApiState({ progress: API_PROGRESS.REQ, code: null, msg: null });
+      const { code, data, msg } = await apiUpdateUserInfo({ email: validation.newValues.email });
+
+      if (code || !data) {
+        setApiState({ progress: API_PROGRESS.FAILED, code, msg });
+      } else {
+        setApiState({ ...apiState, progress: API_PROGRESS.SUCCESS });
+      }
     },
     [values],
   );
@@ -62,14 +87,49 @@ function SettingsPage() {
       <Helmet>
         <title>Cài đặt</title>
       </Helmet>
+      {apiState.progress === API_PROGRESS.REQ ? (
+        <Loading />
+      ) : hasError ? (
+        <ErrorPopup
+          show
+          content="Thông tin nhập không hợp lệ!"
+          onClose={() => setHasError(false)}
+        />
+      ) : apiState.progress === API_PROGRESS.FAILED ? (
+        <ErrorPopup
+          show
+          content="Đã xảy ra lỗi, vui lòng thử lại sau"
+          onClose={() => setApiState({ progress: API_PROGRESS.INIT, error: null, error_msg: null })}
+        />
+      ) : (
+        apiState.progress === API_PROGRESS.SUCCESS && (
+          <SuccessPopup
+            show
+            content="Lưu thay đổi thành công"
+            onClose={() =>
+              setApiState({ progress: API_PROGRESS.INIT, error: null, error_msg: null })
+            }
+          />
+        )
+      )}
       <MainPanel.Title>Thông tin cá nhân</MainPanel.Title>
       <Form.Form>
         <Form.LabeledInput {...defaultProps('fullname')} type="text" />
         <Form.LabeledInput {...defaultProps('school')} type="text" />
         <Form.LabeledInput {...defaultProps('email')} type="text" />
+        <Form.ButtonGroup>
+          <PrimaryButton disabled={apiState.progress === API_PROGRESS.REQ} onClick={handleSubmit}>
+            Lưu thay đổi
+          </PrimaryButton>
+        </Form.ButtonGroup>
       </Form.Form>
     </MainPanel.Container>
   );
 }
 
-export default withUserNotLogin(withRouter(SettingsPage));
+SettingsPage.propTypes = {
+  history: PropTypes.any,
+  location: PropTypes.any,
+};
+
+export default withRouter(withUserLogin()(SettingsPage));
