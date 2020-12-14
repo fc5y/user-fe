@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 // APIs
@@ -32,12 +32,12 @@ const labels = {
 
 function SettingsPage({ history, location }) {
   const { userInfo } = React.useContext(UserInfoContext);
-  const { full_name: fullname, school_name: school, email } = apiGetMyUserInfo(userInfo.token);
-  const [values, setValues] = React.useState({
-    fullname,
-    school,
-    email,
-  });
+  const [values, setValues] = React.useState({});
+  useEffect(() => {
+    const { full_name: fullname, school_name: school, email } = apiGetMyUserInfo(userInfo.token);
+    setValues({ fullname, school, email });
+  }, []);
+
   const [errors, setErrors] = React.useState({});
   const [hasError, setHasError] = React.useState(false);
   const [apiState, setApiState] = React.useState({
@@ -71,11 +71,14 @@ function SettingsPage({ history, location }) {
         return;
       }
 
+      const { fullname, school } = values;
+      const { token } = userInfo;
+
       setApiState({ progress: API_PROGRESS.REQ, code: null, msg: null });
       const { code, data, msg } = await apiUpdateUserInfo({
         fullname,
         school,
-        token: userInfo.token,
+        token,
       });
 
       if (code || !data) {
