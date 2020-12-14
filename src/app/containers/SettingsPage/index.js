@@ -34,8 +34,12 @@ function SettingsPage({ history, location }) {
   const { userInfo } = React.useContext(UserInfoContext);
   const [values, setValues] = React.useState({});
   useEffect(() => {
-    const { full_name: fullname, school_name: school, email } = apiGetMyUserInfo(userInfo.token);
-    setValues({ fullname, school, email });
+    (async () => {
+      const { full_name: fullname, school_name: school, email } = await apiGetMyUserInfo(
+        userInfo.token,
+      );
+      setValues({ fullname, school, email });
+    })();
   }, []);
 
   const [errors, setErrors] = React.useState({});
