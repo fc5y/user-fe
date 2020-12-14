@@ -39,7 +39,6 @@ function SettingsPage({ history, location }) {
   }, []);
 
   const [errors, setErrors] = React.useState({});
-  const [hasError, setHasError] = React.useState(false);
   const [apiState, setApiState] = React.useState({
     progress: API_PROGRESS.INIT,
     code: null,
@@ -67,7 +66,6 @@ function SettingsPage({ history, location }) {
       setErrors(validation.errors);
 
       if (validation.hasError) {
-        setHasError(true);
         return;
       }
 
@@ -97,12 +95,6 @@ function SettingsPage({ history, location }) {
       </Helmet>
       {apiState.progress === API_PROGRESS.REQ ? (
         <Loading />
-      ) : hasError ? (
-        <ErrorPopup
-          show
-          content="Thông tin nhập không hợp lệ!"
-          onClose={() => setHasError(false)}
-        />
       ) : apiState.progress === API_PROGRESS.FAILED ? (
         <ErrorPopup
           show
