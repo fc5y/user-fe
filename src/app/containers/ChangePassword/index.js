@@ -31,6 +31,8 @@ const labels = {
 };
 
 function ChangePassword({ history, location }) {
+  const { userInfo } = React.useContext(UserInfoContext);
+
   const [values, setValues] = React.useState({});
   const [errors, setErrors] = React.useState({});
   const [hasError, setHasError] = React.useState(false);
@@ -66,9 +68,14 @@ function ChangePassword({ history, location }) {
       }
 
       const { currentPassword, newPassword } = values;
+      const { token } = userInfo;
 
       setApiState({ progress: API_PROGRESS.REQ, code: null, msg: null });
-      const { code, data, msg } = await apiChangeUserPassword({ currentPassword, newPassword });
+      const { code, data, msg } = await apiChangeUserPassword({
+        currentPassword,
+        newPassword,
+        token,
+      });
 
       if (code || !data) {
         setApiState({ progress: API_PROGRESS.FAILED, code, msg });

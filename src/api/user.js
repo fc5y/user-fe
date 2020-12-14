@@ -16,9 +16,10 @@ export function apiGetUserInfo({ token, username }) {
   );
 }
 
-export function apiChangeUserPassword({ currentPassword, newPassword }) {
+export function apiChangeUserPassword({ currentPassword, newPassword, token }) {
   return post('/api/v1/me/change-password', {
     old_password: currentPassword,
     new_password: newPassword,
+    Authorization: `Bearer ${token}`,
   });
 }
