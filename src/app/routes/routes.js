@@ -13,6 +13,7 @@ import Contest from '../containers/Contests/Contest';
 import Contests from '../containers/Contests/Contests';
 import ContestEnterPage from '../containers/Contests/ContestEnterPage';
 import ContestRegister from '../containers/Contests/ContestRegister';
+import SettingsPage from '../containers/SettingsPage';
 
 const ROUTES_CONFIG = [
   /**
@@ -84,6 +85,14 @@ const ROUTES_CONFIG = [
     path: ROUTES.ROUTE_CONTEST_REGISTER,
     exact: true,
     component: ContestRegister,
+  },
+  /**
+   * SETTINGS REGION
+   */
+  {
+    path: ROUTES.ROUTE_SETTINGS,
+    exact: true,
+    component: SettingsPage,
   },
   {
     path: '*',
