@@ -72,7 +72,11 @@ function SettingsPage({ history, location }) {
       }
 
       setApiState({ progress: API_PROGRESS.REQ, code: null, msg: null });
-      const { code, data, msg } = await apiUpdateUserInfo({ fullname, school });
+      const { code, data, msg } = await apiUpdateUserInfo({
+        fullname,
+        school,
+        token: userInfo.token,
+      });
 
       if (code || !data) {
         setApiState({ progress: API_PROGRESS.FAILED, code, msg });

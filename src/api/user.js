@@ -16,9 +16,10 @@ export function apiGetUserInfo({ token, username }) {
   );
 }
 
-export function apiUpdateUserInfo({ fullname, school }) {
+export function apiUpdateUserInfo({ fullname, school, token }) {
   return post('/api/v1/me', {
     full_name: fullname,
     school_name: school,
+    Authorization: `Bearer ${token}`,
   });
 }
