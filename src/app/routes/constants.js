@@ -17,6 +17,3 @@ export const ROUTE_CONTEST_REGISTER = '/contests/:contestName/register';
 
 // Users
 export const ROUTE_USER_PROFILE = '/users/:username';
-
-// Settings
-export const ROUTE_SETTINGS = '/settings';
