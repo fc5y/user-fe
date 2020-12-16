@@ -3,6 +3,9 @@ import * as React from 'react';
 // Components
 import Table from 'src/app/common-ui/Table';
 
+// Utils
+import styled from 'styled-components';
+
 const TABLE_CONFIG = {
   numberOfCol: 4,
   colNames: ['contestName', 'day', 'hour', 'numberOfParticipants', 'contestFiles'],
@@ -25,8 +28,16 @@ const TABLE_CONFIG = {
   ],
 };
 
+const Container = styled.div`
+  width: 700px;
+`;
+
 function Contests() {
-  return <Table config={TABLE_CONFIG} />;
+  return (
+    <Container>
+      <Table config={TABLE_CONFIG} border background />
+    </Container>
+  );
 }
 
 export default Contests;

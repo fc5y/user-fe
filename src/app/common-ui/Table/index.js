@@ -3,15 +3,19 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 
 // Utils
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 
 const Container = styled.div`
   width: 100%;
+  border: ${(props) => (props.border ? '1px solid var(--black06)' : '0')};
+  border-radius: ${(props) => (props.border ? '4px' : '0')};
+  box-shadow: ${(props) => (props.border ? '0px 0px 12px rgba(188, 188, 188, 0.25)' : '0')};
+  background-color: ${(props) => (props.background ? '#fff' : 'none')};
 `;
 
 const TableContainer = styled.table`
   width: 100%;
-  border-collapse: collapse;
+  border-collapse: separate;
   border-spacing: 0;
 `;
 
@@ -22,13 +26,13 @@ const TableHeader = styled.thead`
 `;
 
 const TableHeaderData = styled.td`
-  padding: 17px 0;
+  padding: 15px 0;
   border-bottom: 1px solid var(--black06);
   text-align: center;
 `;
 
 const TableFirstHeaderData = styled.td`
-  padding: 17px 0px 17px 10px;
+  padding: 15px 0px 15px 10px;
   border-bottom: 1px solid var(--black06);
   text-align: left;
 `;
@@ -49,7 +53,7 @@ const TableFirstBodyData = styled.td`
   text-align: left;
 `;
 
-function Table({ config }) {
+function Table({ config, border, background }) {
   const { titles, data } = config;
 
   // Render table header
@@ -85,7 +89,7 @@ function Table({ config }) {
   };
 
   return (
-    <Container>
+    <Container border={border} background={background}>
       <TableContainer>
         <TableHeader>{renderTableHead()}</TableHeader>
         <TableBody>{renderTableBody()}</TableBody>
@@ -96,6 +100,8 @@ function Table({ config }) {
 
 Table.propTypes = {
   config: PropTypes.any,
+  border: PropTypes.bool,
+  background: PropTypes.bool,
 };
 
 export default Table;
