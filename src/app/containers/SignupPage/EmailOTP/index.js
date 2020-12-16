@@ -121,11 +121,11 @@ function EmailOTP({ email, onSignup, onClickBack }) {
           onClose={() => history.push(ROUTE_LOGIN)}
         />
       ) : (
-        apiState.progress === API_PROGRESS.FAILED && (
+        apiState.code && (
           <ErrorPopup
             show
             content={getErrorMessage(apiState)}
-            onClose={() => setApiState({ progress: API_PROGRESS.REQ, code: null, msg: null })}
+            onClose={() => setApiState({ progress: API_PROGRESS.INIT, code: null, msg: null })}
           />
         )
       )}
