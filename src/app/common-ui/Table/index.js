@@ -17,6 +17,7 @@ const TableContainer = styled.table`
   width: 100%;
   border-collapse: separate;
   border-spacing: 0;
+  table-layout: fixed;
 `;
 
 const TableHeader = styled.thead`
@@ -54,7 +55,7 @@ const TableFirstBodyData = styled.td`
 `;
 
 function Table({ config, border, background }) {
-  const { titles, data } = config;
+  const { titles, data, columnWidth } = config;
 
   // Render table header
   const renderTableHead = () => {
@@ -91,6 +92,7 @@ function Table({ config, border, background }) {
   return (
     <Container border={border} background={background}>
       <TableContainer>
+        <colgroup>{(columnWidth || []).map((w) => (w ? <col width={w} /> : <col />))}</colgroup>
         <TableHeader>{renderTableHead()}</TableHeader>
         <TableBody>{renderTableBody()}</TableBody>
       </TableContainer>

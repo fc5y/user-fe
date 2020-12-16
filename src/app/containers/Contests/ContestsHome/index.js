@@ -8,11 +8,16 @@ import styled from 'styled-components';
 
 const TABLE_CONFIG = {
   numberOfCol: 4,
+  columnWidth: [null, 110, 110, 100, 200],
   colNames: ['contestName', 'day', 'hour', 'numberOfParticipants', 'contestFiles'],
   titles: ['Kỳ thi', 'Ngày', 'Giờ', 'Số thí sinh', 'Tư liệu kỳ thi'],
   data: [
     {
-      contestName: 'Free Contest 998',
+      contestName: (
+        <button onClick={() => alert('aa')} type="button">
+          Free Contest 999
+        </button>
+      ),
       day: '30/12/2015',
       hour: '19:30 - 22:30',
       numberOfParticipants: '200',
@@ -29,7 +34,7 @@ const TABLE_CONFIG = {
 };
 
 const Container = styled.div`
-  width: 700px;
+  width: 900px;
 `;
 
 function Contests() {
