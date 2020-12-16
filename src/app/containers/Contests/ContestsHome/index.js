@@ -40,7 +40,15 @@ const Container = styled.div`
 function Contests() {
   return (
     <Container>
-      <Table config={TABLE_CONFIG} border background />
+      <Table
+        border
+        background
+        config={TABLE_CONFIG}
+        rowPerPageText="kỳ thi/trang"
+        onClickRowPerPage={(num) => console.log(num)}
+        numberOfPages={10}
+        onClickPage={(num) => console.log(num)}
+      />
     </Container>
   );
 }
