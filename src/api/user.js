@@ -1,19 +1,14 @@
 import { get, post } from '../utils/fetchUtils';
 
 export function apiGetMyUserInfo({ token }) {
-  return get(
-    `/api/v1/me`,
-    { Authorization: `Bearer ${token}`, 'Access-Control-Allow-Headers': '*' },
-    true,
-  );
+  return get(`/api/v1/me`, {
+    Authorization: `Bearer ${token}`,
+    'Access-Control-Allow-Headers': '*',
+  });
 }
 
-export function apiGetUserInfo({ token, username }) {
-  return get(
-    `/api/v1/users/${username}`,
-    { Authorization: `Bearer ${token}`, 'Access-Control-Allow-Headers': '*' },
-    true,
-  );
+export function apiGetUserInfo({ username }) {
+  return get(`/api/v1/users/${username}`);
 }
 
 export function apiChangeUserPassword({ currentPassword, newPassword, token }) {

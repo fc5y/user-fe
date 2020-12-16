@@ -10,7 +10,7 @@ import LoginPage from '../containers/LoginPage';
 import SignupPage from '../containers/SignupPage';
 import ProfilePage from '../containers/ProfilePage';
 import Contest from '../containers/Contests/Contest';
-import Contests from '../containers/Contests/Contests';
+import Contests from '../containers/Contests/ContestsHome';
 import ContestEnterPage from '../containers/Contests/ContestEnterPage';
 import ContestRegister from '../containers/Contests/ContestRegister';
 import ChangePasswordPage from '../containers/ChangePassword';
