@@ -12,9 +12,27 @@ export function apiGetUserInfo({ username }) {
 }
 
 export function apiChangeUserPassword({ currentPassword, newPassword, token }) {
-  return post('/api/v1/me/change-password', {
-    old_password: currentPassword,
-    new_password: newPassword,
-    Authorization: `Bearer ${token}`,
-  });
+  return post(
+    '/api/v1/me/change-password',
+    {
+      old_password: currentPassword,
+      new_password: newPassword,
+    },
+    {
+      Authorization: `Bearer ${token}`,
+    },
+  );
+}
+
+export function apiUpdateUserInfo({ fullname, school, token }) {
+  return post(
+    '/api/v1/me',
+    {
+      full_name: fullname,
+      school_name: school,
+    },
+    {
+      Authorization: `Bearer ${token}`,
+    },
+  );
 }
