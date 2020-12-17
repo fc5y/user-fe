@@ -3,7 +3,7 @@ import { apiGetMyUserInfo } from 'src/api';
 import PropTypes from 'prop-types';
 
 export const UserInfoContext = React.createContext({
-  userInfo: { username: '', email: '', token: null, isFetched: null },
+  userInfo: { username: '', email: '', school: '', token: null, isFetched: null },
   setUserInfo: () => {},
   clearUserInfo: () => {},
 });
@@ -13,6 +13,7 @@ export function UserInfoProvider({ children }) {
     id: null,
     username: '',
     email: '',
+    school: '',
     token: null,
     fullname: '',
     isFetched: null,
@@ -29,6 +30,7 @@ export function UserInfoProvider({ children }) {
           username: data.user.username || userInfo.username,
           id: data.user.id || userInfo.id,
           email: data.user.email || userInfo.email,
+          school: data.user.school_name || userInfo.school,
           fullname: data.user.full_name || userInfo.fullname,
           isFetched: true,
         });
@@ -65,6 +67,7 @@ export function UserInfoProvider({ children }) {
       id: null,
       username: '',
       email: '',
+      school: '',
       token: null,
       fullname: '',
     });
