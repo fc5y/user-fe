@@ -113,7 +113,7 @@ function Table({ config, border, background, pagination, pageSize }) {
 
   // Render table body
   const renderTableBody = () => {
-    return (data.slice(0, numberOfRowPerPage) || []).map((row, idx1) => {
+    return ((data || []).slice(0, numberOfRowPerPage) || []).map((row, idx1) => {
       return (
         <tr key={idx1}>
           {Object.values(row).map((r, idx2) =>

@@ -2,7 +2,7 @@ import * as React from 'react';
 
 // Components
 import OngoingContest from './components/OngoingContests';
-import OverContests from './components/OverContests';
+import OverContests from './components/EndedContests';
 
 // Utils
 import styled from 'styled-components';
