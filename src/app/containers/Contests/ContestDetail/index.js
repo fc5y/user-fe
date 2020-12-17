@@ -54,7 +54,7 @@ const ContestTime = styled.div`
   margin-bottom: 5px;
 `;
 
-function Contest() {
+function ContestDetail() {
   const { contestName } = useParams();
   const { getContestInfoByName, contestInfo } = React.useContext(ContestInfoContext);
   const [contestStatus, setContestStatus] = React.useState(CONTEST_STATUS.UNSET);
@@ -120,4 +120,4 @@ function Contest() {
   );
 }
 
-export default Contest;
+export default ContestDetail;
