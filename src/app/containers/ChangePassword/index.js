@@ -1,8 +1,8 @@
-import * as React from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
 // APIs
-import { apiGetMyUserInfo, apiUpdateUserInfo } from 'src/api/user';
+import { apiChangeUserPassword } from 'src/api/user';
 
 // HOC
 import { withRouter } from 'react-router-dom';
@@ -25,19 +25,15 @@ import { validate } from './validators';
 import { ROUTE_LOGIN } from '../../routes/constants';
 
 const labels = {
-  fullname: 'Họ và tên',
-  school: 'Trường học',
-  email: 'Email liên lạc',
+  currentPassword: 'Thay đổi mật khẩu',
+  newPassword: 'Mật khẩu mới',
+  confirmNewPassword: 'Xác nhận mật khẩu mới',
 };
 
-function SettingsPage({ history, location }) {
+function ChangePassword({ history, location }) {
   const { userInfo } = React.useContext(UserInfoContext);
-  const [values, setValues] = React.useState({});
-  React.useEffect(() => {
-    const { fullname, school, email } = userInfo;
-    setValues({ fullname, school, email });
-  }, []);
 
+  const [values, setValues] = React.useState({});
   const [errors, setErrors] = React.useState({});
   const [apiState, setApiState] = React.useState({
     progress: API_PROGRESS.INIT,
@@ -69,13 +65,13 @@ function SettingsPage({ history, location }) {
         return;
       }
 
-      const { fullname, school } = values;
+      const { currentPassword, newPassword } = values;
       const { token } = userInfo;
 
       setApiState({ progress: API_PROGRESS.REQ, code: null, msg: null });
-      const { code, data, msg } = await apiUpdateUserInfo({
-        fullname,
-        school,
+      const { code, data, msg } = await apiChangeUserPassword({
+        currentPassword,
+        newPassword,
         token,
       });
 
@@ -91,7 +87,7 @@ function SettingsPage({ history, location }) {
   return (
     <MainPanel.Container>
       <Helmet>
-        <title>Cài đặt</title>
+        <title>Thay đổi mật khẩu</title>
       </Helmet>
       {apiState.progress === API_PROGRESS.REQ ? (
         <Loading />
@@ -112,11 +108,11 @@ function SettingsPage({ history, location }) {
           />
         )
       )}
-      <MainPanel.Title>Thông tin cá nhân</MainPanel.Title>
+      <MainPanel.Title>Thay đổi mật khẩu</MainPanel.Title>
       <Form.Form>
-        <Form.LabeledInput {...defaultProps('fullname')} type="text" />
-        <Form.LabeledInput {...defaultProps('school')} type="text" />
-        <Form.LabeledInput {...defaultProps('email')} isDisabled type="text" />
+        <Form.LabeledInput {...defaultProps('currentPassword')} type="password" />
+        <Form.LabeledInput {...defaultProps('newPassword')} type="password" />
+        <Form.LabeledInput {...defaultProps('confirmNewPassword')} type="password" />
         <Form.ButtonGroup>
           <PrimaryButton disabled={apiState.progress === API_PROGRESS.REQ} onClick={handleSubmit}>
             Lưu thay đổi
@@ -127,9 +123,9 @@ function SettingsPage({ history, location }) {
   );
 }
 
-SettingsPage.propTypes = {
+ChangePassword.propTypes = {
   history: PropTypes.any,
   location: PropTypes.any,
 };
 
-export default withRouter(withUserLogin(ROUTE_LOGIN)(SettingsPage));
+export default withRouter(withUserLogin(ROUTE_LOGIN)(ChangePassword));
