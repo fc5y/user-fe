@@ -1,12 +1,16 @@
 /* eslint-disable no-use-before-define */
 import * as React from 'react';
 
+// Hook
+import { useHistory } from 'react-router-dom';
+
 // Context
 import { ContestInfoContext } from 'src/shared/context/ContestInfo';
 
 // Utils
 import styled from 'styled-components';
 import { formatContestTime } from 'src/utils/contest';
+import { makeUrl } from 'src/utils/url';
 
 // Components
 import Table from 'src/app/common-ui/Table';
@@ -14,7 +18,9 @@ import Loading from 'src/app/common-ui/Loading';
 import { DropDownButton } from 'src/app/common-ui/DropdownButton';
 
 // Constants
+import { ROUTE_CONTEST } from 'src/app/routes/constants';
 import { API_PROGRESS } from 'src/shared/constants';
+import { TABLE_CONFIG } from './config';
 
 const Container = styled.div`
   width: var(--contest-table-width);
@@ -33,13 +39,6 @@ const ContestTitle = styled.h1`
   cursor: pointer;
 `;
 
-const TABLE_CONFIG = {
-  colWidths: [null, 130, 130, 100, 250],
-  colNames: ['contestName', 'day', 'hour', 'numberOfParticipants', 'contestFiles'],
-  titles: ['Kỳ thi', 'Ngày', 'Giờ', 'Số thí sinh', 'Tư liệu kỳ thi'],
-  data: [],
-};
-
 function OverContests() {
   const [tableConfig, setTableConfig] = React.useState(TABLE_CONFIG);
   const [apiState, setApiState] = React.useState({
@@ -48,6 +47,7 @@ function OverContests() {
     msg: null,
   });
   const { getAllContestInfo } = React.useContext(ContestInfoContext);
+  const history = useHistory();
 
   React.useEffect(() => {
     const fetchContestsInfo = async () => {
@@ -65,6 +65,7 @@ function OverContests() {
     fetchContestsInfo();
   }, []);
 
+  // Helper function to format table data
   const formatTableData = (data) => {
     return data.map((d) => {
       const { startDate, startAndEndTime } = formatContestTime(d);
@@ -73,7 +74,11 @@ function OverContests() {
 
       return {
         contestName: (
-          <ContestTitle onClick={() => console.log('click')}>{d.contest_title || ''}</ContestTitle>
+          <ContestTitle
+            onClick={() => history.push(makeUrl(ROUTE_CONTEST, { contestName: d.contest_name }))}
+          >
+            {d.contest_title || ''}
+          </ContestTitle>
         ),
         day: startDate,
         hour: startAndEndTime,

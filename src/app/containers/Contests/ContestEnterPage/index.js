@@ -25,7 +25,7 @@ import { getErrorMessage } from 'src/utils/getErrorMessage';
 import styles from './enter.scss';
 
 function EnterPage() {
-  const { contestInfo, getContestInfo } = React.useContext(ContestInfoContext);
+  const { contestInfo, getContestInfoByName } = React.useContext(ContestInfoContext);
   const [apiState, setApiState] = React.useState({
     progress: API_PROGRESS.INIT,
     code: null,
@@ -44,7 +44,7 @@ function EnterPage() {
       setApiState({ progress: API_PROGRESS.REQ });
 
       // Get contest info
-      const { code, msg } = await getContestInfo({ contestName });
+      const { code, msg } = await getContestInfoByName({ contestName });
 
       if (code) {
         setApiState({
