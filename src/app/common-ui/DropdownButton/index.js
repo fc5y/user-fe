@@ -21,35 +21,37 @@ export function DropDownButton({ className, children, dropList = [], ...otherPro
       >
         {children}
       </button>
-      <button
-        type="button"
-        className={cx(styles.dropdownArrowButton)}
-        onClick={() => setShowList((showList) => !showList)}
-      >
-        <IconDropDown />
-      </button>
-      {showList && (
-        <ClickWrapper onClickOutside={() => setShowList(false)}>
-          <div className={styles.dropdownList}>
-            {dropList.length > 0 &&
-              dropList.map((option, key) => {
-                return (
-                  <div
-                    // eslint-disable-next-line react/no-array-index-key
-                    key={key}
-                    className={styles.dropdownItem}
-                    onClick={() => {
-                      option.onClick();
-                      setShowList(false);
-                    }}
-                  >
-                    {option.text}
-                  </div>
-                );
-              })}
-          </div>
-        </ClickWrapper>
-      )}
+      <div className={styles.dropdownArrowContainer}>
+        <button
+          type="button"
+          className={cx(styles.dropdownArrowButton)}
+          onClick={() => setShowList((showList) => !showList)}
+        >
+          <IconDropDown />
+        </button>
+        {showList && (
+          <ClickWrapper onClickOutside={() => setShowList(false)}>
+            <div className={styles.dropdownList}>
+              {dropList.length > 0 &&
+                dropList.map((option, key) => {
+                  return (
+                    <div
+                      // eslint-disable-next-line react/no-array-index-key
+                      key={key}
+                      className={styles.dropdownItem}
+                      onClick={() => {
+                        option.onClick();
+                        setShowList(false);
+                      }}
+                    >
+                      {option.text}
+                    </div>
+                  );
+                })}
+            </div>
+          </ClickWrapper>
+        )}
+      </div>
     </div>
   );
 }

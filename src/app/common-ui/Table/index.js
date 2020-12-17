@@ -23,7 +23,7 @@ const TableContainer = styled.table`
 
 const TableHeader = styled.thead`
   width: 100%;
-  font-weight: 600;
+  font-weight: bold;
   font-size: 16px;
 `;
 
@@ -79,18 +79,12 @@ const PaginationContainer = styled.div`
   justify-content: center;
 `;
 
-function Table({
-  config,
-  border,
-  background,
-  numberOfPages,
-  onClickPage,
-  rowPerPageText,
-  onClickRowPerPage,
-}) {
+function Table({ config, border, background, pagination, pageSize }) {
   const [currentPage, setCurrentPage] = React.useState(1);
   const [numberOfRowPerPage, setNumberOfRowPerPage] = React.useState(10);
   const { titles, data, columnWidth } = config;
+  const { numberOfPages, onClickPage } = pagination || {};
+  const { rowPerPageText, onClickRowPerPage } = pageSize || {};
 
   const handleClickRowPerPage = (num) => {
     setNumberOfRowPerPage(num);
@@ -187,10 +181,8 @@ Table.propTypes = {
   config: PropTypes.any,
   border: PropTypes.bool,
   background: PropTypes.bool,
-  numberOfPages: PropTypes.number,
-  rowPerPageText: PropTypes.string,
-  onClickRowPerPage: PropTypes.func,
-  onClickPage: PropTypes.func,
+  pagination: PropTypes.any,
+  pageSize: PropTypes.any,
 };
 
 export default Table;
