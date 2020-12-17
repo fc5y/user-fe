@@ -82,7 +82,7 @@ const PaginationContainer = styled.div`
 function Table({ config, border, background, pagination, pageSize }) {
   const [currentPage, setCurrentPage] = React.useState(1);
   const [numberOfRowPerPage, setNumberOfRowPerPage] = React.useState(10);
-  const { titles, data, columnWidth } = config;
+  const { titles, data, colWidths } = config;
   const { numberOfPages, onClickPage } = pagination || {};
   const { rowPerPageText, onClickRowPerPage } = pageSize || {};
 
@@ -113,7 +113,7 @@ function Table({ config, border, background, pagination, pageSize }) {
 
   // Render table body
   const renderTableBody = () => {
-    return (data || []).map((row, idx1) => {
+    return (data.slice(0, numberOfRowPerPage) || []).map((row, idx1) => {
       return (
         <tr key={idx1}>
           {Object.values(row).map((r, idx2) =>
@@ -133,45 +133,56 @@ function Table({ config, border, background, pagination, pageSize }) {
       <Container border={border} background={background}>
         <TableContainer>
           <colgroup>
-            {(columnWidth || []).map((w, k) => (w ? <col key={k} width={w} /> : <col key={k} />))}
+            {(colWidths || []).map((w, k) => (w ? <col key={k} width={w} /> : <col key={k} />))}
           </colgroup>
           <TableHeader>{renderTableHead()}</TableHeader>
           <TableBody>{renderTableBody()}</TableBody>
         </TableContainer>
       </Container>
       <FooterContainer>
-        {onClickRowPerPage && (
-          <RowPerPageContainer>
-            <div>Hiển thị</div>
-            <Number chosen={numberOfRowPerPage === 10} onClick={() => handleClickRowPerPage(10)}>
-              10
-            </Number>
-            <Number chosen={numberOfRowPerPage === 20} onClick={() => handleClickRowPerPage(20)}>
-              20
-            </Number>
-            <Number chosen={numberOfRowPerPage === 50} onClick={() => handleClickRowPerPage(50)}>
-              50
-            </Number>
-            <Number chosen={numberOfRowPerPage === 100} onClick={() => handleClickRowPerPage(100)}>
-              100
-            </Number>
-            <div>{rowPerPageText}</div>
-          </RowPerPageContainer>
-        )}
-        {onClickPage && (
-          <PaginationContainer>
-            <div>Trang</div>
-            {getSeriesOfPagination(currentPage, numberOfPages).map((s, k) =>
-              typeof s === 'number' ? (
-                <Number chosen={currentPage === s} key={k} onClick={() => handleClickPageNumber(s)}>
-                  {s}
-                </Number>
-              ) : (
-                <div key={k}>{s}</div>
-              ),
-            )}
-          </PaginationContainer>
-        )}
+        <RowPerPageContainer>
+          {onClickRowPerPage && (
+            <>
+              <div>Hiển thị</div>
+              <Number chosen={numberOfRowPerPage === 10} onClick={() => handleClickRowPerPage(10)}>
+                10
+              </Number>
+              <Number chosen={numberOfRowPerPage === 20} onClick={() => handleClickRowPerPage(20)}>
+                20
+              </Number>
+              <Number chosen={numberOfRowPerPage === 50} onClick={() => handleClickRowPerPage(50)}>
+                50
+              </Number>
+              <Number
+                chosen={numberOfRowPerPage === 100}
+                onClick={() => handleClickRowPerPage(100)}
+              >
+                100
+              </Number>
+              <div>{rowPerPageText}</div>
+            </>
+          )}
+        </RowPerPageContainer>
+        <PaginationContainer>
+          {onClickPage && (
+            <>
+              <div>Trang</div>
+              {getSeriesOfPagination(currentPage, numberOfPages).map((s, k) =>
+                typeof s === 'number' ? (
+                  <Number
+                    chosen={currentPage === s}
+                    key={k}
+                    onClick={() => handleClickPageNumber(s)}
+                  >
+                    {s}
+                  </Number>
+                ) : (
+                  <div key={k}>{s}</div>
+                ),
+              )}
+            </>
+          )}
+        </PaginationContainer>
       </FooterContainer>
     </>
   );

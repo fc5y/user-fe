@@ -2,6 +2,8 @@
   .dropdownContainer {
     position: relative;
     display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
   .defaultButton {
@@ -17,7 +19,7 @@
 
   .dropdownButton {
     @extend .defaultButton;
-    min-width: 200px;
+    min-width: 170px;
     border-top-left-radius: 4px;
     border-bottom-left-radius: 4px;
   }

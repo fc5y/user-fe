@@ -18,8 +18,7 @@ const Title = styled.h1`
 `;
 
 const TABLE_CONFIG = {
-  numberOfCol: 4,
-  columnWidth: [null, 130, 130, 100, 250],
+  colWidths: [null, 130, 130, 100, 250],
   colNames: ['contestName', 'day', 'hour', 'numberOfParticipants', 'contestFiles'],
   titles: ['Kỳ thi', 'Ngày', 'Giờ', 'Số thí sinh', 'Tư liệu kỳ thi'],
   data: Array(5).fill({
