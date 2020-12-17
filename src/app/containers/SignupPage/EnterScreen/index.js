@@ -103,7 +103,7 @@ function EnterScreen({ onSubmitForm }) {
     if (code || !data) {
       setApiState({ progress: API_PROGRESS.FAILED, code, msg });
     } else {
-      setApiState({ ...apiState, progress: API_PROGRESS.SUCCESS });
+      setApiState({ progress: API_PROGRESS.SUCCESS, code: null, msg: null });
       onSubmitForm(validation.newValues);
     }
   };
@@ -116,7 +116,7 @@ function EnterScreen({ onSubmitForm }) {
       {apiState.progress === API_PROGRESS.REQ ? (
         <Loading />
       ) : (
-        apiState.progress === API_PROGRESS.FAILED && (
+        apiState.code && (
           <ErrorPopup
             show
             content={getErrorMessage(apiState)}

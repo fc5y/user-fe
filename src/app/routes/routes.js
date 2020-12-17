@@ -9,8 +9,8 @@ import JoinHelpPage from '../containers/HelpPage/JoinHelpPage';
 import LoginPage from '../containers/LoginPage';
 import SignupPage from '../containers/SignupPage';
 import ProfilePage from '../containers/ProfilePage';
-import Contest from '../containers/Contests/Contest';
-import Contests from '../containers/Contests/Contests';
+import ContestDetail from '../containers/Contests/ContestDetail';
+import ContestsHome from '../containers/Contests/ContestsHome';
 import ContestEnterPage from '../containers/Contests/ContestEnterPage';
 import ContestRegister from '../containers/Contests/ContestRegister';
 import ChangePasswordPage from '../containers/ChangePassword';
@@ -69,12 +69,12 @@ const ROUTES_CONFIG = [
   {
     path: ROUTES.ROUTE_CONTEST,
     exact: true,
-    component: Contest,
+    component: ContestDetail,
   },
   {
     path: ROUTES.ROUTE_CONTESTS,
     exact: true,
-    component: Contests,
+    component: ContestsHome,
   },
   {
     path: ROUTES.ROUTE_CONTEST_ENTER,

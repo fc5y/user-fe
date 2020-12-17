@@ -54,9 +54,9 @@ const ContestTime = styled.div`
   margin-bottom: 5px;
 `;
 
-function Contest() {
+function ContestDetail() {
   const { contestName } = useParams();
-  const { getContestInfo, contestInfo } = React.useContext(ContestInfoContext);
+  const { getContestInfoByName, contestInfo } = React.useContext(ContestInfoContext);
   const [contestStatus, setContestStatus] = React.useState(CONTEST_STATUS.UNSET);
   const [apiState, setApiState] = React.useState({
     progress: API_PROGRESS.INIT,
@@ -67,7 +67,7 @@ function Contest() {
   React.useEffect(() => {
     const fetchContestInfo = async () => {
       setApiState({ progress: API_PROGRESS.REQ });
-      const { code, msg } = await getContestInfo({ contestName });
+      const { code, msg } = await getContestInfoByName({ contestName });
 
       if (code) {
         setApiState({
@@ -97,7 +97,7 @@ function Contest() {
           <ContestTitle>
             {(contestInfo[contestName] && contestInfo[contestName].contest_title) || contestName}
           </ContestTitle>
-          <ContestTime>{formatContestTime(contestInfo[contestName]).startAndEndTime}</ContestTime>
+          <ContestTime>{formatContestTime(contestInfo[contestName]).fullTime}</ContestTime>
           {(() => {
             switch (contestStatus) {
               case CONTEST_STATUS.NOT_STARTED:
@@ -120,4 +120,4 @@ function Contest() {
   );
 }
 
-export default Contest;
+export default ContestDetail;

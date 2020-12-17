@@ -162,7 +162,7 @@ function ContestRegister() {
         <ContestTitle>
           {(contestInfo[contestName] && contestInfo[contestName].contest_title) || contestName}
         </ContestTitle>
-        <ContestTime>{formatContestTime(contestInfo[contestName]).startAndEndTime}</ContestTime>
+        <ContestTime>{formatContestTime(contestInfo[contestName]).fullTime}</ContestTime>
       </TitleContainer>
       <Form.Form>
         <Form.LabeledInput {...defaultProps('username')} type="text" />
