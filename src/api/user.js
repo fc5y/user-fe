@@ -1,4 +1,4 @@
-import { get } from '../utils/fetchUtils';
+import { get, post } from '../utils/fetchUtils';
 
 export function apiGetMyUserInfo({ token }) {
   return get(
@@ -14,4 +14,12 @@ export function apiGetUserInfo({ token, username }) {
     { Authorization: `Bearer ${token}`, 'Access-Control-Allow-Headers': '*' },
     true,
   );
+}
+
+export function apiChangeUserPassword({ currentPassword, newPassword, token }) {
+  return post('/api/v1/me/change-password', {
+    old_password: currentPassword,
+    new_password: newPassword,
+    Authorization: `Bearer ${token}`,
+  });
 }
