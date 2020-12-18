@@ -3,7 +3,8 @@ import styles from './style.scss';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-import { get } from 'src/utils/fetchUtils';
+// Apis
+import { apiGetParticipations } from 'src/api';
 
 const pastContestsPerPage = 10;
 let numberOfContests = 0;
@@ -26,29 +27,19 @@ function splitPages(numberOfItems, itemsPerPage, page) {
   }
 }
 
-function ParticipatedContests({ token, username }) {
+function ParticipatedContests({ token }) {
   const [page, setPage] = useState(1);
   const [pastContests, setPastContests] = useState([]);
   useEffect(() => {
-    get(
-      /*
-      `https://test.api.freecontest.net/api/v1/participations?username=${username}&offset=${
-        (page - 1) * pastContestsPerPage
-      }&limit=${pastContestsPerPage}`, */
-      'https://my-json-server.typicode.com/upi05/mock_API_for_Fc5y/participations',
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      },
-      true,
-    ).then((res) => {
+    numberOfContests = 0;
+    // offset = (page - 1) * pastContestsPerPage
+    // limit = pastContestsPerPage
+    apiGetParticipations({ token }).then((res) => {
       // Don't forget to handle errors
-      numberOfContests = res.data.data.total;
-      setPastContests(res.data.data.participations);
+      numberOfContests = res.data.total;
+      setPastContests(res.data.participations);
     });
   }, []);
-
   const trList = pastContests.map((contest) => (
     <tr className={styles.rowContest} key={contest.id}>
       <th className={styles.tableNumber}>{contest.id}</th>
@@ -111,7 +102,6 @@ function ParticipatedContests({ token, username }) {
 }
 ParticipatedContests.propTypes = {
   token: PropTypes.any,
-  username: PropTypes.any,
 };
 
 export default ParticipatedContests;

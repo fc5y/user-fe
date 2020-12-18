@@ -1,20 +1,38 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { Helmet } from 'react-helmet';
 import { Link } from 'react-router-dom';
 import styles from './style.scss';
 
+// Images
 import img from 'assets/images/avatar.png';
-import ParticipatedContests from '../../components/ParticipatedContests';
-import { get } from 'src/utils/fetchUtils';
+
+// Components
+import ParticipatedContests from 'src/app/components/ParticipatedContests';
+import Loading from 'src/app/common-ui/Loading';
+import ErrorContent from 'src/app/common-ui/ErrorContent';
+import { WarningPopup } from 'src/app/common-ui/Popup';
+
+// import ErrorContent from '';
+
+// Constants
+import { API_PROGRESS } from 'src/shared/constants';
+
+// Utils
+import { UserInfoContext } from 'src/shared/context/UserInfo';
+import { getErrorMessage } from 'src/utils/getErrorMessage';
+
+// Apis
+import { apiGetMyUserInfo, apiGetUserInfo } from 'src/api/index';
 
 function ProfilePage({ match }) {
-  // currentUsername is stored in localstorage
-  const currentUsername = 'hieu';
-  // This temporary token is used for testing purposes.
-  const token =
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRpbWVjbzkyODlAd25jbncuY29tIiwiaWQiOjIsImlhdCI6MTYwNzUwMjU1MH0.NyFS1w10XTCOHRFuyFzkpgLJkA4bZtN2uZJgGqK3Sp8';
-  const [userInfo, setInfo] = useState({
+  const { userInfo, setUserInfo } = useContext(UserInfoContext);
+  const [apiState, setApiState] = useState({
+    progress: API_PROGRESS.INIT,
+    code: null,
+    msg: null,
+  });
+  const [handlingUserInfo, setHandlingUserInfo] = useState({
     username: '',
     fullName: '',
     dateOfBirth: '',
@@ -26,30 +44,31 @@ function ProfilePage({ match }) {
   });
 
   useEffect(() => {
-    get(
-      `https://test.api.freecontest.net/api/v1/users?username=${match.params.username}`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      },
-      true,
-    ).then((res) =>
-      // Don't forget to handle errors
-      setInfo({
-        username: res.data.data.users[0].username || '',
-        fullName: res.data.data.users[0].full_name || '',
-        dateOfBirth: '',
-        schoolName: res.data.data.users[0].school_namme || '',
-        email: res.data.data.users[0].email || '',
-        bio: '',
-        ranking: 'NONE',
-        rating: 'NONE',
-      }),
-    );
+    const fetchUserInfo = async () => {
+      setApiState({ progress: API_PROGRESS.REQ });
+      const { code, msg, data } = await apiGetUserInfo({
+        token: userInfo.token,
+      });
+      if (code) {
+        setApiState({ progress: API_PROGRESS.FAILED, code, msg });
+      } else {
+        setHandlingUserInfo({
+          username: data.user.username || '',
+          fullName: data.user.full_name || '',
+          dateOfBirth: '',
+          schoolName: data.user.school_name || '',
+          email: data.user.email || '',
+          bio: '',
+          ranking: 'NONE',
+          rating: 'NONE',
+        });
+        setApiState({ progress: API_PROGRESS.SUCCESS, code, msg });
+      }
+    };
+    fetchUserInfo();
   }, []);
 
-  return (
+  return apiState.progress === API_PROGRESS.SUCCESS ? (
     <div className={styles.container}>
       <Helmet>
         <title>Trang cá nhân</title>
@@ -62,46 +81,52 @@ function ProfilePage({ match }) {
                 <img src={img} alt="avatar" />
               </div>
               <div className={styles.changeAvatar}>
-                {currentUsername === match.params.username && (
+                {userInfo.username === match.params.username && (
                   <Link to="/settings">Thay đổi ảnh cá nhân</Link>
                 )}
               </div>
             </div>
             <div className={styles.infoContent}>
               <div>
-                <h3>{userInfo.username}</h3>
+                <h3>{handlingUserInfo.username}</h3>
               </div>
               <div>
-                <span>Họ và tên:</span> {userInfo.fullName}
+                <span>Họ và tên:</span> {handlingUserInfo.fullName}
               </div>
               <div>
-                <span>Ngày sinh:</span> {userInfo.dateOfBirth}
+                <span>Ngày sinh:</span> {handlingUserInfo.dateOfBirth}
               </div>
               <div>
-                <span>Trường học:</span> {userInfo.schoolName}
+                <span>Trường học:</span> {handlingUserInfo.schoolName}
               </div>
               <div>
-                <span>Email liên lạc:</span> {userInfo.email}
+                <span>Email liên lạc:</span> {handlingUserInfo.email}
               </div>
               <div>
-                <span>Bio:</span> {userInfo.bio}
+                <span>Bio:</span> {handlingUserInfo.bio}
               </div>
             </div>
           </div>
           <div className={styles.point}>
             <div className={styles.rankingAndRating}>
               <div className={styles.pointTitle}>RANK</div>
-              <div className={styles.rankingScore}>{userInfo.ranking}</div>
+              <div className={styles.rankingScore}>{handlingUserInfo.ranking}</div>
             </div>
             <div className={styles.rankingAndRating}>
               <div className={styles.pointTitle}>RATING</div>
-              <div className={styles.ratingScore}>{userInfo.rating}</div>
+              <div className={styles.ratingScore}>{handlingUserInfo.rating}</div>
             </div>
           </div>
         </div>
-        <ParticipatedContests token={token} username={match.params.username} />
+        <ParticipatedContests username={match.params.username} />
       </div>
     </div>
+  ) : apiState.progress === API_PROGRESS.FAILED && apiState.code === 2001 ? (
+    <ErrorContent content="User not found!" />
+  ) : apiState.progress === API_PROGRESS.FAILED ? (
+    <ErrorContent content={getErrorMessage(apiState)} />
+  ) : (
+    <Loading />
   );
 }
 
