@@ -11,7 +11,6 @@ import img from 'assets/images/avatar.png';
 import ParticipatedContests from 'src/app/components/ParticipatedContests';
 import Loading from 'src/app/common-ui/Loading';
 import ErrorContent from 'src/app/common-ui/ErrorContent';
-import { WarningPopup } from 'src/app/common-ui/Popup';
 
 // import ErrorContent from '';
 
@@ -46,9 +45,7 @@ function ProfilePage({ match }) {
   useEffect(() => {
     const fetchUserInfo = async () => {
       setApiState({ progress: API_PROGRESS.REQ });
-      const { code, msg, data } = await apiGetUserInfo({
-        token: userInfo.token,
-      });
+      const { code, msg, data } = await apiGetUserInfo({ username: match.params.username });
       if (code) {
         setApiState({ progress: API_PROGRESS.FAILED, code, msg });
       } else {
