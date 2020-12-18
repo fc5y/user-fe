@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import * as React from 'react';
 import PropTypes from 'prop-types';
 
 // APIs
@@ -33,7 +33,7 @@ const labels = {
 function SettingsPage({ history, location }) {
   const { userInfo, setUserInfo } = React.useContext(UserInfoContext);
   const [values, setValues] = React.useState({});
-  useEffect(() => {
+  React.useEffect(() => {
     const { fullname, school, email } = userInfo;
     setValues({ fullname, school, email });
   }, []);
