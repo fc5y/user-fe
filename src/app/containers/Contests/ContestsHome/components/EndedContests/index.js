@@ -14,7 +14,6 @@ import { makeUrl } from 'src/utils/url';
 
 // Components
 import Table from 'src/app/common-ui/Table';
-import Loading from 'src/app/common-ui/Loading';
 import { DropDownButton } from 'src/app/common-ui/DropdownButton';
 
 // Constants
@@ -117,26 +116,21 @@ function OverContests() {
 
   return (
     <Container>
-      {apiState.progress === API_PROGRESS.REQ ? (
-        <Loading />
-      ) : (
-        <>
-          <Title>Đã diễn ra</Title>
-          <Table
-            border
-            background
-            config={tableConfig}
-            pageSize={{
-              rowPerPageText: 'kỳ thi/trang',
-              onClickRowPerPage: (num) => console.log(num),
-            }}
-            pagination={{
-              numberOfPages: 10,
-              onClickPage: (num) => console.log(num),
-            }}
-          />
-        </>
-      )}
+      <Title>Đã diễn ra</Title>
+      <Table
+        border
+        background
+        config={tableConfig}
+        showSkeleton={apiState.progress === API_PROGRESS.REQ}
+        pageSize={{
+          rowPerPageText: 'kỳ thi/trang',
+          onClickRowPerPage: (num) => console.log(num),
+        }}
+        pagination={{
+          numberOfPages: 10,
+          onClickPage: (num) => console.log(num),
+        }}
+      />
     </Container>
   );
 }

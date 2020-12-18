@@ -6,6 +6,9 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { getSeriesOfPagination } from './utils';
 
+// Components
+import Skeleton from '../Skeleton';
+
 const Container = styled.div`
   width: 100%;
   border: ${(props) => (props.border ? '1px solid var(--black06)' : '0')};
@@ -79,7 +82,11 @@ const PaginationContainer = styled.div`
   justify-content: center;
 `;
 
-function Table({ config, border, background, pagination, pageSize }) {
+const SkeletonDoubleText = styled(Skeleton.Text)`
+  width: 400px;
+`;
+
+function Table({ config, border, background, pagination, pageSize, showSkeleton }) {
   const [currentPage, setCurrentPage] = React.useState(1);
   const [numberOfRowPerPage, setNumberOfRowPerPage] = React.useState(10);
   const { titles, data, colWidths } = config;
@@ -127,6 +134,31 @@ function Table({ config, border, background, pagination, pageSize }) {
       );
     });
   };
+
+  if (showSkeleton) {
+    return (
+      <Skeleton.Container>
+        <Skeleton.Row>
+          <SkeletonDoubleText />
+          <Skeleton.Text />
+          <Skeleton.Text />
+          <Skeleton.Text />
+        </Skeleton.Row>
+        <Skeleton.Row>
+          <SkeletonDoubleText />
+          <Skeleton.Text />
+          <Skeleton.Text />
+          <Skeleton.Text />
+        </Skeleton.Row>
+        <Skeleton.Row>
+          <SkeletonDoubleText />
+          <Skeleton.Text />
+          <Skeleton.Text />
+          <Skeleton.Text />
+        </Skeleton.Row>
+      </Skeleton.Container>
+    );
+  }
 
   return (
     <>
@@ -192,6 +224,7 @@ Table.propTypes = {
   config: PropTypes.any,
   border: PropTypes.bool,
   background: PropTypes.bool,
+  showSkeleton: PropTypes.bool,
   pagination: PropTypes.any,
   pageSize: PropTypes.any,
 };
