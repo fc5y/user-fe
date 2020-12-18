@@ -16,7 +16,11 @@ export function apiGetContestCredential({ token, contestName }) {
 }
 
 export function apiRegisterContest({ token }) {
-  return post(`/api/v1/participations`, {
-    Authorization: `Bearer ${token}`,
-  });
+  return post(
+    `/api/v1/participations`,
+    {},
+    {
+      Authorization: `Bearer ${token}`,
+    },
+  );
 }
