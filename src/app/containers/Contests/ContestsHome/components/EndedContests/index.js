@@ -36,7 +36,14 @@ const ContestTitle = styled.h1`
   cursor: pointer;
 `;
 
-function EndedContests({ isLoading, contests, onClickPageSize, onClickPageNumber, totalContests }) {
+function EndedContests({
+  isLoading,
+  contests,
+  onClickPageSize,
+  onClickPageNumber,
+  totalContests,
+  isAddingNewRows,
+}) {
   const [tableConfig, setTableConfig] = React.useState(TABLE_CONFIG);
   const [currentLimit, setCurrentLimit] = React.useState(10);
   const history = useHistory();
@@ -103,6 +110,7 @@ function EndedContests({ isLoading, contests, onClickPageSize, onClickPageNumber
         background
         config={tableConfig}
         showSkeleton={isLoading}
+        isAddingNewRows={isAddingNewRows}
         pageSize={{
           rowPerPageText: 'kỳ thi/trang',
           onClickRowPerPage: (size) => {
@@ -122,6 +130,7 @@ function EndedContests({ isLoading, contests, onClickPageSize, onClickPageNumber
 EndedContests.propTypes = {
   contests: PropTypes.any,
   isLoading: PropTypes.bool,
+  isAddingNewRows: PropTypes.bool,
   totalContests: PropTypes.number,
   onClickPageSize: PropTypes.func,
   onClickPageNumber: PropTypes.func,

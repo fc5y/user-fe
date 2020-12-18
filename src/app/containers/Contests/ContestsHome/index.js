@@ -24,6 +24,7 @@ function Contests() {
   const [endedContests, setEndedContests] = React.useState([]);
   const [currentLimit, setCurrentLimit] = React.useState(10);
   const [currentOffset, setCurrentOffset] = React.useState(0);
+  const [isAddingNewRows, setIsAddingNewRows] = React.useState(false);
   const [apiState, setApiState] = React.useState({
     progress: API_PROGRESS.INIT,
     code: null,
@@ -41,11 +42,13 @@ function Contests() {
       });
 
       if (code || !data || !data.contests) {
+        setIsAddingNewRows(false);
         setApiState({ progress: API_PROGRESS.FAILED, code, msg });
       } else {
         // TODO: Filter this
         setOnGoingContests(data.contests);
         setEndedContests(data.contests);
+        setIsAddingNewRows(false);
         setApiState({ progress: API_PROGRESS.SUCCESS, code: null, msg: null });
       }
     };
@@ -53,7 +56,7 @@ function Contests() {
     fetchContestsInfo();
   }, [currentLimit, currentOffset]);
 
-  // Get contests from old data
+  // Get contests from old data and show first
   React.useEffect(() => {
     const currentContests = contests
       .slice(currentOffset, currentOffset + currentLimit)
@@ -80,9 +83,13 @@ function Contests() {
       />
       <EndedContests
         isLoading={apiState.progress === API_PROGRESS.REQ && endedContests.length === 0}
+        isAddingNewRows={isAddingNewRows}
         contests={endedContests}
         totalContests={totalContests}
-        onClickPageSize={(size) => console.log(size)}
+        onClickPageSize={(newSize) => {
+          setCurrentLimit(newSize);
+          setIsAddingNewRows(() => currentLimit < newSize);
+        }}
         onClickPageNumber={(num) => setCurrentOffset((num - 1) * currentLimit)}
       />
     </Container>

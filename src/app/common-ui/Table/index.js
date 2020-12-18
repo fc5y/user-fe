@@ -83,10 +83,18 @@ const PaginationContainer = styled.div`
 `;
 
 const SkeletonDoubleText = styled(Skeleton.Text)`
-  width: 400px;
+  width: 300px;
 `;
 
-function Table({ config, border, background, pagination, pageSize, showSkeleton }) {
+function Table({
+  config,
+  border,
+  background,
+  pagination,
+  pageSize,
+  showSkeleton,
+  isAddingNewRows,
+}) {
   const [currentPage, setCurrentPage] = React.useState(1);
   const [numberOfRowPerPage, setNumberOfRowPerPage] = React.useState(10);
   const { titles, data, colWidths } = config;
@@ -135,6 +143,31 @@ function Table({ config, border, background, pagination, pageSize, showSkeleton 
     });
   };
 
+  // Render new adding row
+  const renderNewAddingRow = () => {
+    return (
+      <tr>
+        {colWidths.map((w, k) => {
+          return (
+            <td key={k}>
+              {k === 0 ? (
+                <Skeleton.Text
+                  key={k}
+                  style={{ width: w ? `${w - 10}px` : '300px', margin: '10px 10px' }}
+                />
+              ) : (
+                <Skeleton.Text
+                  key={k}
+                  style={{ width: w ? `${w - 10}px` : '300px', margin: '10px 0' }}
+                />
+              )}
+            </td>
+          );
+        })}
+      </tr>
+    );
+  };
+
   if (showSkeleton) {
     return (
       <Skeleton.Container>
@@ -168,7 +201,12 @@ function Table({ config, border, background, pagination, pageSize, showSkeleton 
             {(colWidths || []).map((w, k) => (w ? <col key={k} width={w} /> : <col key={k} />))}
           </colgroup>
           <TableHeader>{renderTableHead()}</TableHeader>
-          <TableBody>{renderTableBody()}</TableBody>
+          <TableBody>
+            {renderTableBody()}
+            {isAddingNewRows && renderNewAddingRow()}
+            {isAddingNewRows && renderNewAddingRow()}
+            {isAddingNewRows && renderNewAddingRow()}
+          </TableBody>
         </TableContainer>
       </Container>
       <FooterContainer>
@@ -223,6 +261,7 @@ function Table({ config, border, background, pagination, pageSize, showSkeleton 
 Table.propTypes = {
   config: PropTypes.any,
   border: PropTypes.bool,
+  isAddingNewRows: PropTypes.bool,
   background: PropTypes.bool,
   showSkeleton: PropTypes.bool,
   pagination: PropTypes.any,
