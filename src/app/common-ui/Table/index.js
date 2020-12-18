@@ -101,14 +101,17 @@ function Table({
   const { numberOfPages, onClickPage } = pagination || {};
   const { rowPerPageText, onClickRowPerPage } = pageSize || {};
 
-  const handleClickRowPerPage = (num) => {
-    setNumberOfRowPerPage(num);
-    typeof onClickRowPerPage === 'function' && onClickRowPerPage(num);
-  };
-
   const handleClickPageNumber = (num) => {
     setCurrentPage(num);
     typeof onClickPage === 'function' && onClickPage(num);
+  };
+
+  const handleClickRowPerPage = (num) => {
+    setNumberOfRowPerPage(num);
+    typeof onClickRowPerPage === 'function' && onClickRowPerPage(num);
+
+    // Reset back to page 1 if user change Page size
+    handleClickPageNumber(1);
   };
 
   // Render table header

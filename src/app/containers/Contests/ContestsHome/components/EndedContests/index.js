@@ -21,7 +21,7 @@ import { TABLE_CONFIG } from './config';
 
 const Container = styled.div`
   width: var(--contest-table-width);
-  margin-top: 20px;
+  margin: 20px 0;
 `;
 
 const Title = styled.h1`
