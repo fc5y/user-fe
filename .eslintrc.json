@@ -30,6 +30,7 @@
     "no-nested-ternary": "off",
     "no-new": "off",
     "no-console": "off",
+    "no-plusplus": "off",
     "no-shadow": "off",
     "no-else-return": "off",
     "no-unused-vars": "warn",

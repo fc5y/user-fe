@@ -1,11 +1,9 @@
 /* eslint-disable no-use-before-define */
 import * as React from 'react';
+import PropTypes from 'prop-types';
 
 // Hook
 import { useHistory } from 'react-router-dom';
-
-// Context
-import { ContestInfoContext } from 'src/shared/context/ContestInfo';
 
 // Utils
 import styled from 'styled-components';
@@ -14,17 +12,16 @@ import { makeUrl } from 'src/utils/url';
 
 // Components
 import Table from 'src/app/common-ui/Table';
-import Loading from 'src/app/common-ui/Loading';
 import { DropDownButton } from 'src/app/common-ui/DropdownButton';
 
 // Constants
 import { ROUTE_CONTEST } from 'src/app/routes/constants';
-import { API_PROGRESS } from 'src/shared/constants';
+
 import { TABLE_CONFIG } from './config';
 
 const Container = styled.div`
   width: var(--contest-table-width);
-  margin-top: 20px;
+  margin: 30px 0 20px 0;
 `;
 
 const Title = styled.h1`
@@ -39,31 +36,21 @@ const ContestTitle = styled.h1`
   cursor: pointer;
 `;
 
-function OverContests() {
+function EndedContests({
+  isLoading,
+  contests,
+  onClickPageSize,
+  onClickPageNumber,
+  totalContests,
+  isAddingNewRows,
+}) {
   const [tableConfig, setTableConfig] = React.useState(TABLE_CONFIG);
-  const [apiState, setApiState] = React.useState({
-    progress: API_PROGRESS.INIT,
-    code: null,
-    msg: null,
-  });
-  const { getAllContestInfo } = React.useContext(ContestInfoContext);
+  const [currentLimit, setCurrentLimit] = React.useState(10);
   const history = useHistory();
 
   React.useEffect(() => {
-    const fetchContestsInfo = async () => {
-      setApiState({ progress: API_PROGRESS.REQ, code: null, msg: null });
-      const { code, data, msg } = await getAllContestInfo({ offset: 0, limit: 10 });
-
-      if (code || !data || !data.contests) {
-        setApiState({ progress: API_PROGRESS.FAILED, code, msg });
-      } else {
-        setTableConfig({ ...tableConfig, data: formatTableData(data.contests) });
-        setApiState({ progress: API_PROGRESS.SUCCESS, code: null, msg: null });
-      }
-    };
-
-    fetchContestsInfo();
-  }, []);
+    setTableConfig({ ...tableConfig, data: formatTableData(contests) });
+  }, [isLoading, contests]);
 
   // Helper function to format table data
   const formatTableData = (data) => {
@@ -115,30 +102,42 @@ function OverContests() {
     });
   };
 
+  if (!isLoading && contests && !contests.length) {
+    return null;
+  }
+
   return (
     <Container>
-      {apiState.progress === API_PROGRESS.REQ ? (
-        <Loading />
-      ) : (
-        <>
-          <Title>Đã diễn ra</Title>
-          <Table
-            border
-            background
-            config={tableConfig}
-            pageSize={{
-              rowPerPageText: 'kỳ thi/trang',
-              onClickRowPerPage: (num) => console.log(num),
-            }}
-            pagination={{
-              numberOfPages: 10,
-              onClickPage: (num) => console.log(num),
-            }}
-          />
-        </>
-      )}
+      <Title>Đã diễn ra</Title>
+      <Table
+        border
+        background
+        config={tableConfig}
+        showSkeleton={isLoading}
+        isAddingNewRows={isAddingNewRows}
+        pageSize={{
+          rowPerPageText: 'kỳ thi/trang',
+          onClickRowPerPage: (size) => {
+            setCurrentLimit(size);
+            onClickPageSize(size);
+          },
+        }}
+        pagination={{
+          numberOfPages: Math.ceil(totalContests / currentLimit),
+          onClickPage: (num) => onClickPageNumber(num),
+        }}
+      />
     </Container>
   );
 }
 
-export default OverContests;
+EndedContests.propTypes = {
+  contests: PropTypes.any,
+  isLoading: PropTypes.bool,
+  isAddingNewRows: PropTypes.bool,
+  totalContests: PropTypes.number,
+  onClickPageSize: PropTypes.func,
+  onClickPageNumber: PropTypes.func,
+};
+
+export default EndedContests;

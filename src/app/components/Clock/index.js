@@ -57,7 +57,11 @@ export default function Clock({ endTime }) {
   const [showSeparator, setShowSeparator] = React.useState(false);
 
   React.useEffect(() => {
-    setInterval(() => setShowSeparator((value) => !value), 1000);
+    const interval = setInterval(() => setShowSeparator((value) => !value), 1000);
+
+    return () => {
+      clearInterval(interval);
+    };
   }, []);
 
   return (

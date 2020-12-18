@@ -1,14 +1,27 @@
+/* eslint-disable no-use-before-define */
 import * as React from 'react';
+import PropTypes from 'prop-types';
+
+// Hook
+import { useHistory } from 'react-router-dom';
 
 // Utils
 import styled from 'styled-components';
+import { formatContestTime } from 'src/utils/contest';
+import { makeUrl } from 'src/utils/url';
 
 // Components
 import Table from 'src/app/common-ui/Table';
+import { DropDownButton } from 'src/app/common-ui/DropdownButton';
+
+// Constants
+import { ROUTE_CONTEST } from 'src/app/routes/constants';
+
+import { TABLE_CONFIG } from './config';
 
 const Container = styled.div`
   width: var(--contest-table-width);
-  margin-top: 20px;
+  margin-top: 30px;
 `;
 
 const Title = styled.h1`
@@ -16,54 +29,86 @@ const Title = styled.h1`
   font-size: 24px;
 `;
 
-const TABLE_CONFIG = {
-  colWidths: [null, 130, 130, 100, 250],
-  colNames: ['contestName', 'day', 'hour', 'numberOfParticipants', 'contestFiles'],
-  titles: ['Kỳ thi', 'Ngày', 'Giờ', 'Số thí sinh', 'Tư liệu kỳ thi'],
-  data: [
-    {
-      contestName: (
-        <div onClick={() => console.log('click')} type="button">
-          Free Contest 999
-        </div>
-      ),
-      day: '30/12/2015',
-      hour: '19:30 - 22:30',
-      numberOfParticipants: '200',
-      contestFiles: 'Tư liệu kỳ thi',
-    },
-    {
-      contestName: (
-        <div onClick={() => console.log('click')} type="button">
-          Free Contest 999
-        </div>
-      ),
-      day: '30/12/2015',
-      hour: '19:30 - 22:30',
-      numberOfParticipants: '200',
-      contestFiles: 'Tư liệu kỳ thi',
-    },
-    {
-      contestName: (
-        <div onClick={() => console.log('click')} type="button">
-          Free Contest 999
-        </div>
-      ),
-      day: '30/12/2015',
-      hour: '19:30 - 22:30',
-      numberOfParticipants: '200',
-      contestFiles: 'Tư liệu kỳ thi',
-    },
-  ],
-};
+const ContestTitle = styled.h1`
+  font-weight: 700;
+  font-size: 16px;
+  color: var(--primary-default);
+  cursor: pointer;
+`;
 
-function OngoingContests() {
+function OnGoingContests({ isLoading, contests }) {
+  const [tableConfig, setTableConfig] = React.useState(TABLE_CONFIG);
+  const history = useHistory();
+
+  React.useEffect(() => {
+    setTableConfig({ ...tableConfig, data: formatTableData(contests) });
+  }, [isLoading, contests]);
+
+  // Helper function to format table data
+  const formatTableData = (data) => {
+    return data.map((d) => {
+      const { startDate, startAndEndTime } = formatContestTime(d);
+      const openLink = (link) =>
+        window.open(link || 'about:blank', '_blank', 'noopener noreferrer');
+
+      return {
+        contestName: (
+          <ContestTitle
+            onClick={() => history.push(makeUrl(ROUTE_CONTEST, { contestName: d.contest_name }))}
+          >
+            {d.contest_title || ''}
+          </ContestTitle>
+        ),
+        day: startDate,
+        hour: startAndEndTime,
+        numberOfParticipants: parseInt(d.total_participation, 10),
+        contestFiles: (
+          <DropDownButton
+            dropList={[
+              {
+                text: 'Đề bài',
+                onClick: () => openLink(d.materials.statements_url),
+              },
+              {
+                text: 'Bộ test',
+                onClick: () => openLink(d.materials.test_data_url),
+              },
+              {
+                text: 'Bảng điểm',
+                onClick: () => openLink(d.materials.ranking_url),
+              },
+              {
+                text: 'Lời giải',
+                onClick: () => openLink(d.materials.editorial_url),
+              },
+              {
+                text: 'Bài giải',
+                onClick: () => openLink(d.materials.solution_url),
+              },
+            ]}
+          >
+            Xem tự liệu kỳ thi
+          </DropDownButton>
+        ),
+      };
+    });
+  };
+
+  if (!isLoading && contests && !contests.length) {
+    return null;
+  }
+
   return (
     <Container>
       <Title>Sắp/đang diễn ra</Title>
-      <Table border background config={TABLE_CONFIG} />
+      <Table border background config={tableConfig} showSkeleton={isLoading} />
     </Container>
   );
 }
 
-export default OngoingContests;
+OnGoingContests.propTypes = {
+  contests: PropTypes.any,
+  isLoading: PropTypes.bool,
+};
+
+export default OnGoingContests;

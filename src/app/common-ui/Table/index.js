@@ -6,6 +6,9 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { getSeriesOfPagination } from './utils';
 
+// Components
+import Skeleton from '../Skeleton';
+
 const Container = styled.div`
   width: 100%;
   border: ${(props) => (props.border ? '1px solid var(--black06)' : '0')};
@@ -79,21 +82,36 @@ const PaginationContainer = styled.div`
   justify-content: center;
 `;
 
-function Table({ config, border, background, pagination, pageSize }) {
+const SkeletonDoubleText = styled(Skeleton.Text)`
+  width: 300px;
+`;
+
+function Table({
+  config,
+  border,
+  background,
+  pagination,
+  pageSize,
+  showSkeleton,
+  isAddingNewRows,
+}) {
   const [currentPage, setCurrentPage] = React.useState(1);
   const [numberOfRowPerPage, setNumberOfRowPerPage] = React.useState(10);
   const { titles, data, colWidths } = config;
   const { numberOfPages, onClickPage } = pagination || {};
   const { rowPerPageText, onClickRowPerPage } = pageSize || {};
 
-  const handleClickRowPerPage = (num) => {
-    setNumberOfRowPerPage(num);
-    typeof onClickRowPerPage === 'function' && onClickRowPerPage(num);
-  };
-
   const handleClickPageNumber = (num) => {
     setCurrentPage(num);
     typeof onClickPage === 'function' && onClickPage(num);
+  };
+
+  const handleClickRowPerPage = (num) => {
+    setNumberOfRowPerPage(num);
+    typeof onClickRowPerPage === 'function' && onClickRowPerPage(num);
+
+    // Reset back to page 1 if user change Page size
+    handleClickPageNumber(1);
   };
 
   // Render table header
@@ -128,6 +146,56 @@ function Table({ config, border, background, pagination, pageSize }) {
     });
   };
 
+  // Render new adding row
+  const renderNewAddingRow = () => {
+    return (
+      <tr>
+        {colWidths.map((w, k) => {
+          return (
+            <td key={k}>
+              {k === 0 ? (
+                <Skeleton.Text
+                  key={k}
+                  style={{ width: w ? `${w - 10}px` : '300px', margin: '10px 10px' }}
+                />
+              ) : (
+                <Skeleton.Text
+                  key={k}
+                  style={{ width: w ? `${w - 10}px` : '300px', margin: '10px 0' }}
+                />
+              )}
+            </td>
+          );
+        })}
+      </tr>
+    );
+  };
+
+  if (showSkeleton) {
+    return (
+      <Skeleton.Container>
+        <Skeleton.Row>
+          <SkeletonDoubleText />
+          <Skeleton.Text />
+          <Skeleton.Text />
+          <Skeleton.Text />
+        </Skeleton.Row>
+        <Skeleton.Row>
+          <SkeletonDoubleText />
+          <Skeleton.Text />
+          <Skeleton.Text />
+          <Skeleton.Text />
+        </Skeleton.Row>
+        <Skeleton.Row>
+          <SkeletonDoubleText />
+          <Skeleton.Text />
+          <Skeleton.Text />
+          <Skeleton.Text />
+        </Skeleton.Row>
+      </Skeleton.Container>
+    );
+  }
+
   return (
     <>
       <Container border={border} background={background}>
@@ -136,7 +204,12 @@ function Table({ config, border, background, pagination, pageSize }) {
             {(colWidths || []).map((w, k) => (w ? <col key={k} width={w} /> : <col key={k} />))}
           </colgroup>
           <TableHeader>{renderTableHead()}</TableHeader>
-          <TableBody>{renderTableBody()}</TableBody>
+          <TableBody>
+            {renderTableBody()}
+            {isAddingNewRows && renderNewAddingRow()}
+            {isAddingNewRows && renderNewAddingRow()}
+            {isAddingNewRows && renderNewAddingRow()}
+          </TableBody>
         </TableContainer>
       </Container>
       <FooterContainer>
@@ -191,7 +264,9 @@ function Table({ config, border, background, pagination, pageSize }) {
 Table.propTypes = {
   config: PropTypes.any,
   border: PropTypes.bool,
+  isAddingNewRows: PropTypes.bool,
   background: PropTypes.bool,
+  showSkeleton: PropTypes.bool,
   pagination: PropTypes.any,
   pageSize: PropTypes.any,
 };
