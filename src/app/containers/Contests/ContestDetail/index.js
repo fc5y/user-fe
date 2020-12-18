@@ -56,7 +56,9 @@ const ContestTime = styled.div`
 
 function ContestDetail() {
   const { contestName } = useParams();
-  const { getContestInfoByName, contestInfo } = React.useContext(ContestInfoContext);
+  const { getContestInfoByName, contestInfo, contestServerTime } = React.useContext(
+    ContestInfoContext,
+  );
   const [contestStatus, setContestStatus] = React.useState(CONTEST_STATUS.UNSET);
   const [apiState, setApiState] = React.useState({
     progress: API_PROGRESS.INIT,
@@ -85,7 +87,7 @@ function ContestDetail() {
   }, []);
 
   React.useEffect(() => {
-    setContestStatus(getContestStatus(contestInfo && contestInfo[contestName]));
+    setContestStatus(getContestStatus(contestInfo && contestInfo[contestName], contestServerTime));
   }, [contestInfo, contestName]);
 
   return (
