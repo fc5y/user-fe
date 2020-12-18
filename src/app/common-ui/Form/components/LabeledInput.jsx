@@ -8,7 +8,7 @@ const Label = styled.label`
   display: block;
   font-size: 12px;
   line-height: 24px;
-  color: rgba(0, 0, 0, 0.6);
+  color: var(--black60);
 `;
 
 const Input = styled.input`
@@ -39,11 +39,11 @@ const Input = styled.input`
   ${({ isDisabled }) =>
     isDisabled
       ? css`
-          color: rgba(0, 0, 0, 0.5);
+          color: var(--black50);
           pointer-events: none;
         `
       : css`
-          color: rgba(0, 0, 0, 0.8);
+          color: var(--black80);
         `}
 `;
 
