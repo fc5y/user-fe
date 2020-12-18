@@ -9,7 +9,7 @@ import { CONTEST_STATUS } from 'src/shared/constants';
 export function getContestStatus(contestInfo, contestServerTime) {
   if (!contestInfo || !contestInfo.start_time) return 0;
 
-  const now = contestServerTime || Date.now();
+  const now = contestServerTime ? contestServerTime * 1000 : Date.now();
   const { start_time, duration, can_enter, materials = {} } = contestInfo;
   const formattedStartTime = start_time * 1000;
   const formattedDuration = duration * 100;

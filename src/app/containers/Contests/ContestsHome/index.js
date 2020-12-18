@@ -9,7 +9,8 @@ import EndedContests from './components/EndedContests';
 
 // Utils and constants
 import styled from 'styled-components';
-import { API_PROGRESS } from 'src/shared/constants';
+import { getContestStatus } from 'src/utils/contest';
+import { API_PROGRESS, CONTEST_STATUS } from 'src/shared/constants';
 
 const Container = styled.div`
   width: 100%;
@@ -30,7 +31,23 @@ function Contests() {
     code: null,
     msg: null,
   });
-  const { getAllContestInfo, totalContests, contests } = React.useContext(ContestInfoContext);
+  const { getAllContestInfo, totalContests, contests, contestServerTime } = React.useContext(
+    ContestInfoContext,
+  );
+
+  const categorizeContestTypes = (contests = []) => {
+    const sanitizedOnGoingContests = contests.filter((contest) => {
+      const status = getContestStatus(contest, contestServerTime);
+      return status === CONTEST_STATUS.NOT_STARTED || status === CONTEST_STATUS.STARTING;
+    });
+    const sanitizedEndedContests = contests.filter((contest) => {
+      const status = getContestStatus(contest, contestServerTime);
+      return status === CONTEST_STATUS.JUST_ENDED || status === CONTEST_STATUS.ENDED;
+    });
+
+    setOnGoingContests(sanitizedOnGoingContests);
+    setEndedContests(sanitizedEndedContests);
+  };
 
   // Fetch new contests
   React.useEffect(() => {
@@ -45,10 +62,8 @@ function Contests() {
         setIsAddingNewRows(false);
         setApiState({ progress: API_PROGRESS.FAILED, code, msg });
       } else {
-        // TODO: Filter this
-        setOnGoingContests(data.contests);
-        setEndedContests(data.contests);
         setIsAddingNewRows(false);
+        categorizeContestTypes(data.contests);
         setApiState({ progress: API_PROGRESS.SUCCESS, code: null, msg: null });
       }
     };
@@ -63,9 +78,7 @@ function Contests() {
       .filter((c) => !!c);
 
     if (currentContests.length) {
-      // TODO: Filter this
-      setOnGoingContests(currentContests);
-      setEndedContests(currentContests);
+      categorizeContestTypes(currentContests);
     } else {
       setOnGoingContests([]);
       setEndedContests([]);

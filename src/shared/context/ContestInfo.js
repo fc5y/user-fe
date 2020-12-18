@@ -19,7 +19,7 @@ export const ContestInfoContext = React.createContext({
   contests: [],
   totalContests: 0,
   contestInfo: {},
-  contestServerTime: Number.MIN_SAFE_INTEGER,
+  contestServerTime: 0,
   getContestInfoByName: async ({ contestName }) => {},
   getAllContestInfo: async ({ offset, limit }) => {},
 });
@@ -28,7 +28,7 @@ export function ContestInfoProvider({ children }) {
   const [contests, setContests] = React.useState([]);
   const [contestInfo, setContestInfo] = React.useState({});
   const [totalContests, setTotalContests] = React.useState(0);
-  const [contestServerTime, setContestServerTime] = React.useState(Number.MIN_SAFE_INTEGER);
+  const [contestServerTime, setContestServerTime] = React.useState(0);
 
   const getContestInfoByName = async ({ contestName }) => {
     const { code, data } = await apiGetContestInfo({ contestName });
