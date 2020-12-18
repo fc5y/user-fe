@@ -22,6 +22,7 @@ export const getFullApiUrl = (url, env = __ENV__) => {
 export const isAbsoluteURL = (url) => {
   try {
     new URL(url);
+    return true;
   } catch {
     return false;
   }
