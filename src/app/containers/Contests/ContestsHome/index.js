@@ -88,11 +88,8 @@ function Contests() {
   return (
     <Container>
       <OngoingContest
-        isLoading={apiState.progress === API_PROGRESS.REQ}
+        isLoading={apiState.progress === API_PROGRESS.REQ && endedContests.length === 0}
         contests={onGoingContests}
-        totalContests={totalContests}
-        onClickPageSize={() => {}}
-        onClickPageNumber={() => {}}
       />
       <EndedContests
         isLoading={apiState.progress === API_PROGRESS.REQ && endedContests.length === 0}

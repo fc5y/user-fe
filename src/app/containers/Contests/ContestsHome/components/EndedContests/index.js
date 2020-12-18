@@ -21,7 +21,7 @@ import { TABLE_CONFIG } from './config';
 
 const Container = styled.div`
   width: var(--contest-table-width);
-  margin: 20px 0;
+  margin: 30px 0 20px 0;
 `;
 
 const Title = styled.h1`
@@ -101,6 +101,10 @@ function EndedContests({
       };
     });
   };
+
+  if (!isLoading && contests && !contests.length) {
+    return null;
+  }
 
   return (
     <Container>
