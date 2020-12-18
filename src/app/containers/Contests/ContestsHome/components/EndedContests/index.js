@@ -1,11 +1,9 @@
 /* eslint-disable no-use-before-define */
 import * as React from 'react';
+import PropTypes from 'prop-types';
 
 // Hook
 import { useHistory } from 'react-router-dom';
-
-// Context
-import { ContestInfoContext } from 'src/shared/context/ContestInfo';
 
 // Utils
 import styled from 'styled-components';
@@ -18,7 +16,7 @@ import { DropDownButton } from 'src/app/common-ui/DropdownButton';
 
 // Constants
 import { ROUTE_CONTEST } from 'src/app/routes/constants';
-import { API_PROGRESS } from 'src/shared/constants';
+
 import { TABLE_CONFIG } from './config';
 
 const Container = styled.div`
@@ -38,31 +36,14 @@ const ContestTitle = styled.h1`
   cursor: pointer;
 `;
 
-function OverContests() {
+function EndedContests({ isLoading, contests, onClickPageSize, onClickPageNumber, totalContests }) {
   const [tableConfig, setTableConfig] = React.useState(TABLE_CONFIG);
-  const [apiState, setApiState] = React.useState({
-    progress: API_PROGRESS.INIT,
-    code: null,
-    msg: null,
-  });
-  const { getAllContestInfo } = React.useContext(ContestInfoContext);
+  const [currentLimit, setCurrentLimit] = React.useState(10);
   const history = useHistory();
 
   React.useEffect(() => {
-    const fetchContestsInfo = async () => {
-      setApiState({ progress: API_PROGRESS.REQ, code: null, msg: null });
-      const { code, data, msg } = await getAllContestInfo({ offset: 0, limit: 10 });
-
-      if (code || !data || !data.contests) {
-        setApiState({ progress: API_PROGRESS.FAILED, code, msg });
-      } else {
-        setTableConfig({ ...tableConfig, data: formatTableData(data.contests) });
-        setApiState({ progress: API_PROGRESS.SUCCESS, code: null, msg: null });
-      }
-    };
-
-    fetchContestsInfo();
-  }, []);
+    setTableConfig({ ...tableConfig, data: formatTableData(contests) });
+  }, [isLoading, contests]);
 
   // Helper function to format table data
   const formatTableData = (data) => {
@@ -121,18 +102,29 @@ function OverContests() {
         border
         background
         config={tableConfig}
-        showSkeleton={apiState.progress === API_PROGRESS.REQ}
+        showSkeleton={isLoading}
         pageSize={{
           rowPerPageText: 'kỳ thi/trang',
-          onClickRowPerPage: (num) => console.log(num),
+          onClickRowPerPage: (size) => {
+            setCurrentLimit(size);
+            onClickPageSize(size);
+          },
         }}
         pagination={{
-          numberOfPages: 10,
-          onClickPage: (num) => console.log(num),
+          numberOfPages: Math.ceil(totalContests / currentLimit),
+          onClickPage: (num) => onClickPageNumber(num),
         }}
       />
     </Container>
   );
 }
 
-export default OverContests;
+EndedContests.propTypes = {
+  contests: PropTypes.any,
+  isLoading: PropTypes.bool,
+  totalContests: PropTypes.number,
+  onClickPageSize: PropTypes.func,
+  onClickPageNumber: PropTypes.func,
+};
+
+export default EndedContests;

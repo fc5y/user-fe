@@ -1,12 +1,15 @@
 import { get, post } from '../utils/fetchUtils';
 import { objectToQuery } from '../utils/query';
 
+import { resContestGetAll } from './mockContests';
+
 export function apiGetContestInfo({ contestName }) {
   return get(`/api/v1/contests/${contestName}`);
 }
 
-export function apiGetAllContestsInfo({ started, offset, limit }) {
-  return get(`/api/v1/contests${objectToQuery({ started, offset, limit })}`);
+export function apiGetAllContestsInfo({ offset, limit }) {
+  return resContestGetAll({ offset, limit });
+  // return get(`/api/v1/contests${objectToQuery({ offset, limit })}`);
 }
 
 export function apiGetContestCredential({ token, contestName }) {
