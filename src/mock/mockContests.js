@@ -6,7 +6,7 @@ export const resContestGetAll = ({ offset, limit }) => {
         res({
           code: 0,
           data: {
-            total: 31,
+            total: contests.length,
             contests: contests.slice(offset, offset + limit),
             server_time: Date.now() / 1000,
             my_participations: [
@@ -54,7 +54,23 @@ const contests = [
       statements_url: '',
       test_data_url: '',
     },
-    start_time: Date.now() / 1000 - 60,
+    start_time: Date.now() / 1000 + 60 * 60 * 3,
+    total_participation: 123,
+  },
+  {
+    can_enter: false,
+    contest_name: 'free-contest-128',
+    contest_title: 'Free Contest 128',
+    duration: 10800,
+    materials: {
+      all_materials_url: '',
+      editorial_url: '',
+      ranking_url: '',
+      solution_url: '',
+      statements_url: '',
+      test_data_url: '',
+    },
+    start_time: Date.now() / 1000 + 10,
     total_participation: 123,
   },
   {

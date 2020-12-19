@@ -74,3 +74,26 @@ export function formatContestTime(contestInfo) {
     fullTime: `${contestStartDate} ${contestStartTime} - ${contestEndTime}`,
   };
 }
+
+/**
+ * Utils to get an object of remaining time based on the remaining time
+ * @param {number} remainingTime (in seconds)
+ */
+export function getRemainingTimeObj(remainingTime) {
+  if (!remainingTime || remainingTime < 0) return {};
+
+  const days = Math.floor(remainingTime / (60 * 60 * 24));
+  const hours = Math.floor((remainingTime % (60 * 60 * 24)) / (60 * 60));
+  const mins = Math.floor((remainingTime % (60 * 60)) / 60);
+  const secs = Math.floor(remainingTime % 60);
+
+  return {
+    days,
+    hours,
+    mins,
+    secs,
+    timeString: `${hours < 10 ? `0${hours}` : hours}:${mins < 10 ? `0${mins}` : mins}:${
+      secs < 10 ? `0${secs}` : secs
+    }`,
+  };
+}

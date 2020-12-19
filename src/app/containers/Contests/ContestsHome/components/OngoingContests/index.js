@@ -4,23 +4,21 @@ import PropTypes from 'prop-types';
 
 // Context
 import { UserInfoContext } from 'src/shared/context/UserInfo';
-import { ContestInfoContext } from 'src/shared/context/ContestInfo';
 
 // Hook
 import { useHistory } from 'react-router-dom';
 
 // Utils
 import styled from 'styled-components';
-import { formatContestTime, getContestStatus } from 'src/utils/contest';
+import { formatContestTime } from 'src/utils/contest';
 import { makeUrl } from 'src/utils/url';
 
 // Components
 import Table from 'src/app/common-ui/Table';
-import * as Buttons from 'src/app/common-ui/Button';
+import ContestButton from 'src/app/components/ContestButton';
 
 // Constants
 import { ROUTE_CONTEST } from 'src/app/routes/constants';
-import { CONTEST_STATUS } from 'src/shared/constants';
 
 import { TABLE_CONFIG } from './config';
 
@@ -43,44 +41,18 @@ const ContestTitle = styled.h1`
   cursor: pointer;
 `;
 
-const PrimaryButton = styled(Buttons.PrimaryButton)`
-  min-width: 200px;
-`;
-
-const SecondaryButton = styled(Buttons.SecondaryButton)`
-  min-width: 200px;
-`;
-
 function OnGoingContests({ isLoading, contests }) {
   const [tableConfig, setTableConfig] = React.useState(TABLE_CONFIG);
   const { userInfo } = React.useContext(UserInfoContext);
-  const { myParticipationMap } = React.useContext(ContestInfoContext);
   const history = useHistory();
 
   React.useEffect(() => {
     setTableConfig({ ...tableConfig, data: formatTableData(contests) });
   }, [isLoading, contests, userInfo]);
 
-  const renderActionButton = (contest) => {
-    const status = getContestStatus(contest);
-    const isRegistered = !!myParticipationMap[contest.contest_name];
-
-    // TODO: Check UX when login
-    if (!isRegistered || !userInfo || !userInfo.username) {
-      return <PrimaryButton>Đăng ký</PrimaryButton>;
-    } else if (status === CONTEST_STATUS.NOT_STARTED && isRegistered) {
-      return <PrimaryButton disabled>Đã đăng ký</PrimaryButton>;
-    } else if (status === CONTEST_STATUS.STARTING && isRegistered) {
-      return <SecondaryButton>Vào thi</SecondaryButton>;
-    } else {
-      return <div />;
-    }
-  };
-
   // Helper function to format table data
   const formatTableData = (data) => {
     return data.map((d) => {
-      renderActionButton(d);
       const { startDate, startAndEndTime } = formatContestTime(d);
 
       return {
@@ -94,7 +66,7 @@ function OnGoingContests({ isLoading, contests }) {
         day: startDate,
         hour: startAndEndTime,
         numberOfParticipants: parseInt(d.total_participation, 10),
-        actions: renderActionButton(d),
+        actions: <ContestButton contestInfo={d} />,
       };
     });
   };
