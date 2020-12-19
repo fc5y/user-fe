@@ -3,9 +3,14 @@ import cx from 'classnames';
 import PropTypes from 'prop-types';
 import styles from './style.scss';
 
-export function Button({ className, children, ...otherProps }) {
+export function Button({ className, children, disabled, ...otherProps }) {
   return (
-    <button className={cx(styles.button, className)} type="button" {...otherProps}>
+    <button
+      className={cx(styles.button, disabled && styles.disabled, className)}
+      type="button"
+      disabled={disabled}
+      {...otherProps}
+    >
       {children}
     </button>
   );
@@ -14,17 +19,18 @@ export function Button({ className, children, ...otherProps }) {
 Button.propTypes = {
   className: PropTypes.string,
   children: PropTypes.node,
+  disabled: PropTypes.bool,
 };
 
 export function PrimaryButton({ className, children, ...otherProps }) {
   return (
-    <button
+    <Button
       className={cx(styles.button, styles.primaryButton, className)}
       type="button"
       {...otherProps}
     >
       {children}
-    </button>
+    </Button>
   );
 }
 
@@ -35,13 +41,13 @@ PrimaryButton.propTypes = {
 
 export function SecondaryButton({ className, children, ...otherProps }) {
   return (
-    <button
+    <Button
       className={cx(styles.button, styles.secondaryButton, className)}
       type="button"
       {...otherProps}
     >
       {children}
-    </button>
+    </Button>
   );
 }
 

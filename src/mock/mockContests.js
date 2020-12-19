@@ -8,6 +8,31 @@ export const resContestGetAll = ({ offset, limit }) => {
           data: {
             total: 31,
             contests: contests.slice(offset, offset + limit),
+            server_time: Date.now() / 1000,
+            my_participations: [
+              {
+                username: 'xuanquang1999',
+                contest_name: 'free-contest-131',
+                contest_title: 'Free Contest 131',
+                contest_total_participations: 234,
+                is_hidden: false,
+                rating: 1306,
+                rating_change: -56,
+                score: 545,
+                rank_in_contest: 49,
+              },
+              {
+                username: 'xuanquang1999',
+                contest_name: 'free-contest-132',
+                contest_title: 'Free Contest 132',
+                contest_total_participations: 234,
+                is_hidden: false,
+                rating: 1306,
+                rating_change: -56,
+                score: 545,
+                rank_in_contest: 49,
+              },
+            ],
           },
         }),
       1000,
@@ -18,8 +43,8 @@ export const resContestGetAll = ({ offset, limit }) => {
 const contests = [
   {
     can_enter: false,
-    contest_name: 'free-contest-129',
-    contest_title: 'Free Contest 129',
+    contest_name: 'free-contest-128',
+    contest_title: 'Free Contest 128',
     duration: 10800,
     materials: {
       all_materials_url: '',
@@ -29,13 +54,13 @@ const contests = [
       statements_url: '',
       test_data_url: '',
     },
-    start_time: 1609414200,
-    total_participation: 0,
+    start_time: Date.now() / 1000 - 60,
+    total_participation: 123,
   },
   {
     can_enter: false,
-    contest_name: 'free-contest-129',
-    contest_title: 'Free Contest 129',
+    contest_name: 'free-contest-131',
+    contest_title: 'Free Contest 131',
     duration: 10800,
     materials: {
       all_materials_url: '',
@@ -45,13 +70,13 @@ const contests = [
       statements_url: '',
       test_data_url: '',
     },
-    start_time: 1609414200,
-    total_participation: 0,
+    start_time: Date.now() / 1000 - 60,
+    total_participation: 134,
   },
   {
     can_enter: false,
-    contest_name: 'free-contest-129',
-    contest_title: 'Free Contest 129',
+    contest_name: 'free-contest-132',
+    contest_title: 'Free Contest 132',
     duration: 10800,
     materials: {
       all_materials_url: '',
@@ -62,7 +87,7 @@ const contests = [
       test_data_url: '',
     },
     start_time: 1609414200,
-    total_participation: 0,
+    total_participation: 245,
   },
   {
     can_enter: false,

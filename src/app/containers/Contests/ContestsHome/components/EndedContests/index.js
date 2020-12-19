@@ -72,7 +72,7 @@ function EndedContests({
         day: startDate,
         hour: startAndEndTime,
         numberOfParticipants: parseInt(d.total_participation, 10),
-        contestFiles: (
+        actions: (
           <DropDownButton
             dropList={[
               {

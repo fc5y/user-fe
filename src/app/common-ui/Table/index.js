@@ -47,13 +47,13 @@ const TableBody = styled.tbody`
 `;
 
 const TableBodyData = styled.td`
-  padding: 9px 0;
+  padding: 6px 0;
   border-bottom: 1px solid var(--black06);
   text-align: center;
 `;
 
 const TableFirstBodyData = styled.td`
-  padding: 9px 0px 9px 10px;
+  padding: 6px 0px 6px 10px;
   border-bottom: 1px solid var(--black06);
   text-align: left;
 `;
@@ -83,7 +83,7 @@ const PaginationContainer = styled.div`
 `;
 
 const SkeletonDoubleText = styled(Skeleton.Text)`
-  width: 300px;
+  width: 200px;
 `;
 
 function Table({
@@ -156,12 +156,12 @@ function Table({
               {k === 0 ? (
                 <Skeleton.Text
                   key={k}
-                  style={{ width: w ? `${w - 10}px` : '300px', margin: '10px 10px' }}
+                  style={{ width: w ? `${w - 10}px` : '200px', margin: '10px 10px' }}
                 />
               ) : (
                 <Skeleton.Text
                   key={k}
-                  style={{ width: w ? `${w - 10}px` : '300px', margin: '10px 0' }}
+                  style={{ width: w ? `${w - 10}px` : '200px', margin: '10px 0' }}
                 />
               )}
             </td>

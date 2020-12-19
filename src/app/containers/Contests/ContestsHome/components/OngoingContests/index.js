@@ -2,20 +2,25 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 
+// Context
+import { UserInfoContext } from 'src/shared/context/UserInfo';
+import { ContestInfoContext } from 'src/shared/context/ContestInfo';
+
 // Hook
 import { useHistory } from 'react-router-dom';
 
 // Utils
 import styled from 'styled-components';
-import { formatContestTime } from 'src/utils/contest';
+import { formatContestTime, getContestStatus } from 'src/utils/contest';
 import { makeUrl } from 'src/utils/url';
 
 // Components
 import Table from 'src/app/common-ui/Table';
-import { DropDownButton } from 'src/app/common-ui/DropdownButton';
+import * as Buttons from 'src/app/common-ui/Button';
 
 // Constants
 import { ROUTE_CONTEST } from 'src/app/routes/constants';
+import { CONTEST_STATUS } from 'src/shared/constants';
 
 import { TABLE_CONFIG } from './config';
 
@@ -38,20 +43,45 @@ const ContestTitle = styled.h1`
   cursor: pointer;
 `;
 
+const PrimaryButton = styled(Buttons.PrimaryButton)`
+  min-width: 200px;
+`;
+
+const SecondaryButton = styled(Buttons.SecondaryButton)`
+  min-width: 200px;
+`;
+
 function OnGoingContests({ isLoading, contests }) {
   const [tableConfig, setTableConfig] = React.useState(TABLE_CONFIG);
+  const { userInfo } = React.useContext(UserInfoContext);
+  const { myParticipationMap } = React.useContext(ContestInfoContext);
   const history = useHistory();
 
   React.useEffect(() => {
     setTableConfig({ ...tableConfig, data: formatTableData(contests) });
-  }, [isLoading, contests]);
+  }, [isLoading, contests, userInfo]);
+
+  const renderActionButton = (contest) => {
+    const status = getContestStatus(contest);
+    const isRegistered = !!myParticipationMap[contest.contest_name];
+
+    // TODO: Check UX when login
+    if (!isRegistered || !userInfo || !userInfo.username) {
+      return <PrimaryButton>Đăng ký</PrimaryButton>;
+    } else if (status === CONTEST_STATUS.NOT_STARTED && isRegistered) {
+      return <PrimaryButton disabled>Đã đăng ký</PrimaryButton>;
+    } else if (status === CONTEST_STATUS.STARTING && isRegistered) {
+      return <SecondaryButton>Vào thi</SecondaryButton>;
+    } else {
+      return <div />;
+    }
+  };
 
   // Helper function to format table data
   const formatTableData = (data) => {
     return data.map((d) => {
+      renderActionButton(d);
       const { startDate, startAndEndTime } = formatContestTime(d);
-      const openLink = (link) =>
-        window.open(link || 'about:blank', '_blank', 'noopener noreferrer');
 
       return {
         contestName: (
@@ -64,34 +94,7 @@ function OnGoingContests({ isLoading, contests }) {
         day: startDate,
         hour: startAndEndTime,
         numberOfParticipants: parseInt(d.total_participation, 10),
-        contestFiles: (
-          <DropDownButton
-            dropList={[
-              {
-                text: 'Đề bài',
-                onClick: () => openLink(d.materials.statements_url),
-              },
-              {
-                text: 'Bộ test',
-                onClick: () => openLink(d.materials.test_data_url),
-              },
-              {
-                text: 'Bảng điểm',
-                onClick: () => openLink(d.materials.ranking_url),
-              },
-              {
-                text: 'Lời giải',
-                onClick: () => openLink(d.materials.editorial_url),
-              },
-              {
-                text: 'Bài giải',
-                onClick: () => openLink(d.materials.solution_url),
-              },
-            ]}
-          >
-            Xem tự liệu kỳ thi
-          </DropDownButton>
-        ),
+        actions: renderActionButton(d),
       };
     });
   };
