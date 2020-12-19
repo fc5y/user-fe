@@ -12,7 +12,6 @@ import { ContestInfoContext } from 'src/shared/context/ContestInfo';
 // Utils
 import styled from 'styled-components';
 import { getContestStatus, getRemainingTimeObj } from 'src/utils/contest';
-import { getRemainingStartTime } from './utils';
 
 // Constants
 import { ROUTE_CONTEST_ENTER, ROUTE_CONTEST_REGISTER } from 'src/app/routes/constants';
@@ -70,7 +69,7 @@ function EnterContestButton({ remainingText, ...otherProps }) {
   return (
     <SecondaryButton {...otherProps}>
       <PrimaryText>Vào thi</PrimaryText>
-      <SecondaryText>+{remainingText}</SecondaryText>
+      <SecondaryText>{remainingText}</SecondaryText>
     </SecondaryButton>
   );
 }
@@ -85,20 +84,18 @@ export default function ContestActionButton({ contestInfo }) {
   const history = useHistory();
   const isRegistered = !!myParticipationMap[contestInfo.contest_name];
 
-  // Update status
   React.useEffect(() => {
-    setStatus(getContestStatus(contestInfo, contestServerTime));
-  }, []);
+    if (!userInfo.isFetched) return;
 
-  React.useEffect(() => {
-    if (!userInfo.isFetched || status === CONTEST_STATUS.UNSET) return;
+    const curStatus = getContestStatus(contestInfo, contestServerTime);
+    setStatus(curStatus);
 
-    if (status === CONTEST_STATUS.NOT_STARTED) {
+    if (curStatus === CONTEST_STATUS.NOT_STARTED) {
       startCountDown(Math.ceil(contestInfo.start_time - contestServerTime));
-    } else if (status === CONTEST_STATUS.STARTING) {
-      startCountDown(Math.ceil(contestInfo.duration));
+    } else if (curStatus === CONTEST_STATUS.STARTING) {
+      startCountDown(Math.ceil(contestInfo.start_time + contestInfo.duration - contestServerTime));
     }
-  }, [userInfo, status]);
+  }, [userInfo]);
 
   // Handle when count is <= 0
   React.useEffect(() => {
@@ -120,7 +117,7 @@ export default function ContestActionButton({ contestInfo }) {
   if (!isRegistered || !userInfo.username) {
     return (
       <RegisterButton
-        remainingText={getRemainingStartTime(getRemainingTimeObj(count))}
+        remainingText={getRemainingTimeObj(count).timeString}
         onClick={() => {
           history.push(makeUrl(ROUTE_CONTEST_REGISTER, { contestName: contestInfo.contest_name }));
         }}
@@ -128,7 +125,7 @@ export default function ContestActionButton({ contestInfo }) {
     );
   } else if (status === CONTEST_STATUS.NOT_STARTED && isRegistered) {
     return (
-      <RegisterButton disabled remainingText={getRemainingStartTime(getRemainingTimeObj(count))}>
+      <RegisterButton disabled remainingText={getRemainingTimeObj(count).timeString}>
         Đã đăng ký
       </RegisterButton>
     );

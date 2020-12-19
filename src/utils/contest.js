@@ -9,10 +9,10 @@ import { CONTEST_STATUS } from 'src/shared/constants';
 export function getContestStatus(contestInfo, contestServerTime) {
   if (!contestInfo || !contestInfo.start_time) return 0;
 
-  const now = contestServerTime ? contestServerTime * 1000 : Date.now();
+  const now = contestServerTime || Date.now() / 1000;
   const { start_time, duration, can_enter, materials = {} } = contestInfo;
-  const formattedStartTime = start_time * 1000;
-  const formattedDuration = duration * 100;
+  const formattedStartTime = start_time;
+  const formattedDuration = duration;
   const endTime = formattedStartTime + formattedDuration;
 
   if (now < formattedStartTime) {
@@ -21,10 +21,10 @@ export function getContestStatus(contestInfo, contestServerTime) {
     return CONTEST_STATUS.STARTING;
   } else if (now >= endTime && !can_enter && !materials.all_materials_url) {
     return CONTEST_STATUS.JUST_ENDED;
-  } else if (now >= endTime && !can_enter && !!materials.all_materials_url) {
+  } else if (now >= endTime && !can_enter && materials.all_materials_url) {
     return CONTEST_STATUS.ENDED;
   } else {
-    return 0;
+    return CONTEST_STATUS.UNSET;
   }
 }
 
@@ -80,20 +80,27 @@ export function formatContestTime(contestInfo) {
  * @param {number} remainingTime (in seconds)
  */
 export function getRemainingTimeObj(remainingTime) {
-  if (!remainingTime || remainingTime < 0) return {};
+  if (Number.isNaN(remainingTime)) return {};
 
   const days = Math.floor(remainingTime / (60 * 60 * 24));
   const hours = Math.floor((remainingTime % (60 * 60 * 24)) / (60 * 60));
   const mins = Math.floor((remainingTime % (60 * 60)) / 60);
   const secs = Math.floor(remainingTime % 60);
 
+  let timeString = '';
+  if (days) {
+    timeString = `Còn ${days < 10 ? `0${days}` : days} ngày`;
+  } else {
+    timeString = `${hours < 10 ? `0${hours}` : hours}:${mins < 10 ? `0${mins}` : mins}:${
+      secs < 10 ? `0${secs}` : secs
+    }`;
+  }
+
   return {
     days,
     hours,
     mins,
     secs,
-    timeString: `${hours < 10 ? `0${hours}` : hours}:${mins < 10 ? `0${mins}` : mins}:${
-      secs < 10 ? `0${secs}` : secs
-    }`,
+    timeString,
   };
 }

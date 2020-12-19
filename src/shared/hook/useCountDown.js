@@ -1,3 +1,4 @@
+/* eslint-disable no-use-before-define */
 import * as React from 'react';
 import useIsMounted from './useIsMounted';
 
@@ -18,7 +19,12 @@ const useCountDown = ({ forceStart, countDownTime }) => {
         }
       }, 1000);
       setIntervalID(id);
+      setStart(false);
     }
+
+    return () => {
+      clearInterval(intervalID);
+    };
   }, [start]);
 
   React.useEffect(() => {
@@ -33,7 +39,7 @@ const useCountDown = ({ forceStart, countDownTime }) => {
   const stopCountDown = React.useCallback(() => {
     setStart(false);
     clearInterval(intervalID);
-  }, []);
+  }, [intervalID]);
 
   return {
     count,
