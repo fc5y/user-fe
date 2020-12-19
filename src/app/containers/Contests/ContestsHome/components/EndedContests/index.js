@@ -20,13 +20,15 @@ import { ROUTE_CONTEST } from 'src/app/routes/constants';
 import { TABLE_CONFIG } from './config';
 
 const Container = styled.div`
-  width: var(--contest-table-width);
-  margin: 30px 0 20px 0;
+  max-width: var(--contest-table-max-width);
+  min-width: var(--contest-table-min-width);
+  margin: 20px 10px;
 `;
 
 const Title = styled.h1`
   font-weight: 600;
   font-size: 24px;
+  margin-top: 0;
 `;
 
 const ContestTitle = styled.h1`
@@ -108,7 +110,7 @@ function EndedContests({
 
   return (
     <Container>
-      <Title>Đã diễn ra</Title>
+      <Title>Các kỳ thi đã diễn ra</Title>
       <Table
         border
         background

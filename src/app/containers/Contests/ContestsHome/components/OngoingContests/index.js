@@ -20,13 +20,15 @@ import { ROUTE_CONTEST } from 'src/app/routes/constants';
 import { TABLE_CONFIG } from './config';
 
 const Container = styled.div`
-  width: var(--contest-table-width);
-  margin-top: 30px;
+  max-width: var(--contest-table-max-width);
+  min-width: var(--contest-table-min-width);
+  margin: 20px 10px 0 10px;
 `;
 
 const Title = styled.h1`
   font-weight: 600;
   font-size: 24px;
+  margin-top: 0;
 `;
 
 const ContestTitle = styled.h1`
@@ -100,7 +102,7 @@ function OnGoingContests({ isLoading, contests }) {
 
   return (
     <Container>
-      <Title>Sắp/đang diễn ra</Title>
+      <Title>Các kỳ thi sắp/đang diễn ra</Title>
       <Table border background config={tableConfig} showSkeleton={isLoading} />
     </Container>
   );

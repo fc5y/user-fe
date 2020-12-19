@@ -62,7 +62,7 @@ const FooterContainer = styled.div`
   display: flex;
   width: 100%;
   justify-content: space-between;
-  margin: 5px 0;
+  margin: 10px 0;
 `;
 
 const RowPerPageContainer = styled.div`
