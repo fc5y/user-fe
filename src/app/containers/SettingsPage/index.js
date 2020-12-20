@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import { apiUpdateUserInfo } from 'src/api/user';
 
 // HOC
-import { withRouter } from 'react-router-dom';
 import withUserLogin from 'src/shared/hoc/withUserLogin';
 import { UserInfoContext } from 'src/shared/context/UserInfo';
 
@@ -15,6 +14,7 @@ import Loading from '../../common-ui/Loading';
 // UI
 import * as MainPanel from '../../common-ui/MainPanel';
 import * as Form from '../../common-ui/Form';
+import styled from 'styled-components';
 import { PrimaryButton } from '../../common-ui/Button';
 import { Helmet } from 'react-helmet';
 import { ErrorPopup, SuccessPopup } from '../../common-ui/Popup';
@@ -30,7 +30,11 @@ const labels = {
   email: 'Email liên lạc',
 };
 
-function SettingsPage({ history, location }) {
+const TitleWrapper = styled.div`
+  margin-bottom: 30px;
+`;
+
+function SettingsPage() {
   const { userInfo, setUserInfo } = React.useContext(UserInfoContext);
   const [values, setValues] = React.useState({});
   React.useEffect(() => {
@@ -114,11 +118,13 @@ function SettingsPage({ history, location }) {
           />
         )
       )}
-      <MainPanel.Title>Thông tin cá nhân</MainPanel.Title>
+      <TitleWrapper>
+        <MainPanel.Title>Thông tin cá nhân</MainPanel.Title>
+      </TitleWrapper>
       <Form.Form>
         <Form.LabeledInput {...defaultProps('fullname')} type="text" />
         <Form.LabeledInput {...defaultProps('school')} type="text" />
-        <Form.LabeledInput {...defaultProps('email')} isDisabled type="text" />
+        <Form.LabeledInput {...defaultProps('email')} disabled type="text" />
         <Form.ButtonGroup>
           <PrimaryButton disabled={apiState.progress === API_PROGRESS.REQ} onClick={handleSubmit}>
             Lưu thay đổi
@@ -134,4 +140,4 @@ SettingsPage.propTypes = {
   location: PropTypes.any,
 };
 
-export default withRouter(withUserLogin(ROUTE_LOGIN)(SettingsPage));
+export default withUserLogin(ROUTE_LOGIN)(SettingsPage);

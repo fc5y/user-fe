@@ -138,7 +138,7 @@ export default function ContestActionButton({
   if (!userInfo.isFetched || status === CONTEST_STATUS.UNSET) {
     return <div />;
   }
-  console.log(status, isRegistered);
+
   if (status === CONTEST_STATUS.ENDED) {
     return <MaterialButton materials={contestInfo.materials} />;
   } else if (status === CONTEST_STATUS.JUST_ENDED) {

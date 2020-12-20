@@ -6,4 +6,5 @@ export const commonInputPropTypes = {
   value: PropTypes.string,
   error: PropTypes.string,
   onChange: PropTypes.func,
+  disabled: PropTypes.bool,
 };

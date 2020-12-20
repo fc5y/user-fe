@@ -169,9 +169,9 @@ function ContestRegister() {
         <ContestTime>{formatContestTime(contestInfo[contestName]).fullTime}</ContestTime>
       </TitleContainer>
       <Form.Form>
-        <Form.LabeledInput {...defaultProps('username')} type="text" />
-        <Form.LabeledInput {...defaultProps('fullname')} type="text" />
-        <Form.LabeledInput {...defaultProps('school')} type="text" />
+        <Form.LabeledInput {...defaultProps('username')} type="text" disabled />
+        <Form.LabeledInput {...defaultProps('fullname')} type="text" disabled />
+        <Form.LabeledInput {...defaultProps('school')} type="text" disabled />
         <Form.LabeledCheckbox
           {...defaultProps('isTermsAccepted')}
           valueWhenChecked="checked"
