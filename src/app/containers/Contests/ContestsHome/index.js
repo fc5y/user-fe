@@ -78,9 +78,12 @@ function Contests() {
 
   return (
     <Container>
-      <ContestsOfToday contests={todayContests} />
+      <ContestsOfToday
+        isLoading={apiState.progress === API_PROGRESS.REQ && todayContests.length === 0}
+        contests={todayContests}
+      />
       <OngoingContest
-        isLoading={apiState.progress === API_PROGRESS.REQ && endedContests.length === 0}
+        isLoading={apiState.progress === API_PROGRESS.REQ && onGoingContests.length === 0}
         contests={onGoingContests}
       />
       <EndedContests

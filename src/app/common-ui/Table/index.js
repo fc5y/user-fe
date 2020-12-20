@@ -37,7 +37,7 @@ const TableHeaderData = styled.td`
 `;
 
 const TableFirstHeaderData = styled.td`
-  padding: 15px 0px 15px 10px;
+  padding: 15px 0px 15px 18px;
   border-bottom: 1px solid var(--black06);
   text-align: left;
 `;
@@ -53,7 +53,7 @@ const TableBodyData = styled.td`
 `;
 
 const TableFirstBodyData = styled.td`
-  padding: 6px 0px 6px 10px;
+  padding: 6px 0px 6px 18px;
   border-bottom: 1px solid var(--black06);
   text-align: left;
 `;
@@ -94,7 +94,6 @@ function Table({
   pageSize,
   showSkeleton,
   isAddingNewRows,
-  noTitleRow = false,
 }) {
   const [currentPage, setCurrentPage] = React.useState(1);
   const [numberOfRowPerPage, setNumberOfRowPerPage] = React.useState(10);
@@ -119,7 +118,7 @@ function Table({
   const renderTableHead = () => {
     return (
       <tr>
-        {(titles || []).map((t, k) => {
+        {titles.map((t, k) => {
           return k === 0 ? (
             <TableFirstHeaderData key={k}>{t}</TableFirstHeaderData>
           ) : (
@@ -204,7 +203,9 @@ function Table({
           <colgroup>
             {(colWidths || []).map((w, k) => (w ? <col key={k} width={w} /> : <col key={k} />))}
           </colgroup>
-          {!noTitleRow && <TableHeader>{renderTableHead()}</TableHeader>}
+          {titles && Array.isArray(titles) && titles.length && (
+            <TableHeader>{renderTableHead()}</TableHeader>
+          )}
           <TableBody>
             {renderTableBody()}
             {isAddingNewRows && renderNewAddingRow()}
@@ -268,7 +269,6 @@ Table.propTypes = {
   isAddingNewRows: PropTypes.bool,
   background: PropTypes.bool,
   showSkeleton: PropTypes.bool,
-  noTitleRow: PropTypes.bool,
   pagination: PropTypes.any,
   pageSize: PropTypes.any,
 };

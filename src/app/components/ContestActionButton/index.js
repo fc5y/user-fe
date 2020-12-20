@@ -24,6 +24,12 @@ import { makeUrl } from 'src/utils/url';
 import * as Buttons from '../../common-ui/Button';
 import { DropDownButton } from '../../common-ui/DropdownButton';
 
+const ButtonWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
 const PrimaryButton = styled(Buttons.PrimaryButton)`
   min-width: 200px;
   height: 54px;
@@ -31,7 +37,7 @@ const PrimaryButton = styled(Buttons.PrimaryButton)`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin: 0 auto;
+  // margin: 0 auto;
 `;
 
 const SecondaryButton = styled(Buttons.SecondaryButton)`
@@ -41,7 +47,7 @@ const SecondaryButton = styled(Buttons.SecondaryButton)`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin: 0 auto;
+  // margin: 0 auto;
 `;
 
 const PrimaryText = styled.div`
@@ -59,52 +65,58 @@ const SecondaryText = styled.div`
 
 function RegisterButton({ remainingText, disabled, ...otherProps }) {
   return (
-    <PrimaryButton disabled={disabled} onClick={() => {}} {...otherProps}>
-      <PrimaryText>{disabled ? 'Đã đăng ký' : 'Đăng ký'}</PrimaryText>
-      <SecondaryText>{remainingText}</SecondaryText>
-    </PrimaryButton>
+    <ButtonWrapper>
+      <PrimaryButton disabled={disabled} onClick={() => {}} {...otherProps}>
+        <PrimaryText>{disabled ? 'Đã đăng ký' : 'Đăng ký'}</PrimaryText>
+        <SecondaryText>{remainingText}</SecondaryText>
+      </PrimaryButton>
+    </ButtonWrapper>
   );
 }
 
 function EnterContestButton({ remainingText, ...otherProps }) {
   return (
-    <SecondaryButton {...otherProps}>
-      <PrimaryText>Vào thi</PrimaryText>
-      <SecondaryText>{remainingText}</SecondaryText>
-    </SecondaryButton>
+    <ButtonWrapper>
+      <SecondaryButton {...otherProps}>
+        <PrimaryText>Vào thi</PrimaryText>
+        <SecondaryText>{remainingText}</SecondaryText>
+      </SecondaryButton>
+    </ButtonWrapper>
   );
 }
 
 function MaterialButton({ materials }) {
   const openLink = (link) => window.open(link || 'about:blank', '_blank', 'noopener noreferrer');
   return (
-    <DropDownButton
-      dropList={[
-        {
-          text: 'Đề bài',
+    <ButtonWrapper>
+      <DropDownButton
+        dropList={[
+          {
+            text: 'Đề bài',
 
-          onClick: () => openLink(materials.statements_url),
-        },
-        {
-          text: 'Bộ test',
-          onClick: () => openLink(materials.test_data_url),
-        },
-        {
-          text: 'Bảng điểm',
-          onClick: () => openLink(materials.ranking_url),
-        },
-        {
-          text: 'Lời giải',
-          onClick: () => openLink(materials.editorial_url),
-        },
-        {
-          text: 'Bài giải',
-          onClick: () => openLink(materials.solution_url),
-        },
-      ]}
-    >
-      Xem tự liệu kỳ thi
-    </DropDownButton>
+            onClick: () => openLink(materials.statements_url),
+          },
+          {
+            text: 'Bộ test',
+            onClick: () => openLink(materials.test_data_url),
+          },
+          {
+            text: 'Bảng điểm',
+            onClick: () => openLink(materials.ranking_url),
+          },
+          {
+            text: 'Lời giải',
+            onClick: () => openLink(materials.editorial_url),
+          },
+          {
+            text: 'Bài giải',
+            onClick: () => openLink(materials.solution_url),
+          },
+        ]}
+      >
+        Xem tự liệu kỳ thi
+      </DropDownButton>
+    </ButtonWrapper>
   );
 }
 

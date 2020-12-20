@@ -1,3 +1,4 @@
+/* eslint-disable no-use-before-define */
 import * as React from 'react';
 import PropTypes from 'prop-types';
 
@@ -5,6 +6,7 @@ import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 
 // Context
+import { UserInfoContext } from 'src/shared/context/UserInfo';
 import { ContestInfoContext } from 'src/shared/context/ContestInfo';
 
 // Utils
@@ -15,10 +17,12 @@ import { makeUrl } from 'src/utils/url';
 // Constants
 import { ROUTE_CONTEST } from 'src/app/routes/constants';
 import { CONTEST_STATUS, RANKING_LINK } from 'src/shared/constants';
+import { TABLE_CONFIG } from './config';
 
 // Components
 import { Button } from 'src/app/common-ui/Button';
 import ContestActionButton from '../ContestActionButton';
+import Table from 'src/app/common-ui/Table';
 
 const Container = styled.div`
   max-width: var(--contest-table-max-width);
@@ -33,31 +37,20 @@ const Title = styled.div`
   margin: 20px 0;
 `;
 
-const Row = styled.div`
-  width: 100%;
-  padding: 18px 12px;
-  background-color: #fff;
-  border: 1px solid var(--black06);
-  border-radius: 4px;
-  box-shadow: 0px 0px 12px rgba(188, 188, 188, 0.25);
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
 const LeftInfo = styled.div`
   flex: 1;
   display: flex;
   align-items: flex-start;
   justify-content: center;
   flex-direction: column;
+  padding: 12px 0;
 `;
 
 const RightInfo = styled.div`
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
   align-items: center;
+  padding: 0 21px;
 `;
 
 const ContestTitle = styled.div`
@@ -106,91 +99,89 @@ const EndedText = styled.span`
   color: var(--black60);
 `;
 
-function ContestsOfToday({ contests }) {
+function ContestsOfToday({ contests, isLoading }) {
+  const [tableConfig, setTableConfig] = React.useState(TABLE_CONFIG);
+  const { userInfo } = React.useContext(UserInfoContext);
   const { contestServerTime } = React.useContext(ContestInfoContext);
   const history = useHistory();
 
   // Keep a map of "show" state of ranking button based on contest name
   const [showRankingButton, setShowRankingButton] = React.useState({});
 
-  // React.useEffect(() => {
-  //   const curStatus = getContestStatus(contest, contestServerTime);
-  //   setStatus(curStatus);
-  // }, []);
+  React.useEffect(() => {
+    setTableConfig({ ...tableConfig, data: formatTableData(contests) });
+  }, [contests, userInfo, isLoading, showRankingButton]);
 
-  if (!contests || !Array.isArray(contests) || !contests.length) {
-    return null;
-  }
+  // Helper function to format table data
+  const formatTableData = (data) => {
+    return data.map((d) => {
+      const status = getContestStatus(d, contestServerTime);
 
-  const getContestInfo = (status, num) => {
-    if (!status) return null;
-
-    return (
-      <InfoWrapper>
-        {(() => {
-          switch (status) {
-            case CONTEST_STATUS.NOT_STARTED:
-              return <NotStartedText>• Sắp diễn ra</NotStartedText>;
-            case CONTEST_STATUS.STARTING:
-              return <StartingText>• Đang diễn ra</StartingText>;
-            case CONTEST_STATUS.JUST_ENDED:
-              return <JustEndedText>• Vừa mới kết thúc</JustEndedText>;
-            case CONTEST_STATUS.ENDED:
-              return <EndedText>• Đã kết thúc</EndedText>;
-            default:
-              return null;
-          }
-        })()}
-        <ParticipantNumber>• {num} thí sinh</ParticipantNumber>
-      </InfoWrapper>
-    );
+      return {
+        contestInfos: (
+          <LeftInfo>
+            <ContestTitle
+              onClick={() => history.push(makeUrl(ROUTE_CONTEST, { contestName: d.contest_name }))}
+            >
+              {d.contest_title}
+            </ContestTitle>
+            <ContestTime>{formatContestTime(d).fullTime}</ContestTime>
+            <InfoWrapper>
+              {(() => {
+                switch (status) {
+                  case CONTEST_STATUS.NOT_STARTED:
+                    return <NotStartedText>• Sắp diễn ra</NotStartedText>;
+                  case CONTEST_STATUS.STARTING:
+                    return <StartingText>• Đang diễn ra</StartingText>;
+                  case CONTEST_STATUS.JUST_ENDED:
+                    return <JustEndedText>• Vừa mới kết thúc</JustEndedText>;
+                  case CONTEST_STATUS.ENDED:
+                    return <EndedText>• Đã kết thúc</EndedText>;
+                  default:
+                    return null;
+                }
+              })()}
+              <ParticipantNumber>• {d.total_participation} thí sinh</ParticipantNumber>
+            </InfoWrapper>
+          </LeftInfo>
+        ),
+        actions: (
+          <RightInfo>
+            {(status === CONTEST_STATUS.STARTING ||
+              (status === CONTEST_STATUS.NOT_STARTED && showRankingButton[d.contest_name])) && (
+              <RankingButton
+                onClick={() => window.open(RANKING_LINK, '_blank', 'noopener noreferrer')}
+              >
+                Bảng điểm
+              </RankingButton>
+            )}
+            <ContestActionButton
+              contestInfo={d}
+              onChangeToStarting={() =>
+                setShowRankingButton({ ...showRankingButton, [d.contest_name]: true })
+              }
+            />
+          </RightInfo>
+        ),
+      };
+    });
   };
+
+  // if (!contests || !Array.isArray(contests) || !contests.length) {
+  //   return null;
+  // }
 
   return (
     <Container>
       <Title>Hôm nay</Title>
-      {contests.map((contest) => {
-        const status = getContestStatus(contest, contestServerTime);
-
-        return (
-          <Row key={contest.contest_name}>
-            <LeftInfo>
-              <ContestTitle
-                onClick={() =>
-                  history.push(makeUrl(ROUTE_CONTEST, { contestName: contest.contest_name }))
-                }
-              >
-                {contest.contest_title}
-              </ContestTitle>
-              <ContestTime>{formatContestTime(contest).fullTime}</ContestTime>
-              {getContestInfo(status, contest.total_participation)}
-            </LeftInfo>
-            <RightInfo>
-              {(status === CONTEST_STATUS.STARTING ||
-                (status === CONTEST_STATUS.NOT_STARTED &&
-                  showRankingButton[contest.contest_name])) && (
-                <RankingButton
-                  onClick={() => window.open(RANKING_LINK, '_blank', 'noopener noreferrer')}
-                >
-                  Bảng điểm
-                </RankingButton>
-              )}
-              <ContestActionButton
-                contestInfo={contest}
-                onChangeToStarting={() =>
-                  setShowRankingButton({ ...showRankingButton, [contest.contest_name]: true })
-                }
-              />
-            </RightInfo>
-          </Row>
-        );
-      })}
+      <Table border background config={tableConfig} showSkeleton={isLoading} />
     </Container>
   );
 }
 
 ContestsOfToday.propTypes = {
   contests: PropTypes.any,
+  isLoading: PropTypes.bool,
 };
 
 export default ContestsOfToday;
