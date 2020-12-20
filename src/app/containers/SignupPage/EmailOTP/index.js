@@ -22,7 +22,7 @@ import { ROUTE_LOGIN } from 'src/app/routes/constants';
 import { getErrorMessage } from 'src/utils/getErrorMessage';
 
 const Container = styled.div`
-  width: 500px;
+  width: 600px;
   padding: 36px;
   margin: 48px auto;
 
@@ -35,30 +35,28 @@ const Container = styled.div`
 
 const Title = styled.div`
   font-size: 24px;
-  font-weight: bold;
+  font-weight: 600;
   color: var(--primary-default);
 `;
 
 const Message = styled.div`
   color: rgba(0, 0, 0, 0.6);
-  margin-top: 50px;
+  margin-top: 24px;
 `;
 
 const Email = styled.span`
-  font-weight: bold;
   color: var(--primary-dark);
 `;
 
 const OTPInput = styled.div`
-  margin-top: 30px;
+  margin-top: 20px;
 `;
 
 const ButtonGroups = styled.div`
   display: flex;
-  justify-content: space-evenly;
+  justify-content: center;
   align-items: center;
   width: 100%;
-  margin-top: 40px;
 `;
 
 const labels = {

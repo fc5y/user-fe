@@ -5,6 +5,7 @@
     box-shadow: none;
     outline: none;
     padding: 9px 12px;
+    margin-left: 12px;
     background-color: #fff;
     color: var(--primary-default);
   }
@@ -17,6 +18,7 @@
 
     border-radius: 4px;
     padding: 9px 12px;
+    margin-left: 12px;
     min-width: 160px;
 
     background-color: #fff;
@@ -25,10 +27,12 @@
 
   .primaryButton {
     background-color: var(--primary-default);
+    margin-left: 12px;
     color: white;
   }
 
   .secondaryButton {
+    margin-left: 12px;
     background-color: var(--secondary-default);
     color: white;
     border: 1px solid var(--secondary-default);
