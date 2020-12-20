@@ -3,7 +3,15 @@ import { apiGetMyUserInfo } from 'src/api';
 import PropTypes from 'prop-types';
 
 export const UserInfoContext = React.createContext({
-  userInfo: { username: '', email: '', school: '', token: null, isFetched: null },
+  userInfo: {
+    id: null,
+    username: '',
+    email: '',
+    school: '',
+    token: null,
+    fullname: '',
+    isFetched: null,
+  },
   setUserInfo: () => {},
   clearUserInfo: () => {},
 });

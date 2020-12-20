@@ -1,27 +1,31 @@
 import * as React from 'react';
 
+// Hook
+import useContestCountDown from 'src/shared/hook/useContestCountDown';
+
 // HOC
 import { useParams } from 'react-router-dom';
 
 // Context
+import { UserInfoContext } from 'src/shared/context/UserInfo';
 import { ContestInfoContext } from 'src/shared/context/ContestInfo';
 
 // Utils
 import styled from 'styled-components';
-import { formatContestTime, getContestStatus } from 'src/utils/contest';
+import { formatContestTime } from 'src/utils/contest';
 import { getErrorMessage } from 'src/utils/getErrorMessage';
 
 // Constants
-import { API_PROGRESS, CONTEST_STATUS } from 'src/shared/constants';
+import { API_PROGRESS, CONTEST_STATUS, RANKING_LINK } from 'src/shared/constants';
 
 // Components
+import { Button } from 'src/app/common-ui/Button';
+import Clock from 'src/app/components/Clock';
 import Loading from 'src/app/common-ui/Loading';
-import ContestStatusText from 'src/app/components/ContestStatusText';
 import ErrorContent from './components/ErrorContent';
-import ContestEnded from './components/ContestEnded';
-import ContestJustEnded from './components/ContestJustEnded';
-import ContestNotStarted from './components/ContestNotStarted';
-import ContestStarting from './components/ContestStarting';
+import IconWarning from 'src/app/common-ui/Icons/IconWarning';
+import ContestStatusText from 'src/app/components/ContestStatusText';
+import ContestActionButton from 'src/app/components/ContestActionButton';
 
 const ContainerWrapper = styled.div`
   width: 100%;
@@ -52,19 +56,58 @@ const ContestTitle = styled.div`
 const ContestTime = styled.div`
   color: var(--black60);
   font-size: 16px;
-  margin-bottom: 5px;
+  margin-bottom: 10px;
+`;
+
+const ContestStatus = styled(ContestStatusText)`
+  margin-bottom: 30px;
+`;
+
+const ContestActionWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
+
+const ContestFooterWrapper = styled.div`
+  margin-top: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const ActionButton = styled(ContestActionButton)`
+  width: 160px;
+`;
+
+const RankingButton = styled(Button)`
+  margin-left: 10px;
+  height: 42px;
+`;
+
+const Text = styled.div`
+  font-weight: 600;
+  color: var(--black60);
+  margin: 5px;
 `;
 
 function ContestDetail() {
   const { contestName } = useParams();
+  const { userInfo } = React.useContext(UserInfoContext);
   const { getContestInfoByName, contestInfo, contestServerTime } = React.useContext(
     ContestInfoContext,
   );
-  const [contestStatus, setContestStatus] = React.useState(CONTEST_STATUS.UNSET);
   const [apiState, setApiState] = React.useState({
     progress: API_PROGRESS.INIT,
     code: null,
     msg: null,
+  });
+  const { count, status } = useContestCountDown({
+    userInfo,
+    contestInfo: contestInfo[contestName],
+    contestServerTime,
   });
 
   React.useEffect(() => {
@@ -87,10 +130,6 @@ function ContestDetail() {
     fetchContestInfo();
   }, []);
 
-  React.useEffect(() => {
-    setContestStatus(getContestStatus(contestInfo && contestInfo[contestName], contestServerTime));
-  }, [contestInfo, contestName]);
-
   return (
     <ContainerWrapper>
       {apiState.progress === API_PROGRESS.FAILED ? (
@@ -101,25 +140,47 @@ function ContestDetail() {
             {(contestInfo[contestName] && contestInfo[contestName].contest_title) || contestName}
           </ContestTitle>
           <ContestTime>{formatContestTime(contestInfo[contestName]).fullTimeWithUTC}</ContestTime>
-          <ContestStatusText
-            status={contestStatus}
+          <ContestStatus
+            status={status}
             numberOfParticipants={contestInfo[contestName].total_participation}
           />
-          <ContestStarting />
-          {/* {(() => {
-            switch (contestStatus) {
+          {(() => {
+            switch (status) {
               case CONTEST_STATUS.NOT_STARTED:
-                return <ContestNotStarted />;
               case CONTEST_STATUS.STARTING:
-                return <ContestStarting />;
               case CONTEST_STATUS.JUST_ENDED:
-                return <ContestJustEnded />;
+                return (
+                  <ContestActionWrapper>
+                    <Clock count={count} />
+                    {(status === CONTEST_STATUS.NOT_STARTED ||
+                      status === CONTEST_STATUS.STARTING) && (
+                      <ContestFooterWrapper>
+                        <ActionButton contestInfo={contestInfo[contestName]} withTime={false} />
+                        {status === CONTEST_STATUS.STARTING && (
+                          <RankingButton
+                            onClick={() =>
+                              window.open(RANKING_LINK, '_blank', 'noopener noreferrer')
+                            }
+                          >
+                            Bảng điểm
+                          </RankingButton>
+                        )}
+                      </ContestFooterWrapper>
+                    )}
+                    {status === CONTEST_STATUS.JUST_ENDED && (
+                      <ContestFooterWrapper>
+                        <IconWarning />
+                        <Text>Tài liệu kỳ thi sẽ được đăng lên trong chốc lát</Text>
+                      </ContestFooterWrapper>
+                    )}
+                  </ContestActionWrapper>
+                );
               case CONTEST_STATUS.ENDED:
-                return <ContestEnded />;
+                return <ActionButton contestInfo={contestInfo[contestName]} withTime={false} />;
               default:
                 return null;
             }
-          })()} */}
+          })()}
         </Container>
       ) : (
         <Loading />

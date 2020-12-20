@@ -9,58 +9,78 @@ export const resContestGetAll = ({ offset, limit }) => {
             total: contests.length,
             contests: contests.slice(offset, offset + limit),
             server_time: Date.now() / 1000,
-            my_participations: [
-              {
-                username: 'xuanquang1999',
-                contest_name: 'free-contest-131',
-                contest_title: 'Free Contest 131',
-                contest_total_participations: 234,
-                is_hidden: false,
-                rating: 1306,
-                rating_change: -56,
-                score: 545,
-                rank_in_contest: 49,
-              },
-              {
-                username: 'xuanquang1999',
-                contest_name: 'beginner-contest-12',
-                contest_title: 'Beginner Contest 12',
-                contest_total_participations: 234,
-                is_hidden: false,
-                rating: 1306,
-                rating_change: -56,
-                score: 545,
-                rank_in_contest: 49,
-              },
-              {
-                username: 'xuanquang1999',
-                contest_name: 'free-contest-132',
-                contest_title: 'Free Contest 132',
-                contest_total_participations: 234,
-                is_hidden: false,
-                rating: 1306,
-                rating_change: -56,
-                score: 545,
-                rank_in_contest: 49,
-              },
-              {
-                username: 'xuanquang1999',
-                contest_name: 'free-contest-133',
-                contest_title: 'Free Contest 133',
-                contest_total_participations: 234,
-                is_hidden: false,
-                rating: 1306,
-                rating_change: -56,
-                score: 545,
-                rank_in_contest: 49,
-              },
-            ],
+            my_participations: participations,
           },
         }),
       1000,
     ),
   );
 };
+
+export const resContestGet = ({ contestName }) => {
+  return new Promise((res) =>
+    setTimeout(
+      () =>
+        res({
+          code: 0,
+          data: {
+            total: contests.length,
+            contest: contests.filter((c) => c.contest_name === contestName)[0],
+            server_time: Date.now() / 1000,
+            my_participation: participations.filter((c) => c.contest_name === contestName)[0] || [],
+          },
+        }),
+      1000,
+    ),
+  );
+};
+
+const participations = [
+  {
+    username: 'xuanquang1999',
+    contest_name: 'free-contest-131',
+    contest_title: 'Free Contest 131',
+    contest_total_participations: 234,
+    is_hidden: false,
+    rating: 1306,
+    rating_change: -56,
+    score: 545,
+    rank_in_contest: 49,
+  },
+  {
+    username: 'xuanquang1999',
+    contest_name: 'beginner-contest-12',
+    contest_title: 'Beginner Contest 12',
+    contest_total_participations: 234,
+    is_hidden: false,
+    rating: 1306,
+    rating_change: -56,
+    score: 545,
+    rank_in_contest: 49,
+  },
+  {
+    username: 'xuanquang1999',
+    contest_name: 'free-contest-132',
+    contest_title: 'Free Contest 132',
+    contest_total_participations: 234,
+    is_hidden: false,
+    rating: 1306,
+    rating_change: -56,
+    score: 545,
+    rank_in_contest: 49,
+  },
+  {
+    username: 'xuanquang1999',
+    contest_name: 'free-contest-133',
+    contest_title: 'Free Contest 133',
+    contest_total_participations: 234,
+    is_hidden: false,
+    rating: 1306,
+    rating_change: -56,
+    score: 545,
+    rank_in_contest: 49,
+  },
+];
 
 const contests = [
   {

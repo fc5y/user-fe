@@ -30,8 +30,8 @@ const ButtonWrapper = styled.div`
 `;
 
 const PrimaryButton = styled(Buttons.PrimaryButton)`
-  min-width: 200px;
-  height: 54px;
+  min-width: 160px;
+  min-height: 42px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -39,8 +39,8 @@ const PrimaryButton = styled(Buttons.PrimaryButton)`
 `;
 
 const SecondaryButton = styled(Buttons.SecondaryButton)`
-  min-width: 200px;
-  height: 54px;
+  min-width: 160px;
+  min-height: 42px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -60,23 +60,23 @@ const SecondaryText = styled.div`
   margin-top: 5px;
 `;
 
-function RegisterButton({ remainingText, disabled, ...otherProps }) {
+function RegisterButton({ remainingText, withTime, disabled, className, ...otherProps }) {
   return (
-    <ButtonWrapper>
+    <ButtonWrapper className={className}>
       <PrimaryButton disabled={disabled} onClick={() => {}} {...otherProps}>
         <PrimaryText>{disabled ? 'Đã đăng ký' : 'Đăng ký'}</PrimaryText>
-        <SecondaryText>{remainingText}</SecondaryText>
+        {withTime && <SecondaryText>{remainingText}</SecondaryText>}
       </PrimaryButton>
     </ButtonWrapper>
   );
 }
 
-function EnterContestButton({ remainingText, ...otherProps }) {
+function EnterContestButton({ remainingText, withTime, className, ...otherProps }) {
   return (
-    <ButtonWrapper>
+    <ButtonWrapper className={className}>
       <SecondaryButton {...otherProps}>
         <PrimaryText>Vào thi</PrimaryText>
-        <SecondaryText>{remainingText}</SecondaryText>
+        {withTime && <SecondaryText>{remainingText}</SecondaryText>}
       </SecondaryButton>
     </ButtonWrapper>
   );
@@ -117,7 +117,12 @@ function MaterialButton({ materials }) {
   );
 }
 
-export default function ContestActionButton({ contestInfo, onChangeToStarting }) {
+export default function ContestActionButton({
+  contestInfo,
+  onChangeToStarting,
+  withTime = true,
+  className,
+}) {
   const { userInfo } = React.useContext(UserInfoContext);
   const { myParticipationMap, contestServerTime } = React.useContext(ContestInfoContext);
   const history = useHistory();
@@ -133,7 +138,7 @@ export default function ContestActionButton({ contestInfo, onChangeToStarting })
   if (!userInfo.isFetched || status === CONTEST_STATUS.UNSET) {
     return <div />;
   }
-
+  console.log(status, isRegistered);
   if (status === CONTEST_STATUS.ENDED) {
     return <MaterialButton materials={contestInfo.materials} />;
   } else if (status === CONTEST_STATUS.JUST_ENDED) {
@@ -141,7 +146,9 @@ export default function ContestActionButton({ contestInfo, onChangeToStarting })
   } else if (!isRegistered || !userInfo.username) {
     return (
       <RegisterButton
+        withTime={withTime}
         remainingText={getRemainingTimeObj(count).timeString}
+        className={className}
         onClick={() => {
           history.push(makeUrl(ROUTE_CONTEST_REGISTER, { contestName: contestInfo.contest_name }));
         }}
@@ -149,14 +156,21 @@ export default function ContestActionButton({ contestInfo, onChangeToStarting })
     );
   } else if (status === CONTEST_STATUS.NOT_STARTED && isRegistered) {
     return (
-      <RegisterButton disabled remainingText={getRemainingTimeObj(count).timeString}>
+      <RegisterButton
+        withTime={withTime}
+        disabled
+        remainingText={getRemainingTimeObj(count).timeString}
+        className={className}
+      >
         Đã đăng ký
       </RegisterButton>
     );
   } else if (status === CONTEST_STATUS.STARTING) {
     return (
       <EnterContestButton
+        withTime={withTime}
         remainingText={getRemainingTimeObj(count).timeString}
+        className={className}
         onClick={() => {
           history.push(makeUrl(ROUTE_CONTEST_ENTER, { contestName: contestInfo.contest_name }));
         }}
@@ -172,4 +186,6 @@ export default function ContestActionButton({ contestInfo, onChangeToStarting })
 ContestActionButton.propTypes = {
   contestInfo: PropTypes.any,
   onChangeToStarting: PropTypes.any,
+  withTime: PropTypes.any,
+  className: PropTypes.any,
 };

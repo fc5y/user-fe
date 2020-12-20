@@ -69,6 +69,7 @@ const Dropdown = styled.div`
 const DropdownItem = styled.div`
   padding: 12px 18px;
   color: rgba(0, 0, 0, 0.5);
+  z-index: 999;
 
   :visited {
     color: rgba(0, 0, 0, 0.5);

@@ -16,7 +16,8 @@ const useContestCountDown = ({ userInfo, contestInfo, contestServerTime, onChang
   });
 
   React.useEffect(() => {
-    if (!userInfo.isFetched) return;
+    if (!userInfo.isFetched || !contestInfo || !contestInfo.start_time || !contestInfo.duration)
+      return;
 
     const curStatus = getContestStatus(contestInfo, contestServerTime);
     setStatus(curStatus);
@@ -27,7 +28,7 @@ const useContestCountDown = ({ userInfo, contestInfo, contestServerTime, onChang
     } else if (contestInfo.start_time + contestInfo.duration > contestServerTime) {
       startCountDown(Math.ceil(contestInfo.start_time + contestInfo.duration - contestServerTime));
     }
-  }, [userInfo]);
+  }, [userInfo, contestInfo]);
 
   // Handle when count is <= 0
   React.useEffect(() => {

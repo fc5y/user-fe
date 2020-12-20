@@ -28,7 +28,7 @@ import Table from 'src/app/common-ui/Table';
 const Container = styled.div`
   max-width: var(--contest-table-max-width);
   min-width: var(--contest-table-min-width);
-  margin: 20px 10px;
+  margin: 0 10px 20px 10px;
 `;
 
 const Title = styled.div`

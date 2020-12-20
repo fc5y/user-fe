@@ -34,9 +34,9 @@ const EndedText = styled.span`
   color: var(--black60);
 `;
 
-function ContestStatusText({ status, numberOfParticipants }) {
+function ContestStatusText({ status, numberOfParticipants, className }) {
   return (
-    <InfoWrapper>
+    <InfoWrapper className={className}>
       {(() => {
         switch (status) {
           case CONTEST_STATUS.NOT_STARTED:
@@ -58,6 +58,7 @@ function ContestStatusText({ status, numberOfParticipants }) {
 
 ContestStatusText.propTypes = {
   status: PropTypes.any,
+  className: PropTypes.any,
   numberOfParticipants: PropTypes.number,
 };
 

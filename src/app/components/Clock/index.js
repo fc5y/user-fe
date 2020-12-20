@@ -48,15 +48,21 @@ const Separator = styled.div`
   transition: opacity 100ms;
 `;
 
-export default function Clock({ endTime }) {
-  const date1 = new Date(Date.now());
-  const date2 = new Date(endTime * 1000);
-  const delta = Math.max(date2 - date1, 0);
+export default function Clock({ endTime, count }) {
+  let delta = 0;
 
-  const dd = Math.floor(delta / 24 / 60 / 60 / 1000);
-  const hh = Math.floor(delta / 60 / 60 / 1000) % 24;
-  const mm = Math.floor(delta / 60 / 1000) % 60;
-  const ss = Math.floor(delta / 1000) % 60;
+  if (endTime) {
+    const date1 = new Date(Date.now() / 1000);
+    const date2 = new Date(endTime);
+    delta = Math.max(date2 - date1, 0);
+  } else if (count) {
+    delta = count;
+  }
+
+  const dd = Math.floor(delta / 24 / 60 / 60);
+  const hh = Math.floor(delta / 60 / 60) % 24;
+  const mm = Math.floor(delta / 60) % 60;
+  const ss = Math.floor(delta) % 60;
 
   const [showSeparator, setShowSeparator] = React.useState(false);
 
@@ -95,4 +101,5 @@ export default function Clock({ endTime }) {
 
 Clock.propTypes = {
   endTime: PropTypes.number,
+  count: PropTypes.number,
 };
