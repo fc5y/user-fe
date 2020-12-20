@@ -23,18 +23,11 @@ const Container = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-top: 10px;
-`;
-
-const Title = styled.div`
-  color: var(--black60);
-  font-size: 16px;
-  font-weight: 600;
-  margin-bottom: 10px;
+  margin-top: 30px;
 `;
 
 const Button = styled(SecondaryButton)`
-  margin-top: 5px;
+  margin-top: 40px;
 `;
 
 function ContestStarting() {
@@ -44,7 +37,6 @@ function ContestStarting() {
 
   return (
     <Container>
-      <Title>Kỳ thi sẽ kết thúc sau:</Title>
       <Clock endTime={contestInfo[contestName].start_time + contestInfo[contestName].duration} />
       <Button onClick={() => history.push(makeUrl(ROUTE_CONTEST_ENTER, { contestName }))}>
         Vào thi

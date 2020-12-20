@@ -1,3 +1,8 @@
+// Temporarily
+const UTC_MAP = {
+  'Asia/Bangkok': '+7',
+};
+
 /**
  * Util to convert time to a specific timezone
  * https://www.iana.org/time-zones
@@ -5,11 +10,14 @@
  * @param {string} tzString
  */
 export function convertTZ(date, tzString = 'Asia/Bangkok') {
-  return new Date(
-    (typeof date === 'string' ? new Date(date) : date).toLocaleString('en-US', {
-      timeZone: tzString,
-    }),
-  );
+  return {
+    time: new Date(
+      (typeof date === 'string' ? new Date(date) : date).toLocaleString('en-US', {
+        timeZone: tzString,
+      }),
+    ),
+    utc: UTC_MAP[tzString],
+  };
 }
 
 /**

@@ -108,7 +108,7 @@ const contests = [
       statements_url: '',
       test_data_url: '',
     },
-    start_time: Date.now() / 1000 + 60 * 5,
+    start_time: Date.now() / 1000 + 10,
     total_participation: 123,
   },
   {

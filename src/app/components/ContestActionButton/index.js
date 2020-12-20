@@ -3,7 +3,7 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 
 // Hook
-import useCountDown from 'src/shared/hook/useCountDown';
+import useContestCountDown from 'src/shared/hook/useContestCountDown';
 import { useHistory } from 'react-router-dom';
 
 // Context
@@ -12,7 +12,6 @@ import { ContestInfoContext } from 'src/shared/context/ContestInfo';
 
 // Utils
 import styled from 'styled-components';
-import { getContestStatus } from 'src/utils/contest';
 import { getRemainingTimeObj } from 'src/utils/time';
 
 // Constants
@@ -37,7 +36,6 @@ const PrimaryButton = styled(Buttons.PrimaryButton)`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  // margin: 0 auto;
 `;
 
 const SecondaryButton = styled(Buttons.SecondaryButton)`
@@ -47,7 +45,6 @@ const SecondaryButton = styled(Buttons.SecondaryButton)`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  // margin: 0 auto;
 `;
 
 const PrimaryText = styled.div`
@@ -123,38 +120,14 @@ function MaterialButton({ materials }) {
 export default function ContestActionButton({ contestInfo, onChangeToStarting }) {
   const { userInfo } = React.useContext(UserInfoContext);
   const { myParticipationMap, contestServerTime } = React.useContext(ContestInfoContext);
-  const [status, setStatus] = React.useState(CONTEST_STATUS.UNSET);
-  const { count, startCountDown, stopCountDown } = useCountDown({
-    forceStart: false,
-  });
   const history = useHistory();
   const isRegistered = !!myParticipationMap[contestInfo.contest_name];
-
-  React.useEffect(() => {
-    if (!userInfo.isFetched) return;
-
-    const curStatus = getContestStatus(contestInfo, contestServerTime);
-    setStatus(curStatus);
-
-    if (contestInfo.start_time > contestServerTime) {
-      startCountDown(Math.ceil(contestInfo.start_time - contestServerTime));
-    } else if (contestInfo.start_time + contestInfo.duration > contestServerTime) {
-      startCountDown(Math.ceil(contestInfo.start_time + contestInfo.duration - contestServerTime));
-    }
-  }, [userInfo]);
-
-  // Handle when count is <= 0
-  React.useEffect(() => {
-    if (!userInfo.isFetched || status === CONTEST_STATUS.UNSET || count > 0) return;
-
-    if (status === CONTEST_STATUS.NOT_STARTED) {
-      setStatus(CONTEST_STATUS.STARTING);
-      startCountDown(Math.ceil(contestInfo.duration));
-      typeof onChangeToStarting === 'function' && onChangeToStarting();
-    } else if (status === CONTEST_STATUS.STARTING) {
-      stopCountDown();
-    }
-  }, [count]);
+  const { count, status } = useContestCountDown({
+    userInfo,
+    contestInfo,
+    contestServerTime,
+    onChangeToStarting,
+  });
 
   // Return nothing if user hasn't been fetched
   if (!userInfo.isFetched || status === CONTEST_STATUS.UNSET) {

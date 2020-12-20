@@ -9,11 +9,15 @@ const Container = styled.div`
   align-items: center;
   width: fit-content;
   max-width: 100%;
+
+  border: 2px solid #67adda;
+  box-shadow: 0px 0px 12px rgba(188, 188, 188, 0.25);
+  border-radius: 4px;
 `;
 
 const Square = styled.div`
   width: 128px;
-  height: 128px;
+  height: 100px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -23,14 +27,14 @@ const Square = styled.div`
 
 const Line1 = styled.div`
   font-weight: 600;
-  font-size: 48px;
+  font-size: 38px;
   line-height: 60px;
   color: #076daf;
 `;
 
 const Line2 = styled.div`
   font-weight: 600;
-  font-size: 22px;
+  font-size: 16px;
   line-height: 30px;
   color: rgba(0, 0, 0, 0.6);
 `;
@@ -39,7 +43,7 @@ const Separator = styled.div`
   font-weight: 600;
   font-size: 48px;
   line-height: 60px;
-  padding-bottom: 24px;
+  padding-bottom: 40px;
   color: #1c83c6;
   transition: opacity 100ms;
 `;

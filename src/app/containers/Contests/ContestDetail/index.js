@@ -16,6 +16,7 @@ import { API_PROGRESS, CONTEST_STATUS } from 'src/shared/constants';
 
 // Components
 import Loading from 'src/app/common-ui/Loading';
+import ContestStatusText from 'src/app/components/ContestStatusText';
 import ErrorContent from './components/ErrorContent';
 import ContestEnded from './components/ContestEnded';
 import ContestJustEnded from './components/ContestJustEnded';
@@ -99,8 +100,13 @@ function ContestDetail() {
           <ContestTitle>
             {(contestInfo[contestName] && contestInfo[contestName].contest_title) || contestName}
           </ContestTitle>
-          <ContestTime>{formatContestTime(contestInfo[contestName]).fullTime}</ContestTime>
-          {(() => {
+          <ContestTime>{formatContestTime(contestInfo[contestName]).fullTimeWithUTC}</ContestTime>
+          <ContestStatusText
+            status={contestStatus}
+            numberOfParticipants={contestInfo[contestName].total_participation}
+          />
+          <ContestStarting />
+          {/* {(() => {
             switch (contestStatus) {
               case CONTEST_STATUS.NOT_STARTED:
                 return <ContestNotStarted />;
@@ -113,7 +119,7 @@ function ContestDetail() {
               default:
                 return null;
             }
-          })()}
+          })()} */}
         </Container>
       ) : (
         <Loading />

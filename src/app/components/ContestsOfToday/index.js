@@ -21,6 +21,7 @@ import { TABLE_CONFIG } from './config';
 
 // Components
 import { Button } from 'src/app/common-ui/Button';
+import ContestStatusText from '../ContestStatusText';
 import ContestActionButton from '../ContestActionButton';
 import Table from 'src/app/common-ui/Table';
 
@@ -72,33 +73,6 @@ const RankingButton = styled(Button)`
   height: 54px;
 `;
 
-const InfoWrapper = styled.div`
-  font-weight: 600;
-`;
-
-const ParticipantNumber = styled.span`
-  padding: 0;
-  color: var(--black60);
-  margin-left: 10px;
-`;
-
-const NotStartedText = styled.span`
-  padding: 0;
-  color: #00bb61;
-`;
-const StartingText = styled.span`
-  padding: 0;
-  color: #fc1622;
-`;
-const JustEndedText = styled.span`
-  padding: 0;
-  color: var(--secondary-default);
-`;
-const EndedText = styled.span`
-  padding: 0;
-  color: var(--black60);
-`;
-
 function ContestsOfToday({ contests, isLoading }) {
   const [tableConfig, setTableConfig] = React.useState(TABLE_CONFIG);
   const { userInfo } = React.useContext(UserInfoContext);
@@ -126,23 +100,7 @@ function ContestsOfToday({ contests, isLoading }) {
               {d.contest_title}
             </ContestTitle>
             <ContestTime>{formatContestTime(d).fullTime}</ContestTime>
-            <InfoWrapper>
-              {(() => {
-                switch (status) {
-                  case CONTEST_STATUS.NOT_STARTED:
-                    return <NotStartedText>• Sắp diễn ra</NotStartedText>;
-                  case CONTEST_STATUS.STARTING:
-                    return <StartingText>• Đang diễn ra</StartingText>;
-                  case CONTEST_STATUS.JUST_ENDED:
-                    return <JustEndedText>• Vừa mới kết thúc</JustEndedText>;
-                  case CONTEST_STATUS.ENDED:
-                    return <EndedText>• Đã kết thúc</EndedText>;
-                  default:
-                    return null;
-                }
-              })()}
-              <ParticipantNumber>• {d.total_participation} thí sinh</ParticipantNumber>
-            </InfoWrapper>
+            <ContestStatusText status={status} numberOfParticipants={d.total_participation} />
           </LeftInfo>
         ),
         actions: (
