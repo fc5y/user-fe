@@ -12,7 +12,7 @@ import { makeUrl } from 'src/utils/url';
 
 // Components
 import Table from 'src/app/common-ui/Table';
-import { DropDownButton } from 'src/app/common-ui/DropdownButton';
+import ContestActionButton from 'src/app/components/ContestActionButton';
 
 // Constants
 import { ROUTE_CONTEST } from 'src/app/routes/constants';
@@ -20,13 +20,16 @@ import { ROUTE_CONTEST } from 'src/app/routes/constants';
 import { TABLE_CONFIG } from './config';
 
 const Container = styled.div`
-  width: var(--contest-table-width);
-  margin: 30px 0 20px 0;
+  max-width: var(--contest-table-max-width);
+  min-width: var(--contest-table-min-width);
+  margin: 20px 10px;
 `;
 
 const Title = styled.h1`
   font-weight: 600;
   font-size: 24px;
+  margin-top: 0;
+  color: var(--black60);
 `;
 
 const ContestTitle = styled.h1`
@@ -56,9 +59,6 @@ function EndedContests({
   const formatTableData = (data) => {
     return data.map((d) => {
       const { startDate, startAndEndTime } = formatContestTime(d);
-      const openLink = (link) =>
-        window.open(link || 'about:blank', '_blank', 'noopener noreferrer');
-
       return {
         contestName: (
           <ContestTitle
@@ -70,34 +70,7 @@ function EndedContests({
         day: startDate,
         hour: startAndEndTime,
         numberOfParticipants: parseInt(d.total_participation, 10),
-        contestFiles: (
-          <DropDownButton
-            dropList={[
-              {
-                text: 'Đề bài',
-                onClick: () => openLink(d.materials.statements_url),
-              },
-              {
-                text: 'Bộ test',
-                onClick: () => openLink(d.materials.test_data_url),
-              },
-              {
-                text: 'Bảng điểm',
-                onClick: () => openLink(d.materials.ranking_url),
-              },
-              {
-                text: 'Lời giải',
-                onClick: () => openLink(d.materials.editorial_url),
-              },
-              {
-                text: 'Bài giải',
-                onClick: () => openLink(d.materials.solution_url),
-              },
-            ]}
-          >
-            Xem tự liệu kỳ thi
-          </DropDownButton>
-        ),
+        actions: <ContestActionButton contestInfo={d} />,
       };
     });
   };
@@ -108,7 +81,7 @@ function EndedContests({
 
   return (
     <Container>
-      <Title>Đã diễn ra</Title>
+      <Title>Các kỳ thi đã diễn ra</Title>
       <Table
         border
         background

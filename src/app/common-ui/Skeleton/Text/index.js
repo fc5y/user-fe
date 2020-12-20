@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import { blinkEffect } from '../shared';
 
 export const Text = styled.div`
-  width: 130px;
   min-height: 30px;
   background-color: #e1e4e8;
   border-radius: 10px;

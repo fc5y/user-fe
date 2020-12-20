@@ -30,7 +30,7 @@ const labels = {
   confirmNewPassword: 'Xác nhận mật khẩu mới',
 };
 
-function ChangePassword({ history, location }) {
+function ChangePassword({ history }) {
   const { userInfo } = React.useContext(UserInfoContext);
 
   const [values, setValues] = React.useState({});

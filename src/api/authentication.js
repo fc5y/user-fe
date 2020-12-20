@@ -8,12 +8,12 @@ export function apiSendOTPEmail({ email }) {
   return post('/api/v1/send-otp', { email });
 }
 
-export function apiSignup({ username, otp, fullname, schoolName, email, password }) {
+export function apiSignup({ username, otp, fullname, school, email, password }) {
   return post('/api/v1/signup', {
     username,
     otp,
     full_name: fullname,
-    school_name: schoolName,
+    school_name: school,
     email,
     password,
   });
