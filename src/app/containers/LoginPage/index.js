@@ -130,8 +130,8 @@ function LoginPage({ history, location }) {
       <div className={styles.justifyContent}>
         <div className={styles.titleLeft}>Đăng nhập</div>
         <div>
-          <Link to="/">
-            <img className={styles.logoImage} src={LogoImage} alt="logo" />
+          <Link className={styles.createAccount} to={ROUTE_SIGNUP}>
+            Tạo tài khoản
           </Link>
         </div>
       </div>
@@ -150,9 +150,6 @@ function LoginPage({ history, location }) {
           <div className={styles.forgotAccount} onClick={() => setShowWarningForgetPassword(true)}>
             Quên mật khẩu?
           </div>
-          <Link className={styles.createAccount} to={ROUTE_SIGNUP}>
-            Tạo tài khoản
-          </Link>
         </div>
         <Form.ButtonGroup>
           <PrimaryButton disabled={apiState.progress === API_PROGRESS.REQ} onClick={handleSubmit}>
