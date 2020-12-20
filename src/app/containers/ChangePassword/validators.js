@@ -11,7 +11,7 @@ function getConfirmPasswordErrorOrNull(confirmPassword, password) {
 function getPasswordErrorOrNull(password) {
   if (!password) return ERROR.MSG_ERROR_FIELD_IS_REQUIRED;
   if (password.length < 8) return ERROR.MSG_ERROR_PASSWORD_MINIMUM_LENGTH;
-  if (!PASSWORD_REGEX.test(password)) return ERROR.MSG_ERROR_PASSWORD_WRONG_FORMAT;
+  // if (!PASSWORD_REGEX.test(password)) return ERROR.MSG_ERROR_PASSWORD_WRONG_FORMAT;
   return null;
 }
 
