@@ -107,9 +107,10 @@ function SettingsPage({ history, location }) {
           <SuccessPopup
             show
             content="Lưu thay đổi thành công"
-            onClose={() =>
-              setApiState({ progress: API_PROGRESS.INIT, error: null, error_msg: null })
-            }
+            onClose={() => {
+              setApiState({ progress: API_PROGRESS.INIT, error: null, error_msg: null });
+              window.location.reload();
+            }}
           />
         )
       )}
