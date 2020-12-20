@@ -8,21 +8,18 @@ const Label = styled.label`
   display: block;
   font-size: 12px;
   line-height: 24px;
-  color: rgba(0, 0, 0, 0.6);
+  color: var(--black60);
 `;
 
 const Input = styled.input`
   display: block;
   font-size: 16px;
   line-height: 25px;
-  color: rgba(0, 0, 0, 0.8);
-
   outline: none;
   border: none;
   padding: 0;
   width: 100%;
   padding: 2px 0;
-
   ${({ hasError }) =>
     hasError
       ? css`
@@ -38,6 +35,15 @@ const Input = styled.input`
           &:focus {
             border-bottom-color: #1c83c6;
           }
+        `}
+  ${({ isDisabled }) =>
+    isDisabled
+      ? css`
+          color: var(--black50);
+          pointer-events: none;
+        `
+      : css`
+          color: var(--black80);
         `}
 `;
 
@@ -58,6 +64,8 @@ function LabeledInput({
   // own props
   type,
   onKeyEnter,
+  // disable input
+  isDisabled,
 }) {
   const id = React.useMemo(Math.random, []);
   const handleChange = (event) => onChange && onChange(event.target.value);
@@ -79,6 +87,7 @@ function LabeledInput({
         hasError={!!error}
         type={type}
         maxLength={255}
+        isDisabled={isDisabled}
       />
       <Error>{error}</Error>
     </FieldSet>
@@ -86,8 +95,13 @@ function LabeledInput({
 }
 
 LabeledInput.propTypes = {
+  isDisabled: PropTypes.bool,
   ...commonInputPropTypes,
   type: PropTypes.string.isRequired,
+};
+
+LabeledInput.defaultProps = {
+  isDisabled: false,
 };
 
 export default LabeledInput;

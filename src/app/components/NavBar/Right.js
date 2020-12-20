@@ -56,7 +56,7 @@ const Dropdown = styled.div`
   position: absolute;
   top: 100%;
   right: 0;
-  width: 100%;
+  width: auto;
   z-index: 1;
 
   background-color: white;
@@ -109,6 +109,9 @@ export default function Right() {
           </UsernameAndDropdownIcon>
           <Dropdown>
             <DropdownItem onClick={() => history.push('/settings')}>Cài đặt</DropdownItem>
+            <DropdownItem onClick={() => history.push('/change-password')}>
+              Thay đổi mật khẩu
+            </DropdownItem>
             <DropdownItem onClick={() => clearUserInfo()}>Đăng xuất</DropdownItem>
           </Dropdown>
         </StyleLinkAndDropdownContainer>

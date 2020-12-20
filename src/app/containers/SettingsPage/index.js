@@ -2,7 +2,7 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 
 // APIs
-import { apiGetMyUserInfo, apiUpdateUserInfo } from 'src/api/user';
+import { apiUpdateUserInfo } from 'src/api/user';
 
 // HOC
 import { withRouter } from 'react-router-dom';
@@ -31,7 +31,7 @@ const labels = {
 };
 
 function SettingsPage({ history, location }) {
-  const { userInfo } = React.useContext(UserInfoContext);
+  const { userInfo, setUserInfo } = React.useContext(UserInfoContext);
   const [values, setValues] = React.useState({});
   React.useEffect(() => {
     const { fullname, school, email } = userInfo;
@@ -83,6 +83,7 @@ function SettingsPage({ history, location }) {
         setApiState({ progress: API_PROGRESS.FAILED, code, msg });
       } else {
         setApiState({ ...apiState, progress: API_PROGRESS.SUCCESS });
+        setUserInfo({ ...userInfo, fullname, school });
       }
     },
     [values],
@@ -106,9 +107,10 @@ function SettingsPage({ history, location }) {
           <SuccessPopup
             show
             content="Lưu thay đổi thành công"
-            onClose={() =>
-              setApiState({ progress: API_PROGRESS.INIT, error: null, error_msg: null })
-            }
+            onClose={() => {
+              setApiState({ progress: API_PROGRESS.INIT, error: null, error_msg: null });
+              window.location.reload();
+            }}
           />
         )
       )}
