@@ -108,7 +108,7 @@ function MaterialButton({ materials }) {
   );
 }
 
-export default function ContestActionButton({ contestInfo }) {
+export default function ContestActionButton({ contestInfo, onChangeToStarting }) {
   const { userInfo } = React.useContext(UserInfoContext);
   const { myParticipationMap, contestServerTime } = React.useContext(ContestInfoContext);
   const [status, setStatus] = React.useState(CONTEST_STATUS.UNSET);
@@ -138,6 +138,7 @@ export default function ContestActionButton({ contestInfo }) {
     if (status === CONTEST_STATUS.NOT_STARTED) {
       setStatus(CONTEST_STATUS.STARTING);
       startCountDown(Math.ceil(contestInfo.duration));
+      typeof onChangeToStarting === 'function' && onChangeToStarting();
     } else if (status === CONTEST_STATUS.STARTING) {
       stopCountDown();
     }
@@ -150,6 +151,8 @@ export default function ContestActionButton({ contestInfo }) {
 
   if (status === CONTEST_STATUS.ENDED) {
     return <MaterialButton materials={contestInfo.materials} />;
+  } else if (status === CONTEST_STATUS.JUST_ENDED) {
+    return null;
   } else if (!isRegistered || !userInfo.username) {
     return (
       <RegisterButton
@@ -183,4 +186,5 @@ export default function ContestActionButton({ contestInfo }) {
 
 ContestActionButton.propTypes = {
   contestInfo: PropTypes.any,
+  onChangeToStarting: PropTypes.any,
 };

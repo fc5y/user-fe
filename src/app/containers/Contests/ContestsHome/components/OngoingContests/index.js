@@ -15,7 +15,7 @@ import { makeUrl } from 'src/utils/url';
 
 // Components
 import Table from 'src/app/common-ui/Table';
-import ContestButton from 'src/app/components/ContestButton';
+import ContestActionButton from 'src/app/components/ContestActionButton';
 
 // Constants
 import { ROUTE_CONTEST } from 'src/app/routes/constants';
@@ -67,7 +67,7 @@ function OnGoingContests({ isLoading, contests }) {
         day: startDate,
         hour: startAndEndTime,
         numberOfParticipants: parseInt(d.total_participation, 10),
-        actions: <ContestButton contestInfo={d} />,
+        actions: <ContestActionButton contestInfo={d} />,
       };
     });
   };

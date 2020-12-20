@@ -18,7 +18,7 @@ import { CONTEST_STATUS, RANKING_LINK } from 'src/shared/constants';
 
 // Components
 import { Button } from 'src/app/common-ui/Button';
-import ContestButton from '../ContestButton';
+import ContestActionButton from '../ContestActionButton';
 
 const Container = styled.div`
   max-width: var(--contest-table-max-width);
@@ -99,7 +99,7 @@ const StartingText = styled.span`
 `;
 const JustEndedText = styled.span`
   padding: 0;
-  color: var(--color-secondary);
+  color: var(--secondary-default);
 `;
 const EndedText = styled.span`
   padding: 0;
@@ -109,6 +109,14 @@ const EndedText = styled.span`
 function ContestsOfToday({ contests }) {
   const { contestServerTime } = React.useContext(ContestInfoContext);
   const history = useHistory();
+
+  // Keep a map of "show" state of ranking button based on contest name
+  const [showRankingButton, setShowRankingButton] = React.useState({});
+
+  // React.useEffect(() => {
+  //   const curStatus = getContestStatus(contest, contestServerTime);
+  //   setStatus(curStatus);
+  // }, []);
 
   if (!contests || !Array.isArray(contests) || !contests.length) {
     return null;
@@ -124,16 +132,16 @@ function ContestsOfToday({ contests }) {
             case CONTEST_STATUS.NOT_STARTED:
               return <NotStartedText>• Sắp diễn ra</NotStartedText>;
             case CONTEST_STATUS.STARTING:
-              return <StartingText>• Sắp diễn ra</StartingText>;
+              return <StartingText>• Đang diễn ra</StartingText>;
             case CONTEST_STATUS.JUST_ENDED:
-              return <JustEndedText>• Sắp diễn ra</JustEndedText>;
+              return <JustEndedText>• Vừa mới kết thúc</JustEndedText>;
             case CONTEST_STATUS.ENDED:
-              return <EndedText>• Sắp diễn ra</EndedText>;
+              return <EndedText>• Đã kết thúc</EndedText>;
             default:
               return null;
           }
         })()}
-        <ParticipantNumber>• {num}</ParticipantNumber>
+        <ParticipantNumber>• {num} thí sinh</ParticipantNumber>
       </InfoWrapper>
     );
   };
@@ -158,14 +166,21 @@ function ContestsOfToday({ contests }) {
               {getContestInfo(status, contest.total_participation)}
             </LeftInfo>
             <RightInfo>
-              {status === CONTEST_STATUS.STARTING && (
+              {(status === CONTEST_STATUS.STARTING ||
+                (status === CONTEST_STATUS.NOT_STARTED &&
+                  showRankingButton[contest.contest_name])) && (
                 <RankingButton
                   onClick={() => window.open(RANKING_LINK, '_blank', 'noopener noreferrer')}
                 >
                   Bảng điểm
                 </RankingButton>
               )}
-              <ContestButton contestInfo={contest} />
+              <ContestActionButton
+                contestInfo={contest}
+                onChangeToStarting={() =>
+                  setShowRankingButton({ ...showRankingButton, [contest.contest_name]: true })
+                }
+              />
             </RightInfo>
           </Row>
         );

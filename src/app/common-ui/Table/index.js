@@ -94,6 +94,7 @@ function Table({
   pageSize,
   showSkeleton,
   isAddingNewRows,
+  noTitleRow = false,
 }) {
   const [currentPage, setCurrentPage] = React.useState(1);
   const [numberOfRowPerPage, setNumberOfRowPerPage] = React.useState(10);
@@ -203,7 +204,7 @@ function Table({
           <colgroup>
             {(colWidths || []).map((w, k) => (w ? <col key={k} width={w} /> : <col key={k} />))}
           </colgroup>
-          <TableHeader>{renderTableHead()}</TableHeader>
+          {!noTitleRow && <TableHeader>{renderTableHead()}</TableHeader>}
           <TableBody>
             {renderTableBody()}
             {isAddingNewRows && renderNewAddingRow()}
@@ -267,6 +268,7 @@ Table.propTypes = {
   isAddingNewRows: PropTypes.bool,
   background: PropTypes.bool,
   showSkeleton: PropTypes.bool,
+  noTitleRow: PropTypes.bool,
   pagination: PropTypes.any,
   pageSize: PropTypes.any,
 };

@@ -145,6 +145,22 @@ const contests = [
   },
   {
     can_enter: false,
+    contest_name: 'free-contest-100',
+    contest_title: 'Free Contest 100',
+    duration: 10800,
+    materials: {
+      all_materials_url: '',
+      editorial_url: '',
+      ranking_url: '',
+      solution_url: '',
+      statements_url: '',
+      test_data_url: '',
+    },
+    start_time: Date.now() / 1000 - 10805,
+    total_participation: 5000,
+  },
+  {
+    can_enter: false,
     contest_name: 'free-contest-129',
     contest_title: 'Free Contest 129',
     duration: 10800,
