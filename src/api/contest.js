@@ -7,8 +7,8 @@ export function apiGetContestInfo({ contestName }) {
 }
 
 export function apiGetAllContestsInfo({ offset, limit }) {
-  return resContestGetAll({ offset, limit });
-  // return get(`/api/v1/contests${objectToQuery({ offset, limit })}`);
+  // return resContestGetAll({ offset, limit });
+  return get(`/api/v1/contests${objectToQuery({ offset, limit })}`);
 }
 
 export function apiGetContestCredential({ token, contestName }) {

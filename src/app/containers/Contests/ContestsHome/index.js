@@ -37,30 +37,33 @@ function Contests() {
     ContestInfoContext,
   );
 
+  const fetchContestsInfo = async () => {
+    setApiState({ progress: API_PROGRESS.REQ, code: null, msg: null });
+    const { code, data, msg } = await getAllContestInfo({
+      offset: currentOffset,
+      limit: currentLimit,
+    });
+
+    if (code || !data || !data.contests) {
+      setIsAddingNewRows(false);
+      setApiState({ progress: API_PROGRESS.FAILED, code, msg });
+    } else {
+      const sanitizedContests = categorizeContestTypes(data.contests, contestServerTime);
+      setOnGoingContests(sanitizedContests.onGoingContests);
+      setEndedContests(sanitizedContests.endedContests);
+
+      if (sanitizedContests.todayContests.length) {
+        setTodayContests(sanitizedContests.todayContests);
+      }
+      setApiState({ progress: API_PROGRESS.SUCCESS, code: null, msg: null });
+      setIsAddingNewRows(false);
+    }
+  };
+
   // Fetch new contests
   React.useEffect(() => {
-    const fetchContestsInfo = async () => {
-      setApiState({ progress: API_PROGRESS.REQ, code: null, msg: null });
-      const { code, data, msg } = await getAllContestInfo({
-        offset: currentOffset,
-        limit: currentLimit,
-      });
-
-      if (code || !data || !data.contests) {
-        setIsAddingNewRows(false);
-        setApiState({ progress: API_PROGRESS.FAILED, code, msg });
-      } else {
-        const sanitizedContests = categorizeContestTypes(data.contests, contestServerTime);
-        setOnGoingContests(sanitizedContests.onGoingContests);
-        setEndedContests(sanitizedContests.endedContests);
-        setTodayContests(sanitizedContests.todayContests);
-        setApiState({ progress: API_PROGRESS.SUCCESS, code: null, msg: null });
-        setIsAddingNewRows(false);
-      }
-    };
-
     fetchContestsInfo();
-  }, [currentLimit, currentOffset]);
+  }, [isAddingNewRows]);
 
   // Get contests from old data and show first
   React.useEffect(() => {
@@ -69,10 +72,13 @@ function Contests() {
       .filter((c) => !!c);
 
     if (currentContests.length) {
-      categorizeContestTypes(currentContests);
+      const sanitizedContests = categorizeContestTypes(currentContests, contestServerTime);
+      setOnGoingContests(sanitizedContests.onGoingContests);
+      setEndedContests(sanitizedContests.endedContests);
     } else {
       setOnGoingContests([]);
       setEndedContests([]);
+      fetchContestsInfo();
     }
   }, [contests, currentLimit, currentOffset]);
 

@@ -167,9 +167,9 @@ function ContestsOfToday({ contests, isLoading }) {
     });
   };
 
-  // if (!contests || !Array.isArray(contests) || !contests.length) {
-  //   return null;
-  // }
+  if (!isLoading && contests && !contests.length) {
+    return null;
+  }
 
   return (
     <Container>

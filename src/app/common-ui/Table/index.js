@@ -82,8 +82,8 @@ const PaginationContainer = styled.div`
   justify-content: center;
 `;
 
-const SkeletonDoubleText = styled(Skeleton.Text)`
-  width: 200px;
+const SkeletonText = styled(Skeleton.Text)`
+  margin: 5px 10px;
 `;
 
 function Table({
@@ -171,31 +171,47 @@ function Table({
     );
   };
 
+  // Skeleton Loading
   if (showSkeleton) {
     return (
-      <Skeleton.Container>
-        <Skeleton.Row>
-          <SkeletonDoubleText />
-          <Skeleton.Text />
-          <Skeleton.Text />
-          <Skeleton.Text />
-        </Skeleton.Row>
-        <Skeleton.Row>
-          <SkeletonDoubleText />
-          <Skeleton.Text />
-          <Skeleton.Text />
-          <Skeleton.Text />
-        </Skeleton.Row>
-        <Skeleton.Row>
-          <SkeletonDoubleText />
-          <Skeleton.Text />
-          <Skeleton.Text />
-          <Skeleton.Text />
-        </Skeleton.Row>
-      </Skeleton.Container>
+      <Container border background>
+        <TableContainer>
+          <colgroup>
+            {(colWidths || []).map((w, k) => (w ? <col key={k} width={w} /> : <col key={k} />))}
+          </colgroup>
+          <TableHeader>
+            <tr>
+              {colWidths.map((t, k) => (
+                <td key={k}>
+                  <SkeletonText />
+                </td>
+              ))}
+            </tr>
+          </TableHeader>
+          <TableHeader>
+            <tr>
+              {colWidths.map((t, k) => (
+                <td key={k}>
+                  <SkeletonText />
+                </td>
+              ))}
+            </tr>
+          </TableHeader>
+          <TableHeader>
+            <tr>
+              {colWidths.map((t, k) => (
+                <td key={k}>
+                  <SkeletonText />
+                </td>
+              ))}
+            </tr>
+          </TableHeader>
+        </TableContainer>
+      </Container>
     );
   }
 
+  // Main content
   return (
     <>
       <Container border={border} background={background}>

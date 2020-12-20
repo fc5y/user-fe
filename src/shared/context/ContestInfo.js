@@ -28,7 +28,7 @@ export const ContestInfoContext = React.createContext({
   myParticipations: [],
   myParticipationMap: {},
   totalContests: 0,
-  contestServerTime: 0,
+  contestServerTime: Date.now() / 1000,
   getContestInfoByName: async ({ contestName }) => {},
   getAllContestInfo: async ({ offset, limit }) => {},
 });
@@ -39,7 +39,7 @@ export function ContestInfoProvider({ children }) {
   const [myParticipations, setMyParticipations] = React.useState([]);
   const [myParticipationMap, setMyParticipationMap] = React.useState({});
   const [totalContests, setTotalContests] = React.useState(0);
-  const [contestServerTime, setContestServerTime] = React.useState(0);
+  const [contestServerTime, setContestServerTime] = React.useState(Date.now() / 1000);
 
   // Get contest info by contest name
   const getContestInfoByName = async ({ contestName }) => {
