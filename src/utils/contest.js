@@ -1,5 +1,6 @@
 /* eslint-disable camelcase */
 import { CONTEST_STATUS } from 'src/shared/constants';
+import { convertTZ } from './time';
 
 /**
  * Util to calculate the contest status based on contest info
@@ -15,31 +16,17 @@ export function getContestStatus(contestInfo, contestServerTime) {
   const formattedDuration = duration;
   const endTime = formattedStartTime + formattedDuration;
 
-  if (now < formattedStartTime) {
+  if (!can_enter && now < formattedStartTime) {
     return CONTEST_STATUS.NOT_STARTED;
-  } else if ((now >= formattedStartTime && now < endTime) || can_enter) {
+  } else if (can_enter || (now >= formattedStartTime && now < endTime)) {
     return CONTEST_STATUS.STARTING;
-  } else if (now >= endTime && !can_enter && !materials.all_materials_url) {
+  } else if (!can_enter && now >= endTime && !materials.all_materials_url) {
     return CONTEST_STATUS.JUST_ENDED;
-  } else if (now >= endTime && !can_enter && materials.all_materials_url) {
+  } else if (!can_enter && now >= endTime && materials.all_materials_url) {
     return CONTEST_STATUS.ENDED;
   } else {
     return CONTEST_STATUS.UNSET;
   }
-}
-
-/**
- * Util to convert time to a specific timezone
- * https://www.iana.org/time-zones
- * @param {string} date
- * @param {string} tzString
- */
-export function convertTZ(date, tzString = 'Asia/Bangkok') {
-  return new Date(
-    (typeof date === 'string' ? new Date(date) : date).toLocaleString('en-US', {
-      timeZone: tzString,
-    }),
-  );
 }
 
 /**
@@ -76,31 +63,46 @@ export function formatContestTime(contestInfo) {
 }
 
 /**
- * Utils to get an object of remaining time based on the remaining time
- * @param {number} remainingTime (in seconds)
+ * Util to check if a contest is today contest based on contest server time
+ * @param {object} contestInfo
+ * @param {number} contestServerTime
  */
-export function getRemainingTimeObj(remainingTime) {
-  if (Number.isNaN(remainingTime)) return {};
+export const isTodayContest = (contestInfo, contestServerTime) => {
+  if (!contestInfo || !contestInfo.start_time) return 0;
 
-  const days = Math.floor(remainingTime / (60 * 60 * 24));
-  const hours = Math.floor((remainingTime % (60 * 60 * 24)) / (60 * 60));
-  const mins = Math.floor((remainingTime % (60 * 60)) / 60);
-  const secs = Math.floor(remainingTime % 60);
+  const now = contestServerTime || Date.now() / 1000;
 
-  let timeString = '';
-  if (days) {
-    timeString = `Còn ${days < 10 ? `0${days}` : days} ngày`;
-  } else {
-    timeString = `${hours < 10 ? `0${hours}` : hours}:${mins < 10 ? `0${mins}` : mins}:${
-      secs < 10 ? `0${secs}` : secs
-    }`;
-  }
+  const startOfTheDay = new Date(now * 1000);
+  startOfTheDay.setHours(0, 0, 0, 0);
+
+  const endOfTheDay = new Date(now * 1000);
+  endOfTheDay.setHours(23, 59, 59, 999);
+
+  return (
+    contestInfo.start_time >= startOfTheDay.getTime() / 1000 &&
+    contestInfo.start_time <= endOfTheDay.getTime() / 1000
+  );
+};
+
+/**
+ * Util to categorize contests based on server time
+ * @param {object} contests
+ * @param {number} contestServerTime
+ */
+export const categorizeContestTypes = (contests = [], contestServerTime) => {
+  const onGoingContests = contests.filter((contest) => {
+    const status = getContestStatus(contest, contestServerTime);
+    return status === CONTEST_STATUS.NOT_STARTED || status === CONTEST_STATUS.STARTING;
+  });
+  const endedContests = contests.filter((contest) => {
+    const status = getContestStatus(contest, contestServerTime);
+    return status === CONTEST_STATUS.JUST_ENDED || status === CONTEST_STATUS.ENDED;
+  });
+  const todayContests = contests.filter((contest) => isTodayContest(contest, contestServerTime));
 
   return {
-    days,
-    hours,
-    mins,
-    secs,
-    timeString,
+    onGoingContests,
+    endedContests,
+    todayContests,
   };
-}
+};

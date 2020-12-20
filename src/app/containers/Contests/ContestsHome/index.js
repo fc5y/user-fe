@@ -6,11 +6,12 @@ import { ContestInfoContext } from 'src/shared/context/ContestInfo';
 // Components
 import OngoingContest from './components/OngoingContests';
 import EndedContests from './components/EndedContests';
+import ContestsOfToday from 'src/app/components/ContestsOfToday';
 
 // Utils and constants
 import styled from 'styled-components';
-import { getContestStatus } from 'src/utils/contest';
-import { API_PROGRESS, CONTEST_STATUS } from 'src/shared/constants';
+import { categorizeContestTypes } from 'src/utils/contest';
+import { API_PROGRESS } from 'src/shared/constants';
 
 const Container = styled.div`
   width: 100%;
@@ -23,6 +24,7 @@ const Container = styled.div`
 function Contests() {
   const [onGoingContests, setOnGoingContests] = React.useState([]);
   const [endedContests, setEndedContests] = React.useState([]);
+  const [todayContests, setTodayContests] = React.useState([]);
   const [currentLimit, setCurrentLimit] = React.useState(10);
   const [currentOffset, setCurrentOffset] = React.useState(0);
   const [isAddingNewRows, setIsAddingNewRows] = React.useState(false);
@@ -34,20 +36,6 @@ function Contests() {
   const { getAllContestInfo, totalContests, contests, contestServerTime } = React.useContext(
     ContestInfoContext,
   );
-
-  const categorizeContestTypes = (contests = []) => {
-    const sanitizedOnGoingContests = contests.filter((contest) => {
-      const status = getContestStatus(contest, contestServerTime);
-      return status === CONTEST_STATUS.NOT_STARTED || status === CONTEST_STATUS.STARTING;
-    });
-    const sanitizedEndedContests = contests.filter((contest) => {
-      const status = getContestStatus(contest, contestServerTime);
-      return status === CONTEST_STATUS.JUST_ENDED || status === CONTEST_STATUS.ENDED;
-    });
-
-    setOnGoingContests(sanitizedOnGoingContests);
-    setEndedContests(sanitizedEndedContests);
-  };
 
   // Fetch new contests
   React.useEffect(() => {
@@ -62,9 +50,12 @@ function Contests() {
         setIsAddingNewRows(false);
         setApiState({ progress: API_PROGRESS.FAILED, code, msg });
       } else {
-        setIsAddingNewRows(false);
-        categorizeContestTypes(data.contests);
+        const sanitizedContests = categorizeContestTypes(data.contests, contestServerTime);
+        setOnGoingContests(sanitizedContests.onGoingContests);
+        setEndedContests(sanitizedContests.endedContests);
+        setTodayContests(sanitizedContests.todayContests);
         setApiState({ progress: API_PROGRESS.SUCCESS, code: null, msg: null });
+        setIsAddingNewRows(false);
       }
     };
 
@@ -87,6 +78,7 @@ function Contests() {
 
   return (
     <Container>
+      <ContestsOfToday contests={todayContests} />
       <OngoingContest
         isLoading={apiState.progress === API_PROGRESS.REQ && endedContests.length === 0}
         contests={onGoingContests}

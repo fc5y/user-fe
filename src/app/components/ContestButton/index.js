@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import * as React from 'react';
 import PropTypes from 'prop-types';
 
@@ -11,7 +12,8 @@ import { ContestInfoContext } from 'src/shared/context/ContestInfo';
 
 // Utils
 import styled from 'styled-components';
-import { getContestStatus, getRemainingTimeObj } from 'src/utils/contest';
+import { getContestStatus } from 'src/utils/contest';
+import { getRemainingTimeObj } from 'src/utils/time';
 
 // Constants
 import { ROUTE_CONTEST_ENTER, ROUTE_CONTEST_REGISTER } from 'src/app/routes/constants';
@@ -20,10 +22,11 @@ import { makeUrl } from 'src/utils/url';
 
 // Components
 import * as Buttons from '../../common-ui/Button';
+import { DropDownButton } from '../../common-ui/DropdownButton';
 
 const PrimaryButton = styled(Buttons.PrimaryButton)`
   min-width: 200px;
-  min-height: 56px;
+  height: 54px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -33,7 +36,7 @@ const PrimaryButton = styled(Buttons.PrimaryButton)`
 
 const SecondaryButton = styled(Buttons.SecondaryButton)`
   min-width: 200px;
-  min-height: 56px;
+  height: 54px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -54,7 +57,6 @@ const SecondaryText = styled.div`
   margin-top: 5px;
 `;
 
-// eslint-disable-next-line react/prop-types
 function RegisterButton({ remainingText, disabled, ...otherProps }) {
   return (
     <PrimaryButton disabled={disabled} onClick={() => {}} {...otherProps}>
@@ -64,13 +66,45 @@ function RegisterButton({ remainingText, disabled, ...otherProps }) {
   );
 }
 
-// eslint-disable-next-line react/prop-types
 function EnterContestButton({ remainingText, ...otherProps }) {
   return (
     <SecondaryButton {...otherProps}>
       <PrimaryText>Vào thi</PrimaryText>
       <SecondaryText>{remainingText}</SecondaryText>
     </SecondaryButton>
+  );
+}
+
+function MaterialButton({ materials }) {
+  const openLink = (link) => window.open(link || 'about:blank', '_blank', 'noopener noreferrer');
+  return (
+    <DropDownButton
+      dropList={[
+        {
+          text: 'Đề bài',
+
+          onClick: () => openLink(materials.statements_url),
+        },
+        {
+          text: 'Bộ test',
+          onClick: () => openLink(materials.test_data_url),
+        },
+        {
+          text: 'Bảng điểm',
+          onClick: () => openLink(materials.ranking_url),
+        },
+        {
+          text: 'Lời giải',
+          onClick: () => openLink(materials.editorial_url),
+        },
+        {
+          text: 'Bài giải',
+          onClick: () => openLink(materials.solution_url),
+        },
+      ]}
+    >
+      Xem tự liệu kỳ thi
+    </DropDownButton>
   );
 }
 
@@ -90,9 +124,9 @@ export default function ContestActionButton({ contestInfo }) {
     const curStatus = getContestStatus(contestInfo, contestServerTime);
     setStatus(curStatus);
 
-    if (curStatus === CONTEST_STATUS.NOT_STARTED) {
+    if (contestInfo.start_time > contestServerTime) {
       startCountDown(Math.ceil(contestInfo.start_time - contestServerTime));
-    } else if (curStatus === CONTEST_STATUS.STARTING) {
+    } else if (contestInfo.start_time + contestInfo.duration > contestServerTime) {
       startCountDown(Math.ceil(contestInfo.start_time + contestInfo.duration - contestServerTime));
     }
   }, [userInfo]);
@@ -114,7 +148,9 @@ export default function ContestActionButton({ contestInfo }) {
     return <div />;
   }
 
-  if (!isRegistered || !userInfo.username) {
+  if (status === CONTEST_STATUS.ENDED) {
+    return <MaterialButton materials={contestInfo.materials} />;
+  } else if (!isRegistered || !userInfo.username) {
     return (
       <RegisterButton
         remainingText={getRemainingTimeObj(count).timeString}
