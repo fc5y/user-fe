@@ -24,9 +24,6 @@ import { ROUTE_SIGNUP } from 'src/app/routes/constants';
 import { getErrorMessage } from 'src/utils/getErrorMessage';
 import { API_PROGRESS, FORGET_PASSWORD_HELP } from 'src/shared/constants';
 
-// Assets
-import LogoImage from 'assets/images/logo.png';
-
 import styles from './styles.scss';
 
 const labels = {
@@ -127,11 +124,11 @@ function LoginPage({ history, location }) {
           />
         )
       )}
-      <div className={styles.justifyContent}>
+      <div className={styles.headerContainer}>
         <div className={styles.titleLeft}>Đăng nhập</div>
         <div>
-          <Link to="/">
-            <img className={styles.logoImage} src={LogoImage} alt="logo" />
+          <Link className={styles.createAccount} to={ROUTE_SIGNUP}>
+            Tạo tài khoản
           </Link>
         </div>
       </div>
@@ -146,13 +143,8 @@ function LoginPage({ history, location }) {
           type="password"
           onKeyEnter={handleSubmit}
         />
-        <div className={styles.justifyContent}>
-          <div className={styles.forgotAccount} onClick={() => setShowWarningForgetPassword(true)}>
-            Quên mật khẩu?
-          </div>
-          <Link className={styles.createAccount} to={ROUTE_SIGNUP}>
-            Tạo tài khoản
-          </Link>
+        <div className={styles.forgotAccount} onClick={() => setShowWarningForgetPassword(true)}>
+          Quên mật khẩu?
         </div>
         <Form.ButtonGroup>
           <PrimaryButton disabled={apiState.progress === API_PROGRESS.REQ} onClick={handleSubmit}>

@@ -1,6 +1,6 @@
 import { ERROR_VALIDATION as ERROR } from 'src/shared/constants';
 
-const PASSWORD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
+const PASSWORD_REGEX = /^([\x20-\x7E]+$)/;
 
 function getConfirmPasswordErrorOrNull(confirmPassword, password) {
   if (!confirmPassword) return ERROR.MSG_ERROR_FIELD_IS_REQUIRED;

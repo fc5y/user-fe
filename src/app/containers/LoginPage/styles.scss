@@ -1,6 +1,6 @@
 :local {
-  .justifyContent {
-    margin-bottom: 8px;
+  .headerContainer {
+    margin-bottom: 30px;
     display: flex;
     justify-content: space-between;
   }
@@ -17,18 +17,17 @@
   }
 
   .forgotAccount {
+    margin-bottom: 20px;
     font-size: 12px;
-    line-height: 15px;
     cursor: pointer;
-
-    color: #1C83C6;
+    color: #1c83c6;
   }
 
   .createAccount {
-    font-size: 12px;
-    line-height: 15px;
+    font-size: 16px;
+    line-height: 25px;
     text-align: right;
-    
-    color: #1C83C6;
+
+    color: #1c83c6;
   }
 }

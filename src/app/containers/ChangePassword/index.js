@@ -22,7 +22,7 @@ import { ErrorPopup, SuccessPopup } from '../../common-ui/Popup';
 // Constants and utils
 import { API_PROGRESS } from 'src/shared/constants';
 import { validate } from './validators';
-import { ROUTE_LOGIN } from '../../routes/constants';
+import { ROUTE_LOGIN, ROUTE_HOMEPAGE } from '../../routes/constants';
 
 const labels = {
   currentPassword: 'Thay đổi mật khẩu',
@@ -30,7 +30,7 @@ const labels = {
   confirmNewPassword: 'Xác nhận mật khẩu mới',
 };
 
-function ChangePassword({ history, location }) {
+function ChangePassword({ history }) {
   const { userInfo } = React.useContext(UserInfoContext);
 
   const [values, setValues] = React.useState({});
@@ -102,9 +102,10 @@ function ChangePassword({ history, location }) {
           <SuccessPopup
             show
             content="Lưu thay đổi thành công"
-            onClose={() =>
-              setApiState({ progress: API_PROGRESS.INIT, error: null, error_msg: null })
-            }
+            onClose={() => {
+              setApiState({ progress: API_PROGRESS.INIT, error: null, error_msg: null });
+              history.push(ROUTE_HOMEPAGE);
+            }}
           />
         )
       )}

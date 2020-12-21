@@ -37,7 +37,7 @@ const TableHeaderData = styled.td`
 `;
 
 const TableFirstHeaderData = styled.td`
-  padding: 15px 0px 15px 10px;
+  padding: 15px 0px 15px 18px;
   border-bottom: 1px solid var(--black06);
   text-align: left;
 `;
@@ -47,13 +47,13 @@ const TableBody = styled.tbody`
 `;
 
 const TableBodyData = styled.td`
-  padding: 9px 0;
+  padding: 6px 0;
   border-bottom: 1px solid var(--black06);
   text-align: center;
 `;
 
 const TableFirstBodyData = styled.td`
-  padding: 9px 0px 9px 10px;
+  padding: 6px 0px 6px 18px;
   border-bottom: 1px solid var(--black06);
   text-align: left;
 `;
@@ -62,7 +62,7 @@ const FooterContainer = styled.div`
   display: flex;
   width: 100%;
   justify-content: space-between;
-  margin: 5px 0;
+  margin: 10px 0;
 `;
 
 const RowPerPageContainer = styled.div`
@@ -82,8 +82,8 @@ const PaginationContainer = styled.div`
   justify-content: center;
 `;
 
-const SkeletonDoubleText = styled(Skeleton.Text)`
-  width: 300px;
+const SkeletonText = styled(Skeleton.Text)`
+  margin: 5px 10px;
 `;
 
 function Table({
@@ -118,7 +118,7 @@ function Table({
   const renderTableHead = () => {
     return (
       <tr>
-        {(titles || []).map((t, k) => {
+        {titles.map((t, k) => {
           return k === 0 ? (
             <TableFirstHeaderData key={k}>{t}</TableFirstHeaderData>
           ) : (
@@ -156,12 +156,12 @@ function Table({
               {k === 0 ? (
                 <Skeleton.Text
                   key={k}
-                  style={{ width: w ? `${w - 10}px` : '300px', margin: '10px 10px' }}
+                  style={{ width: w ? `${w - 10}px` : '200px', margin: '10px 10px' }}
                 />
               ) : (
                 <Skeleton.Text
                   key={k}
-                  style={{ width: w ? `${w - 10}px` : '300px', margin: '10px 0' }}
+                  style={{ width: w ? `${w - 10}px` : '200px', margin: '10px 0' }}
                 />
               )}
             </td>
@@ -171,31 +171,47 @@ function Table({
     );
   };
 
+  // Skeleton Loading
   if (showSkeleton) {
     return (
-      <Skeleton.Container>
-        <Skeleton.Row>
-          <SkeletonDoubleText />
-          <Skeleton.Text />
-          <Skeleton.Text />
-          <Skeleton.Text />
-        </Skeleton.Row>
-        <Skeleton.Row>
-          <SkeletonDoubleText />
-          <Skeleton.Text />
-          <Skeleton.Text />
-          <Skeleton.Text />
-        </Skeleton.Row>
-        <Skeleton.Row>
-          <SkeletonDoubleText />
-          <Skeleton.Text />
-          <Skeleton.Text />
-          <Skeleton.Text />
-        </Skeleton.Row>
-      </Skeleton.Container>
+      <Container border background>
+        <TableContainer>
+          <colgroup>
+            {(colWidths || []).map((w, k) => (w ? <col key={k} width={w} /> : <col key={k} />))}
+          </colgroup>
+          <TableHeader>
+            <tr>
+              {colWidths.map((t, k) => (
+                <td key={k}>
+                  <SkeletonText />
+                </td>
+              ))}
+            </tr>
+          </TableHeader>
+          <TableHeader>
+            <tr>
+              {colWidths.map((t, k) => (
+                <td key={k}>
+                  <SkeletonText />
+                </td>
+              ))}
+            </tr>
+          </TableHeader>
+          <TableHeader>
+            <tr>
+              {colWidths.map((t, k) => (
+                <td key={k}>
+                  <SkeletonText />
+                </td>
+              ))}
+            </tr>
+          </TableHeader>
+        </TableContainer>
+      </Container>
     );
   }
 
+  // Main content
   return (
     <>
       <Container border={border} background={background}>
@@ -203,7 +219,9 @@ function Table({
           <colgroup>
             {(colWidths || []).map((w, k) => (w ? <col key={k} width={w} /> : <col key={k} />))}
           </colgroup>
-          <TableHeader>{renderTableHead()}</TableHeader>
+          {titles && Array.isArray(titles) && titles.length && (
+            <TableHeader>{renderTableHead()}</TableHeader>
+          )}
           <TableBody>
             {renderTableBody()}
             {isAddingNewRows && renderNewAddingRow()}

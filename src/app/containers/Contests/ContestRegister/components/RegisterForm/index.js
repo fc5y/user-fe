@@ -85,7 +85,11 @@ const labels = {
 function ContestRegister() {
   const { userInfo } = React.useContext(UserInfoContext);
   const { contestInfo } = React.useContext(ContestInfoContext);
-  const [values, setValues] = React.useState({});
+  const [values, setValues] = React.useState({
+    fullname: userInfo.fullname,
+    username: userInfo.username,
+    school: userInfo.school,
+  });
   const [errors, setErrors] = React.useState({});
   const [apiState, setApiState] = React.useState({
     progress: API_PROGRESS.INIT,
@@ -165,9 +169,9 @@ function ContestRegister() {
         <ContestTime>{formatContestTime(contestInfo[contestName]).fullTime}</ContestTime>
       </TitleContainer>
       <Form.Form>
-        <Form.LabeledInput {...defaultProps('username')} type="text" />
-        <Form.LabeledInput {...defaultProps('fullname')} type="text" />
-        <Form.LabeledInput {...defaultProps('school')} type="text" />
+        <Form.LabeledInput {...defaultProps('username')} type="text" disabled />
+        <Form.LabeledInput {...defaultProps('fullname')} type="text" disabled />
+        <Form.LabeledInput {...defaultProps('school')} type="text" disabled />
         <Form.LabeledCheckbox
           {...defaultProps('isTermsAccepted')}
           valueWhenChecked="checked"

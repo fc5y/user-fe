@@ -20,6 +20,7 @@ export const ROUTE_USER_PROFILE = '/users/:username';
 
 // SETTINGS
 export const ROUTE_CHANGE_PASSWORD = '/change-password';
+export const ROUTE_SETTINGS = '/settings';
 
 // Ranking
 export const ROUTE_RANKING = '/ranking';

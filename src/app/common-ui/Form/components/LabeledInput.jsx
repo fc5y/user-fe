@@ -8,20 +8,25 @@ const Label = styled.label`
   display: block;
   font-size: 12px;
   line-height: 24px;
-  color: rgba(0, 0, 0, 0.6);
+  color: var(--black60);
 `;
 
 const Input = styled.input`
   display: block;
   font-size: 16px;
   line-height: 25px;
-  color: rgba(0, 0, 0, 0.8);
-
   outline: none;
   border: none;
   padding: 0;
   width: 100%;
   padding: 2px 0;
+  color: var(--black80);
+
+  &:disabled {
+    background-color: #fff;
+    color: var(--black50);
+    pointer-events: none;
+  }
 
   ${({ hasError }) =>
     hasError
@@ -55,6 +60,7 @@ function LabeledInput({
   value,
   error,
   onChange,
+  disabled,
   // own props
   type,
   onKeyEnter,
@@ -79,6 +85,7 @@ function LabeledInput({
         hasError={!!error}
         type={type}
         maxLength={255}
+        disabled={disabled}
       />
       <Error>{error}</Error>
     </FieldSet>

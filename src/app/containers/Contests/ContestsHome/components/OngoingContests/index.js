@@ -2,6 +2,9 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 
+// Context
+import { UserInfoContext } from 'src/shared/context/UserInfo';
+
 // Hook
 import { useHistory } from 'react-router-dom';
 
@@ -12,7 +15,7 @@ import { makeUrl } from 'src/utils/url';
 
 // Components
 import Table from 'src/app/common-ui/Table';
-import { DropDownButton } from 'src/app/common-ui/DropdownButton';
+import ContestActionButton from 'src/app/components/ContestActionButton';
 
 // Constants
 import { ROUTE_CONTEST } from 'src/app/routes/constants';
@@ -20,13 +23,16 @@ import { ROUTE_CONTEST } from 'src/app/routes/constants';
 import { TABLE_CONFIG } from './config';
 
 const Container = styled.div`
-  width: var(--contest-table-width);
-  margin-top: 30px;
+  max-width: var(--contest-table-max-width);
+  min-width: var(--contest-table-min-width);
+  margin: 20px 10px 0 10px;
 `;
 
 const Title = styled.h1`
   font-weight: 600;
   font-size: 24px;
+  margin-top: 0;
+  color: var(--black60);
 `;
 
 const ContestTitle = styled.h1`
@@ -38,18 +44,17 @@ const ContestTitle = styled.h1`
 
 function OnGoingContests({ isLoading, contests }) {
   const [tableConfig, setTableConfig] = React.useState(TABLE_CONFIG);
+  const { userInfo } = React.useContext(UserInfoContext);
   const history = useHistory();
 
   React.useEffect(() => {
     setTableConfig({ ...tableConfig, data: formatTableData(contests) });
-  }, [isLoading, contests]);
+  }, [isLoading, contests, userInfo]);
 
   // Helper function to format table data
   const formatTableData = (data) => {
     return data.map((d) => {
       const { startDate, startAndEndTime } = formatContestTime(d);
-      const openLink = (link) =>
-        window.open(link || 'about:blank', '_blank', 'noopener noreferrer');
 
       return {
         contestName: (
@@ -62,34 +67,7 @@ function OnGoingContests({ isLoading, contests }) {
         day: startDate,
         hour: startAndEndTime,
         numberOfParticipants: parseInt(d.total_participation, 10),
-        contestFiles: (
-          <DropDownButton
-            dropList={[
-              {
-                text: 'Đề bài',
-                onClick: () => openLink(d.materials.statements_url),
-              },
-              {
-                text: 'Bộ test',
-                onClick: () => openLink(d.materials.test_data_url),
-              },
-              {
-                text: 'Bảng điểm',
-                onClick: () => openLink(d.materials.ranking_url),
-              },
-              {
-                text: 'Lời giải',
-                onClick: () => openLink(d.materials.editorial_url),
-              },
-              {
-                text: 'Bài giải',
-                onClick: () => openLink(d.materials.solution_url),
-              },
-            ]}
-          >
-            Xem tự liệu kỳ thi
-          </DropDownButton>
-        ),
+        actions: <ContestActionButton contestInfo={d} />,
       };
     });
   };
@@ -100,7 +78,7 @@ function OnGoingContests({ isLoading, contests }) {
 
   return (
     <Container>
-      <Title>Sắp/đang diễn ra</Title>
+      <Title>Các kỳ thi sắp/đang diễn ra</Title>
       <Table border background config={tableConfig} showSkeleton={isLoading} />
     </Container>
   );

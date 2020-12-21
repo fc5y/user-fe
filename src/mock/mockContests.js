@@ -6,8 +6,10 @@ export const resContestGetAll = ({ offset, limit }) => {
         res({
           code: 0,
           data: {
-            total: 31,
+            total: contests.length,
             contests: contests.slice(offset, offset + limit),
+            server_time: Date.now() / 1000,
+            my_participations: participations,
           },
         }),
       1000,
@@ -15,11 +17,140 @@ export const resContestGetAll = ({ offset, limit }) => {
   );
 };
 
+export const resContestGet = ({ contestName }) => {
+  return new Promise((res) =>
+    setTimeout(
+      () =>
+        res({
+          code: 0,
+          data: {
+            total: contests.length,
+            contest: contests.filter((c) => c.contest_name === contestName)[0],
+            server_time: Date.now() / 1000,
+            my_participation: participations.filter((c) => c.contest_name === contestName)[0] || [],
+          },
+        }),
+      1000,
+    ),
+  );
+};
+
+const participations = [
+  {
+    username: 'xuanquang1999',
+    contest_name: 'free-contest-131',
+    contest_title: 'Free Contest 131',
+    contest_total_participations: 234,
+    is_hidden: false,
+    rating: 1306,
+    rating_change: -56,
+    score: 545,
+    rank_in_contest: 49,
+  },
+  {
+    username: 'xuanquang1999',
+    contest_name: 'beginner-contest-12',
+    contest_title: 'Beginner Contest 12',
+    contest_total_participations: 234,
+    is_hidden: false,
+    rating: 1306,
+    rating_change: -56,
+    score: 545,
+    rank_in_contest: 49,
+  },
+  {
+    username: 'xuanquang1999',
+    contest_name: 'free-contest-132',
+    contest_title: 'Free Contest 132',
+    contest_total_participations: 234,
+    is_hidden: false,
+    rating: 1306,
+    rating_change: -56,
+    score: 545,
+    rank_in_contest: 49,
+  },
+  {
+    username: 'xuanquang1999',
+    contest_name: 'free-contest-133',
+    contest_title: 'Free Contest 133',
+    contest_total_participations: 234,
+    is_hidden: false,
+    rating: 1306,
+    rating_change: -56,
+    score: 545,
+    rank_in_contest: 49,
+  },
+];
+
 const contests = [
   {
     can_enter: false,
-    contest_name: 'free-contest-129',
-    contest_title: 'Free Contest 129',
+    contest_name: 'free-contest-127',
+    contest_title: 'Free Contest 127',
+    duration: 10800,
+    materials: {
+      all_materials_url: '',
+      editorial_url: '',
+      ranking_url: '',
+      solution_url: '',
+      statements_url: '',
+      test_data_url: '',
+    },
+    start_time: Date.now() / 1000 + 60 * 60 * 5,
+    total_participation: 123,
+  },
+  {
+    can_enter: false,
+    contest_name: 'beginner-contest-12',
+    contest_title: 'Beginner Contest 12',
+    duration: 10800,
+    materials: {
+      all_materials_url: '',
+      editorial_url: '',
+      ranking_url: '',
+      solution_url: '',
+      statements_url: '',
+      test_data_url: '',
+    },
+    start_time: Date.now() / 1000 + 10,
+    total_participation: 123,
+  },
+  {
+    can_enter: true,
+    contest_name: 'free-contest-133',
+    contest_title: 'Free Contest 133',
+    duration: 10800,
+    materials: {
+      all_materials_url: '',
+      editorial_url: '',
+      ranking_url: '',
+      solution_url: '',
+      statements_url: '',
+      test_data_url: '',
+    },
+    start_time: Date.now() / 1000 + 10,
+    total_participation: 123,
+  },
+  {
+    can_enter: true,
+    contest_name: 'free-contest-131',
+    contest_title: 'Free Contest 131',
+    duration: 10800,
+    materials: {
+      all_materials_url: '',
+      editorial_url: '',
+      ranking_url: '',
+      solution_url: '',
+      statements_url: '',
+      test_data_url: '',
+    },
+    start_time: Date.now() / 1000 - 10790,
+    total_participation: 134,
+  },
+  {
+    can_enter: false,
+    contest_name: 'free-contest-132',
+    contest_title: 'Free Contest 132',
     duration: 10800,
     materials: {
       all_materials_url: '',
@@ -30,12 +161,12 @@ const contests = [
       test_data_url: '',
     },
     start_time: 1609414200,
-    total_participation: 0,
+    total_participation: 245,
   },
   {
     can_enter: false,
-    contest_name: 'free-contest-129',
-    contest_title: 'Free Contest 129',
+    contest_name: 'free-contest-100',
+    contest_title: 'Free Contest 100',
     duration: 10800,
     materials: {
       all_materials_url: '',
@@ -45,8 +176,8 @@ const contests = [
       statements_url: '',
       test_data_url: '',
     },
-    start_time: 1609414200,
-    total_participation: 0,
+    start_time: Date.now() / 1000 - 10805,
+    total_participation: 5000,
   },
   {
     can_enter: false,
@@ -54,31 +185,15 @@ const contests = [
     contest_title: 'Free Contest 129',
     duration: 10800,
     materials: {
-      all_materials_url: '',
-      editorial_url: '',
-      ranking_url: '',
-      solution_url: '',
-      statements_url: '',
-      test_data_url: '',
+      all_materials_url: 'https://google.com',
+      editorial_url: 'https://google.com',
+      ranking_url: 'https://google.com',
+      solution_url: 'https://google.com',
+      statements_url: 'https://google.com',
+      test_data_url: 'https://google.com',
     },
-    start_time: 1609414200,
-    total_participation: 0,
-  },
-  {
-    can_enter: false,
-    contest_name: 'free-contest-129',
-    contest_title: 'Free Contest 129',
-    duration: 10800,
-    materials: {
-      all_materials_url: '',
-      editorial_url: '',
-      ranking_url: '',
-      solution_url: '',
-      statements_url: '',
-      test_data_url: '',
-    },
-    start_time: 1409414200,
-    total_participation: 0,
+    start_time: Date.now() / 1000 - 20000,
+    total_participation: 5000,
   },
   {
     can_enter: false,
