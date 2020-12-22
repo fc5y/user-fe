@@ -86,6 +86,10 @@ const SkeletonText = styled(Skeleton.Text)`
   margin: 5px 10px;
 `;
 
+const SkeletonFooter = styled.div`
+  margin-bottom: 20px;
+`;
+
 function Table({
   config,
   border,
@@ -174,40 +178,43 @@ function Table({
   // Skeleton Loading
   if (showSkeleton) {
     return (
-      <Container border background>
-        <TableContainer>
-          <colgroup>
-            {(colWidths || []).map((w, k) => (w ? <col key={k} width={w} /> : <col key={k} />))}
-          </colgroup>
-          <TableHeader>
-            <tr>
-              {colWidths.map((t, k) => (
-                <td key={k}>
-                  <SkeletonText />
-                </td>
-              ))}
-            </tr>
-          </TableHeader>
-          <TableHeader>
-            <tr>
-              {colWidths.map((t, k) => (
-                <td key={k}>
-                  <SkeletonText />
-                </td>
-              ))}
-            </tr>
-          </TableHeader>
-          <TableHeader>
-            <tr>
-              {colWidths.map((t, k) => (
-                <td key={k}>
-                  <SkeletonText />
-                </td>
-              ))}
-            </tr>
-          </TableHeader>
-        </TableContainer>
-      </Container>
+      <>
+        <Container border background>
+          <TableContainer>
+            <colgroup>
+              {(colWidths || []).map((w, k) => (w ? <col key={k} width={w} /> : <col key={k} />))}
+            </colgroup>
+            <TableHeader>
+              <tr>
+                {colWidths.map((t, k) => (
+                  <td key={k}>
+                    <SkeletonText />
+                  </td>
+                ))}
+              </tr>
+            </TableHeader>
+            <TableHeader>
+              <tr>
+                {colWidths.map((t, k) => (
+                  <td key={k}>
+                    <SkeletonText />
+                  </td>
+                ))}
+              </tr>
+            </TableHeader>
+            <TableHeader>
+              <tr>
+                {colWidths.map((t, k) => (
+                  <td key={k}>
+                    <SkeletonText />
+                  </td>
+                ))}
+              </tr>
+            </TableHeader>
+          </TableContainer>
+        </Container>
+        <SkeletonFooter />
+      </>
     );
   }
 
