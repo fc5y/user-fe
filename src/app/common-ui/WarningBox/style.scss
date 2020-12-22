@@ -1,0 +1,25 @@
+@import 'variables';
+
+:local {
+  .container {
+    width: $content-width;
+    height: 175px;
+    background-color: #fff;
+    box-shadow: 0px 0px 12px rgba(188, 188, 188, 0.25);
+    border-radius: 4px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+  }
+
+  .icon {
+    width: 65px;
+    height: 65px;
+  }
+
+  .text {
+    color: rgba(0, 0, 0, 0.8);
+  }
+}
