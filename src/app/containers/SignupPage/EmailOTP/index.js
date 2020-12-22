@@ -10,7 +10,6 @@ import { validate } from './validators';
 
 // Components
 import Loading from 'src/app/common-ui/Loading';
-import { Button, PrimaryButton } from 'src/app/common-ui/Button';
 import { LabeledInput } from 'src/app/common-ui/Form';
 import { SuccessPopup, ErrorPopup } from 'src/app/common-ui/Popup';
 
@@ -22,8 +21,8 @@ import { ROUTE_LOGIN } from 'src/app/routes/constants';
 import { getErrorMessage } from 'src/utils/getErrorMessage';
 
 const Container = styled.div`
-  width: 500px;
-  padding: 36px;
+  width: 600px;
+  padding: 24px 36px;
   margin: 48px auto;
 
   border-radius: 6px;
@@ -35,30 +34,52 @@ const Container = styled.div`
 
 const Title = styled.div`
   font-size: 24px;
-  font-weight: bold;
+  font-weight: 600;
   color: var(--primary-default);
 `;
 
 const Message = styled.div`
   color: rgba(0, 0, 0, 0.6);
-  margin-top: 50px;
+  margin-top: 24px;
 `;
 
 const Email = styled.span`
-  font-weight: bold;
   color: var(--primary-dark);
 `;
 
 const OTPInput = styled.div`
-  margin-top: 30px;
+  margin-top: 20px;
 `;
 
 const ButtonGroups = styled.div`
   display: flex;
-  justify-content: space-evenly;
+  justify-content: center;
   align-items: center;
   width: 100%;
-  margin-top: 40px;
+`;
+
+const CommonButton = `
+  background: none;
+  border: 1px solid var(--primary-default);
+  box-shadow: none;
+  outline: none;
+
+  border-radius: 4px;
+  padding: 9px 12px;
+  min-width: 160px;
+  margin-left: 12px;
+`;
+
+const ReturnButton = styled.button`
+  ${CommonButton}
+  background-color: #fff;
+  color: var(--primary-default);
+`;
+
+const CreateAccountButton = styled.button`
+  ${CommonButton}
+  background-color: var(--primary-default);
+  color: white;
 `;
 
 const labels = {
@@ -137,8 +158,8 @@ function EmailOTP({ email, onSignup, onClickBack }) {
         <LabeledInput {...defaultProps('otp')} type="text" onKeyEnter={handleSubmit} />
       </OTPInput>
       <ButtonGroups>
-        <Button onClick={onClickBack}>Trở về</Button>
-        <PrimaryButton onClick={handleSubmit}>Tạo tài khoản</PrimaryButton>
+        <ReturnButton onClick={onClickBack}>Trở về</ReturnButton>
+        <CreateAccountButton onClick={handleSubmit}>Tạo tài khoản</CreateAccountButton>
       </ButtonGroups>
     </Container>
   );
