@@ -23,7 +23,7 @@ import { API_PROGRESS } from 'src/shared/constants';
 
 const Container = styled.div`
   width: 600px;
-  padding: 36px;
+  padding: 24px 36px;
   margin: 48px auto;
 
   border-radius: 6px;
