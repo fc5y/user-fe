@@ -58,7 +58,7 @@ const ButtonGroups = styled.div`
   width: 100%;
 `;
 
-const ButtonContainer = `
+const CommonButton = `
   background: none;
   border: 1px solid var(--primary-default);
   box-shadow: none;
@@ -71,13 +71,13 @@ const ButtonContainer = `
 `;
 
 const ReturnButton = styled.button`
-  ${ButtonContainer}
+  ${CommonButton}
   background-color: #fff;
   color: var(--primary-default);
 `;
 
 const CreateAccountButton = styled.button`
-  ${ButtonContainer}
+  ${CommonButton}
   background-color: var(--primary-default);
   color: white;
 `;
