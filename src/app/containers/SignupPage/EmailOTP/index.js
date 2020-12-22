@@ -10,7 +10,6 @@ import { validate } from './validators';
 
 // Components
 import Loading from 'src/app/common-ui/Loading';
-import { Button, PrimaryButton } from 'src/app/common-ui/Button';
 import { LabeledInput } from 'src/app/common-ui/Form';
 import { SuccessPopup, ErrorPopup } from 'src/app/common-ui/Popup';
 
@@ -23,7 +22,7 @@ import { getErrorMessage } from 'src/utils/getErrorMessage';
 
 const Container = styled.div`
   width: 600px;
-  padding: 36px;
+  padding: 24px 36px;
   margin: 48px auto;
 
   border-radius: 6px;
@@ -57,6 +56,30 @@ const ButtonGroups = styled.div`
   justify-content: center;
   align-items: center;
   width: 100%;
+`;
+
+const ButtonContainer = `
+  background: none;
+  border: 1px solid var(--primary-default);
+  box-shadow: none;
+  outline: none;
+
+  border-radius: 4px;
+  padding: 9px 12px;
+  min-width: 160px;
+  margin-left: 12px;
+`;
+
+const ReturnButton = styled.button`
+  ${ButtonContainer}
+  background-color: #fff;
+  color: var(--primary-default);
+`;
+
+const CreateAccountButton = styled.button`
+  ${ButtonContainer}
+  background-color: var(--primary-default);
+  color: white;
 `;
 
 const labels = {
@@ -135,8 +158,8 @@ function EmailOTP({ email, onSignup, onClickBack }) {
         <LabeledInput {...defaultProps('otp')} type="text" onKeyEnter={handleSubmit} />
       </OTPInput>
       <ButtonGroups>
-        <Button onClick={onClickBack}>Trở về</Button>
-        <PrimaryButton onClick={handleSubmit}>Tạo tài khoản</PrimaryButton>
+        <ReturnButton onClick={onClickBack}>Trở về</ReturnButton>
+        <CreateAccountButton onClick={handleSubmit}>Tạo tài khoản</CreateAccountButton>
       </ButtonGroups>
     </Container>
   );
