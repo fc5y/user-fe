@@ -27,9 +27,11 @@ const ButtonWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  width: ${(props) => (props.buttonWidth ? `${props.buttonWidth}px` : 'unset')};
 `;
 
 const PrimaryButton = styled(Buttons.PrimaryButton)`
+  width: 100%;
   min-width: 160px;
   min-height: 42px;
   display: flex;
@@ -39,6 +41,7 @@ const PrimaryButton = styled(Buttons.PrimaryButton)`
 `;
 
 const SecondaryButton = styled(Buttons.SecondaryButton)`
+  width: 100%;
   min-width: 160px;
   min-height: 42px;
   display: flex;
@@ -60,9 +63,9 @@ const SecondaryText = styled.div`
   margin-top: 5px;
 `;
 
-function RegisterButton({ remainingText, withTime, disabled, className, ...otherProps }) {
+function RegisterButton({ remainingText, withTime, buttonWidth, disabled, ...otherProps }) {
   return (
-    <ButtonWrapper className={className}>
+    <ButtonWrapper buttonWidth={buttonWidth}>
       <PrimaryButton disabled={disabled} onClick={() => {}} {...otherProps}>
         <PrimaryText>{disabled ? 'Đã đăng ký' : 'Đăng ký'}</PrimaryText>
         {withTime && <SecondaryText>{remainingText}</SecondaryText>}
@@ -71,9 +74,9 @@ function RegisterButton({ remainingText, withTime, disabled, className, ...other
   );
 }
 
-function EnterContestButton({ remainingText, withTime, className, ...otherProps }) {
+function EnterContestButton({ remainingText, withTime, buttonWidth, ...otherProps }) {
   return (
-    <ButtonWrapper className={className}>
+    <ButtonWrapper buttonWidth={buttonWidth}>
       <SecondaryButton {...otherProps}>
         <PrimaryText>Vào thi</PrimaryText>
         {withTime && <SecondaryText>{remainingText}</SecondaryText>}
@@ -121,7 +124,7 @@ export default function ContestActionButton({
   contestInfo,
   onChangeToStarting,
   withTime = true,
-  className,
+  buttonWidth,
 }) {
   const { userInfo } = React.useContext(UserInfoContext);
   const { myParticipationMap, contestServerTime } = React.useContext(ContestInfoContext);
@@ -148,7 +151,7 @@ export default function ContestActionButton({
       <RegisterButton
         withTime={withTime}
         remainingText={getRemainingTimeObj(count).timeString}
-        className={className}
+        buttonWidth={buttonWidth}
         onClick={() => {
           history.push(makeUrl(ROUTE_CONTEST_REGISTER, { contestName: contestInfo.contest_name }));
         }}
@@ -160,7 +163,7 @@ export default function ContestActionButton({
         withTime={withTime}
         disabled
         remainingText={getRemainingTimeObj(count).timeString}
-        className={className}
+        buttonWidth={buttonWidth}
       >
         Đã đăng ký
       </RegisterButton>
@@ -170,7 +173,7 @@ export default function ContestActionButton({
       <EnterContestButton
         withTime={withTime}
         remainingText={getRemainingTimeObj(count).timeString}
-        className={className}
+        buttonWidth={buttonWidth}
         onClick={() => {
           history.push(makeUrl(ROUTE_CONTEST_ENTER, { contestName: contestInfo.contest_name }));
         }}
@@ -187,5 +190,5 @@ ContestActionButton.propTypes = {
   contestInfo: PropTypes.any,
   onChangeToStarting: PropTypes.any,
   withTime: PropTypes.any,
-  className: PropTypes.any,
+  buttonWidth: PropTypes.any,
 };

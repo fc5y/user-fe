@@ -78,10 +78,6 @@ const ContestFooterWrapper = styled.div`
   align-items: center;
 `;
 
-const ActionButton = styled(ContestActionButton)`
-  width: 160px;
-`;
-
 const RankingButton = styled(Button)`
   margin-left: 10px;
   height: 42px;
@@ -155,7 +151,10 @@ function ContestDetail() {
                     {(status === CONTEST_STATUS.NOT_STARTED ||
                       status === CONTEST_STATUS.STARTING) && (
                       <ContestFooterWrapper>
-                        <ActionButton contestInfo={contestInfo[contestName]} withTime={false} />
+                        <ContestActionButton
+                          contestInfo={contestInfo[contestName]}
+                          withTime={false}
+                        />
                         {status === CONTEST_STATUS.STARTING && (
                           <RankingButton
                             onClick={() =>
@@ -176,7 +175,9 @@ function ContestDetail() {
                   </ContestActionWrapper>
                 );
               case CONTEST_STATUS.ENDED:
-                return <ActionButton contestInfo={contestInfo[contestName]} withTime={false} />;
+                return (
+                  <ContestActionButton contestInfo={contestInfo[contestName]} withTime={false} />
+                );
               default:
                 return null;
             }

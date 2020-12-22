@@ -1,5 +1,8 @@
 import * as React from 'react';
 
+// Hook
+import useFetchContestInfo from 'src/shared/hook/useFetchContestsInfo';
+
 // Context
 import { ContestInfoContext } from 'src/shared/context/ContestInfo';
 
@@ -23,65 +26,21 @@ const Container = styled.div`
 `;
 
 function Contests() {
-  const [onGoingContests, setOnGoingContests] = React.useState([]);
-  const [endedContests, setEndedContests] = React.useState([]);
-  const [todayContests, setTodayContests] = React.useState([]);
   const [currentLimit, setCurrentLimit] = React.useState(10);
   const [currentOffset, setCurrentOffset] = React.useState(0);
   const [isAddingNewRows, setIsAddingNewRows] = React.useState(false);
-  const [apiState, setApiState] = React.useState({
-    progress: API_PROGRESS.INIT,
-    code: null,
-    msg: null,
+  const {
+    apiState,
+    todayContests,
+    onGoingContests,
+    endedContests,
+    totalContests,
+  } = useFetchContestInfo({
+    limit: currentLimit,
+    offset: currentOffset,
+    forceFetch: isAddingNewRows,
+    onFetchCompleted: () => setIsAddingNewRows(false),
   });
-  const { getAllContestInfo, totalContests, contests, contestServerTime } = React.useContext(
-    ContestInfoContext,
-  );
-
-  const fetchContestsInfo = async () => {
-    setApiState({ progress: API_PROGRESS.REQ, code: null, msg: null });
-    const { code, data, msg } = await getAllContestInfo({
-      offset: currentOffset,
-      limit: currentLimit,
-    });
-
-    if (code || !data || !data.contests) {
-      setIsAddingNewRows(false);
-      setApiState({ progress: API_PROGRESS.FAILED, code, msg });
-    } else {
-      const sanitizedContests = categorizeContestTypes(data.contests, contestServerTime);
-      setOnGoingContests(sanitizedContests.onGoingContests);
-      setEndedContests(sanitizedContests.endedContests);
-
-      if (sanitizedContests.todayContests.length) {
-        setTodayContests(sanitizedContests.todayContests);
-      }
-      setApiState({ progress: API_PROGRESS.SUCCESS, code: null, msg: null });
-      setIsAddingNewRows(false);
-    }
-  };
-
-  // Fetch new contests
-  React.useEffect(() => {
-    fetchContestsInfo();
-  }, [isAddingNewRows]);
-
-  // Get contests from old data and show first
-  React.useEffect(() => {
-    const currentContests = contests
-      .slice(currentOffset, currentOffset + currentLimit)
-      .filter((c) => !!c);
-
-    if (currentContests.length) {
-      const sanitizedContests = categorizeContestTypes(currentContests, contestServerTime);
-      setOnGoingContests(sanitizedContests.onGoingContests);
-      setEndedContests(sanitizedContests.endedContests);
-    } else {
-      setOnGoingContests([]);
-      setEndedContests([]);
-      fetchContestsInfo();
-    }
-  }, [contests, currentLimit, currentOffset]);
 
   return (
     <Container>

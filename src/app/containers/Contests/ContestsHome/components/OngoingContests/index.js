@@ -42,6 +42,12 @@ const ContestTitle = styled.h1`
   cursor: pointer;
 `;
 
+const ButtonWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
 function OnGoingContests({ isLoading, contests }) {
   const [tableConfig, setTableConfig] = React.useState(TABLE_CONFIG);
   const { userInfo } = React.useContext(UserInfoContext);
@@ -67,7 +73,11 @@ function OnGoingContests({ isLoading, contests }) {
         day: startDate,
         hour: startAndEndTime,
         numberOfParticipants: parseInt(d.total_participation, 10),
-        actions: <ContestActionButton contestInfo={d} />,
+        actions: (
+          <ButtonWrapper>
+            <ContestActionButton buttonWidth="200" contestInfo={d} />
+          </ButtonWrapper>
+        ),
       };
     });
   };

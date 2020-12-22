@@ -114,6 +114,7 @@ function ContestsOfToday({ contests, isLoading }) {
               </RankingButton>
             )}
             <ContestActionButton
+              buttonWidth="200"
               contestInfo={d}
               onChangeToStarting={() =>
                 setShowRankingButton({ ...showRankingButton, [d.contest_name]: true })
