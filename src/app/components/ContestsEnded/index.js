@@ -88,17 +88,21 @@ function ContestsEnded({
         config={tableConfig}
         showSkeleton={isLoading}
         isAddingNewRows={isAddingNewRows}
-        pageSize={{
-          rowPerPageText: 'kỳ thi/trang',
-          onClickRowPerPage: (size) => {
-            setCurrentLimit(size);
-            onClickPageSize(size);
-          },
-        }}
-        pagination={{
-          numberOfPages: Math.ceil(totalContests / currentLimit),
-          onClickPage: (num) => onClickPageNumber(num),
-        }}
+        pageSize={
+          !!onClickPageSize && {
+            rowPerPageText: 'kỳ thi/trang',
+            onClickRowPerPage: (size) => {
+              setCurrentLimit(size);
+              onClickPageSize(size);
+            },
+          }
+        }
+        pagination={
+          !!onClickPageNumber && {
+            numberOfPages: Math.ceil(totalContests / currentLimit),
+            onClickPage: (num) => onClickPageNumber(num),
+          }
+        }
       />
     </Container>
   );
