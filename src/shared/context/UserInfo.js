@@ -1,6 +1,11 @@
 import * as React from 'react';
-import { apiGetMyUserInfo } from 'src/api';
 import PropTypes from 'prop-types';
+
+// Apis
+import { apiGetMyUserInfo } from 'src/api';
+
+// Constants
+import { USERINFO_SESSION_KEY } from '../constants';
 
 export const UserInfoContext = React.createContext({
   userInfo: {
@@ -58,7 +63,7 @@ export function UserInfoProvider({ children }) {
 
   // Get from local storage
   React.useEffect(() => {
-    const userInfoInLocalStorage = JSON.parse(localStorage.getItem('userinfo'));
+    const userInfoInLocalStorage = JSON.parse(localStorage.getItem(USERINFO_SESSION_KEY));
     if (!!userInfoInLocalStorage && !!userInfoInLocalStorage.token) {
       setUserInfo({ ...userInfo, token: userInfoInLocalStorage.token });
     }
@@ -67,7 +72,7 @@ export function UserInfoProvider({ children }) {
 
   // Save local storage
   React.useEffect(() => {
-    localStorage.setItem('userinfo', JSON.stringify(userInfo));
+    localStorage.setItem(USERINFO_SESSION_KEY, JSON.stringify(userInfo));
   }, [userInfo]);
 
   const clearUserInfo = React.useCallback(() => {
@@ -80,7 +85,7 @@ export function UserInfoProvider({ children }) {
       fullname: '',
     });
 
-    localStorage.clear('userinfo');
+    localStorage.clear(USERINFO_SESSION_KEY);
   }, []);
 
   return (

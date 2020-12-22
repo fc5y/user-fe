@@ -24,7 +24,7 @@ function LazyImage({ src, alt, placeholder, className, imageClassName, ...rest }
       )}
       {!isLoaded && (
         <div className={cx(styles.container, className)}>
-          <IconFC className={cx(styles.placeholderImage, imageClassName)} />
+          <IconFC className={cx(styles.placeholderImage)} />
         </div>
       )}
     </>
