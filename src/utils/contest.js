@@ -10,7 +10,7 @@ import { convertTZ } from './time';
 export function getContestStatus(contestInfo, contestServerTime) {
   if (!contestInfo || !contestInfo.start_time) return 0;
 
-  const now = contestServerTime || Date.now() / 1000;
+  const now = contestServerTime;
   const { start_time, duration, can_enter, materials = {} } = contestInfo;
   const formattedStartTime = start_time;
   const formattedDuration = duration;
@@ -43,7 +43,7 @@ export function formatContestTime(contestInfo) {
   const { start_time, duration } = contestInfo;
   const formattedStartTime = start_time * 1000;
   const formattedDuration = duration * 1000;
-  const endTime = new Date(formattedStartTime + formattedDuration);
+  const endTime = convertTZ(new Date(formattedStartTime + formattedDuration)).time;
 
   const { time: startTimeObj, utc } = convertTZ(new Date(formattedStartTime));
   const contestStartDate = `${startTimeObj.getDate()}/${
@@ -71,7 +71,7 @@ export function formatContestTime(contestInfo) {
 export const isTodayContest = (contestInfo, contestServerTime) => {
   if (!contestInfo || !contestInfo.start_time) return 0;
 
-  const now = contestServerTime || Date.now() / 1000;
+  const now = contestServerTime;
 
   const startOfTheDay = new Date(now * 1000);
   startOfTheDay.setHours(0, 0, 0, 0);

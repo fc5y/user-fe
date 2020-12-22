@@ -3,13 +3,13 @@ import { objectToQuery } from '../utils/query';
 import { resContestGetAll, resContestGet } from '../mock/mockContests';
 
 export function apiGetContestInfo({ contestName }) {
-  return resContestGet({ contestName });
-  // return get(`/api/v1/contests/${contestName}`);
+  // return resContestGet({ contestName });
+  return get(`/api/v1/contests/${contestName}`);
 }
 
 export function apiGetAllContestsInfo({ offset, limit }) {
-  return resContestGetAll({ offset, limit });
-  // return get(`/api/v1/contests${objectToQuery({ offset, limit })}`);
+  // return resContestGetAll({ offset, limit });
+  return get(`/api/v1/contests${objectToQuery({ offset, limit })}`);
 }
 
 export function apiGetContestCredential({ token, contestName }) {
