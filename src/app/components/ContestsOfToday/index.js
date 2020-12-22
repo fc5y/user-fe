@@ -51,7 +51,7 @@ const RightInfo = styled.div`
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  padding: 0 21px;
+  padding: 0 10px;
 `;
 
 const ContestTitle = styled.div`
