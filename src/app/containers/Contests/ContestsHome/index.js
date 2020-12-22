@@ -3,17 +3,14 @@ import * as React from 'react';
 // Hook
 import useFetchContestInfo from 'src/shared/hook/useFetchContestsInfo';
 
-// Context
-import { ContestInfoContext } from 'src/shared/context/ContestInfo';
-
 // Components
-import OngoingContest from './components/OngoingContests';
-import EndedContests from './components/EndedContests';
-import ContestsOfToday from 'src/app/components/ContestsOfToday';
+import { Helmet } from 'react-helmet';
+import OngoingContest from 'src/app/components/ContestsOngoing';
+import EndedContests from 'src/app/components/ContestsEnded';
+import ContestsOfToday from 'src/app/components/ContestsToday';
 
 // Utils and constants
 import styled from 'styled-components';
-import { categorizeContestTypes } from 'src/utils/contest';
 import { API_PROGRESS } from 'src/shared/constants';
 
 const Container = styled.div`
@@ -44,6 +41,9 @@ function Contests() {
 
   return (
     <Container>
+      <Helmet>
+        <title>Các kỳ thi</title>
+      </Helmet>
       <ContestsOfToday
         isLoading={apiState.progress === API_PROGRESS.REQ && todayContests.length === 0}
         contests={todayContests}

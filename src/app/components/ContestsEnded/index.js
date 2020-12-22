@@ -2,9 +2,6 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 
-// Context
-import { UserInfoContext } from 'src/shared/context/UserInfo';
-
 // Hook
 import { useHistory } from 'react-router-dom';
 
@@ -25,7 +22,7 @@ import { TABLE_CONFIG } from './config';
 const Container = styled.div`
   max-width: var(--contest-table-max-width);
   min-width: var(--contest-table-min-width);
-  margin: 20px 10px 0 10px;
+  margin: 20px 10px;
 `;
 
 const Title = styled.h1`
@@ -42,26 +39,26 @@ const ContestTitle = styled.h1`
   cursor: pointer;
 `;
 
-const ButtonWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
-function OnGoingContests({ isLoading, contests }) {
+function ContestsEnded({
+  isLoading,
+  contests,
+  onClickPageSize,
+  onClickPageNumber,
+  totalContests,
+  isAddingNewRows,
+}) {
   const [tableConfig, setTableConfig] = React.useState(TABLE_CONFIG);
-  const { userInfo } = React.useContext(UserInfoContext);
+  const [currentLimit, setCurrentLimit] = React.useState(10);
   const history = useHistory();
 
   React.useEffect(() => {
     setTableConfig({ ...tableConfig, data: formatTableData(contests) });
-  }, [isLoading, contests, userInfo]);
+  }, [isLoading, contests]);
 
   // Helper function to format table data
   const formatTableData = (data) => {
     return data.map((d) => {
       const { startDate, startAndEndTime } = formatContestTime(d);
-
       return {
         contestName: (
           <ContestTitle
@@ -73,11 +70,7 @@ function OnGoingContests({ isLoading, contests }) {
         day: startDate,
         hour: startAndEndTime,
         numberOfParticipants: parseInt(d.total_participation, 10),
-        actions: (
-          <ButtonWrapper>
-            <ContestActionButton buttonWidth="200" contestInfo={d} />
-          </ButtonWrapper>
-        ),
+        actions: <ContestActionButton contestInfo={d} />,
       };
     });
   };
@@ -88,15 +81,36 @@ function OnGoingContests({ isLoading, contests }) {
 
   return (
     <Container>
-      <Title>Các kỳ thi sắp/đang diễn ra</Title>
-      <Table border background config={tableConfig} showSkeleton={isLoading} />
+      <Title>Các kỳ thi đã diễn ra</Title>
+      <Table
+        border
+        background
+        config={tableConfig}
+        showSkeleton={isLoading}
+        isAddingNewRows={isAddingNewRows}
+        pageSize={{
+          rowPerPageText: 'kỳ thi/trang',
+          onClickRowPerPage: (size) => {
+            setCurrentLimit(size);
+            onClickPageSize(size);
+          },
+        }}
+        pagination={{
+          numberOfPages: Math.ceil(totalContests / currentLimit),
+          onClickPage: (num) => onClickPageNumber(num),
+        }}
+      />
     </Container>
   );
 }
 
-OnGoingContests.propTypes = {
+ContestsEnded.propTypes = {
   contests: PropTypes.any,
   isLoading: PropTypes.bool,
+  isAddingNewRows: PropTypes.bool,
+  totalContests: PropTypes.number,
+  onClickPageSize: PropTypes.func,
+  onClickPageNumber: PropTypes.func,
 };
 
-export default OnGoingContests;
+export default ContestsEnded;

@@ -12,7 +12,6 @@ import { apiRegisterContest } from 'src/api';
 
 // Utils
 import styled from 'styled-components';
-import { Helmet } from 'react-helmet';
 import { validate } from './validators';
 import { makeUrl } from 'src/utils/url';
 import { formatContestTime } from 'src/utils/contest';
@@ -135,9 +134,6 @@ function ContestRegister() {
 
   return (
     <Container>
-      <Helmet>
-        <title>Đăng ký kỳ thi</title>
-      </Helmet>
       {apiState.progress === API_PROGRESS.REQ ? (
         <Loading />
       ) : apiState.progress === API_PROGRESS.FAILED ? (

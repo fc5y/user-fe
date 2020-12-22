@@ -1,5 +1,4 @@
 import * as React from 'react';
-// import PropTypes from 'prop-types';
 
 // HOC
 import compose from 'src/shared/hoc/compose';
@@ -85,7 +84,10 @@ function EnterPage() {
   return (
     <>
       <Helmet>
-        <title>Vào thi</title>
+        <title>
+          {(contestInfo && contestInfo[contestName] && contestInfo[contestName].contest_title) ||
+            'Các kỳ thi'}
+        </title>
       </Helmet>
       {(() => {
         switch (apiState.progress) {

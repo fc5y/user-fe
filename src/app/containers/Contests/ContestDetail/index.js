@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { Helmet } from 'react-helmet';
 
 // Hook
 import useContestCountDown from 'src/shared/hook/useContestCountDown';
@@ -128,6 +129,12 @@ function ContestDetail() {
 
   return (
     <ContainerWrapper>
+      <Helmet>
+        <title>
+          {(contestInfo && contestInfo[contestName] && contestInfo[contestName].contest_title) ||
+            'Các kỳ thi'}
+        </title>
+      </Helmet>
       {apiState.progress === API_PROGRESS.FAILED ? (
         <ErrorContent content={getErrorMessage(apiState)} />
       ) : apiState.progress === API_PROGRESS.SUCCESS ? (

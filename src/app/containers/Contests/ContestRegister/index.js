@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { Helmet } from 'react-helmet';
 
 // HOC
 import withUserLogin from 'src/shared/hoc/withUserLogin';
@@ -20,7 +21,7 @@ import { getErrorMessage } from 'src/utils/getErrorMessage';
 
 function ContestRegister() {
   const { contestName } = useParams();
-  const { getContestInfoByName } = React.useContext(ContestInfoContext);
+  const { getContestInfoByName, contestInfo } = React.useContext(ContestInfoContext);
   const [isRegisterEnable, setIsRegisterEnable] = React.useState(null);
   const [apiState, setApiState] = React.useState({
     progress: API_PROGRESS.INIT,
@@ -49,12 +50,22 @@ function ContestRegister() {
     fetchContestInfo();
   }, []);
 
-  return isRegisterEnable === null ? (
-    <Loading />
-  ) : isRegisterEnable ? (
-    <RegisterFrom />
-  ) : (
-    <ErrorContent content={getErrorMessage(apiState)} />
+  return (
+    <>
+      <Helmet>
+        <title>
+          {(contestInfo && contestInfo[contestName] && contestInfo[contestName].contest_title) ||
+            'Đăng ký kỳ thi'}
+        </title>
+      </Helmet>
+      {isRegisterEnable === null ? (
+        <Loading />
+      ) : isRegisterEnable ? (
+        <RegisterFrom />
+      ) : (
+        <ErrorContent content={getErrorMessage(apiState)} />
+      )}
+    </>
   );
 }
 

@@ -73,7 +73,7 @@ const RankingButton = styled(Button)`
   height: 54px;
 `;
 
-function ContestsOfToday({ contests, isLoading }) {
+function ContestsToday({ contests, isLoading }) {
   const [tableConfig, setTableConfig] = React.useState(TABLE_CONFIG);
   const { userInfo } = React.useContext(UserInfoContext);
   const { contestServerTime } = React.useContext(ContestInfoContext);
@@ -138,9 +138,9 @@ function ContestsOfToday({ contests, isLoading }) {
   );
 }
 
-ContestsOfToday.propTypes = {
+ContestsToday.propTypes = {
   contests: PropTypes.any,
   isLoading: PropTypes.bool,
 };
 
-export default ContestsOfToday;
+export default ContestsToday;
