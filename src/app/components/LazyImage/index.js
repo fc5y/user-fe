@@ -3,7 +3,7 @@ import * as React from 'react';
 import cx from 'classnames';
 
 import styles from './style.scss';
-import placeholderImage from 'assets/images/logo_placeholder.png';
+import IconFC from 'src/app/common-ui/Icons/IconFC';
 
 function LazyImage({ src, alt, placeholder, className, imageClassName, ...rest }) {
   const [isLoaded, setIsLoaded] = React.useState(null);
@@ -11,9 +11,9 @@ function LazyImage({ src, alt, placeholder, className, imageClassName, ...rest }
   return (
     <>
       {(isLoaded === null || isLoaded === true) && (
-        <div className={styles.container}>
+        <div className={cx(styles.container, className)}>
           <img
-            className={cx(styles.image, className, !isLoaded && styles.invisible)}
+            className={cx(styles.image, imageClassName, !isLoaded && styles.invisible)}
             src={src}
             alt={alt}
             onLoad={() => setIsLoaded(true)}
@@ -23,13 +23,8 @@ function LazyImage({ src, alt, placeholder, className, imageClassName, ...rest }
         </div>
       )}
       {!isLoaded && (
-        <div className={styles.container}>
-          <img
-            className={cx(styles.placeholderImage, imageClassName)}
-            src={placeholderImage}
-            alt={alt}
-            {...rest}
-          />
+        <div className={cx(styles.container, className)}>
+          <IconFC className={cx(styles.placeholderImage, imageClassName)} />
         </div>
       )}
     </>

@@ -46,14 +46,25 @@
     border-radius: 5px;
     background-color: white;
   }
-  .img {
+
+  .imgWrapper {
     min-width: 235px;
-    height: $card-height;
-    margin: 10px;
-    img {
-      width: 100%;
-    }
+    padding: 10px;
   }
+
+  .img {
+    // min-width: 235px;
+    // height: $card-height;
+    // margin: 10px;
+  }
+  // .img {
+  //   min-width: 235px;
+  //   height: $card-height;
+  //   margin: 10px;
+  //   img {
+  //     width: 100%;
+  //   }
+  // }
   .itemContent {
     width: 100%;
     height: $card-height;

@@ -5,6 +5,9 @@ import { Helmet } from 'react-helmet';
 import { Link } from 'react-router-dom';
 import { ROUTE_HELP_JOIN, ROUTE_HELP_CMS } from 'src/app/routes/constants';
 
+// Components
+import LazyImage from 'src/app/components/LazyImage';
+
 // Assets
 import itemImage from 'assets/images/item.png';
 
@@ -20,8 +23,8 @@ function InfoPage() {
         <div className={styles.title}>Hướng dẫn</div>
         <Link to={ROUTE_HELP_JOIN}>
           <div className={styles.item}>
-            <div className={styles.img}>
-              <img src={itemImage} alt="Item" />
+            <div className={styles.imgWrapper}>
+              <LazyImage className={styles.img} src={itemImage} alt="Item" />
             </div>
             <div className={styles.itemContent}>
               <div className={styles.itemTitle}>
@@ -33,8 +36,8 @@ function InfoPage() {
         </Link>
         <Link to={ROUTE_HELP_CMS}>
           <div className={styles.item}>
-            <div className={styles.img}>
-              <img src={itemImage} alt="Item" />
+            <div className={styles.imgWrapper}>
+              <LazyImage className={styles.img} src={itemImage} alt="Item" />
             </div>
             <div className={styles.itemContent}>
               <div className={styles.itemTitle}>
