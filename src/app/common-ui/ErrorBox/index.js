@@ -2,7 +2,7 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 
 // Assets
-import iconError from 'assets/images/error.png';
+import iconError from 'assets/images/error.svg';
 
 import styles from './style.scss';
 

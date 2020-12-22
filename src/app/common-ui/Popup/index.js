@@ -4,9 +4,9 @@ import styles from './style.scss';
 import PropTypes from 'prop-types';
 
 import CloseButton from 'assets/images/close-button.png';
-import iconError from 'assets/images/error.png';
-import iconSuccess from 'assets/images/success.png';
-import iconWarning from 'assets/images/warning.png';
+import iconError from 'assets/images/error.svg';
+import iconSuccess from 'assets/images/success.svg';
+import iconWarning from 'assets/images/warning.svg';
 import cx from 'classnames';
 
 export const POPUP_VARIANT = {

@@ -8,7 +8,7 @@ import styled from 'styled-components';
 import { Helmet } from 'react-helmet';
 
 // images
-import iconWarning from 'assets/images/warning.png';
+import iconWarning from 'assets/images/warning.svg';
 
 const Accouncement = styled.div`
   width: 100%;
