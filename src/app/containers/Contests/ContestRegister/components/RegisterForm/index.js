@@ -83,7 +83,7 @@ const labels = {
 
 function ContestRegister() {
   const { userInfo } = React.useContext(UserInfoContext);
-  const { contestInfo } = React.useContext(ContestInfoContext);
+  const { contestInfo, myParticipationMap } = React.useContext(ContestInfoContext);
   const [values, setValues] = React.useState({
     fullname: userInfo.fullname,
     username: userInfo.username,
@@ -123,6 +123,7 @@ function ContestRegister() {
     setApiState({ progress: API_PROGRESS.REQ, code: null, msg: null });
     const { code, data, msg } = await apiRegisterContest({
       token: userInfo.token,
+      contestName,
     });
 
     if (code || !data) {
@@ -174,7 +175,12 @@ function ContestRegister() {
           valueWhenUnchecked=""
         />
         <Form.ButtonGroup>
-          <PrimaryButton onClick={validateAndSubmit}>Đăng ký</PrimaryButton>
+          <PrimaryButton
+            onClick={validateAndSubmit}
+            disabled={myParticipationMap && myParticipationMap[contestName]}
+          >
+            Đăng ký
+          </PrimaryButton>
         </Form.ButtonGroup>
       </Form.Form>
     </Container>

@@ -18,12 +18,10 @@ export function apiGetContestCredential({ token, contestName }) {
   });
 }
 
-export function apiRegisterContest({ token }) {
+export function apiRegisterContest({ token, contestName }) {
   return post(
     `/api/v1/participations`,
-    {},
-    {
-      Authorization: `Bearer ${token}`,
-    },
+    { contest_name: contestName, is_hidden: false },
+    { Authorization: `Bearer ${token}` },
   );
 }
