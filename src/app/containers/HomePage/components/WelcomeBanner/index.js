@@ -30,6 +30,14 @@ const WelcomeWrapper = styled.div`
     radial-gradient(50% 100% at 0% 0%, #67adda 0%, rgba(255, 255, 255, 0) 100%);
 `;
 
+const WelcomeImage = styled(LazyImage)`
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+`;
+
 const IconWrapper = styled.div`
   position: absolute;
   top: 15px;
@@ -147,7 +155,11 @@ function WelcomeBanner() {
 
   return showWelcomeBanner ? (
     <WelcomeWrapper>
-      <LazyImage src={welcomeImage} alt="homepage-welcome" imageClassName={styles.welcomeImage} />
+      <WelcomeImage
+        src={welcomeImage}
+        alt="homepage-welcome"
+        imageClassName={styles.welcomeImage}
+      />
       <IconWrapper
         onClick={() => {
           setShowWelcomeBanner(false);
