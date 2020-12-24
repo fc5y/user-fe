@@ -5,7 +5,9 @@ import Clock from './Clock';
 import IconFC from 'src/app/common-ui/Icons/IconFC';
 
 const Container = styled.div`
-  width: 1200px;
+  max-width: 1200px;
+  min-width: 720px;
+  width: 100%;
   margin: 0 auto;
 `;
 
