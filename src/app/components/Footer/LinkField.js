@@ -13,8 +13,7 @@ const LinkTo = styled.a`
   line-height: 25px;
   text-decoration-line: underline;
 
-  margin: auto;
-  margin-left: 0px;
+  margin: auto auto auto 0;
 
   color: rgba(255, 255, 255, 0.8);
   display: block;
@@ -43,4 +42,10 @@ LinkField.propTypes = {
   content: PropTypes.string,
   link: PropTypes.string,
   icon: PropTypes.any,
+};
+
+LinkField.defaultProps = {
+  content: '',
+  link: '',
+  icon: null,
 };
