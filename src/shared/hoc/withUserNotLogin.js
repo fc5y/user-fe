@@ -23,7 +23,7 @@ export default function withUserNotLogin(redirectRoute) {
       }
 
       // Redirect if user has logged in
-      if (!!userInfo && !!userInfo.username && !!userInfo.token) {
+      if (userInfo && userInfo.username && userInfo.token) {
         return <Redirect to={redirectRoute || '/'} />;
       }
 
