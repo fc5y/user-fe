@@ -61,7 +61,7 @@ const ContestTime = styled.div`
 `;
 
 const ContestStatus = styled(ContestStatusText)`
-  margin-bottom: 30px;
+  margin-bottom: 35px;
 `;
 
 const ContestActionWrapper = styled.div`
@@ -73,7 +73,7 @@ const ContestActionWrapper = styled.div`
 `;
 
 const ContestFooterWrapper = styled.div`
-  margin-top: 30px;
+  margin-top: 35px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -82,6 +82,11 @@ const ContestFooterWrapper = styled.div`
 const RankingButton = styled(Button)`
   margin-left: 10px;
   height: 42px;
+`;
+
+const Icon = styled(IconWarning)`
+  width: 20px;
+  height: 20px;
 `;
 
 const Text = styled.div`
@@ -175,15 +180,20 @@ function ContestDetail() {
                     )}
                     {status === CONTEST_STATUS.JUST_ENDED && (
                       <ContestFooterWrapper>
-                        <IconWarning />
-                        <Text>Tài liệu kỳ thi sẽ được đăng lên trong chốc lát</Text>
+                        <Icon />
+                        <Text>Tư liệu kỳ thi sẽ được đăng lên trong ít phút nữa</Text>
                       </ContestFooterWrapper>
                     )}
                   </ContestActionWrapper>
                 );
               case CONTEST_STATUS.ENDED:
                 return (
-                  <ContestActionButton contestInfo={contestInfo[contestName]} withTime={false} />
+                  <ContestActionButton
+                    contestInfo={contestInfo[contestName]}
+                    withTime={false}
+                    materialButtonType="primary"
+                    buttonWidth="240"
+                  />
                 );
               default:
                 return null;

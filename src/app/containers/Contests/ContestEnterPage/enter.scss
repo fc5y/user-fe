@@ -7,9 +7,10 @@
     box-shadow: 0px 0px 12px rgba(188, 188, 188, 0.25);
   }
 
-  .error {
-    color: red;
-    margin-top: 20px;
+  .errorContainer {
+    display: flex;
+    justify-content: center;
+    margin: 50px auto;
   }
 
   .title {
@@ -61,10 +62,11 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: 15px;
+    margin-top: 25px;
   }
 
   .button {
     padding: 10px;
+    height: 42px;
   }
 }

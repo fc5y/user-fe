@@ -39,6 +39,12 @@ const ContestTitle = styled.h1`
   cursor: pointer;
 `;
 
+const ButtonWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
 function ContestsEnded({
   isLoading,
   contests,
@@ -70,7 +76,11 @@ function ContestsEnded({
         day: startDate,
         hour: startAndEndTime,
         numberOfParticipants: parseInt(d.total_participation, 10),
-        actions: <ContestActionButton contestInfo={d} />,
+        actions: (
+          <ButtonWrapper>
+            <ContestActionButton contestInfo={d} buttonWidth="200" />
+          </ButtonWrapper>
+        ),
       };
     });
   };

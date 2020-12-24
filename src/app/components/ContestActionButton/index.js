@@ -21,7 +21,7 @@ import { makeUrl } from 'src/utils/url';
 
 // Components
 import * as Buttons from '../../common-ui/Button';
-import { DropDownButton } from '../../common-ui/DropdownButton';
+import { PrimaryDropDownButton, DropDownButton } from '../../common-ui/DropdownButton';
 
 const ButtonWrapper = styled.div`
   display: flex;
@@ -85,37 +85,39 @@ function EnterContestButton({ remainingText, withTime, buttonWidth, ...otherProp
   );
 }
 
-function MaterialButton({ materials }) {
+function MaterialButton({ materials, type, buttonWidth }) {
   const openLink = (link) => window.open(link || 'about:blank', '_blank', 'noopener noreferrer');
-  return (
-    <ButtonWrapper>
-      <DropDownButton
-        dropList={[
-          {
-            text: 'Đề bài',
+  const dropList = [
+    {
+      text: 'Đề bài',
 
-            onClick: () => openLink(materials.statements_url),
-          },
-          {
-            text: 'Bộ test',
-            onClick: () => openLink(materials.test_data_url),
-          },
-          {
-            text: 'Bảng điểm',
-            onClick: () => openLink(materials.ranking_url),
-          },
-          {
-            text: 'Lời giải',
-            onClick: () => openLink(materials.editorial_url),
-          },
-          {
-            text: 'Bài giải',
-            onClick: () => openLink(materials.solution_url),
-          },
-        ]}
-      >
-        Xem tự liệu kỳ thi
-      </DropDownButton>
+      onClick: () => openLink(materials.statements_url),
+    },
+    {
+      text: 'Bộ test',
+      onClick: () => openLink(materials.test_data_url),
+    },
+    {
+      text: 'Bảng điểm',
+      onClick: () => openLink(materials.ranking_url),
+    },
+    {
+      text: 'Lời giải',
+      onClick: () => openLink(materials.editorial_url),
+    },
+    {
+      text: 'Bài giải',
+      onClick: () => openLink(materials.solution_url),
+    },
+  ];
+
+  return (
+    <ButtonWrapper buttonWidth={buttonWidth}>
+      {type === 'primary' ? (
+        <PrimaryDropDownButton dropList={dropList}>Xem tự liệu kỳ thi</PrimaryDropDownButton>
+      ) : (
+        <DropDownButton dropList={dropList}>Xem tự liệu kỳ thi</DropDownButton>
+      )}
     </ButtonWrapper>
   );
 }
@@ -125,6 +127,7 @@ export default function ContestActionButton({
   onChangeToStarting,
   withTime = true,
   buttonWidth,
+  materialButtonType,
 }) {
   const { userInfo } = React.useContext(UserInfoContext);
   const { myParticipationMap, contestServerTime } = React.useContext(ContestInfoContext);
@@ -143,7 +146,13 @@ export default function ContestActionButton({
   }
 
   if (status === CONTEST_STATUS.ENDED) {
-    return <MaterialButton materials={contestInfo.materials} />;
+    return (
+      <MaterialButton
+        type={materialButtonType}
+        materials={contestInfo.materials}
+        buttonWidth={buttonWidth}
+      />
+    );
   } else if (status === CONTEST_STATUS.JUST_ENDED) {
     return null;
   } else if (!isRegistered || !userInfo.username) {

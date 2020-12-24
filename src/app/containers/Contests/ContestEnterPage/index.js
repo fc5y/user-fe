@@ -9,6 +9,7 @@ import { withRouter, useParams } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import Loading from 'src/app/common-ui/Loading';
 import { PrimaryButton } from 'src/app/common-ui/Button';
+import ErrorBox from 'src/app/common-ui/ErrorBox';
 
 // Contexts
 import { UserInfoContext } from 'src/shared/context/UserInfo';
@@ -93,21 +94,14 @@ function EnterPage() {
         switch (apiState.progress) {
           case API_PROGRESS.FAILED:
             return (
-              <div className={styles.container}>
-                <div className={styles.title}>
-                  {(contestInfo[contestName] && contestInfo[contestName].contest_title) ||
-                    'Vào Thi'}
-                </div>
-                <div className={styles.error}>{getErrorMessage(apiState)}</div>
+              <div className={styles.errorContainer}>
+                <ErrorBox content={getErrorMessage(apiState)} />
               </div>
             );
           case API_PROGRESS.SUCCESS:
             return (
               <div className={styles.container}>
-                <div className={styles.title}>
-                  {(contestInfo[contestName] && contestInfo[contestName].contest_title) ||
-                    'Vào Thi'}
-                </div>
+                <div className={styles.title}>Vào Thi</div>
                 <div className={styles.enterContest}>
                   <div className={styles.text}>
                     1. Truy cập vào địa chỉ:&nbsp;
@@ -139,7 +133,7 @@ function EnterPage() {
                     className={styles.button}
                     onClick={() => window.open(CONTEST_LINK, '_blank', 'noopener noreferrer')}
                   >
-                    Đi tới trang kì thi
+                    Đi tới trang thi đấu
                   </PrimaryButton>
                 </div>
               </div>
