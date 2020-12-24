@@ -4,6 +4,9 @@ import { Helmet } from 'react-helmet';
 // Hook
 import useFetchContestInfo from 'src/shared/hook/useFetchContestsInfo';
 
+// Context
+import { UserInfoContext } from 'src/shared/context/UserInfo';
+
 // Components
 import OngoingContest from 'src/app/components/ContestsOngoing';
 import EndedContests from 'src/app/components/ContestsEnded';
@@ -40,6 +43,7 @@ const BannerImageWrapper = styled.div`
 `;
 
 function HomePage() {
+  const { userInfo } = React.useContext(UserInfoContext);
   const [isAddingNewRows, setIsAddingNewRows] = React.useState(false);
   const { apiState, onGoingContests, endedContests } = useFetchContestInfo({
     limit: 10,
@@ -61,7 +65,7 @@ function HomePage() {
         <BannerImageWrapper>
           <LazyImage src={bannerImage} alt="homepage-banner" />
         </BannerImageWrapper>
-        <WelcomeBanner />
+        {userInfo.isFetched && !userInfo.username && <WelcomeBanner />}
         <EndedContests
           isLoading={apiState.progress === API_PROGRESS.REQ && endedContests.length === 0}
           contests={endedContests}
