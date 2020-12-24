@@ -1,26 +1,23 @@
 import * as React from 'react';
 import styled from 'styled-components';
 
-// common ui
+// Components
 import IconFacebook from 'src/app/common-ui/Icons/IconFacebook';
 import IconEmail from 'src/app/common-ui/Icons/IconEmail';
-
-// assets
-import logoImage from 'assets/images/darkerLogo.png';
+import IconFC from 'src/app/common-ui/Icons/IconFC';
 
 import LinkField from './LinkField';
 
 const Containter = styled.div`
   position: relative;
   bottom: 0;
-  height: auto;
+  height: 290px;
   width: 100%;
   margin: auto;
   margin-top: 36px;
 
   background-color: var(--primary-darker);
   box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.125);
-
   display: flex;
   justify-content: center;
 `;
@@ -31,17 +28,10 @@ const Content = styled.div`
   padding-bottom: 60px;
 
   display: flex;
+  justify-content: space-between;
 `;
 
-const Left = styled.div`
-  margin-right: 122px;
-  width: auto;
-  height: auto;
-`;
-
-const Logo = styled.div`
-  margin: auto;
-`;
+const Left = styled.div``;
 
 const Right = styled.div``;
 
@@ -51,6 +41,17 @@ const Title = styled.div`
   line-height: 23px;
 
   color: rgba(255, 255, 255, 0.8);
+`;
+const IconWrapper = styled.div`
+  position: absolute;
+  top: 50%;
+  left 50%;
+  transform: translate(-50%, -50%);
+`;
+const Icon = styled(IconFC)`
+  width: 200px;
+  height: 200px;
+  opacity: 0.2;
 `;
 
 export default function Footer() {
@@ -65,13 +66,21 @@ export default function Footer() {
           <LinkField content="Trang thông tin cũ (2015-2019)" link="/" />
           <LinkField content="Hướng dẫn" link="/" />
         </Left>
-        <Logo>
-          <img src={logoImage} alt="footer-logo" />
-        </Logo>
+        <IconWrapper>
+          <Icon fill="#1c83c6" />
+        </IconWrapper>
         <Right>
           <Title>Liên hệ</Title>
-          <LinkField content="support@freecontest.net" link="/" icon={<IconEmail />} />
-          <LinkField content="support@freecontest.net" link="/" icon={<IconFacebook />} />
+          <LinkField
+            content="support@freecontest.net"
+            link="mailto:support@freecontest.net"
+            icon={<IconEmail />}
+          />
+          <LinkField
+            content="https://facebook.com/kc97blf"
+            link="https://facebook.com/kc97blf"
+            icon={<IconFacebook />}
+          />
         </Right>
       </Content>
     </Containter>

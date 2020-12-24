@@ -3,6 +3,9 @@ import * as React from 'react';
 // APIs
 import { apiSignup } from 'src/api/index';
 
+// HOC
+import withUserNotLogin from 'src/shared/hoc/withUserNotLogin';
+
 // Components
 import EnterScreen from './EnterScreen';
 import EmailOTP from './EmailOTP';
@@ -35,4 +38,4 @@ function SignupPageFC5Y() {
   }
 }
 
-export default SignupPageFC5Y;
+export default withUserNotLogin()(SignupPageFC5Y);

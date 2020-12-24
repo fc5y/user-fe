@@ -2,14 +2,15 @@
 
 :local {
   .container {
-    min-width: $min-width-container;
+    min-width: $info-min-width;
+    max-width: $info-max-width;
     width: 100%;
+    margin: 48px auto;
     font-family: 'Noto Serif', serif;
   }
   .content {
-    width: 1200px;
-    margin: 48px auto;
-    padding: 48px 66px 48px 66px;
+    width: 100%;
+    padding: 40px 60px;
     box-shadow: 0px 0px 12px rgba(188, 188, 188, 0.25);
     border-radius: 4px;
     background-color: white;
@@ -23,7 +24,6 @@
     color: #1c83c6;
     font-weight: 600;
     font-size: 48px;
-    line-height: 125%;
     text-align: center;
   }
   .text {
@@ -41,7 +41,7 @@
       margin: 20px auto 20px auto;
       font-weight: 500;
       font-size: 36px;
-      color: #1C83C6;
+      color: #1c83c6;
     }
     li {
       margin: 10px auto 10px auto;

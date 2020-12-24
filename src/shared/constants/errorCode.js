@@ -19,6 +19,7 @@ export const API_ERROR = Object.freeze({
   // Constest
   CONTEST_NOT_FOUND: 2101,
   CONTEST_OVER: 3004,
+  NOT_REGISTERED_YET: 3201,
 
   /**
    * FE Errors
@@ -44,5 +45,6 @@ export const ERROR_MAP = Object.freeze({
   // Constest
   [API_ERROR.CONTEST_NOT_FOUND]: 'Kỳ thi không tồn tại.',
   [API_ERROR.CONTEST_OVER]: 'Kỳ thi đã kết thúc.',
-  [API_ERROR.CONTEST_NOT_STARTED]: 'Kỳ thi chưa bắt đầu.',
+  [API_ERROR.CONTEST_NOT_STARTED]: 'Kỳ thi chưa cho phép vào thi.',
+  [API_ERROR.NOT_REGISTERED_YET]: 'Bạn chưa đăng ký kỳ thi này.',
 });

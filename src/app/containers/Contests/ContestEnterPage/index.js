@@ -1,5 +1,4 @@
 import * as React from 'react';
-// import PropTypes from 'prop-types';
 
 // HOC
 import compose from 'src/shared/hoc/compose';
@@ -10,8 +9,10 @@ import { withRouter, useParams } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import Loading from 'src/app/common-ui/Loading';
 import { PrimaryButton } from 'src/app/common-ui/Button';
+import ErrorBox from 'src/app/common-ui/ErrorBox';
 
 // Contexts
+import { UserInfoContext } from 'src/shared/context/UserInfo';
 import { ContestInfoContext } from 'src/shared/context/ContestInfo';
 
 // APIs
@@ -25,6 +26,7 @@ import { getErrorMessage } from 'src/utils/getErrorMessage';
 import styles from './enter.scss';
 
 function EnterPage() {
+  const { userInfo } = React.useContext(UserInfoContext);
   const { contestInfo, getContestInfoByName } = React.useContext(ContestInfoContext);
   const [apiState, setApiState] = React.useState({
     progress: API_PROGRESS.INIT,
@@ -60,7 +62,7 @@ function EnterPage() {
         code: credApiCode,
         data: credApiData,
         msg: credApiMsg,
-      } = await apiGetContestCredential(contestName);
+      } = await apiGetContestCredential({ contestName, token: userInfo.token });
       if (credApiCode || !credApiData.contest_username || !credApiData.contest_password) {
         setApiState({ progress: API_PROGRESS.FAILED });
         setApiState({
@@ -83,27 +85,23 @@ function EnterPage() {
   return (
     <>
       <Helmet>
-        <title>Vào thi</title>
+        <title>
+          {(contestInfo && contestInfo[contestName] && contestInfo[contestName].contest_title) ||
+            'Các kỳ thi'}
+        </title>
       </Helmet>
       {(() => {
         switch (apiState.progress) {
           case API_PROGRESS.FAILED:
             return (
-              <div className={styles.container}>
-                <div className={styles.title}>
-                  {(contestInfo[contestName] && contestInfo[contestName].contest_title) ||
-                    'Vào Thi'}
-                </div>
-                <div className={styles.error}>{getErrorMessage(apiState)}</div>
+              <div className={styles.errorContainer}>
+                <ErrorBox content={getErrorMessage(apiState)} />
               </div>
             );
           case API_PROGRESS.SUCCESS:
             return (
               <div className={styles.container}>
-                <div className={styles.title}>
-                  {(contestInfo[contestName] && contestInfo[contestName].contest_title) ||
-                    'Vào Thi'}
-                </div>
+                <div className={styles.title}>Vào Thi</div>
                 <div className={styles.enterContest}>
                   <div className={styles.text}>
                     1. Truy cập vào địa chỉ:&nbsp;
@@ -135,7 +133,7 @@ function EnterPage() {
                     className={styles.button}
                     onClick={() => window.open(CONTEST_LINK, '_blank', 'noopener noreferrer')}
                   >
-                    Đi tới trang kì thi
+                    Đi tới trang thi đấu
                   </PrimaryButton>
                 </div>
               </div>

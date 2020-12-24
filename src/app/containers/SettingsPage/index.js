@@ -24,15 +24,20 @@ import { API_PROGRESS } from 'src/shared/constants';
 import { validate } from './validators';
 import { ROUTE_LOGIN } from '../../routes/constants';
 
+const TitleWrapper = styled.div`
+  margin-bottom: 30px;
+`;
+
+const Button = styled(PrimaryButton)`
+  height: 42px;
+  margin-top: 30px;
+`;
+
 const labels = {
   fullname: 'Họ và tên',
   school: 'Trường học',
   email: 'Email liên lạc',
 };
-
-const TitleWrapper = styled.div`
-  margin-bottom: 30px;
-`;
 
 function SettingsPage() {
   const { userInfo, setUserInfo } = React.useContext(UserInfoContext);
@@ -110,7 +115,7 @@ function SettingsPage() {
         apiState.progress === API_PROGRESS.SUCCESS && (
           <SuccessPopup
             show
-            content="Lưu thay đổi thành công"
+            content="Đổi mật khẩu thành công!"
             onClose={() => {
               setApiState({ progress: API_PROGRESS.INIT, error: null, error_msg: null });
               window.location.reload();
@@ -126,9 +131,9 @@ function SettingsPage() {
         <Form.LabeledInput {...defaultProps('school')} type="text" />
         <Form.LabeledInput {...defaultProps('email')} disabled type="text" />
         <Form.ButtonGroup>
-          <PrimaryButton disabled={apiState.progress === API_PROGRESS.REQ} onClick={handleSubmit}>
+          <Button disabled={apiState.progress === API_PROGRESS.REQ} onClick={handleSubmit}>
             Lưu thay đổi
-          </PrimaryButton>
+          </Button>
         </Form.ButtonGroup>
       </Form.Form>
     </MainPanel.Container>

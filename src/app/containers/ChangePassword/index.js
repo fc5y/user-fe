@@ -15,6 +15,7 @@ import Loading from '../../common-ui/Loading';
 // UI
 import * as MainPanel from '../../common-ui/MainPanel';
 import * as Form from '../../common-ui/Form';
+import styled from 'styled-components';
 import { PrimaryButton } from '../../common-ui/Button';
 import { Helmet } from 'react-helmet';
 import { ErrorPopup, SuccessPopup } from '../../common-ui/Popup';
@@ -23,6 +24,15 @@ import { ErrorPopup, SuccessPopup } from '../../common-ui/Popup';
 import { API_PROGRESS } from 'src/shared/constants';
 import { validate } from './validators';
 import { ROUTE_LOGIN, ROUTE_HOMEPAGE } from '../../routes/constants';
+
+const TitleWrapper = styled.div`
+  margin-bottom: 30px;
+`;
+
+const Button = styled(PrimaryButton)`
+  height: 42px;
+  margin-top: 30px;
+`;
 
 const labels = {
   currentPassword: 'Thay đổi mật khẩu',
@@ -109,15 +119,17 @@ function ChangePassword({ history }) {
           />
         )
       )}
-      <MainPanel.Title>Thay đổi mật khẩu</MainPanel.Title>
+      <TitleWrapper>
+        <MainPanel.Title>Thay đổi mật khẩu</MainPanel.Title>
+      </TitleWrapper>
       <Form.Form>
         <Form.LabeledInput {...defaultProps('currentPassword')} type="password" />
         <Form.LabeledInput {...defaultProps('newPassword')} type="password" />
         <Form.LabeledInput {...defaultProps('confirmNewPassword')} type="password" />
         <Form.ButtonGroup>
-          <PrimaryButton disabled={apiState.progress === API_PROGRESS.REQ} onClick={handleSubmit}>
+          <Button disabled={apiState.progress === API_PROGRESS.REQ} onClick={handleSubmit}>
             Lưu thay đổi
-          </PrimaryButton>
+          </Button>
         </Form.ButtonGroup>
       </Form.Form>
     </MainPanel.Container>

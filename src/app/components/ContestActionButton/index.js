@@ -21,15 +21,17 @@ import { makeUrl } from 'src/utils/url';
 
 // Components
 import * as Buttons from '../../common-ui/Button';
-import { DropDownButton } from '../../common-ui/DropdownButton';
+import { PrimaryDropDownButton, DropDownButton } from '../../common-ui/DropdownButton';
 
 const ButtonWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  width: ${(props) => (props.buttonWidth ? `${props.buttonWidth}px` : 'unset')};
 `;
 
 const PrimaryButton = styled(Buttons.PrimaryButton)`
+  width: 100%;
   min-width: 160px;
   min-height: 42px;
   display: flex;
@@ -39,6 +41,7 @@ const PrimaryButton = styled(Buttons.PrimaryButton)`
 `;
 
 const SecondaryButton = styled(Buttons.SecondaryButton)`
+  width: 100%;
   min-width: 160px;
   min-height: 42px;
   display: flex;
@@ -60,9 +63,9 @@ const SecondaryText = styled.div`
   margin-top: 5px;
 `;
 
-function RegisterButton({ remainingText, withTime, disabled, className, ...otherProps }) {
+function RegisterButton({ remainingText, withTime, buttonWidth, disabled, ...otherProps }) {
   return (
-    <ButtonWrapper className={className}>
+    <ButtonWrapper buttonWidth={buttonWidth}>
       <PrimaryButton disabled={disabled} onClick={() => {}} {...otherProps}>
         <PrimaryText>{disabled ? 'Đã đăng ký' : 'Đăng ký'}</PrimaryText>
         {withTime && <SecondaryText>{remainingText}</SecondaryText>}
@@ -71,9 +74,9 @@ function RegisterButton({ remainingText, withTime, disabled, className, ...other
   );
 }
 
-function EnterContestButton({ remainingText, withTime, className, ...otherProps }) {
+function EnterContestButton({ remainingText, withTime, buttonWidth, ...otherProps }) {
   return (
-    <ButtonWrapper className={className}>
+    <ButtonWrapper buttonWidth={buttonWidth}>
       <SecondaryButton {...otherProps}>
         <PrimaryText>Vào thi</PrimaryText>
         {withTime && <SecondaryText>{remainingText}</SecondaryText>}
@@ -82,37 +85,39 @@ function EnterContestButton({ remainingText, withTime, className, ...otherProps 
   );
 }
 
-function MaterialButton({ materials }) {
+function MaterialButton({ materials, type, buttonWidth }) {
   const openLink = (link) => window.open(link || 'about:blank', '_blank', 'noopener noreferrer');
-  return (
-    <ButtonWrapper>
-      <DropDownButton
-        dropList={[
-          {
-            text: 'Đề bài',
+  const dropList = [
+    {
+      text: 'Đề bài',
 
-            onClick: () => openLink(materials.statements_url),
-          },
-          {
-            text: 'Bộ test',
-            onClick: () => openLink(materials.test_data_url),
-          },
-          {
-            text: 'Bảng điểm',
-            onClick: () => openLink(materials.ranking_url),
-          },
-          {
-            text: 'Lời giải',
-            onClick: () => openLink(materials.editorial_url),
-          },
-          {
-            text: 'Bài giải',
-            onClick: () => openLink(materials.solution_url),
-          },
-        ]}
-      >
-        Xem tự liệu kỳ thi
-      </DropDownButton>
+      onClick: () => openLink(materials.statements_url),
+    },
+    {
+      text: 'Bộ test',
+      onClick: () => openLink(materials.test_data_url),
+    },
+    {
+      text: 'Bảng điểm',
+      onClick: () => openLink(materials.ranking_url),
+    },
+    {
+      text: 'Lời giải',
+      onClick: () => openLink(materials.editorial_url),
+    },
+    {
+      text: 'Bài giải',
+      onClick: () => openLink(materials.solution_url),
+    },
+  ];
+
+  return (
+    <ButtonWrapper buttonWidth={buttonWidth}>
+      {type === 'primary' ? (
+        <PrimaryDropDownButton dropList={dropList}>Xem tự liệu kỳ thi</PrimaryDropDownButton>
+      ) : (
+        <DropDownButton dropList={dropList}>Xem tự liệu kỳ thi</DropDownButton>
+      )}
     </ButtonWrapper>
   );
 }
@@ -121,7 +126,8 @@ export default function ContestActionButton({
   contestInfo,
   onChangeToStarting,
   withTime = true,
-  className,
+  buttonWidth,
+  materialButtonType,
 }) {
   const { userInfo } = React.useContext(UserInfoContext);
   const { myParticipationMap, contestServerTime } = React.useContext(ContestInfoContext);
@@ -140,7 +146,13 @@ export default function ContestActionButton({
   }
 
   if (status === CONTEST_STATUS.ENDED) {
-    return <MaterialButton materials={contestInfo.materials} />;
+    return (
+      <MaterialButton
+        type={materialButtonType}
+        materials={contestInfo.materials}
+        buttonWidth={buttonWidth}
+      />
+    );
   } else if (status === CONTEST_STATUS.JUST_ENDED) {
     return null;
   } else if (!isRegistered || !userInfo.username) {
@@ -148,7 +160,7 @@ export default function ContestActionButton({
       <RegisterButton
         withTime={withTime}
         remainingText={getRemainingTimeObj(count).timeString}
-        className={className}
+        buttonWidth={buttonWidth}
         onClick={() => {
           history.push(makeUrl(ROUTE_CONTEST_REGISTER, { contestName: contestInfo.contest_name }));
         }}
@@ -160,7 +172,7 @@ export default function ContestActionButton({
         withTime={withTime}
         disabled
         remainingText={getRemainingTimeObj(count).timeString}
-        className={className}
+        buttonWidth={buttonWidth}
       >
         Đã đăng ký
       </RegisterButton>
@@ -170,7 +182,7 @@ export default function ContestActionButton({
       <EnterContestButton
         withTime={withTime}
         remainingText={getRemainingTimeObj(count).timeString}
-        className={className}
+        buttonWidth={buttonWidth}
         onClick={() => {
           history.push(makeUrl(ROUTE_CONTEST_ENTER, { contestName: contestInfo.contest_name }));
         }}
@@ -187,5 +199,5 @@ ContestActionButton.propTypes = {
   contestInfo: PropTypes.any,
   onChangeToStarting: PropTypes.any,
   withTime: PropTypes.any,
-  className: PropTypes.any,
+  buttonWidth: PropTypes.any,
 };

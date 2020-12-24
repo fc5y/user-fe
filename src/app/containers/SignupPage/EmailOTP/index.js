@@ -63,7 +63,8 @@ const CommonButton = `
   border: 1px solid var(--primary-default);
   box-shadow: none;
   outline: none;
-
+  height: 42px;
+  
   border-radius: 4px;
   padding: 9px 12px;
   min-width: 160px;

@@ -5,6 +5,9 @@ import PropTypes from 'prop-types';
 // API
 import { apiGetContestInfo, apiGetAllContestsInfo } from 'src/api/index';
 
+// Utils
+import { convertTZ } from 'src/utils/time';
+
 /**
  * // Info
  * contestInfo: { // Store contest info by mapping contest name
@@ -39,7 +42,9 @@ export function ContestInfoProvider({ children }) {
   const [myParticipations, setMyParticipations] = React.useState([]);
   const [myParticipationMap, setMyParticipationMap] = React.useState({});
   const [totalContests, setTotalContests] = React.useState(0);
-  const [contestServerTime, setContestServerTime] = React.useState(Date.now() / 1000);
+  const [contestServerTime, setContestServerTime] = React.useState(
+    convertTZ(new Date()).time.getTime() / 1000,
+  );
 
   // Get contest info by contest name
   const getContestInfoByName = async ({ contestName }) => {

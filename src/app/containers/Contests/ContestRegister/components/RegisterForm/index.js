@@ -12,7 +12,6 @@ import { apiRegisterContest } from 'src/api';
 
 // Utils
 import styled from 'styled-components';
-import { Helmet } from 'react-helmet';
 import { validate } from './validators';
 import { makeUrl } from 'src/utils/url';
 import { formatContestTime } from 'src/utils/contest';
@@ -84,7 +83,7 @@ const labels = {
 
 function ContestRegister() {
   const { userInfo } = React.useContext(UserInfoContext);
-  const { contestInfo } = React.useContext(ContestInfoContext);
+  const { contestInfo, myParticipationMap } = React.useContext(ContestInfoContext);
   const [values, setValues] = React.useState({
     fullname: userInfo.fullname,
     username: userInfo.username,
@@ -124,6 +123,7 @@ function ContestRegister() {
     setApiState({ progress: API_PROGRESS.REQ, code: null, msg: null });
     const { code, data, msg } = await apiRegisterContest({
       token: userInfo.token,
+      contestName,
     });
 
     if (code || !data) {
@@ -135,9 +135,6 @@ function ContestRegister() {
 
   return (
     <Container>
-      <Helmet>
-        <title>Đăng ký kỳ thi</title>
-      </Helmet>
       {apiState.progress === API_PROGRESS.REQ ? (
         <Loading />
       ) : apiState.progress === API_PROGRESS.FAILED ? (
@@ -178,7 +175,12 @@ function ContestRegister() {
           valueWhenUnchecked=""
         />
         <Form.ButtonGroup>
-          <PrimaryButton onClick={validateAndSubmit}>Đăng ký</PrimaryButton>
+          <PrimaryButton
+            onClick={validateAndSubmit}
+            disabled={myParticipationMap && myParticipationMap[contestName]}
+          >
+            Đăng ký
+          </PrimaryButton>
         </Form.ButtonGroup>
       </Form.Form>
     </Container>

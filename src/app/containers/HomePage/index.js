@@ -1,59 +1,74 @@
-import React from 'react';
+import * as React from 'react';
 import { Helmet } from 'react-helmet';
 
-// Utils
-import { UserInfoContext } from 'src/shared/context/UserInfo';
-import { ContestInfoContext } from 'src/shared/context/ContestInfo';
+// Hook
+import useFetchContestInfo from 'src/shared/hook/useFetchContestsInfo';
 
 // Components
-import Markdown from 'react-markdown';
-import { Link } from 'react-router-dom';
-import BtnLoginAndSignup from '../../components/Button/BtnLoginAndSignup';
-import BtnJoin from '../../components/Button/BtnJoin';
-import BtnDisabled from '../../components/Button/BtnDisabled';
+import OngoingContest from 'src/app/components/ContestsOngoing';
+import EndedContests from 'src/app/components/ContestsEnded';
+import LazyImage from 'src/app/components/LazyImage';
+import WelcomeBanner from './components/WelcomeBanner';
 import Footer from 'src/app/components/Footer';
 
-// Data
-import md from './Info.md';
+// Utils and constants
+import styled from 'styled-components';
+import { API_PROGRESS } from 'src/shared/constants';
 
-import styles from './style.scss';
+// Assets
+import bannerImage from 'assets/images/home_banner.png';
+
+const Container = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 20px 0;
+  padding: 0 10px;
+`;
+
+const BannerImageWrapper = styled.div`
+  margin: 20px 0;
+  max-width: var(--contest-table-max-width);
+  min-width: var(--contest-table-min-width);
+  width: 100%;
+  height: 100%;
+  max-height: 90px;
+  border-radius: 4px;
+  box-shadow: 0px 0px 12px rgba(188, 188, 188, 0.25);
+`;
 
 function HomePage() {
-  const { userInfo } = React.useContext(UserInfoContext);
-  const { contestInfo } = React.useContext(ContestInfoContext);
+  const [isAddingNewRows, setIsAddingNewRows] = React.useState(false);
+  const { apiState, onGoingContests, endedContests } = useFetchContestInfo({
+    limit: 10,
+    offset: 0,
+    forceFetch: isAddingNewRows,
+    onFetchCompleted: () => setIsAddingNewRows(false),
+  });
 
   return (
-    <div>
-      <div className={styles.content}>
+    <>
+      <Container>
         <Helmet>
-          <title>Cổng đăng ký FYT Code Cup</title>
+          <title>Free Contest</title>
         </Helmet>
-        <div className={styles.title}>FYT Code Cup</div>
-        <div className={styles.info}>
-          <Markdown source={md} />
-          <Link to="/info">Quy chế của kỳ thi</Link>
-        </div>
-        {!userInfo || !userInfo.username ? (
-          <>
-            <div className={styles.alert}>Để tham gia thi, bạn cần tạo tài khoản</div>
-            <BtnLoginAndSignup />
-          </>
-        ) : contestInfo.isContestReady ? (
-          <>
-            <div className={styles.alert}>Để tham gia thi, bạn chỉ cần nhấn vào nút “Vào thi”</div>
-            <BtnJoin />
-          </>
-        ) : (
-          <>
-            <div className={styles.alert}>
-              Trang kỳ thi sẽ chỉ được bật một ít phút trước khi kỳ thi bắt đầu
-            </div>
-            <BtnDisabled />
-          </>
-        )}
-      </div>
+        <OngoingContest
+          isLoading={apiState.progress === API_PROGRESS.REQ && onGoingContests.length === 0}
+          contests={onGoingContests}
+        />
+        <BannerImageWrapper>
+          <LazyImage src={bannerImage} alt="homepage-banner" />
+        </BannerImageWrapper>
+        <WelcomeBanner />
+        <EndedContests
+          isLoading={apiState.progress === API_PROGRESS.REQ && endedContests.length === 0}
+          contests={endedContests}
+        />
+      </Container>
       <Footer />
-    </div>
+    </>
   );
 }
 

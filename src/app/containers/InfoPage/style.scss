@@ -1,72 +1,47 @@
 @import 'variables.scss';
 
 :local {
-  $card-height: 230px;
+  $card-height: 181px;
 
   .container {
-    min-width: $min-width-container;
-    width: 100%;
+    width: $content-width;
+    margin: 45px auto;
   }
 
   .content {
-    min-width: $min-width-container;
-    max-width: 950px;
-    height: auto;
-    margin: 30px auto 0 auto;
-    color: rgba(0, 0, 0, 0.6);
-    padding: 24px 36px 24px 36px;
-    a {
-      color: rgba(0, 0, 0, 0.6);
-      text-decoration: none;
-    }
-    a:visited {
-      color: rgba(0, 0, 0, 0.6);
-    }
-    a:active {
-      color: rgba(0, 0, 0, 0.6);
-    }
-    a:hover {
-      color: #1c83c6;
-    }
+    width: 100%;
   }
+
   .title {
     text-align: left;
-    color: #1c83c6;
+    color: #076daf;
     font-weight: 600;
     font-size: 36px;
-    line-height: 43px;
   }
+
   .item {
-    margin-top: 36px;
-    min-width: 400px;
-    max-width: 850px;
+    width: 100%;
+    margin-top: 35px;
     height: $card-height;
-    display: flex;
+    padding: 24px 36px;
+
     box-shadow: 0px 0px 12px rgba(188, 188, 188, 0.25);
     border-radius: 5px;
     background-color: white;
   }
-  .img {
-    min-width: 235px;
-    height: $card-height;
-    margin: 10px;
-    img {
-      width: 100%;
-    }
-  }
-  .itemContent {
-    width: 100%;
-    height: $card-height;
-    padding: 25px 40px;
-    border-left: 1px solid rgba(0, 0, 0, 0.16);
-  }
-  .description {
-    margin-top: 11px;
-  }
-  h2 {
-    font-weight: 600;
-    size: 24px;
-    line-height: 30px;
+
+  .itemTitle {
     color: #1c83c6;
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 30px;
+  }
+
+  .description {
+    margin-top: 18px;
+    color: rgba(0, 0, 0, 0.6);
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 25px;
   }
 }

@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { Helmet } from 'react-helmet';
 
 // Hook
 import useContestCountDown from 'src/shared/hook/useContestCountDown';
@@ -60,7 +61,7 @@ const ContestTime = styled.div`
 `;
 
 const ContestStatus = styled(ContestStatusText)`
-  margin-bottom: 30px;
+  margin-bottom: 35px;
 `;
 
 const ContestActionWrapper = styled.div`
@@ -72,19 +73,20 @@ const ContestActionWrapper = styled.div`
 `;
 
 const ContestFooterWrapper = styled.div`
-  margin-top: 30px;
+  margin-top: 35px;
   display: flex;
   justify-content: center;
   align-items: center;
 `;
 
-const ActionButton = styled(ContestActionButton)`
-  width: 160px;
-`;
-
 const RankingButton = styled(Button)`
   margin-left: 10px;
   height: 42px;
+`;
+
+const Icon = styled(IconWarning)`
+  width: 20px;
+  height: 20px;
 `;
 
 const Text = styled.div`
@@ -132,6 +134,12 @@ function ContestDetail() {
 
   return (
     <ContainerWrapper>
+      <Helmet>
+        <title>
+          {(contestInfo && contestInfo[contestName] && contestInfo[contestName].contest_title) ||
+            'Các kỳ thi'}
+        </title>
+      </Helmet>
       {apiState.progress === API_PROGRESS.FAILED ? (
         <ErrorContent content={getErrorMessage(apiState)} />
       ) : apiState.progress === API_PROGRESS.SUCCESS ? (
@@ -155,7 +163,10 @@ function ContestDetail() {
                     {(status === CONTEST_STATUS.NOT_STARTED ||
                       status === CONTEST_STATUS.STARTING) && (
                       <ContestFooterWrapper>
-                        <ActionButton contestInfo={contestInfo[contestName]} withTime={false} />
+                        <ContestActionButton
+                          contestInfo={contestInfo[contestName]}
+                          withTime={false}
+                        />
                         {status === CONTEST_STATUS.STARTING && (
                           <RankingButton
                             onClick={() =>
@@ -169,14 +180,21 @@ function ContestDetail() {
                     )}
                     {status === CONTEST_STATUS.JUST_ENDED && (
                       <ContestFooterWrapper>
-                        <IconWarning />
-                        <Text>Tài liệu kỳ thi sẽ được đăng lên trong chốc lát</Text>
+                        <Icon />
+                        <Text>Tư liệu kỳ thi sẽ được đăng lên trong ít phút nữa</Text>
                       </ContestFooterWrapper>
                     )}
                   </ContestActionWrapper>
                 );
               case CONTEST_STATUS.ENDED:
-                return <ActionButton contestInfo={contestInfo[contestName]} withTime={false} />;
+                return (
+                  <ContestActionButton
+                    contestInfo={contestInfo[contestName]}
+                    withTime={false}
+                    materialButtonType="primary"
+                    buttonWidth="240"
+                  />
+                );
               default:
                 return null;
             }
