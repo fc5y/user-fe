@@ -1,6 +1,9 @@
 /* eslint-disable no-prototype-builtins */
 import * as React from 'react';
 
+// Hook
+import { useHistory } from 'react-router-dom';
+
 // Utils
 import styled from 'styled-components';
 
@@ -10,6 +13,7 @@ import IconClose from 'src/app/common-ui/Icons/IconClose';
 import LazyImage from 'src/app/components/LazyImage';
 
 // Constants
+import { ROUTE_SIGNUP } from 'src/app/routes/constants';
 import { WELCOME_BANNER_SESSION_KEY } from 'src/shared/constants';
 
 // Assets
@@ -92,6 +96,7 @@ const EXPIRED_TIME = 7 * 24 * 60 * 60 * 1000;
 
 function WelcomeBanner() {
   const [showWelcomeBanner, setShowWelcomeBanner] = React.useState(false);
+  const history = useHistory();
 
   React.useEffect(() => {
     try {
@@ -183,7 +188,7 @@ function WelcomeBanner() {
         <WelcomeText>
           Chuẩn bị cho các kỳ thi quan trọng như kỳ thi HSG QG môn Tin học, APIO, IOI, ACM-ICPC.
         </WelcomeText>
-        <Button>Tạo tài khoản</Button>
+        <Button onClick={() => history.push(ROUTE_SIGNUP)}>Tạo tài khoản</Button>
       </WelcomeInfo>
     </WelcomeWrapper>
   ) : null;
