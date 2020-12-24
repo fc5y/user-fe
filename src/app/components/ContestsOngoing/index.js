@@ -25,7 +25,8 @@ import { TABLE_CONFIG } from './config';
 const Container = styled.div`
   max-width: var(--contest-table-max-width);
   min-width: var(--contest-table-min-width);
-  margin: 20px 10px 0 10px;
+  width: 100%;
+  margin-top: 10px;
 `;
 
 const Title = styled.h1`
@@ -46,6 +47,19 @@ const ButtonWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+`;
+
+const NoContestWrapper = styled.div`
+  max-width: var(--contest-table-max-width);
+  width: 100%;
+  background: #fff;
+  color: var(--black60);
+  text-align: center;
+  border: 1px solid var(--black06);
+  border-radius: 4px;
+  box-shadow: 0px 0px 12px rgba(188, 188, 188, 0.25);
+  padding: 20px 0;
+  margin-bottom: 20px;
 `;
 
 function ContestsOnGoing({ isLoading, contests }) {
@@ -82,14 +96,14 @@ function ContestsOnGoing({ isLoading, contests }) {
     });
   };
 
-  if (!isLoading && contests && !contests.length) {
-    return null;
-  }
-
   return (
     <Container>
       <Title>Các kỳ thi sắp/đang diễn ra</Title>
-      <Table border background config={tableConfig} showSkeleton={isLoading} />
+      {!isLoading && contests && !contests.length ? (
+        <NoContestWrapper>Không có kỳ thi nào sắp/đang diễn ra</NoContestWrapper>
+      ) : (
+        <Table border background config={tableConfig} showSkeleton={isLoading} />
+      )}
     </Container>
   );
 }

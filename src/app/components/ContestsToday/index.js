@@ -28,7 +28,8 @@ import Table from 'src/app/common-ui/Table';
 const Container = styled.div`
   max-width: var(--contest-table-max-width);
   min-width: var(--contest-table-min-width);
-  margin: 0 10px 20px 10px;
+  width: 100%;
+  margin-top: 10px;
 `;
 
 const Title = styled.div`
@@ -71,6 +72,19 @@ const ContestTime = styled.div`
 const RankingButton = styled(Button)`
   margin-right: 10px;
   height: 54px;
+`;
+
+const NoContestWrapper = styled.div`
+  max-width: var(--contest-table-max-width);
+  width: 100%;
+  background: #fff;
+  color: var(--black60);
+  text-align: center;
+  border: 1px solid var(--black06);
+  border-radius: 4px;
+  box-shadow: 0px 0px 12px rgba(188, 188, 188, 0.25);
+  padding: 20px 0;
+  margin-bottom: 20px;
 `;
 
 function ContestsToday({ contests, isLoading }) {
@@ -126,14 +140,14 @@ function ContestsToday({ contests, isLoading }) {
     });
   };
 
-  if (!isLoading && contests && !contests.length) {
-    return null;
-  }
-
   return (
     <Container>
       <Title>Hôm nay</Title>
-      <Table border background config={tableConfig} showSkeleton={isLoading} />
+      {!isLoading && contests && !contests.length ? (
+        <NoContestWrapper>Không có kỳ thi nào hôm nay</NoContestWrapper>
+      ) : (
+        <Table border background config={tableConfig} showSkeleton={isLoading} />
+      )}
     </Container>
   );
 }

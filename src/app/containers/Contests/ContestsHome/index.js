@@ -20,6 +20,7 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   margin: 20px 0;
+  padding: 0 10px;
 `;
 
 function Contests() {
