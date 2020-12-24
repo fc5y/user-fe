@@ -9,6 +9,7 @@ import OngoingContest from 'src/app/components/ContestsOngoing';
 import EndedContests from 'src/app/components/ContestsEnded';
 import LazyImage from 'src/app/components/LazyImage';
 import WelcomeBanner from './components/WelcomeBanner';
+import Footer from 'src/app/components/Footer';
 
 // Utils and constants
 import styled from 'styled-components';
@@ -23,7 +24,8 @@ const Container = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-top: 20px;
+  margin: 20px 0;
+  padding: 0 10px;
 `;
 
 const BannerImageWrapper = styled.div`
@@ -47,23 +49,26 @@ function HomePage() {
   });
 
   return (
-    <Container>
-      <Helmet>
-        <title>Free Contest</title>
-      </Helmet>
-      <OngoingContest
-        isLoading={apiState.progress === API_PROGRESS.REQ && onGoingContests.length === 0}
-        contests={onGoingContests}
-      />
-      <BannerImageWrapper>
-        <LazyImage src={bannerImage} alt="homepage-banner" />
-      </BannerImageWrapper>
-      <WelcomeBanner />
-      <EndedContests
-        isLoading={apiState.progress === API_PROGRESS.REQ && endedContests.length === 0}
-        contests={endedContests}
-      />
-    </Container>
+    <>
+      <Container>
+        <Helmet>
+          <title>Free Contest</title>
+        </Helmet>
+        <OngoingContest
+          isLoading={apiState.progress === API_PROGRESS.REQ && onGoingContests.length === 0}
+          contests={onGoingContests}
+        />
+        <BannerImageWrapper>
+          <LazyImage src={bannerImage} alt="homepage-banner" />
+        </BannerImageWrapper>
+        <WelcomeBanner />
+        <EndedContests
+          isLoading={apiState.progress === API_PROGRESS.REQ && endedContests.length === 0}
+          contests={endedContests}
+        />
+      </Container>
+      <Footer />
+    </>
   );
 }
 

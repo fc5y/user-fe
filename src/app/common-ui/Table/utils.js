@@ -5,7 +5,7 @@
  */
 export const getSeriesOfPagination = (chosen, numberOfPage) => {
   if (!chosen || !numberOfPage || chosen > numberOfPage) {
-    return [];
+    return [1];
   }
 
   if (numberOfPage <= 5) {
