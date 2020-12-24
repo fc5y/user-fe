@@ -5,12 +5,6 @@ import { Helmet } from 'react-helmet';
 import { Link } from 'react-router-dom';
 import { ROUTE_HELP_JOIN, ROUTE_HELP_CMS } from 'src/app/routes/constants';
 
-// Components
-import LazyImage from 'src/app/components/LazyImage';
-
-// Assets
-import itemImage from 'assets/images/item.png';
-
 import styles from './style.scss';
 
 function InfoPage() {
@@ -23,27 +17,18 @@ function InfoPage() {
         <div className={styles.title}>Hướng dẫn</div>
         <Link to={ROUTE_HELP_JOIN}>
           <div className={styles.item}>
-            <div className={styles.imgWrapper}>
-              <LazyImage className={styles.img} src={itemImage} alt="Item" />
-            </div>
-            <div className={styles.itemContent}>
-              <div className={styles.itemTitle}>
-                <h2>Hướng dẫn tham gia Free Contest</h2>
-              </div>
-              <div className={styles.description}> Hướng dẫn tham gia Free Contest</div>
+            <div className={styles.itemTitle}>Hướng dẫn tham gia Free Contest</div>
+            <div className={styles.description}>
+              Hướng dẫn theo dõi lịch tổ chức, tạo tài khoản, đăng nhập, đăng ký kỳ thi, vào thi,
+              xem bảng điểm, ...
             </div>
           </div>
         </Link>
         <Link to={ROUTE_HELP_CMS}>
           <div className={styles.item}>
-            <div className={styles.imgWrapper}>
-              <LazyImage className={styles.img} src={itemImage} alt="Item" />
-            </div>
-            <div className={styles.itemContent}>
-              <div className={styles.itemTitle}>
-                <h2>Hướng dẫn đăng ký thi trên hệ thống CMS</h2>
-              </div>
-              <div className={styles.description}> Hướng dẫn đăng ký thi trên hệ thống CMS </div>
+            <div className={styles.itemTitle}>Hướng dẫn đăng ký thi trên hệ thống CMS</div>
+            <div className={styles.description}>
+              Hướng dẫn đăng nhập, nộp bài, xem kết quả, xem thông báo, gửi câu hỏi, ...
             </div>
           </div>
         </Link>
