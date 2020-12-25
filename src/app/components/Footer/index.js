@@ -11,10 +11,8 @@ import LinkField from './LinkField';
 const Containter = styled.div`
   position: relative;
   bottom: 0;
-  height: 290px;
+  height: var(--footer-height);
   width: 100%;
-  margin: auto;
-  margin-top: 36px;
 
   background-color: var(--primary-darker);
   box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.125);
@@ -24,8 +22,8 @@ const Containter = styled.div`
 
 const Content = styled.div`
   width: 900px;
-  margin: 36px auto;
-  padding-bottom: 60px;
+  margin: 36px 0;
+  padding: 0 10px;
 
   display: flex;
   justify-content: space-between;
