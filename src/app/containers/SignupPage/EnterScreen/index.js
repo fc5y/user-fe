@@ -34,7 +34,7 @@ const Container = styled.div`
 `;
 
 const Title = styled.div`
-  margin-bottom: 18px;
+  margin-bottom: 30px;
   display: flex;
   justify-content: space-between;
   align-items: baseline;
