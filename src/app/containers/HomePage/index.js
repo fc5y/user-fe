@@ -25,10 +25,10 @@ const Container = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
-  margin: 20px 0;
-  padding: 0 10px;
+  padding: 40px 10px;
+  min-height: calc(100vh - var(--navbar-height) - var(--footer-height));
 `;
 
 const BannerImageWrapper = styled.div`

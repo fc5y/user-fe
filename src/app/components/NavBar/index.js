@@ -7,7 +7,7 @@ import Right from './Right';
 
 const Container = styled.div`
   position: sticky;
-  height: 50px;
+  height: var(--navbar-height);
   width: 100%;
 
   background-color: white;
