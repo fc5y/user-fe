@@ -124,10 +124,8 @@ function ContestDetail() {
           msg,
         });
         setApiState({ progress: API_PROGRESS.FAILED, code, msg });
-        console.log('ok');
       } else {
-        console('fuck');
-        setApiState({ progress: API_PROGRESS.SUCCESS, code: 1, msg: null });
+        setApiState({ progress: API_PROGRESS.SUCCESS, code: null, msg: null });
       }
     };
 
