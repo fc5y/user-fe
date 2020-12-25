@@ -4,6 +4,7 @@ import Helmet from 'react-helmet';
 import styled from 'styled-components';
 import Clock from './Clock';
 import IconFC from 'src/app/common-ui/Icons/IconFC';
+import { PrimaryButton } from '../common-ui/Button';
 
 const Container = styled.div`
   max-width: 1200px;
@@ -72,7 +73,14 @@ const ClockContainer = styled.div`
   max-width: 100%;
 `;
 
-function LandingPage({ serverTime }) {
+const ButtonWrapper = styled.div`
+  width: 100%;
+  margin: 40px auto;
+  display: flex;
+  justify-content: center;
+`;
+
+function LandingPage({ serverTime, onClickSkip }) {
   return (
     <Container>
       <Helmet>
@@ -89,6 +97,9 @@ function LandingPage({ serverTime }) {
         </ClockContainer>
         <Line3>Ra mắt ngày 01/01/2021</Line3>
       </BigCard>
+      <ButtonWrapper>
+        <PrimaryButton onClick={onClickSkip}>Skip Countdown</PrimaryButton>
+      </ButtonWrapper>
     </Container>
   );
 }

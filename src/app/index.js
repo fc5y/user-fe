@@ -20,6 +20,7 @@ import 'normalize.css';
 import './style.scss';
 
 export default function App() {
+  const [skipCountDown, setSkipCountDown] = React.useState(false);
   const [serverTime, setServerTime] = React.useState(null);
 
   React.useEffect(() => {
@@ -44,13 +45,13 @@ export default function App() {
   }, []);
 
   // TODO: Remove soon, for prod and opening day used only
-  if (__ENV__ === 'prod') {
+  if (__ENV__ === 'prod' && !skipCountDown) {
     if (!serverTime) {
       return <Loading />;
     } else {
       const delta = new Date('2021-01-01T00:00:00.000+07:00') - serverTime;
       return delta > 0 ? (
-        <LandingPage serverTime={serverTime} />
+        <LandingPage serverTime={serverTime} onClickSkip={() => setSkipCountDown(true)} />
       ) : (
         <BrowserRouter>
           <UserInfoProvider>
