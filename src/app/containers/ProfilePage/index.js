@@ -6,6 +6,7 @@ import styles from './style.scss';
 
 // Images
 import img from 'assets/images/avatar.png';
+import changeUsernameIcon from 'assets/images/changeUsernameIcon.png';
 
 // Components
 import ParticipatedContests from 'src/app/components/ParticipatedContests';
@@ -34,10 +35,7 @@ function ProfilePage({ match }) {
   const [handlingUserInfo, setHandlingUserInfo] = useState({
     username: '',
     fullName: '',
-    dateOfBirth: '',
     schoolName: '',
-    email: '',
-    bio: '',
     ranking: '',
     rating: '',
   });
@@ -52,10 +50,7 @@ function ProfilePage({ match }) {
         setHandlingUserInfo({
           username: data.user.username || '',
           fullName: data.user.full_name || '',
-          dateOfBirth: '',
           schoolName: data.user.school_name || '',
-          email: data.user.email || '',
-          bio: '',
           ranking: 'NONE',
           rating: 'NONE',
         });
@@ -77,30 +72,21 @@ function ProfilePage({ match }) {
               <div className={styles.ava}>
                 <img src={img} alt="avatar" />
               </div>
-              <div className={styles.changeAvatar}>
-                {userInfo.username === match.params.username && (
-                  <Link to="/settings">Thay đổi ảnh cá nhân</Link>
-                )}
-              </div>
             </div>
             <div className={styles.infoContent}>
               <div>
-                <h3>{handlingUserInfo.username}</h3>
+                <h3>{handlingUserInfo.username} </h3>
+                {userInfo.username === match.params.username && (
+                  <Link to="/settings">
+                    <img src={changeUsernameIcon} alt="Change username" />
+                  </Link>
+                )}
               </div>
               <div>
                 <span>Họ và tên:</span> {handlingUserInfo.fullName}
               </div>
               <div>
-                <span>Ngày sinh:</span> {handlingUserInfo.dateOfBirth}
-              </div>
-              <div>
-                <span>Trường học:</span> {handlingUserInfo.schoolName}
-              </div>
-              <div>
-                <span>Email liên lạc:</span> {handlingUserInfo.email}
-              </div>
-              <div>
-                <span>Bio:</span> {handlingUserInfo.bio}
+                <span>Trường:</span> {handlingUserInfo.schoolName}
               </div>
             </div>
           </div>
@@ -119,7 +105,7 @@ function ProfilePage({ match }) {
       </div>
     </div>
   ) : apiState.progress === API_PROGRESS.FAILED && apiState.code === 2001 ? (
-    <ErrorContent content="User not found!" />
+    <ErrorContent content="Thí sinh không tồn tại!" />
   ) : apiState.progress === API_PROGRESS.FAILED ? (
     <ErrorContent content={getErrorMessage(apiState)} />
   ) : (

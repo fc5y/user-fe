@@ -17,7 +17,6 @@ import Skeleton from 'src/app/common-ui/Skeleton';
 // Contants
 import { TB_CONFIG } from './config';
 import { ROUTE_CONTEST } from 'src/app/routes/constants';
-import { API_PROGRESS } from 'src/shared/constants';
 
 // Styles
 const ContestTitle = styled.h1`
@@ -30,11 +29,6 @@ const ContestTitle = styled.h1`
 let totalContests = 0;
 
 function ParticipatedContests({ username }) {
-  const [apiState, setApiState] = useState({
-    progress: API_PROGRESS.INIT,
-    code: null,
-    msg: null,
-  });
   const [tableConfig, setTableConfig] = useState(TB_CONFIG);
   const [currentPage, setCurrentPage] = useState(1);
   const [currentPageSize, setCurrentPageSize] = useState(10);
@@ -42,9 +36,9 @@ function ParticipatedContests({ username }) {
 
   // Helper function to format table data
   const formatTableData = (data) => {
-    return data.map((d) => {
+    return data.map((d, i) => {
       return {
-        line: 1,
+        index: i + 1 + (currentPage - 1) * currentPageSize,
         contestName: (
           <ContestTitle
             onClick={() => history.push(makeUrl(ROUTE_CONTEST, { contestName: d.contest_name }))}
@@ -52,33 +46,36 @@ function ParticipatedContests({ username }) {
             {d.contest_title || ''}
           </ContestTitle>
         ),
-        ranking: parseInt(d.rank_in_contest, 10),
-        rating: parseInt(d.rating, 10),
+        ranking: `${d.rank_in_contest}/${d.contest_total_participations}`,
+        rating: (
+          <>
+            {d.rating}
+            <span
+              className={parseInt(d.rating_change, 10) < 0 ? styles.ratingRed : styles.ratingGreen}
+            >
+              ({d.rating_change})
+            </span>
+          </>
+        ),
       };
     });
   };
 
   useEffect(() => {
-    setApiState({
-      progress: API_PROGRESS.REQ,
+    apiGetParticipations({
+      username,
+      offset: (currentPage - 1) * currentPageSize,
+      limit: currentPageSize,
+    }).then((res) => {
+      totalContests = res.data.total;
+      setTableConfig({ ...tableConfig, data: formatTableData(res.data.participations) });
     });
-    apiGetParticipations({ username }).then(
-      (res) => {
-        // Don't forget to handle errors
-        totalContests = res.data.total;
-        setTableConfig({ ...tableConfig, data: formatTableData(res.data.participations) });
-      },
-      [currentPageSize, currentPage],
-    );
-  });
+  }, [currentPageSize, currentPage]);
 
   return (
     <Table
-      border
       background
       config={tableConfig}
-      Skeleton={false}
-      isAddingNewRows={false}
       pageSize={{
         rowPerPageText: 'kỳ thi/trang',
         onClickRowPerPage: (size) => {

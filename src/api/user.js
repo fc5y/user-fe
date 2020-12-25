@@ -37,10 +37,6 @@ export function apiUpdateUserInfo({ fullname, school, token }) {
   );
 }
 
-// export function apiGetParticipations({ token, username, offset, limit }) {
-// return get(`/api/v1/participations/${username}?offset=${offset}}&limit=${limit}`, {
-export function apiGetParticipations({ token }) {
-  return get('https://my-json-server.typicode.com/upi05/mock_API_for_Fc5y/participations', {
-    Authorization: `Bearer ${token}`,
-  });
+export function apiGetParticipations({ username, offset, limit }) {
+  return get(`/api/v1/participations/${username}?offset=${offset}}&limit=${limit}`, {});
 }

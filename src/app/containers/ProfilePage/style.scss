@@ -6,9 +6,9 @@
     width: 100%;
   }
   .content {
-    width: 1200px;
+    width: 900px;
     margin: 48px auto;
-    padding: 26px 24px 10px 46px;
+    padding: 36px;
     box-shadow: 0px 0px 12px rgba(188, 188, 188, 0.25);
     border-radius: 4px;
     background-color: white;
@@ -22,62 +22,57 @@
     display: flex;
     width: 100%;
     height: auto;
+    margin-bottom: 48px;
   }
   .personalInfo {
-    width: 708px;
+    width: 560px;
     height:auto;
-    margin-right: 135px;
     display: flex;
-    margin-top: 27px;
   }
   .avatar {
-    margin-top: 10px;
-    width: 208px;
-    height: 248px;
+    width: 118px;
+    height: 148px;
     display: flex;
     flex-direction: column;
     .ava {
-      width: 208px;
-      height: 208px;
+      width: 118px;
+      height: 118;
       img {
         width: 100%;
         height: 100%;
         border-radius: 50%;
       }
     }
-    .changeAvatar {
-      width: 208px;
-      text-align: center;
-      padding-top: 20px;
-      color: #076DAF;
-    }
   }
   .infoContent {
-    width: 500px;
+    margin-top: 10px;
+    width: 420px;
     height: auto;
     display: flex;
     flex-direction: column;
-    padding: 0px 0px 20px 33px;
+    padding: 0px 0px 20px 10px;
     h3 {
       font-size: 24px;
       font-weight: 600;
       line-height: 30px;
       color: black;
       font-style: normal;
-      margin-bottom: 11px;
+      display: inline;
     }
     span {
       color: black;
-      margin-right: 28px;
+      font-size: 16px;
+      font-weight: 700;
+      line-height: 25px;
     }
     div {
-      margin-bottom: 26px;
+      margin-bottom: 6px;
       width: 467px;
     }
   }
   .point {
     width: 290px;
-    height: 353px;
+    padding-top: 19px;
     display: flex;
   }
   .rankingAndRating {
