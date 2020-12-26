@@ -26,7 +26,7 @@
   }
   .personalInfo {
     width: 560px;
-    height:auto;
+    height: auto;
     display: flex;
   }
   .avatar {
@@ -51,24 +51,24 @@
     display: flex;
     flex-direction: column;
     padding: 0px 0px 20px 10px;
-    h3 {
-      font-size: 24px;
-      font-weight: 600;
-      line-height: 30px;
-      color: black;
-      font-style: normal;
-      display: inline;
-    }
-    span {
-      color: black;
-      font-size: 16px;
-      font-weight: 700;
-      line-height: 25px;
-    }
-    div {
-      margin-bottom: 6px;
-      width: 467px;
-    }
+  }
+  .infoContentSpan {
+    color: black;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 25px;
+  }
+  .infoContentHeading {
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 30px;
+    color: black;
+    font-style: normal;
+    display: inline;
+  }
+  .insideInfoContentDiv {
+    margin-bottom: 6px;
+    width: 467px;
   }
   .point {
     width: 290px;
@@ -92,7 +92,7 @@
     padding-top: 6px;
     font-size: 16px;
     line-height: 20px;
-    color: #1C83C6;
+    color: #1c83c6;
   }
   .rankingScore {
     width: 100%;
@@ -108,6 +108,6 @@
     padding-top: 2px;
     font-size: 34px;
     line-height: 43px;
-    color: #EB5757;
+    color: #eb5757;
   }
 }

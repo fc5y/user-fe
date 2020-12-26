@@ -11,22 +11,21 @@ import changeUsernameIcon from 'assets/images/changeUsernameIcon.png';
 // Components
 import ParticipatedContests from 'src/app/components/ParticipatedContests';
 import Loading from 'src/app/common-ui/Loading';
-import ErrorContent from 'src/app/common-ui/ErrorContent';
-
-// import ErrorContent from '';
+import ErrorContent from './components/ErrorContent';
 
 // Constants
 import { API_PROGRESS } from 'src/shared/constants';
+import { ROUTE_SETTINGS } from 'src/app/routes/constants';
 
 // Utils
 import { UserInfoContext } from 'src/shared/context/UserInfo';
 import { getErrorMessage } from 'src/utils/getErrorMessage';
 
 // Apis
-import { apiGetMyUserInfo, apiGetUserInfo } from 'src/api/index';
+import { apiGetUserInfo } from 'src/api/index';
 
 function ProfilePage({ match }) {
-  const { userInfo, setUserInfo } = useContext(UserInfoContext);
+  const { userInfo } = useContext(UserInfoContext);
   const [apiState, setApiState] = useState({
     progress: API_PROGRESS.INIT,
     code: null,
@@ -36,8 +35,8 @@ function ProfilePage({ match }) {
     username: '',
     fullName: '',
     schoolName: '',
-    ranking: '',
-    rating: '',
+    ranking: '—',
+    rating: '—',
   });
 
   useEffect(() => {
@@ -51,8 +50,8 @@ function ProfilePage({ match }) {
           username: data.user.username || '',
           fullName: data.user.full_name || '',
           schoolName: data.user.school_name || '',
-          ranking: 'NONE',
-          rating: 'NONE',
+          ranking: '—',
+          rating: '—',
         });
         setApiState({ progress: API_PROGRESS.SUCCESS, code, msg });
       }
@@ -74,19 +73,21 @@ function ProfilePage({ match }) {
               </div>
             </div>
             <div className={styles.infoContent}>
-              <div>
-                <h3>{handlingUserInfo.username} </h3>
+              <div className={styles.insideInfoContentDiv}>
+                <h3 className={styles.infoContentHeading}>{handlingUserInfo.username} </h3>
                 {userInfo.username === match.params.username && (
-                  <Link to="/settings">
+                  <Link to={ROUTE_SETTINGS}>
                     <img src={changeUsernameIcon} alt="Change username" />
                   </Link>
                 )}
               </div>
-              <div>
-                <span>Họ và tên:</span> {handlingUserInfo.fullName}
+              <div className={styles.insideInfoContentDiv}>
+                <span className={styles.infoContentSpan}>Họ và tên:</span>{' '}
+                {handlingUserInfo.fullName}
               </div>
-              <div>
-                <span>Trường:</span> {handlingUserInfo.schoolName}
+              <div className={styles.insideInfoContentDiv}>
+                <span className={styles.infoContentSpan}>Trường:</span>{' '}
+                {handlingUserInfo.schoolName}
               </div>
             </div>
           </div>
@@ -101,7 +102,7 @@ function ProfilePage({ match }) {
             </div>
           </div>
         </div>
-        <ParticipatedContests username={match.params.username} />
+        <ParticipatedContests username={match.params.username} rating={userInfo.rating} />
       </div>
     </div>
   ) : apiState.progress === API_PROGRESS.FAILED && apiState.code === 2001 ? (

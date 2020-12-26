@@ -12,7 +12,6 @@ import styled from 'styled-components';
 
 // Apis
 import { apiGetParticipations } from 'src/api';
-import Skeleton from 'src/app/common-ui/Skeleton';
 
 // Contants
 import { TB_CONFIG } from './config';
@@ -26,14 +25,12 @@ const ContestTitle = styled.h1`
   cursor: pointer;
 `;
 
-let totalContests = 0;
-
-function ParticipatedContests({ username }) {
+function ParticipatedContests({ username, rating }) {
   const [tableConfig, setTableConfig] = useState(TB_CONFIG);
   const [currentPage, setCurrentPage] = useState(1);
   const [currentPageSize, setCurrentPageSize] = useState(10);
   const history = useHistory();
-
+  const [totalContests, setTotalContests] = useState(0);
   // Helper function to format table data
   const formatTableData = (data) => {
     return data.map((d, i) => {
@@ -46,17 +43,24 @@ function ParticipatedContests({ username }) {
             {d.contest_title || ''}
           </ContestTitle>
         ),
-        ranking: `${d.rank_in_contest}/${d.contest_total_participations}`,
-        rating: (
-          <>
-            {d.rating}
-            <span
-              className={parseInt(d.rating_change, 10) < 0 ? styles.ratingRed : styles.ratingGreen}
-            >
-              ({d.rating_change})
-            </span>
-          </>
-        ),
+        ranking: `${
+          rating === '—' || rating === null || rating === undefined ? '–' : d.rank_in_contest
+        }/${d.contest_total_participations}`,
+        rating:
+          rating === '—' || rating === null || rating === undefined ? (
+            '–'
+          ) : (
+            <>
+              {d.rating}
+              <span
+                className={
+                  parseInt(d.rating_change, 10) < 0 ? styles.ratingRed : styles.ratingGreen
+                }
+              >
+                ({d.rating_change})
+              </span>
+            </>
+          ),
       };
     });
   };
@@ -67,7 +71,7 @@ function ParticipatedContests({ username }) {
       offset: (currentPage - 1) * currentPageSize,
       limit: currentPageSize,
     }).then((res) => {
-      totalContests = res.data.total;
+      setTotalContests(res.data.total);
       setTableConfig({ ...tableConfig, data: formatTableData(res.data.participations) });
     });
   }, [currentPageSize, currentPage]);
@@ -91,6 +95,7 @@ function ParticipatedContests({ username }) {
 }
 ParticipatedContests.propTypes = {
   username: PropTypes.any,
+  rating: PropTypes.any,
 };
 
 export default ParticipatedContests;
