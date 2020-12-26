@@ -16,6 +16,7 @@ import ContestRegister from '../containers/Contests/ContestRegister';
 import ChangePasswordPage from '../containers/ChangePassword';
 import RankingPage from '../containers/RankingPage';
 import SettingsPage from '../containers/SettingsPage';
+import PolicyPage from '../containers/PolicyPage';
 
 const ROUTES_CONFIG = [
   /**
@@ -108,6 +109,14 @@ const ROUTES_CONFIG = [
     path: ROUTES.ROUTE_RANKING,
     exact: true,
     component: RankingPage,
+  },
+  /**
+   * POLICY REGION
+   */
+  {
+    path: ROUTES.ROUTE_POLICY,
+    exact: true,
+    component: PolicyPage,
   },
   {
     path: '*',

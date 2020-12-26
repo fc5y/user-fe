@@ -24,3 +24,6 @@ export const ROUTE_SETTINGS = '/settings';
 
 // Ranking
 export const ROUTE_RANKING = '/ranking';
+
+// Policy
+export const ROUTE_POLICY = '/policy';
