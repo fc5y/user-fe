@@ -1,6 +1,5 @@
 import { get, post } from '../utils/fetchUtils';
 import { objectToQuery } from '../utils/query';
-import { resContestGetAll, resContestGet } from '../mock/mockContests';
 
 export function apiGetContestInfo({ contestName }) {
   // return resContestGet({ contestName });

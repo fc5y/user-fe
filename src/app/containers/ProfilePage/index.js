@@ -6,7 +6,7 @@ import styles from './style.scss';
 
 // Images
 import img from 'assets/images/avatar.png';
-import changeUsernameIcon from 'assets/images/changeUsernameIcon.png';
+import IconEdit from 'src/app/common-ui/Icons/IconEdit';
 
 // Components
 import ParticipatedContests from 'src/app/components/ParticipatedContests';
@@ -77,7 +77,7 @@ function ProfilePage({ match }) {
                 <h3 className={styles.infoContentHeading}>{handlingUserInfo.username} </h3>
                 {userInfo.username === match.params.username && (
                   <Link to={ROUTE_SETTINGS}>
-                    <img src={changeUsernameIcon} alt="Change username" />
+                    <IconEdit />
                   </Link>
                 )}
               </div>
