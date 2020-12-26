@@ -109,6 +109,9 @@ export default function Right() {
             <IconCaretDown />
           </UsernameAndDropdownIcon>
           <Dropdown>
+            <DropdownItem onClick={() => history.push(`/users/${userInfo.username}`)}>
+              Trang cá nhân
+            </DropdownItem>
             <DropdownItem onClick={() => history.push('/settings')}>Cài đặt</DropdownItem>
             <DropdownItem onClick={() => history.push('/change-password')}>
               Thay đổi mật khẩu

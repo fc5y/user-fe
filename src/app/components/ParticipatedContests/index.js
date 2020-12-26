@@ -1,117 +1,101 @@
 import React, { useState, useEffect } from 'react';
 import styles from './style.scss';
-import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { useHistory } from 'react-router-dom';
 
-import { get } from 'src/utils/fetchUtils';
+// Components
+import Table from 'src/app/common-ui/Table';
 
-const pastContestsPerPage = 10;
-let numberOfContests = 0;
+// Utils
+import { makeUrl } from 'src/utils/url';
+import styled from 'styled-components';
 
-// This function lets us know the range of less than 6 indexes, denoting the pages next to that one users 're handling. In which, the page user 're handling is in the middle.
-function splitPages(numberOfItems, itemsPerPage, page) {
-  if (Math.ceil(numberOfItems / itemsPerPage) <= 5) {
-    return [1, Math.ceil(numberOfItems / itemsPerPage)];
-  } else {
-    const [first, last] = [1, Math.ceil(numberOfItems / itemsPerPage)];
-    let [from, to] = [page - 2, page + 2];
-    if (to > last) {
-      from -= to - last;
-      to = last;
-    } else if (from < first) {
-      to += first - from;
-      from = first;
-    }
-    return [from, to];
-  }
-}
+// Apis
+import { apiGetParticipations } from 'src/api';
 
-function ParticipatedContests({ token, username }) {
-  const [page, setPage] = useState(1);
-  const [pastContests, setPastContests] = useState([]);
-  useEffect(() => {
-    get(
-      /*
-      `https://test.api.freecontest.net/api/v1/participations?username=${username}&offset=${
-        (page - 1) * pastContestsPerPage
-      }&limit=${pastContestsPerPage}`, */
-      'https://my-json-server.typicode.com/upi05/mock_API_for_Fc5y/participations',
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      },
-      true,
-    ).then((res) => {
-      // Don't forget to handle errors
-      numberOfContests = res.data.data.total;
-      setPastContests(res.data.data.participations);
-    });
-  }, []);
+// Contants
+import { TB_CONFIG } from './config';
+import { ROUTE_CONTEST } from 'src/app/routes/constants';
 
-  const trList = pastContests.map((contest) => (
-    <tr className={styles.rowContest} key={contest.id}>
-      <th className={styles.tableNumber}>{contest.id}</th>
-      <th className={styles.tableContest}>
-        <Link to={`/contest/${contest.id}`}>{contest.contest_title}</Link>
-      </th>
-      <th className={styles.tableRanking}>
-        {contest.rank_in_contest}/{contest.contest_total_participations}
-      </th>
-      <th className={styles.tableRating}>
-        {contest.rating}
-        <span className={contest.rating_change < 0 ? styles.ratingRed : styles.ratingGreen}>
-          ({contest.rating_change})
-        </span>
-      </th>
-    </tr>
-  ));
+// Styles
+const ContestTitle = styled.h1`
+  font-weight: 700;
+  font-size: 16px;
+  color: var(--primary-default);
+  cursor: pointer;
+`;
 
-  // Generate pages number, need to be modified
-  const pagesList = [];
-  const [from, to] = splitPages(numberOfContests, pastContestsPerPage, page);
-  for (let i = from; i <= to; i += 1) pagesList.push(i);
-  return (
-    <div className={styles.pastContest}>
-      <div className={styles.pastContestTitle}>Các kỳ thi đã đăng ký</div>
-      <div className={styles.pastContestContent}>
-        <table>
-          <tbody>
-            <tr>
-              <th className={styles.tableNumber}>#</th>
-              <th className={styles.tableContest}>Kỳ thi</th>
-              <th className={styles.tableRanking}>Thứ hạng</th>
-              <th className={styles.tableRating}>Rating</th>
-            </tr>
-            {trList}
-          </tbody>
-        </table>
-      </div>
-      <div className={styles.pastContestPage}>
-        <span>
-          <strong>Trang</strong>
-          {pagesList[0] !== 1 && <strong>...</strong>}
-          <span>
-            {pagesList.map((index) => (
-              <strong
-                key={index}
-                className={page === index && styles.indexOfHandlingPage}
-                onClick={() => setPage(index)}
+function ParticipatedContests({ username, rating }) {
+  const [tableConfig, setTableConfig] = useState(TB_CONFIG);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPageSize, setCurrentPageSize] = useState(10);
+  const history = useHistory();
+  const [totalContests, setTotalContests] = useState(0);
+  // Helper function to format table data
+  const formatTableData = (data) => {
+    return data.map((d, i) => {
+      return {
+        index: i + 1 + (currentPage - 1) * currentPageSize,
+        contestName: (
+          <ContestTitle
+            onClick={() => history.push(makeUrl(ROUTE_CONTEST, { contestName: d.contest_name }))}
+          >
+            {d.contest_title || ''}
+          </ContestTitle>
+        ),
+        ranking: `${
+          rating === '—' || rating === null || rating === undefined ? '–' : d.rank_in_contest
+        }/${d.contest_total_participations}`,
+        rating:
+          rating === '—' || rating === null || rating === undefined ? (
+            '–'
+          ) : (
+            <>
+              {d.rating}
+              <span
+                className={
+                  parseInt(d.rating_change, 10) < 0 ? styles.ratingRed : styles.ratingGreen
+                }
               >
-                {index}
-              </strong>
-            ))}
-          </span>
-          {pagesList[pagesList.length - 1] !==
-            Math.ceil(pastContests.length / pastContestsPerPage) && <strong>...</strong>}
-        </span>
-      </div>
-    </div>
+                ({d.rating_change})
+              </span>
+            </>
+          ),
+      };
+    });
+  };
+
+  useEffect(() => {
+    apiGetParticipations({
+      username,
+      offset: (currentPage - 1) * currentPageSize,
+      limit: currentPageSize,
+    }).then((res) => {
+      setTotalContests(res.data.total);
+      setTableConfig({ ...tableConfig, data: formatTableData(res.data.participations) });
+    });
+  }, [currentPageSize, currentPage]);
+
+  return (
+    <Table
+      background
+      config={tableConfig}
+      pageSize={{
+        rowPerPageText: 'kỳ thi/trang',
+        onClickRowPerPage: (size) => {
+          setCurrentPageSize(size);
+        },
+      }}
+      pagination={{
+        numberOfPages: Math.ceil(totalContests / currentPageSize),
+        onClickPage: (num) => setCurrentPage(num),
+      }}
+    />
   );
 }
 ParticipatedContests.propTypes = {
-  token: PropTypes.any,
   username: PropTypes.any,
+  rating: PropTypes.any,
 };
 
 export default ParticipatedContests;
