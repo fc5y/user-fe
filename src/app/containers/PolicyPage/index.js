@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { Helmet } from 'react-helmet';
 import styled from 'styled-components';
 
 const Container = styled.div`
@@ -41,6 +42,9 @@ const Rule = styled.ul`
 export default function PolicyPage() {
   return (
     <Container>
+      <Helmet>
+        <title>Điều khoản sử dụng</title>
+      </Helmet>
       <Content>
         <Title>Điều khoản sử dụng</Title>
         <RuleField>
