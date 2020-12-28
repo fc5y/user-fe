@@ -13,6 +13,7 @@ export const API_ERROR = Object.freeze({
   EMAIL_EXISTED: 3003,
   INVALID_TOKEN: 3005,
   WRONG_CRED: 3006,
+  REQUIRE_ADMIN: 3202,
 
   // OTP
   OTP_INVALID: 3008,
@@ -25,6 +26,7 @@ export const API_ERROR = Object.freeze({
   CONTEST_NOT_FOUND: 2101,
   CONTEST_OVER: 3004,
   NOT_REGISTERED_YET: 3201,
+  NOT_SYNCED: 3202,
 
   /**
    * FE Errors
@@ -44,6 +46,7 @@ export const ERROR_MAP = Object.freeze({
   [API_ERROR.EMAIL_EXISTED]: 'Email đã được sử dụng.',
   [API_ERROR.USERNAME_EXISTED]: 'Tên đăng nhập đã được sử dụng.',
   [API_ERROR.INVALID_TOKEN]: 'Đã có lỗi xảy ra, vui lòng đăng nhập lại.',
+  [API_ERROR.REQUIRE_ADMIN]: 'Đã có lỗi xảy ra, vui lòng thử lại.',
 
   // OTP
   [API_ERROR.OTP_INVALID]: 'Mã xác nhận không đúng',
@@ -59,4 +62,5 @@ export const ERROR_MAP = Object.freeze({
   [API_ERROR.CONTEST_OVER]: 'Kỳ thi đã kết thúc.',
   [API_ERROR.CONTEST_NOT_STARTED]: 'Kỳ thi chưa cho phép vào thi.',
   [API_ERROR.NOT_REGISTERED_YET]: 'Bạn chưa đăng ký kỳ thi này.',
+  [API_ERROR.NOT_SYNCED]: 'Tài khoản của bạn đang được tạo. Vui lòng thử lại trong vài giây nữa.',
 });

@@ -21,7 +21,7 @@ import { apiGetContestCredential } from 'src/api';
 
 // Utils and constants
 import cx from 'classnames';
-import { API_PROGRESS, CONTEST_LINK } from 'src/shared/constants';
+import { API_PROGRESS, CONTEST_LINK, API_ERROR } from 'src/shared/constants';
 import { getErrorMessage } from 'src/utils/getErrorMessage';
 
 import styles from './enter.scss';
@@ -37,7 +37,6 @@ function EnterPage() {
   const [contestCredential, setContestCredential] = React.useState({
     username: '',
     password: '',
-    synced: null,
   });
 
   // Route params
@@ -77,7 +76,6 @@ function EnterPage() {
         setContestCredential({
           username: credApiData.contest_username,
           password: credApiData.contest_password,
-          synced: !!credApiData.synced,
         });
       }
     };
@@ -95,11 +93,10 @@ function EnterPage() {
       </Helmet>
       {(() => {
         switch (true) {
-          // Bypass the case where synced is null at inital loading
-          case contestCredential.synced === false:
+          case apiState.error === API_ERROR.NOT_SYNCED:
             return (
               <div className={styles.errorContainer}>
-                <WarningBox content="Tài khoản của bạn đang được tạo. Vui lòng thử lại trong vài giây nữa" />
+                <WarningBox content={getErrorMessage(apiState)} />
               </div>
             );
           case apiState.progress === API_PROGRESS.FAILED:
