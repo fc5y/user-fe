@@ -1,5 +1,5 @@
 import { get, post } from '../utils/fetchUtils';
-import { objectToQuery } from '../utils/query';
+import { objectToUrlQuery } from '../utils/url';
 
 export function apiGetContestInfo({ contestName }) {
   // return resContestGet({ contestName });
@@ -8,7 +8,7 @@ export function apiGetContestInfo({ contestName }) {
 
 export function apiGetAllContestsInfo({ offset, limit }) {
   // return resContestGetAll({ offset, limit });
-  return get(`/api/v1/contests${objectToQuery({ offset, limit })}`);
+  return get(`/api/v1/contests${objectToUrlQuery({ offset, limit })}`);
 }
 
 export function apiRegisterContest({ token, contestName }) {

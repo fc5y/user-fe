@@ -51,7 +51,49 @@ export const makeUrl = (route, options) => {
   if (typeof options !== 'object') return route;
   let formattedRoute = route;
   Object.keys(options).forEach((key) => {
-    formattedRoute = formattedRoute.replace(`:${key}`, options[key]);
+    formattedRoute = formattedRoute.replace(`:${key}`, encodeURIComponent(options[key]));
   });
   return formattedRoute;
+};
+
+/**
+ * Parse a query string into object
+ * @param {*} query
+ */
+export const parseUrlQuery = (query) => {
+  if (!query || !query.startsWith('?')) {
+    return {};
+  }
+
+  const res = {};
+  query
+    .slice(1)
+    .split('&')
+    .forEach((q) => {
+      if (!q || !q.includes('=')) return;
+
+      const [key, val] = q.split('=');
+      res[key] = decodeURIComponent(val);
+    });
+
+  return res;
+};
+
+/**
+ * Convert object to query string
+ * @param {obj} obj
+ */
+export const objectToUrlQuery = (obj) => {
+  if (!obj || typeof obj !== 'object' || Object.keys(obj).length === 0) {
+    return '';
+  }
+
+  let query = '?';
+  Object.keys(obj).forEach((k, idx) => {
+    if (obj[k] !== undefined) {
+      query += `${idx !== 0 ? '&' : ''}${k}=${encodeURIComponent(obj[k])}`;
+    }
+  });
+
+  return query;
 };
