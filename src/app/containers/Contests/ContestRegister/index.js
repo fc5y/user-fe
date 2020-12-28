@@ -9,6 +9,7 @@ import { useParams } from 'react-router-dom';
 
 // Context
 import { ContestInfoContext } from 'src/shared/context/ContestInfo';
+import { UserInfoContext } from 'src/shared/context/UserInfo';
 
 // Components
 import RegisterFrom from './components/RegisterForm';
@@ -22,6 +23,7 @@ import { getErrorMessage } from 'src/utils/getErrorMessage';
 
 function ContestRegister() {
   const { contestName } = useParams();
+  const { userInfo } = React.useContext(UserInfoContext);
   const { getContestInfoByName, contestInfo } = React.useContext(ContestInfoContext);
   const [apiState, setApiState] = React.useState({
     progress: API_PROGRESS.INIT,
@@ -32,7 +34,10 @@ function ContestRegister() {
   React.useEffect(() => {
     const fetchContestInfo = async () => {
       setApiState({ progress: API_PROGRESS.REQ });
-      const { code, msg, data } = await getContestInfoByName({ contestName });
+      const { code, msg, data } = await getContestInfoByName({
+        contestName,
+        token: userInfo.token,
+      });
 
       if (code || !data) {
         setApiState({
@@ -52,7 +57,7 @@ function ContestRegister() {
     };
 
     fetchContestInfo();
-  }, []);
+  }, [userInfo.token]);
 
   return (
     <>

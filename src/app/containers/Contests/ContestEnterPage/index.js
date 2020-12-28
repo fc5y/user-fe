@@ -48,7 +48,7 @@ function EnterPage() {
       setApiState({ progress: API_PROGRESS.REQ });
 
       // Get contest info
-      const { code, msg } = await getContestInfoByName({ contestName });
+      const { code, msg } = await getContestInfoByName({ contestName, token: userInfo.token });
 
       if (code) {
         setApiState({
@@ -83,7 +83,7 @@ function EnterPage() {
     };
 
     fetchInfo();
-  }, []);
+  }, [userInfo.token]);
 
   return (
     <>

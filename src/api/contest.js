@@ -1,9 +1,15 @@
 import { get, post } from '../utils/fetchUtils';
 import { objectToUrlQuery } from '../utils/url';
 
-export function apiGetContestInfo({ contestName }) {
+export function apiGetContestInfo({ contestName, token }) {
   // return resContestGet({ contestName });
-  return get(`/api/v1/contests/${contestName}`);
+  if (token) {
+    return get(`/api/v1/contests/${contestName}`, {
+      Authorization: `Bearer ${token}`,
+    });
+  } else {
+    return get(`/api/v1/contests/${contestName}`);
+  }
 }
 
 export function apiGetAllContestsInfo({ offset, limit, token }) {
