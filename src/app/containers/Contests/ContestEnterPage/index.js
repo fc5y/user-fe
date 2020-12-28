@@ -10,6 +10,7 @@ import { Helmet } from 'react-helmet';
 import Loading from 'src/app/common-ui/Loading';
 import { PrimaryButton } from 'src/app/common-ui/Button';
 import ErrorBox from 'src/app/common-ui/ErrorBox';
+import WarningBox from 'src/app/common-ui/WarningBox';
 
 // Contexts
 import { UserInfoContext } from 'src/shared/context/UserInfo';
@@ -36,6 +37,7 @@ function EnterPage() {
   const [contestCredential, setContestCredential] = React.useState({
     username: '',
     password: '',
+    synced: null,
   });
 
   // Route params
@@ -75,6 +77,7 @@ function EnterPage() {
         setContestCredential({
           username: credApiData.contest_username,
           password: credApiData.contest_password,
+          synced: !!credApiData.synced,
         });
       }
     };
@@ -91,14 +94,21 @@ function EnterPage() {
         </title>
       </Helmet>
       {(() => {
-        switch (apiState.progress) {
-          case API_PROGRESS.FAILED:
+        switch (true) {
+          // Bypass the case where synced is null at inital loading
+          case contestCredential.synced === false:
+            return (
+              <div className={styles.errorContainer}>
+                <WarningBox content="Tài khoản của bạn đang được tạo. Vui lòng thử lại trong vài giây nữa" />
+              </div>
+            );
+          case apiState.progress === API_PROGRESS.FAILED:
             return (
               <div className={styles.errorContainer}>
                 <ErrorBox content={getErrorMessage(apiState)} />
               </div>
             );
-          case API_PROGRESS.SUCCESS:
+          case apiState.progress === API_PROGRESS.SUCCESS:
             return (
               <div className={styles.container}>
                 <div className={styles.title}>Vào Thi</div>
