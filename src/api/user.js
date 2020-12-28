@@ -38,5 +38,5 @@ export function apiUpdateUserInfo({ fullname, school, token }) {
 }
 
 export function apiGetParticipations({ username, offset, limit }) {
-  return get(`/api/v1/participations/${username}?offset=${offset}}&limit=${limit}`, {});
+  return get(`/api/v1/participations/${username}?offset=${offset}&limit=${limit}`, {});
 }
