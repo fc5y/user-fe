@@ -66,8 +66,15 @@ const labels = {
   ),
 };
 
-function EnterScreen({ onSubmitForm }) {
-  const [values, setValues] = React.useState({});
+function EnterScreen({ onSubmitForm, userInput }) {
+  const [values, setValues] = React.useState({
+    fullname: userInput.fullname || '',
+    email: userInput.email || '',
+    username: userInput.username || '',
+    password: userInput.password || '',
+    confirmPassword: userInput.confirmPassword || '',
+    school: userInput.school || '',
+  });
   const [errors, setErrors] = React.useState({});
   const [apiState, setApiState] = React.useState({
     progress: API_PROGRESS.INIT,
@@ -154,6 +161,7 @@ function EnterScreen({ onSubmitForm }) {
 
 EnterScreen.propTypes = {
   onSubmitForm: PropTypes.func,
+  userInput: PropTypes.object,
 };
 
 export default EnterScreen;
