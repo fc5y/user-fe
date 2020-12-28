@@ -24,6 +24,7 @@ import { convertTZ } from 'src/utils/time';
  * // Function
  * getContestInfoByName: async () => {}
  * getAllContestInfo: async () => {}
+ * clearAllContestInfo: () => {}
  */
 export const ContestInfoContext = React.createContext({
   contests: [],
@@ -34,6 +35,8 @@ export const ContestInfoContext = React.createContext({
   contestServerTime: Date.now() / 1000,
   getContestInfoByName: async ({ contestName }) => {},
   getAllContestInfo: async ({ offset, limit }) => {},
+  clearAllContestInfo: () => {},
+  clearAllParticipations: () => {},
 });
 
 export function ContestInfoProvider({ children }) {
@@ -99,6 +102,20 @@ export function ContestInfoProvider({ children }) {
     return { code, data };
   };
 
+  const clearAllContestInfo = () => {
+    setContests([]);
+    setContestInfo({});
+    setMyParticipations([]);
+    setMyParticipationMap({});
+    setTotalContests(0);
+    setContestServerTime(convertTZ(new Date()).time.getTime() / 1000);
+  };
+
+  const clearAllParticipations = () => {
+    setMyParticipations([]);
+    setMyParticipationMap({});
+  };
+
   return (
     <ContestInfoContext.Provider
       value={{
@@ -112,6 +129,8 @@ export function ContestInfoProvider({ children }) {
         // function
         getContestInfoByName,
         getAllContestInfo,
+        clearAllContestInfo,
+        clearAllParticipations,
       }}
     >
       <>{children}</>

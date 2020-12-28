@@ -1,7 +1,11 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import { Link, useHistory } from 'react-router-dom';
+
+// Context
+import { ContestInfoContext } from 'src/shared/context/ContestInfo';
 import { UserInfoContext } from 'src/shared/context/UserInfo';
+
 import IconCaretDown from 'src/app/common-ui/Icons/IconCaretDown';
 
 const Container = styled.div`
@@ -96,6 +100,7 @@ const Username = styled.div`
 
 export default function Right() {
   const { userInfo, clearUserInfo } = React.useContext(UserInfoContext);
+  const { clearAllParticipations } = React.useContext(ContestInfoContext);
   const history = useHistory();
 
   return (
@@ -116,7 +121,14 @@ export default function Right() {
             <DropdownItem onClick={() => history.push('/change-password')}>
               Thay đổi mật khẩu
             </DropdownItem>
-            <DropdownItem onClick={() => clearUserInfo()}>Đăng xuất</DropdownItem>
+            <DropdownItem
+              onClick={() => {
+                clearAllParticipations();
+                clearUserInfo();
+              }}
+            >
+              Đăng xuất
+            </DropdownItem>
           </Dropdown>
         </StyleLinkAndDropdownContainer>
       ) : (
