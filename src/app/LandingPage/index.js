@@ -1,5 +1,6 @@
 /* eslint-disable react/prop-types */
 import * as React from 'react';
+import Helmet from 'react-helmet';
 import styled from 'styled-components';
 import Clock from './Clock';
 import IconFC from 'src/app/common-ui/Icons/IconFC';
@@ -74,6 +75,9 @@ const ClockContainer = styled.div`
 function LandingPage({ serverTime }) {
   return (
     <Container>
+      <Helmet>
+        <title>Free Contest</title>
+      </Helmet>
       <IconWrapper>
         <Icon fill="#1c83c6" />
       </IconWrapper>
