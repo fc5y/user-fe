@@ -19,7 +19,6 @@ import { convertTZ } from 'src/utils/time';
  * myParticipationMap: { // Store my participation info by mapping contest name
  *  [contestName]: <data>,
  * },
- * myParticipations: [], // Store my participation info by array (keep order purpose)
  *
  * // Function
  * getContestInfoByName: async () => {}
@@ -29,7 +28,6 @@ import { convertTZ } from 'src/utils/time';
 export const ContestInfoContext = React.createContext({
   contests: [],
   contestInfo: {},
-  myParticipations: [],
   myParticipationMap: {},
   totalContests: 0,
   contestServerTime: Date.now() / 1000,
@@ -42,7 +40,6 @@ export const ContestInfoContext = React.createContext({
 export function ContestInfoProvider({ children }) {
   const [contests, setContests] = React.useState([]);
   const [contestInfo, setContestInfo] = React.useState({});
-  const [myParticipations, setMyParticipations] = React.useState([]);
   const [myParticipationMap, setMyParticipationMap] = React.useState({});
   const [totalContests, setTotalContests] = React.useState(0);
   const [contestServerTime, setContestServerTime] = React.useState(
@@ -94,7 +91,6 @@ export function ContestInfoProvider({ children }) {
         (data.my_participations || []).forEach((p) => {
           newParticipationMap[p.contest_name] = p;
         });
-        setMyParticipations(data.my_participations);
         setMyParticipationMap(newParticipationMap);
       }
     }
@@ -105,14 +101,12 @@ export function ContestInfoProvider({ children }) {
   const clearAllContestInfo = () => {
     setContests([]);
     setContestInfo({});
-    setMyParticipations([]);
     setMyParticipationMap({});
     setTotalContests(0);
     setContestServerTime(convertTZ(new Date()).time.getTime() / 1000);
   };
 
   const clearAllParticipations = () => {
-    setMyParticipations([]);
     setMyParticipationMap({});
   };
 
@@ -122,7 +116,6 @@ export function ContestInfoProvider({ children }) {
         // info
         contests,
         contestInfo,
-        myParticipations,
         myParticipationMap,
         totalContests,
         contestServerTime,
