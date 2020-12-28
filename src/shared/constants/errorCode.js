@@ -6,12 +6,12 @@ export const API_ERROR = Object.freeze({
   SYSTEM_ERROR: 4002,
   DATABASE_ERROR: 4001,
   INVALID_ENDPOINT: 1006,
-  INVALID_TOKEN: 3005,
   VALIDATION_ERRORS: 1009,
 
   // Auth
   USERNAME_EXISTED: 3002,
   EMAIL_EXISTED: 3003,
+  INVALID_TOKEN: 3005,
   WRONG_CRED: 3006,
   OTP_INVALID: 3008,
   OTP_EXPIRED: 3009,
@@ -32,8 +32,8 @@ export const ERROR_MAP = Object.freeze({
   [API_ERROR.SYSTEM_ERROR]: 'Đã có lỗi xảy ra, vui lòng thử lại.',
   [API_ERROR.DATABASE_ERROR]: 'Đã có lỗi xảy ra, vui lòng thử lại.',
   [API_ERROR.INVALID_ENDPOINT]: 'Đã có lỗi xảy ra, vui lòng thử lại.',
-  [API_ERROR.INVALID_TOKEN]: 'Đã có lỗi xảy ra, vui lòng thử lại.',
   [API_ERROR.VALIDATION_ERRORS]: 'Đã có lỗi xảy ra, vui lòng thử lại.',
+  [API_ERROR.INVALID_TOKEN]: 'Đã có lỗi xảy ra, vui lòng đăng nhập lại.',
 
   // Auth
   [API_ERROR.WRONG_CRED]: 'Tên đăng nhập/email hoặc mật khẩu không hợp lệ. Vui lòng thử lại.',
