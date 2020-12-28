@@ -19,7 +19,7 @@ import { ErrorPopup, WarningPopup } from '../../common-ui/Popup';
 
 // Constants and utils
 import { validate } from './validators';
-import { parseQuery } from 'src/utils/query';
+import { parseUrlQuery } from 'src/utils/url';
 import { ROUTE_SIGNUP } from 'src/app/routes/constants';
 import { getErrorMessage } from 'src/utils/getErrorMessage';
 import { API_PROGRESS, FORGET_PASSWORD_HELP } from 'src/shared/constants';
@@ -56,7 +56,7 @@ function LoginPage({ history, location }) {
   });
 
   // Query object
-  const query = parseQuery(location.search);
+  const query = parseUrlQuery(location.search);
 
   // Handle onSubmit
   const handleSubmit = async (event) => {

@@ -18,13 +18,13 @@ function SignupPageFC5Y() {
   const [userInput, setUserInput] = React.useState({});
 
   const onSubmitForm = async (data) => {
-    setState(STATE.EMAIL_OTP);
     setUserInput(data);
+    setState(STATE.EMAIL_OTP);
   };
 
   switch (state) {
     case STATE.ENTER_INFO:
-      return <EnterScreen onSubmitForm={onSubmitForm} />;
+      return <EnterScreen onSubmitForm={onSubmitForm} userInput={userInput} />;
     case STATE.EMAIL_OTP:
       return (
         <EmailOTP

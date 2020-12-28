@@ -19,27 +19,27 @@ import { convertTZ } from 'src/utils/time';
  * myParticipationMap: { // Store my participation info by mapping contest name
  *  [contestName]: <data>,
  * },
- * myParticipations: [], // Store my participation info by array (keep order purpose)
  *
  * // Function
  * getContestInfoByName: async () => {}
  * getAllContestInfo: async () => {}
+ * clearAllContestInfo: () => {}
  */
 export const ContestInfoContext = React.createContext({
   contests: [],
   contestInfo: {},
-  myParticipations: [],
   myParticipationMap: {},
   totalContests: 0,
   contestServerTime: Date.now() / 1000,
   getContestInfoByName: async ({ contestName }) => {},
   getAllContestInfo: async ({ offset, limit }) => {},
+  clearAllContestInfo: () => {},
+  clearAllParticipations: () => {},
 });
 
 export function ContestInfoProvider({ children }) {
   const [contests, setContests] = React.useState([]);
   const [contestInfo, setContestInfo] = React.useState({});
-  const [myParticipations, setMyParticipations] = React.useState([]);
   const [myParticipationMap, setMyParticipationMap] = React.useState({});
   const [totalContests, setTotalContests] = React.useState(0);
   const [contestServerTime, setContestServerTime] = React.useState(
@@ -70,8 +70,8 @@ export function ContestInfoProvider({ children }) {
   };
 
   // Get all contests info
-  const getAllContestInfo = async ({ offset, limit }) => {
-    const { code, data } = await apiGetAllContestsInfo({ offset, limit });
+  const getAllContestInfo = async ({ offset, limit, token }) => {
+    const { code, data } = await apiGetAllContestsInfo({ offset, limit, token });
 
     // Save contest info if fetch successfully
     if (!code && data && data.contests) {
@@ -91,12 +91,23 @@ export function ContestInfoProvider({ children }) {
         (data.my_participations || []).forEach((p) => {
           newParticipationMap[p.contest_name] = p;
         });
-        setMyParticipations(data.my_participations);
         setMyParticipationMap(newParticipationMap);
       }
     }
 
     return { code, data };
+  };
+
+  const clearAllContestInfo = () => {
+    setContests([]);
+    setContestInfo({});
+    setMyParticipationMap({});
+    setTotalContests(0);
+    setContestServerTime(convertTZ(new Date()).time.getTime() / 1000);
+  };
+
+  const clearAllParticipations = () => {
+    setMyParticipationMap({});
   };
 
   return (
@@ -105,13 +116,14 @@ export function ContestInfoProvider({ children }) {
         // info
         contests,
         contestInfo,
-        myParticipations,
         myParticipationMap,
         totalContests,
         contestServerTime,
         // function
         getContestInfoByName,
         getAllContestInfo,
+        clearAllContestInfo,
+        clearAllParticipations,
       }}
     >
       <>{children}</>
