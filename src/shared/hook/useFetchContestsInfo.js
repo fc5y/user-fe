@@ -2,6 +2,7 @@ import * as React from 'react';
 
 // Context
 import { ContestInfoContext } from 'src/shared/context/ContestInfo';
+import { UserInfoContext } from 'src/shared/context/UserInfo';
 
 // Utils and constants
 import { categorizeContestTypes } from 'src/utils/contest';
@@ -20,13 +21,19 @@ function useFetchContestInfo({ limit, offset, forceFetch, onFetchCompleted }) {
   const { getAllContestInfo, totalContests, contests, contestServerTime } = React.useContext(
     ContestInfoContext,
   );
+  const { userInfo } = React.useContext(UserInfoContext);
 
   const fetchContestsInfo = async () => {
     setApiState({ progress: API_PROGRESS.REQ, code: null, msg: null });
-    const { code, data, msg } = await getAllContestInfo({
-      offset,
-      limit,
-    });
+
+    const params = userInfo.token
+      ? { token: userInfo.token, offset, limit }
+      : {
+          offset,
+          limit,
+        };
+
+    const { code, data, msg } = await getAllContestInfo(params);
 
     if (code || !data || !data.contests) {
       setApiState({ progress: API_PROGRESS.FAILED, code, msg });
@@ -47,7 +54,7 @@ function useFetchContestInfo({ limit, offset, forceFetch, onFetchCompleted }) {
   // Fetch new contests
   React.useEffect(() => {
     fetchContestsInfo();
-  }, [forceFetch]);
+  }, [forceFetch, userInfo.token]);
 
   // Get contests from old data and show first
   React.useEffect(() => {

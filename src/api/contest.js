@@ -6,9 +6,15 @@ export function apiGetContestInfo({ contestName }) {
   return get(`/api/v1/contests/${contestName}`);
 }
 
-export function apiGetAllContestsInfo({ offset, limit }) {
+export function apiGetAllContestsInfo({ offset, limit, token }) {
   // return resContestGetAll({ offset, limit });
-  return get(`/api/v1/contests${objectToUrlQuery({ offset, limit })}`);
+  if (token) {
+    return get(`/api/v1/contests${objectToUrlQuery({ offset, limit })}`, {
+      Authorization: `Bearer ${token}`,
+    });
+  } else {
+    return get(`/api/v1/contests${objectToUrlQuery({ offset, limit })}`);
+  }
 }
 
 export function apiRegisterContest({ token, contestName }) {

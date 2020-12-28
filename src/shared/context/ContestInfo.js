@@ -70,8 +70,8 @@ export function ContestInfoProvider({ children }) {
   };
 
   // Get all contests info
-  const getAllContestInfo = async ({ offset, limit }) => {
-    const { code, data } = await apiGetAllContestsInfo({ offset, limit });
+  const getAllContestInfo = async ({ offset, limit, token }) => {
+    const { code, data } = await apiGetAllContestsInfo({ offset, limit, token });
 
     // Save contest info if fetch successfully
     if (!code && data && data.contests) {
