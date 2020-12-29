@@ -31,7 +31,7 @@ export const ContestInfoContext = React.createContext({
   myParticipationMap: {},
   totalContests: 0,
   contestServerTime: Date.now() / 1000,
-  getContestInfoByName: async ({ contestName }) => {},
+  getContestInfoByName: async ({ contestName, token }) => {},
   getAllContestInfo: async ({ offset, limit }) => {},
   clearAllContestInfo: () => {},
   clearAllParticipations: () => {},
@@ -47,8 +47,8 @@ export function ContestInfoProvider({ children }) {
   );
 
   // Get contest info by contest name
-  const getContestInfoByName = async ({ contestName }) => {
-    const { code, data } = await apiGetContestInfo({ contestName });
+  const getContestInfoByName = async ({ contestName, token }) => {
+    const { code, data } = await apiGetContestInfo({ contestName, token });
 
     // Save contest info if fetch successfully
     if (!code && data && data.contest) {
