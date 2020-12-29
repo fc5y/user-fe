@@ -36,7 +36,7 @@ const ContainerWrapper = styled.div`
 
 const Container = styled.div`
   width: 650px;
-  margin-top: 30px;
+  margin-top: 48px;
   background-color: #fff;
   box-shadow: 0px 0px 12px rgba(188, 188, 188, 0.25);
   border-radius: 4px;
