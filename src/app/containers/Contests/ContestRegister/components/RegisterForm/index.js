@@ -133,6 +133,8 @@ function ContestRegister() {
     }
   };
 
+  const isRegistered = myParticipationMap && myParticipationMap[contestName];
+
   return (
     <Container>
       {apiState.progress === API_PROGRESS.REQ ? (
@@ -175,11 +177,8 @@ function ContestRegister() {
           valueWhenUnchecked=""
         />
         <Form.ButtonGroup>
-          <PrimaryButton
-            onClick={validateAndSubmit}
-            disabled={myParticipationMap && myParticipationMap[contestName]}
-          >
-            Đăng ký
+          <PrimaryButton onClick={validateAndSubmit} disabled={isRegistered}>
+            {isRegistered ? 'Đã đăng ký' : 'Đăng ký'}
           </PrimaryButton>
         </Form.ButtonGroup>
       </Form.Form>
