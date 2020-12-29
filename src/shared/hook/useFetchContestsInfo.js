@@ -38,7 +38,10 @@ function useFetchContestInfo({ limit, offset, forceFetch, onFetchCompleted }) {
     if (code || !data || !data.contests) {
       setApiState({ progress: API_PROGRESS.FAILED, code, msg });
     } else {
-      const sanitizedContests = categorizeContestTypes(data.contests, contestServerTime);
+      const sanitizedContests = categorizeContestTypes(
+        data.contests,
+        data.server_time || contestServerTime,
+      );
       setOnGoingContests(sanitizedContests.onGoingContests);
       setEndedContests(sanitizedContests.endedContests);
 

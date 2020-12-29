@@ -114,9 +114,9 @@ function MaterialButton({ materials, type, buttonWidth }) {
   return (
     <ButtonWrapper buttonWidth={buttonWidth}>
       {type === 'primary' ? (
-        <PrimaryDropDownButton dropList={dropList}>Xem tự liệu kỳ thi</PrimaryDropDownButton>
+        <PrimaryDropDownButton dropList={dropList}>Xem tư liệu kỳ thi</PrimaryDropDownButton>
       ) : (
-        <DropDownButton dropList={dropList}>Xem tự liệu kỳ thi</DropDownButton>
+        <DropDownButton dropList={dropList}>Xem tư liệu kỳ thi</DropDownButton>
       )}
     </ButtonWrapper>
   );
