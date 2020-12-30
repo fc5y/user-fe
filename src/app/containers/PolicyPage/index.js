@@ -3,7 +3,8 @@ import { Helmet } from 'react-helmet';
 import styled from 'styled-components';
 
 const Container = styled.div`
-  font-family: Noto Serif;
+  font-size 24px;
+  font-weight: 600;
   width: 720px;
   height auto;
   margin: 48px auto;
