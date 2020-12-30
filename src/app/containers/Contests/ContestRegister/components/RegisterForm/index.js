@@ -24,7 +24,7 @@ import { PrimaryButton } from 'src/app/common-ui/Button';
 import { ErrorPopup, SuccessPopup } from 'src/app/common-ui/Popup';
 
 // Constants
-import { ROUTE_CONTEST } from 'src/app/routes/constants';
+import { ROUTE_CONTEST, ROUTE_POLICY } from 'src/app/routes/constants';
 import { API_PROGRESS } from 'src/shared/constants';
 
 const Container = styled.div`
@@ -73,7 +73,7 @@ const labels = {
   isTermsAccepted: (
     <span>
       Tôi đã đọc và đồng ý với&nbsp;
-      <Link target="_blank" to="/policy">
+      <Link target="_blank" to={ROUTE_POLICY}>
         điều khoản của Free Contest
       </Link>
     </span>

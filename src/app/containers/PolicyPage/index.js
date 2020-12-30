@@ -3,8 +3,6 @@ import { Helmet } from 'react-helmet';
 import styled from 'styled-components';
 
 const Container = styled.div`
-  font-size 24px;
-  font-weight: 600;
   width: 720px;
   height auto;
   margin: 48px auto;
@@ -22,14 +20,15 @@ const Content = styled.div`
 const Title = styled.div`
   font-weight: 600;
   font-size: 48px;
-  line-height: 65px;
   text-align: center;
 
+  margin-bottom: 30px;
   color: var(--primary-dark);
 `;
 
 const RuleField = styled.div`
   font-size: 16px;
+  font-weight: 400;
   line-height: 25px;
   margin-top: 12px;
 
