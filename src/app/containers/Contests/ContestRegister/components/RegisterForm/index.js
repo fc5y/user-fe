@@ -73,8 +73,7 @@ const labels = {
   isTermsAccepted: (
     <span>
       Tôi đã đọc và đồng ý với&nbsp;
-      <Link target="_blank" to="/">
-        {/* TODO: fix link */}
+      <Link target="_blank" to="/policy">
         điều khoản của Free Contest
       </Link>
     </span>
