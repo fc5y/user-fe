@@ -150,7 +150,7 @@ function ContestDetail() {
           <ContestTime>{formatContestTime(contestInfo[contestName]).fullTimeWithUTC}</ContestTime>
           <ContestStatus
             status={status}
-            numberOfParticipants={contestInfo[contestName].total_participation}
+            numberOfParticipants={contestInfo[contestName].total_participations}
           />
           {(() => {
             switch (status) {

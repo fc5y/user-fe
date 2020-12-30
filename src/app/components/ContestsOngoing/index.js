@@ -86,7 +86,7 @@ function ContestsOnGoing({ isLoading, contests }) {
         ),
         day: startDate,
         hour: startAndEndTime,
-        numberOfParticipants: parseInt(d.total_participation, 10),
+        numberOfParticipants: parseInt(d.total_participations, 10),
         actions: (
           <ButtonWrapper>
             <ContestActionButton buttonWidth="200" contestInfo={d} />

@@ -114,7 +114,7 @@ function ContestsToday({ contests, isLoading }) {
               {d.contest_title}
             </ContestTitle>
             <ContestTime>{formatContestTime(d).fullTime}</ContestTime>
-            <ContestStatusText status={status} numberOfParticipants={d.total_participation} />
+            <ContestStatusText status={status} numberOfParticipants={d.total_participations} />
           </LeftInfo>
         ),
         actions: (

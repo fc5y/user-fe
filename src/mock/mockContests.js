@@ -97,7 +97,7 @@ const contests = [
       test_data_url: '',
     },
     start_time: Date.now() / 1000 + 60 * 60 * 5,
-    total_participation: 123,
+    total_participations: 123,
   },
   {
     can_enter: false,
@@ -113,7 +113,7 @@ const contests = [
       test_data_url: '',
     },
     start_time: Date.now() / 1000 + 10,
-    total_participation: 123,
+    total_participations: 123,
   },
   {
     can_enter: true,
@@ -129,7 +129,7 @@ const contests = [
       test_data_url: '',
     },
     start_time: Date.now() / 1000 + 10,
-    total_participation: 123,
+    total_participations: 123,
   },
   {
     can_enter: true,
@@ -145,7 +145,7 @@ const contests = [
       test_data_url: '',
     },
     start_time: Date.now() / 1000 - 10790,
-    total_participation: 134,
+    total_participations: 134,
   },
   {
     can_enter: false,
@@ -161,7 +161,7 @@ const contests = [
       test_data_url: '',
     },
     start_time: 1609414200,
-    total_participation: 245,
+    total_participations: 245,
   },
   {
     can_enter: false,
@@ -177,7 +177,7 @@ const contests = [
       test_data_url: '',
     },
     start_time: Date.now() / 1000 - 10805,
-    total_participation: 5000,
+    total_participations: 5000,
   },
   {
     can_enter: false,
@@ -193,7 +193,7 @@ const contests = [
       test_data_url: 'https://google.com',
     },
     start_time: Date.now() / 1000 - 20000,
-    total_participation: 5000,
+    total_participations: 5000,
   },
   {
     can_enter: false,
@@ -209,7 +209,7 @@ const contests = [
       test_data_url: '',
     },
     start_time: 1409414200,
-    total_participation: 0,
+    total_participations: 0,
   },
   {
     can_enter: false,
@@ -225,7 +225,7 @@ const contests = [
       test_data_url: '',
     },
     start_time: 1409414200,
-    total_participation: 0,
+    total_participations: 0,
   },
   {
     can_enter: false,
@@ -241,7 +241,7 @@ const contests = [
       test_data_url: '',
     },
     start_time: 1409414200,
-    total_participation: 0,
+    total_participations: 0,
   },
   {
     can_enter: false,
@@ -257,7 +257,7 @@ const contests = [
       test_data_url: '',
     },
     start_time: 1409414200,
-    total_participation: 0,
+    total_participations: 0,
   },
   {
     can_enter: false,
@@ -273,7 +273,7 @@ const contests = [
       test_data_url: '',
     },
     start_time: 1409414200,
-    total_participation: 0,
+    total_participations: 0,
   },
   {
     can_enter: false,
@@ -289,7 +289,7 @@ const contests = [
       test_data_url: '',
     },
     start_time: 1409414200,
-    total_participation: 0,
+    total_participations: 0,
   },
   {
     can_enter: false,
@@ -305,7 +305,7 @@ const contests = [
       test_data_url: '',
     },
     start_time: 1409414200,
-    total_participation: 0,
+    total_participations: 0,
   },
   {
     can_enter: false,
@@ -321,7 +321,7 @@ const contests = [
       test_data_url: '',
     },
     start_time: 1409414200,
-    total_participation: 0,
+    total_participations: 0,
   },
   {
     can_enter: false,
@@ -337,7 +337,7 @@ const contests = [
       test_data_url: '',
     },
     start_time: 1409414200,
-    total_participation: 0,
+    total_participations: 0,
   },
   {
     can_enter: false,
@@ -353,7 +353,7 @@ const contests = [
       test_data_url: '',
     },
     start_time: 1409414200,
-    total_participation: 0,
+    total_participations: 0,
   },
   {
     can_enter: false,
@@ -369,7 +369,7 @@ const contests = [
       test_data_url: '',
     },
     start_time: 1409414200,
-    total_participation: 0,
+    total_participations: 0,
   },
   {
     can_enter: false,
@@ -385,7 +385,7 @@ const contests = [
       test_data_url: '',
     },
     start_time: 1409414200,
-    total_participation: 0,
+    total_participations: 0,
   },
   {
     can_enter: false,
@@ -401,7 +401,7 @@ const contests = [
       test_data_url: '',
     },
     start_time: 1409414200,
-    total_participation: 0,
+    total_participations: 0,
   },
   {
     can_enter: false,
@@ -417,7 +417,7 @@ const contests = [
       test_data_url: '',
     },
     start_time: 1409414200,
-    total_participation: 0,
+    total_participations: 0,
   },
   {
     can_enter: false,
@@ -433,7 +433,7 @@ const contests = [
       test_data_url: '',
     },
     start_time: 1409414200,
-    total_participation: 0,
+    total_participations: 0,
   },
   {
     can_enter: false,
@@ -449,7 +449,7 @@ const contests = [
       test_data_url: '',
     },
     start_time: 1409414200,
-    total_participation: 0,
+    total_participations: 0,
   },
   {
     can_enter: false,
@@ -465,7 +465,7 @@ const contests = [
       test_data_url: '',
     },
     start_time: 1409414200,
-    total_participation: 0,
+    total_participations: 0,
   },
   {
     can_enter: false,
@@ -481,7 +481,7 @@ const contests = [
       test_data_url: '',
     },
     start_time: 1409414200,
-    total_participation: 0,
+    total_participations: 0,
   },
   {
     can_enter: false,
@@ -497,7 +497,7 @@ const contests = [
       test_data_url: '',
     },
     start_time: 1409414200,
-    total_participation: 0,
+    total_participations: 0,
   },
   {
     can_enter: false,
@@ -513,7 +513,7 @@ const contests = [
       test_data_url: '',
     },
     start_time: 1409414200,
-    total_participation: 0,
+    total_participations: 0,
   },
   {
     can_enter: false,
@@ -529,7 +529,7 @@ const contests = [
       test_data_url: '',
     },
     start_time: 1409414200,
-    total_participation: 0,
+    total_participations: 0,
   },
   {
     can_enter: false,
@@ -545,7 +545,7 @@ const contests = [
       test_data_url: '',
     },
     start_time: 1409414200,
-    total_participation: 0,
+    total_participations: 0,
   },
   {
     can_enter: false,
@@ -561,7 +561,7 @@ const contests = [
       test_data_url: '',
     },
     start_time: 1409414200,
-    total_participation: 0,
+    total_participations: 0,
   },
   {
     can_enter: false,
@@ -577,7 +577,7 @@ const contests = [
       test_data_url: '',
     },
     start_time: 1409414200,
-    total_participation: 0,
+    total_participations: 0,
   },
   {
     can_enter: false,
@@ -593,7 +593,7 @@ const contests = [
       test_data_url: '',
     },
     start_time: 1409414200,
-    total_participation: 0,
+    total_participations: 0,
   },
   {
     can_enter: false,
@@ -609,7 +609,7 @@ const contests = [
       test_data_url: '',
     },
     start_time: 1409414200,
-    total_participation: 0,
+    total_participations: 0,
   },
   {
     can_enter: false,
@@ -625,6 +625,6 @@ const contests = [
       test_data_url: '',
     },
     start_time: 1409414200,
-    total_participation: 0,
+    total_participations: 0,
   },
 ];
