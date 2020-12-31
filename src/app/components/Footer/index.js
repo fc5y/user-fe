@@ -6,7 +6,10 @@ import IconFacebook from 'src/app/common-ui/Icons/IconFacebook';
 import IconEmail from 'src/app/common-ui/Icons/IconEmail';
 import IconFC from 'src/app/common-ui/Icons/IconFC';
 
-import LinkField from './LinkField';
+// Constants
+import { ROUTE_POLICY, ROUTE_HELP } from 'src/app/routes/constants';
+
+import { LinkField, LinkFieldInternal } from './LinkField';
 
 const Containter = styled.div`
   position: relative;
@@ -58,11 +61,17 @@ export default function Footer() {
       <Content>
         <Left>
           <Title>Thông tin hữu ích</Title>
-          <LinkField content="Giới thiệu về Free Contest" link="/" />
-          <LinkField content="Các điều khoản" link="/" />
-          <LinkField content="Free Contest Info (2019-2020)" link="/" />
-          <LinkField content="Trang thông tin cũ (2015-2019)" link="/" />
-          <LinkField content="Hướng dẫn" link="/" />
+          <LinkField
+            content="Giới thiệu về Free Contest"
+            link="https://info.freecontest.xyz/gi%E1%BB%9Bi-thi%E1%BB%87u"
+          />
+          <LinkFieldInternal content="Các điều khoản" link={ROUTE_POLICY} />
+          <LinkField content="Free Contest Info (2019-2020)" link="https://info.freecontest.xyz/" />
+          <LinkField
+            content="Trang thông tin cũ (2015-2019)"
+            link="https://sites.google.com/site/kc97blf/"
+          />
+          <LinkFieldInternal content="Hướng dẫn" link={ROUTE_HELP} />
         </Left>
         <IconWrapper>
           <Icon fill="#1c83c6" />
