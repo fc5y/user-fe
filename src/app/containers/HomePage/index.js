@@ -36,10 +36,21 @@ const Container = styled.div`
   min-height: calc(100vh - var(--navbar-height) - var(--footer-height));
 `;
 
+const AlertContainer = styled.div`
+  max-width: var(--max-content-width);
+  min-width: var(--min-content-width);
+  width: 100%;
+  margin-bottom: 30px;
+`;
+
+const AlertContent = styled.p`
+  line-height: 24px;
+`;
+
 const BannerImageWrapper = styled.div`
   margin: 20px 0;
-  max-width: var(--contest-table-max-width);
-  min-width: var(--contest-table-min-width);
+  max-width: var(--max-content-width);
+  min-width: var(--min-content-width);
   width: 100%;
   height: 100%;
   max-height: 90px;
@@ -63,20 +74,22 @@ function HomePage() {
         <Helmet>
           <title>Free Contest</title>
         </Helmet>
-        <AlertWarning
-          content={
-            <span>
-              Chú ý: Trang web freecontest.net đang trong giai đoạn thử nghiệm. Mọi dữ liệu sẽ bị
-              xóa vào ngày 25/01/2021. Kể từ ngày 01/02/2021, các thí sinh có thể đăng nhập bằng
-              username và password của tài khoản cũ (tài khoản trên trang freecontest.xyz). Xem chi
-              tiết tại{' '}
-              <Link target="_blank" to={ROUTE_MIGRATION_PLAN}>
-                đây
-              </Link>
-              .
-            </span>
-          }
-        />
+        <AlertContainer>
+          <AlertWarning
+            content={
+              <AlertContent>
+                Chú ý: Trang web freecontest.net đang trong giai đoạn thử nghiệm. Mọi dữ liệu sẽ bị
+                xóa vào ngày 25/01/2021. Kể từ ngày 01/02/2021, các thí sinh có thể đăng nhập bằng
+                username và password của tài khoản cũ (tài khoản trên trang freecontest.xyz). Xem
+                chi tiết tại{' '}
+                <Link target="_blank" to={ROUTE_MIGRATION_PLAN}>
+                  đây
+                </Link>
+                .
+              </AlertContent>
+            }
+          />
+        </AlertContainer>
         <OngoingContest
           isLoading={apiState.progress === API_PROGRESS.REQ && onGoingContests.length === 0}
           contests={onGoingContests}

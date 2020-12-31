@@ -7,30 +7,24 @@ import { apiGetMyUserInfo } from 'src/api';
 // Constants
 import { USERINFO_SESSION_KEY } from '../constants';
 
+const INITIAL_USER_INFO = {
+  id: null,
+  username: '',
+  email: '',
+  school: '',
+  token: null,
+  fullname: '',
+  isFetched: null,
+};
+
 export const UserInfoContext = React.createContext({
-  userInfo: {
-    id: null,
-    username: '',
-    email: '',
-    school: '',
-    token: null,
-    fullname: '',
-    isFetched: null,
-  },
+  userInfo: INITIAL_USER_INFO,
   setUserInfo: () => {},
   clearUserInfo: () => {},
 });
 
 export function UserInfoProvider({ children }) {
-  const [userInfo, setUserInfo] = React.useState({
-    id: null,
-    username: '',
-    email: '',
-    school: '',
-    token: null,
-    fullname: '',
-    isFetched: null,
-  });
+  const [userInfo, setUserInfo] = React.useState(INITIAL_USER_INFO);
   const [isTokenLoaded, setIsTokenLoaded] = React.useState(false);
 
   React.useEffect(() => {
@@ -48,7 +42,7 @@ export function UserInfoProvider({ children }) {
           isFetched: true,
         });
       } else {
-        setUserInfo({ ...userInfo, isFetched: true });
+        setUserInfo({ ...INITIAL_USER_INFO, isFetched: true });
       }
     };
 
