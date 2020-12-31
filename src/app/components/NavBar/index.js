@@ -8,8 +8,7 @@ import Right from './Right';
 const Container = styled.div`
   position: sticky;
   height: var(--navbar-height);
-  min-width: 100%;
-  width: 100vw;
+  width: 100%;
 
   background-color: white;
   box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.125);

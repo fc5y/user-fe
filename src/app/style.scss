@@ -33,12 +33,6 @@
   --footer-height: 290px;
 }
 
-:global {
-  #root {
-    overflow-x: hidden;
-  }
-}
-
 :local {
   * {
     margin: 0px;
