@@ -143,9 +143,9 @@ function LoginPage({ history, location }) {
           type="password"
           onKeyEnter={handleSubmit}
         />
-        <div className={styles.forgotAccount} onClick={() => setShowWarningForgetPassword(true)}>
+        <span className={styles.forgotAccount} onClick={() => setShowWarningForgetPassword(true)}>
           Quên mật khẩu?
-        </div>
+        </span>
         <Form.ButtonGroup>
           <PrimaryButton disabled={apiState.progress === API_PROGRESS.REQ} onClick={handleSubmit}>
             Đăng nhập
