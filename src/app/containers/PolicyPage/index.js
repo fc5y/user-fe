@@ -19,7 +19,7 @@ const Content = styled.div`
 
 const Title = styled.div`
   font-weight: 600;
-  font-size: 48px;
+  font-size: 24px;
   text-align: center;
 
   margin-bottom: 30px;
