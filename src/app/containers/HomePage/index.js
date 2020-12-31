@@ -37,8 +37,8 @@ const Container = styled.div`
 `;
 
 const AlertContainer = styled.div`
-  max-width: var(--contest-table-max-width);
-  min-width: var(--contest-table-min-width);
+  max-width: var(--max-content-width);
+  min-width: var(--min-content-width);
   width: 100%;
   margin-bottom: 30px;
 `;
@@ -49,8 +49,8 @@ const AlertContent = styled.p`
 
 const BannerImageWrapper = styled.div`
   margin: 20px 0;
-  max-width: var(--contest-table-max-width);
-  min-width: var(--contest-table-min-width);
+  max-width: var(--max-content-width);
+  min-width: var(--min-content-width);
   width: 100%;
   height: 100%;
   max-height: 90px;
