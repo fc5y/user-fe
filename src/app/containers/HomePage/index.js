@@ -1,6 +1,9 @@
 import * as React from 'react';
 import { Helmet } from 'react-helmet';
 
+// Common UI
+import AlertWarning from 'src/app/common-ui/AlertWarning';
+
 // Hook
 import useFetchContestInfo from 'src/shared/hook/useFetchContestsInfo';
 
@@ -15,8 +18,10 @@ import WelcomeBanner from './components/WelcomeBanner';
 import Footer from 'src/app/components/Footer';
 
 // Utils and constants
+import { ROUTE_MIGRATION_PLAN } from 'src/app/routes/constants';
 import styled from 'styled-components';
 import { API_PROGRESS } from 'src/shared/constants';
+import { Link } from 'react-router-dom';
 
 // Assets
 import bannerImage from 'assets/images/home_banner.png';
@@ -58,6 +63,20 @@ function HomePage() {
         <Helmet>
           <title>Free Contest</title>
         </Helmet>
+        <AlertWarning
+          content={
+            <span>
+              Chú ý: Trang web freecontest.net đang trong giai đoạn thử nghiệm. Mọi dữ liệu sẽ bị
+              xóa vào ngày 25/01/2021. Kể từ ngày 01/02/2021, các thí sinh có thể đăng nhập bằng
+              username và password của tài khoản cũ (tài khoản trên trang freecontest.xyz). Xem chi
+              tiết tại{' '}
+              <Link target="_blank" to={ROUTE_MIGRATION_PLAN}>
+                đây
+              </Link>
+              .
+            </span>
+          }
+        />
         <OngoingContest
           isLoading={apiState.progress === API_PROGRESS.REQ && onGoingContests.length === 0}
           contests={onGoingContests}
