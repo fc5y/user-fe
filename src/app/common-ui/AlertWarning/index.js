@@ -12,8 +12,7 @@ const Container = styled.div`
   align-items: center;
   padding: 24px;
 
-  width: 900px;
-  margin: auto auto 36px;
+  width: 100%;
 
   background: #ffffff;
   border: 1px solid #ff9816;
