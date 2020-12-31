@@ -27,3 +27,6 @@ export const ROUTE_RANKING = '/ranking';
 
 // Policy
 export const ROUTE_POLICY = '/policy';
+
+// Migration Plan
+export const ROUTE_MIGRATION_PLAN = '/docs/migration-plan';
