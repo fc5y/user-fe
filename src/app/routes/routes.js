@@ -17,6 +17,7 @@ import ChangePasswordPage from '../containers/ChangePassword';
 import RankingPage from '../containers/RankingPage';
 import SettingsPage from '../containers/SettingsPage';
 import PolicyPage from '../containers/PolicyPage';
+import MigrationPlan from '../containers/MigrationPlan';
 
 const ROUTES_CONFIG = [
   /**
@@ -117,6 +118,14 @@ const ROUTES_CONFIG = [
     path: ROUTES.ROUTE_POLICY,
     exact: true,
     component: PolicyPage,
+  },
+  /**
+   * MIGRATION PLAN REGION
+   */
+  {
+    path: ROUTES.ROUTE_MIGRATION_PLAN,
+    exact: true,
+    component: MigrationPlan,
   },
   {
     path: '*',
