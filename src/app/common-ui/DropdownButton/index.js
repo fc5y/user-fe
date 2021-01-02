@@ -10,7 +10,7 @@ import styles from './style.scss';
 
 export function DropDownButton({
   className,
-  openAllMaterials,
+  onClickAllMaterials,
   children,
   dropList = [],
   type,
@@ -25,7 +25,7 @@ export function DropDownButton({
         className={cx(styles.dropdownButton, isPrimary && styles.primaryDropdownButton)}
         type="button"
         {...otherProps}
-        onClick={openAllMaterials}
+        onClick={onClickAllMaterials}
       >
         {children}
       </button>
@@ -69,7 +69,7 @@ DropDownButton.propTypes = {
   type: PropTypes.string,
   children: PropTypes.node,
   dropList: PropTypes.any,
-  openAllMaterials: PropTypes.any,
+  onClickAllMaterials: PropTypes.any,
 };
 
 export function PrimaryDropDownButton(props) {

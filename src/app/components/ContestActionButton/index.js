@@ -116,14 +116,14 @@ function MaterialButton({ materials, type, buttonWidth }) {
       {type === 'primary' ? (
         <PrimaryDropDownButton
           dropList={dropList}
-          openAllMaterials={() => openLink(materials.all_materials_url)}
+          onClickAllMaterials={() => openLink(materials.all_materials_url)}
         >
           Xem tư liệu kỳ thi
         </PrimaryDropDownButton>
       ) : (
         <DropDownButton
           dropList={dropList}
-          openAllMaterials={() => openLink(materials.all_materials_url)}
+          onClickAllMaterials={() => openLink(materials.all_materials_url)}
         >
           Xem tư liệu kỳ thi
         </DropDownButton>
