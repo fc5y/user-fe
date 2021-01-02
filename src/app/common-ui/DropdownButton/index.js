@@ -8,7 +8,14 @@ import ClickWrapper from 'src/app/components/ClickWrapper';
 
 import styles from './style.scss';
 
-export function DropDownButton({ className, children, dropList = [], type, ...otherProps }) {
+export function DropDownButton({
+  className,
+  onClickAllMaterials,
+  children,
+  dropList = [],
+  type,
+  ...otherProps
+}) {
   const [showList, setShowList] = React.useState(false);
   const isPrimary = type === 'primary';
 
@@ -18,7 +25,7 @@ export function DropDownButton({ className, children, dropList = [], type, ...ot
         className={cx(styles.dropdownButton, isPrimary && styles.primaryDropdownButton)}
         type="button"
         {...otherProps}
-        onClick={() => setShowList((showList) => !showList)}
+        onClick={onClickAllMaterials}
       >
         {children}
       </button>
@@ -62,6 +69,7 @@ DropDownButton.propTypes = {
   type: PropTypes.string,
   children: PropTypes.node,
   dropList: PropTypes.any,
+  onClickAllMaterials: PropTypes.any,
 };
 
 export function PrimaryDropDownButton(props) {

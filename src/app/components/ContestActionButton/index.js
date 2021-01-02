@@ -114,9 +114,19 @@ function MaterialButton({ materials, type, buttonWidth }) {
   return (
     <ButtonWrapper buttonWidth={buttonWidth}>
       {type === 'primary' ? (
-        <PrimaryDropDownButton dropList={dropList}>Xem tư liệu kỳ thi</PrimaryDropDownButton>
+        <PrimaryDropDownButton
+          dropList={dropList}
+          onClickAllMaterials={() => openLink(materials.all_materials_url)}
+        >
+          Xem tư liệu kỳ thi
+        </PrimaryDropDownButton>
       ) : (
-        <DropDownButton dropList={dropList}>Xem tư liệu kỳ thi</DropDownButton>
+        <DropDownButton
+          dropList={dropList}
+          onClickAllMaterials={() => openLink(materials.all_materials_url)}
+        >
+          Xem tư liệu kỳ thi
+        </DropDownButton>
       )}
     </ButtonWrapper>
   );
