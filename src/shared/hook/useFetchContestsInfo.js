@@ -70,9 +70,9 @@ function useFetchContestInfo({ limit, offset, forceFetch, onFetchCompleted }) {
     } else {
       setOnGoingContests([]);
       setEndedContests([]);
-      fetchContestsInfo();
     }
-  }, [contests, limit, offset]);
+    fetchContestsInfo();
+  }, [limit, offset]);
 
   return {
     apiState,

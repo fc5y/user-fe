@@ -26,7 +26,6 @@ const Container = styled.div`
 function Contests() {
   const [currentLimit, setCurrentLimit] = React.useState(10);
   const [currentOffset, setCurrentOffset] = React.useState(0);
-  const [isAddingNewRows, setIsAddingNewRows] = React.useState(false);
   const {
     apiState,
     todayContests,
@@ -36,8 +35,6 @@ function Contests() {
   } = useFetchContestInfo({
     limit: currentLimit,
     offset: currentOffset,
-    forceFetch: isAddingNewRows,
-    onFetchCompleted: () => setIsAddingNewRows(false),
   });
 
   return (
@@ -55,12 +52,10 @@ function Contests() {
       />
       <EndedContests
         isLoading={apiState.progress === API_PROGRESS.REQ && endedContests.length === 0}
-        isAddingNewRows={isAddingNewRows}
         contests={endedContests}
         totalContests={totalContests}
         onClickPageSize={(newSize) => {
           setCurrentLimit(newSize);
-          setIsAddingNewRows(() => currentLimit < newSize);
         }}
         onClickPageNumber={(num) => setCurrentOffset((num - 1) * currentLimit)}
       />
