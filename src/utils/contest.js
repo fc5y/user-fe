@@ -46,20 +46,21 @@ export function formatContestTime(contestInfo) {
   const endTime = convertTZ(new Date(formattedStartTime + formattedDuration)).time;
 
   const { time: startTimeObj, utc } = convertTZ(new Date(formattedStartTime));
-  const contestStartDate = `${startTimeObj.getDate()}/${
-    startTimeObj.getMonth() + 1
-  }/${startTimeObj.getFullYear()}`;
+  const contestStartDay = `${('0' + startTimeObj.getDate()).slice(-2)}/${(
+    '0' +
+    (startTimeObj.getMonth() + 1)
+  ).slice(-2)}/${startTimeObj.getFullYear()}`;
   const contestStartTime = `${startTimeObj.toTimeString().slice(0, 5)}`;
   const contestEndTime = `${endTime.toTimeString().slice(0, 5)}`;
 
   return {
-    startDate: contestStartDate,
+    startDate: contestStartDay,
     startTime: contestStartTime,
     endTime: contestEndTime,
-    startDateAndTime: `${contestStartDate} ${contestStartTime}`,
+    startDateAndTime: `${contestStartDay} ${contestStartTime}`,
     startAndEndTime: `${contestStartTime} - ${contestEndTime}`,
-    fullTime: `${contestStartDate} ${contestStartTime} - ${contestEndTime}`,
-    fullTimeWithUTC: `${contestStartDate} ${contestStartTime} - ${contestEndTime} (UTC${utc})`,
+    fullTime: `${contestStartDay} ${contestStartTime} - ${contestEndTime}`,
+    fullTimeWithUTC: `${contestStartDay} ${contestStartTime} - ${contestEndTime} (UTC${utc})`,
   };
 }
 
