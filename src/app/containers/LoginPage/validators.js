@@ -21,8 +21,10 @@ export function getUsernameOrEmailErrorOrNull(usernameOrEmail) {
 
 export function getPasswordErrorOrNull(password) {
   if (!password) return ERROR.MSG_ERROR_FIELD_IS_REQUIRED;
-  if (password.length < 8) return ERROR.MSG_ERROR_PASSWORD_MINIMUM_LENGTH;
   if (password.length > 255) return ERROR.MSG_ERROR_INPUT_TOO_LONG;
+
+  // Currently disable this because of old accounts have less than 8 characters password
+  // if (password.length < 8) return ERROR.MSG_ERROR_PASSWORD_MINIMUM_LENGTH;
   return null;
 }
 
