@@ -18,10 +18,8 @@ import WelcomeBanner from './components/WelcomeBanner';
 import Footer from 'src/app/components/Footer';
 
 // Utils and constants
-import { ROUTE_MIGRATION_PLAN } from 'src/app/routes/constants';
 import styled from 'styled-components';
 import { API_PROGRESS } from 'src/shared/constants';
-import { Link } from 'react-router-dom';
 
 // Assets
 import bannerImage from 'assets/images/home_banner.png';
@@ -75,10 +73,17 @@ function HomePage() {
           <AlertWarning
             content={
               <AlertContent>
-                Chú ý: Trang web freecontest.net đang trong giai đoạn thử nghiệm. Mọi dữ liệu sẽ bị
-                xóa vào ngày 25/01/2021. Kể từ ngày 01/02/2021, các thí sinh có thể đăng nhập bằng
-                username và password của tài khoản cũ (tài khoản trên trang freecontest.xyz). Xem
-                chi tiết tại <Link to={ROUTE_MIGRATION_PLAN}>đây</Link>.
+                Quá trình chuyển dữ liệu đã hoàn tất. Các thí sinh có thể đăng nhập bằng username và
+                password của tài khoản cũ (trên trang freecontest.xyz). Nếu gặp bất cứ vấn đề gì,
+                vui lòng liên hệ với fanpage của chúng tôi tại&nbsp;
+                <a
+                  href="https://www.facebook.com/kc97blf"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  đây
+                </a>
+                .
               </AlertContent>
             }
           />
