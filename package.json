@@ -7,6 +7,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "ENV=dev webpack serve --config webpack/webpack.config.js --watch --progress --profile",
+    "dev-window": "SET ENV=dev && webpack serve --config webpack/webpack.config.js --watch --progress --profile",
     "build:test": "ENV=test webpack --config webpack/webpack.config.js",
     "build:prod": "ENV=prod webpack --config webpack/webpack.config.js",
     "lint": "./node_modules/.bin/eslint \"./src/**/*.js\"",
