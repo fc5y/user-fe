@@ -1,8 +1,8 @@
 module.exports = () => {
   switch (process.env.ENV.toLowerCase()) {
-    case 'dev':
-      return require('./webpack.dev');
-    default:
+    case 'prod':
       return require('./webpack.prod');
+    default:
+      return require('./webpack.dev');
   }
 };
