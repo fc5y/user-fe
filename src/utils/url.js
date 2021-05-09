@@ -1,6 +1,6 @@
 const API_DOMAIN = {
-  dev: 'https://test.api.freecontest.net',
-  test: 'https://test.api.freecontest.net',
+  dev: 'https://test.be.freecontest.net',
+  test: 'https://test.be.freecontest.net',
   prod: 'https://api.freecontest.net',
 };
 
