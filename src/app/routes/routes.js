@@ -18,11 +18,12 @@ import RankingPage from '../containers/RankingPage';
 import SettingsPage from '../containers/SettingsPage';
 import PolicyPage from '../containers/PolicyPage';
 import MigrationPlan from '../containers/MigrationPlan';
-
+import Donate from '../containers/Donate';
 const ROUTES_CONFIG = [
   /**
    * HOME REGION
    */
+  { path: ROUTES.DONATE, exact: true, component: Donate },
   {
     path: ROUTES.ROUTE_HOMEPAGE,
     exact: true,

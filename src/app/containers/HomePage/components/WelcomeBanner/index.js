@@ -1,5 +1,6 @@
 /* eslint-disable no-prototype-builtins */
 import * as React from 'react';
+import { useState } from 'react';
 
 // Hook
 import { useHistory } from 'react-router-dom';
@@ -92,10 +93,13 @@ const Button = styled(SecondaryButton)`
   margin-top: 15px;
 `;
 
-const EXPIRED_TIME = 7 * 24 * 60 * 60 * 1000;
+const EXPIRED_TIME = 1 * 1000;
+
+import Loading from '../../../../common-ui/Loading';
 
 function WelcomeBanner() {
   const [showWelcomeBanner, setShowWelcomeBanner] = React.useState(false);
+  const [loading, setLoading] = useState(true);
   const history = useHistory();
 
   React.useEffect(() => {
@@ -188,7 +192,16 @@ function WelcomeBanner() {
         <WelcomeText>
           Chuẩn bị cho các kỳ thi quan trọng như kỳ thi HSG QG môn Tin học, APIO, IOI, ACM-ICPC.
         </WelcomeText>
-        <Button onClick={() => history.push(ROUTE_SIGNUP)}>Tạo tài khoản</Button>
+        <Button
+          onClick={() => {
+            <Loading />;
+            setTimeout(function () {
+              history.push(ROUTE_SIGNUP);
+            }, 3000);
+          }}
+        >
+          Tạo tài khoản
+        </Button>
       </WelcomeInfo>
     </WelcomeWrapper>
   ) : null;
