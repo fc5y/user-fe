@@ -99,7 +99,7 @@ import Loading from '../../../../common-ui/Loading';
 
 function WelcomeBanner() {
   const [showWelcomeBanner, setShowWelcomeBanner] = React.useState(false);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const history = useHistory();
 
   React.useEffect(() => {
@@ -161,7 +161,12 @@ function WelcomeBanner() {
       );
     }
   }, []);
-
+  if (loading) {
+    setTimeout(function () {
+      setLoading(false);
+      history.push(ROUTE_SIGNUP);
+    }, 3000);
+  }
   return showWelcomeBanner ? (
     <WelcomeWrapper>
       <WelcomeImage
@@ -192,12 +197,10 @@ function WelcomeBanner() {
         <WelcomeText>
           Chuẩn bị cho các kỳ thi quan trọng như kỳ thi HSG QG môn Tin học, APIO, IOI, ACM-ICPC.
         </WelcomeText>
+        {loading ? <Loading /> : null}
         <Button
           onClick={() => {
-            <Loading />;
-            setTimeout(function () {
-              history.push(ROUTE_SIGNUP);
-            }, 3000);
+            setLoading(true);
           }}
         >
           Tạo tài khoản
