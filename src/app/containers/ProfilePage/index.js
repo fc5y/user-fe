@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Helmet } from 'react-helmet';
 import { Link } from 'react-router-dom';
 import styles from './style.scss';
-
+import { getTime } from '../../../api/timestamp';
 // Images
 import img from 'assets/images/avatar.png';
 import IconEdit from 'src/app/common-ui/Icons/IconEdit';
@@ -38,8 +38,15 @@ function ProfilePage({ match }) {
     ranking: '—',
     rating: '—',
   });
+  const [timestamp, setTimestamp] = useState(0);
+  const getTimestamp = async () => {
+    const res = await getTime();
+    setTimestamp(res);
+  };
 
+  const time = new Date(timestamp);
   useEffect(() => {
+    getTimestamp();
     const fetchUserInfo = async () => {
       setApiState({ progress: API_PROGRESS.REQ });
       const { code, msg, data } = await apiGetUserInfo({ username: match.params.username });
@@ -102,6 +109,8 @@ function ProfilePage({ match }) {
             </div>
           </div>
         </div>
+        Cập nhật lần cuối : {time.getDate()}/{time.getMonth()}/{time.getFullYear()}{' '}
+        {time.getHours()}:{time.getMinutes()}:{time.getSeconds()}
         <ParticipatedContests username={match.params.username} rating={userInfo.rating} />
       </div>
     </div>
