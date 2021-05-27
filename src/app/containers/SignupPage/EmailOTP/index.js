@@ -140,7 +140,10 @@ function EmailOTP({ email, onSignup, onClickBack }) {
         <SuccessPopup
           show
           content="Tạo tài khoản thành công"
-          onClose={() => history.push(ROUTE_LOGIN)}
+          onClose={() => {
+            console.log('Hello');
+            history.push(ROUTE_LOGIN);
+          }}
         />
       ) : (
         apiState.code && (

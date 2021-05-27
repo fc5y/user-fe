@@ -18,6 +18,7 @@ import RankingPage from '../containers/RankingPage';
 import SettingsPage from '../containers/SettingsPage';
 import PolicyPage from '../containers/PolicyPage';
 import MigrationPlan from '../containers/MigrationPlan';
+import Donatepage from '../containers/DonationPage';
 
 const ROUTES_CONFIG = [
   /**
@@ -126,6 +127,11 @@ const ROUTES_CONFIG = [
     path: ROUTES.ROUTE_MIGRATION_PLAN,
     exact: true,
     component: MigrationPlan,
+  },
+  {
+    path: ROUTES.ROUTE_DONATION,
+    exact: true,
+    component: Donatepage,
   },
   {
     path: '*',

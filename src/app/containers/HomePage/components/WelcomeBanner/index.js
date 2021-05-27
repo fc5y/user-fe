@@ -201,10 +201,10 @@ function WelcomeBanner() {
         <WelcomeText>
           Chuẩn bị cho các kỳ thi quan trọng như kỳ thi HSG QG môn Tin học, APIO, IOI, ACM-ICPC.
         </WelcomeText>
-        {loading ? <Loading></Loading> : null}
+        {loading ? <Loading /> : null}
         <Button
           onClick={() => {
-            <Loading></Loading>;
+            <Loading />;
             setTimeout(setLoading(), 3000);
             showLoading(true);
           }}
