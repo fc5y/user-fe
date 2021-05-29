@@ -23,6 +23,12 @@
     width: 100%;
     height: auto;
     margin-bottom: 48px;
+    flex-wrap: nowrap;
+  }
+  .capnhat{
+    width: 290px;
+    padding-top: 19px;
+    display: flex;
   }
   .personalInfo {
     width: 560px;

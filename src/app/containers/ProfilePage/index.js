@@ -23,6 +23,7 @@ import { getErrorMessage } from 'src/utils/getErrorMessage';
 
 // Apis
 import { apiGetUserInfo } from 'src/api/index';
+import { GetDateFromTimestamp } from 'src/api/timestamp';
 
 function ProfilePage({ match }) {
   const { userInfo } = useContext(UserInfoContext);
@@ -38,6 +39,14 @@ function ProfilePage({ match }) {
     ranking: '—',
     rating: '—',
   });
+
+  const [timestamp, setTimeStamp] = useState({});
+  const getTimestamp = async () => {
+    const result = await GetDateFromTimestamp();
+    setTimeStamp(result);
+  };
+
+  const date = new Date(timestamp);
 
   useEffect(() => {
     const fetchUserInfo = async () => {
@@ -57,6 +66,7 @@ function ProfilePage({ match }) {
       }
     };
     fetchUserInfo();
+    getTimestamp();
   }, []);
 
   return apiState.progress === API_PROGRESS.SUCCESS ? (
@@ -82,11 +92,10 @@ function ProfilePage({ match }) {
                 )}
               </div>
               <div className={styles.insideInfoContentDiv}>
-                <span className={styles.infoContentSpan}>Họ và tên:</span>{' '}
-                {handlingUserInfo.fullName}
+                <span className={styles.infoContentSpan}>Họ tên:</span> {handlingUserInfo.fullName}
               </div>
               <div className={styles.insideInfoContentDiv}>
-                <span className={styles.infoContentSpan}>Trường:</span>{' '}
+                <span className={styles.infoContentSpan}>Trường: </span>{' '}
                 {handlingUserInfo.schoolName}
               </div>
             </div>
@@ -101,6 +110,14 @@ function ProfilePage({ match }) {
               <div className={styles.ratingScore}>{handlingUserInfo.rating}</div>
             </div>
           </div>
+        </div>
+        <div className={styles.capnhat}>
+          <p>
+            Cập nhật lần cuối:{' '}
+            {`${date.getDate()}/${
+              date.getMonth() + 1
+            }/${date.getFullYear()}  ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`}
+          </p>
         </div>
         <ParticipatedContests username={match.params.username} rating={userInfo.rating} />
       </div>
