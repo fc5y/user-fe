@@ -5,6 +5,10 @@ import cx from 'classnames';
 import styles from './style.scss';
 import IconFC from 'src/app/common-ui/Icons/IconFC';
 
+import IconBanner from 'src/assets/images/bannerlogo.png';
+import IconUsers from 'src/assets/images/icon-users.png';
+import IconMedal from 'src/assets/images/icon-medal.png';
+
 function LazyImage({ src, alt, placeholder, className, imageClassName, ...rest }) {
   const [isLoaded, setIsLoaded] = React.useState(null);
 
@@ -20,6 +24,11 @@ function LazyImage({ src, alt, placeholder, className, imageClassName, ...rest }
             onError={() => setIsLoaded(false)}
             {...rest}
           />
+          <div className={cx(styles.container_child)}>
+            <div className={cx(styles.container_child_logo)}></div>
+            <div className={cx(styles.container_child_users)}></div>
+            <div className={cx(styles.container_child_medal)}></div>
+          </div>
         </div>
       )}
       {!isLoaded && (
