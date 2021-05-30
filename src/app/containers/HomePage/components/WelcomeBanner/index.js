@@ -92,7 +92,7 @@ const Button = styled(SecondaryButton)`
   margin-top: 15px;
 `;
 
-const EXPIRED_TIME = 7 * 24 * 60 * 60 * 1000;
+const EXPIRED_TIME = 60 * 1000;
 
 function WelcomeBanner() {
   const [showWelcomeBanner, setShowWelcomeBanner] = React.useState(false);
