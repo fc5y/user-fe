@@ -25,9 +25,30 @@ function LazyImage({ src, alt, placeholder, className, imageClassName, ...rest }
             {...rest}
           />
           <div className={cx(styles.container_child)}>
-            <div className={cx(styles.container_child_logo)}></div>
-            <div className={cx(styles.container_child_users)}></div>
-            <div className={cx(styles.container_child_medal)}></div>
+            <div className={cx(styles.container_child_logo)}>
+              <div className={cx(styles.container_child_cnt)}>
+                <p>
+                  <b>5 năm</b>
+                </p>
+                <p>Tổ chức các kỳ thi</p>
+              </div>
+            </div>
+            <div className={cx(styles.container_child_users)}>
+              <div className={cx(styles.container_child_cnt)}>
+                <p>
+                  <b>3800+</b>
+                </p>
+                <p>Thành viên</p>
+              </div>
+            </div>
+            <div className={cx(styles.container_child_medal)}>
+              <div className={cx(styles.container_child_cnt)}>
+                <p>
+                  <b>Nền tảng lập trình thi đấu</b>
+                </p>
+                <p>hàng đầu Việt Nam</p>
+              </div>
+            </div>
           </div>
         </div>
       )}

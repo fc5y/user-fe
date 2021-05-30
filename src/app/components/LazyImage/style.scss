@@ -35,5 +35,16 @@
     position: absolute;
     top: 0%;
     left: 0%;
+    .container_child_logo,.container_child_users,.container_child_medal{
+      height: 60%;
+      background-color: rebeccapurple;
+      color: white;
+      margin: 24px 33px;
+    }
+    .container_child_cnt{
+      display: grid;
+      grid-template-columns: 100%;
+      grid-template-rows: 50% 50%;
+    }
   }
 }
