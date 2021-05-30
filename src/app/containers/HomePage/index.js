@@ -71,21 +71,7 @@ function HomePage() {
         </Helmet>
         <AlertContainer>
           <AlertWarning
-            content={
-              <AlertContent>
-                Quá trình chuyển dữ liệu đã hoàn tất. Các thí sinh có thể đăng nhập bằng username và
-                password của tài khoản cũ (trên trang freecontest.xyz). Nếu gặp bất cứ vấn đề gì,
-                vui lòng liên hệ với fanpage của chúng tôi tại&nbsp;
-                <a
-                  href="https://www.facebook.com/kc97blf"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  đây
-                </a>
-                .
-              </AlertContent>
-            }
+            content={<AlertContent>Tôi đã tìm thấy warning box và đây là content mới</AlertContent>}
           />
         </AlertContainer>
         <OngoingContest
