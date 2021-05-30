@@ -26,6 +26,7 @@ function LazyImage({ src, alt, placeholder, className, imageClassName, ...rest }
           />
           <div className={cx(styles.container_child)}>
             <div className={cx(styles.container_child_logo)}>
+              <img src={IconBanner} alt="icon-logobanner"></img>
               <div className={cx(styles.container_child_cnt)}>
                 <p>
                   <b>5 năm</b>
@@ -34,6 +35,7 @@ function LazyImage({ src, alt, placeholder, className, imageClassName, ...rest }
               </div>
             </div>
             <div className={cx(styles.container_child_users)}>
+              <img src={IconUsers} alt="icon-users"></img>
               <div className={cx(styles.container_child_cnt)}>
                 <p>
                   <b>3800+</b>
@@ -42,6 +44,7 @@ function LazyImage({ src, alt, placeholder, className, imageClassName, ...rest }
               </div>
             </div>
             <div className={cx(styles.container_child_medal)}>
+              <img src={IconMedal} alt="icon-medal"></img>
               <div className={cx(styles.container_child_cnt)}>
                 <p>
                   <b>Nền tảng lập trình thi đấu</b>
