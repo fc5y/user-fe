@@ -22,7 +22,7 @@ import { UserInfoContext } from 'src/shared/context/UserInfo';
 import { getErrorMessage } from 'src/utils/getErrorMessage';
 
 // Apis
-import { apiGetUserInfo } from 'src/api/index';
+import { apiGetUserInfo, getTimeStamp } from 'src/api/index';
 
 function ProfilePage({ match }) {
   const { userInfo } = useContext(UserInfoContext);
@@ -38,6 +38,7 @@ function ProfilePage({ match }) {
     ranking: '—',
     rating: '—',
   });
+  const [lastUpdate, setLastUpdate] = useState();
 
   useEffect(() => {
     const fetchUserInfo = async () => {
@@ -56,7 +57,12 @@ function ProfilePage({ match }) {
         setApiState({ progress: API_PROGRESS.SUCCESS, code, msg });
       }
     };
+    const getLastUpdate = async () => {
+      const result = await getTimeStamp();
+      setLastUpdate(new Date(result));
+    };
     fetchUserInfo();
+    getLastUpdate();
   }, []);
 
   return apiState.progress === API_PROGRESS.SUCCESS ? (
@@ -101,6 +107,21 @@ function ProfilePage({ match }) {
               <div className={styles.ratingScore}>{handlingUserInfo.rating}</div>
             </div>
           </div>
+        </div>
+        <div className={styles.lastUpdate}>
+          {`Cập nhập lần cuối: ${
+            lastUpdate.getDate() < 10 ? `0${lastUpdate.getDate()}` : lastUpdate.getDate()
+          }/${
+            lastUpdate.getMonth() + 1 < 10
+              ? `0${lastUpdate.getMonth() + 1}`
+              : lastUpdate.getMonth() + 1
+          }/${lastUpdate.getFullYear()} ${
+            lastUpdate.getHours() < 10 ? `0${lastUpdate.getHours()}` : lastUpdate.getHours()
+          }:${
+            lastUpdate.getMinutes() < 10 ? `0${lastUpdate.getMinutes()}` : lastUpdate.getMinutes()
+          }:${
+            lastUpdate.getSeconds() < 10 ? `0${lastUpdate.getSeconds()}` : lastUpdate.getSeconds()
+          }`}
         </div>
         <ParticipatedContests username={match.params.username} rating={userInfo.rating} />
       </div>
