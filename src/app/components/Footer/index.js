@@ -63,10 +63,10 @@ export default function Footer() {
           <Title>Thông tin hữu ích</Title>
           <LinkField
             content="Giới thiệu về Free Contest"
-            link="https://info.freecontest.net/gi%E1%BB%9Bi-thi%E1%BB%87u"
+            link="https://info.freecontest.xyz/gi%E1%BB%9Bi-thi%E1%BB%87u"
           />
           <LinkFieldInternal content="Các điều khoản" link={ROUTE_POLICY} />
-          <LinkField content="Free Contest Info (2019-2020)" link="https://info.freecontest.net/" />
+          <LinkField content="Free Contest Info (2019-2020)" link="https://info.freecontest.xyz/" />
           <LinkField
             content="Trang thông tin cũ (2015-2019)"
             link="https://sites.google.com/site/kc97blf/"
