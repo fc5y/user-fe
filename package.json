@@ -11,6 +11,7 @@
     "build:test": "ENV=test webpack --config webpack/webpack.config.js",
     "build:prod": "ENV=prod webpack --config webpack/webpack.config.js",
     "lint": "./node_modules/.bin/eslint \"./src/**/*.js\"",
+    "lint-fix": "./node_modules/.bin/eslint \"./src/**/*.js\" --fix",
     "test": "jest"
   },
   "husky": {
