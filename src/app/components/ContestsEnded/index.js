@@ -127,6 +127,11 @@ function ContestsEnded({
           }
         />
       )}
+      <ButtonWrapper>
+        <ContestTitle onClick={() => history.push('/contests')}>
+          Xem thêm các kỳ thi khác
+        </ContestTitle>
+      </ButtonWrapper>
     </Container>
   );
 }
