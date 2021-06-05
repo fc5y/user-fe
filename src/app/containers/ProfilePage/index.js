@@ -11,7 +11,7 @@ import IconEdit from 'src/app/common-ui/Icons/IconEdit';
 // Components
 import ParticipatedContests from 'src/app/components/ParticipatedContests';
 import Loading from 'src/app/common-ui/Loading';
-import ErrorContent from './components/ErrorContent';
+import ErrorContent from 'src/app/components/ErrorContent';
 
 // Constants
 import { API_PROGRESS } from 'src/shared/constants';
