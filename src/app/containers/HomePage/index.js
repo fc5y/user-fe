@@ -113,12 +113,12 @@ function HomePage() {
           isLoading={apiState.progress === API_PROGRESS.REQ && endedContests.length === 0}
           contests={endedContests}
         />
+        <ButtonWrapper>
+          <ContestTitle onClick={() => history.push('/contests')}>
+            Xem thêm các kỳ thi khác
+          </ContestTitle>
+        </ButtonWrapper>
       </Container>
-      <ButtonWrapper>
-        <ContestTitle onClick={() => history.push('/contests')}>
-          Xem thêm các kỳ thi khác
-        </ContestTitle>
-      </ButtonWrapper>
       <Footer />
     </>
   );
