@@ -23,7 +23,7 @@ import { API_PROGRESS, CONTEST_STATUS, RANKING_LINK } from 'src/shared/constants
 import { Button } from 'src/app/common-ui/Button';
 import Clock from 'src/app/components/Clock';
 import Loading from 'src/app/common-ui/Loading';
-import ErrorContent from './components/ErrorContent';
+import ErrorContent from 'src/app/components/ErrorContent';
 import IconWarning from 'src/app/common-ui/Icons/IconWarning';
 import ContestStatusText from 'src/app/components/ContestStatusText';
 import ContestActionButton from 'src/app/components/ContestActionButton';

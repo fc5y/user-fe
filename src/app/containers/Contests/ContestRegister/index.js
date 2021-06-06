@@ -13,7 +13,7 @@ import { UserInfoContext } from 'src/shared/context/UserInfo';
 
 // Components
 import RegisterFrom from './components/RegisterForm';
-import ErrorContent from './components/ErrorContent';
+import ErrorContent from 'src/app/components/ErrorContent';
 import Loading from 'src/app/common-ui/Loading';
 
 // Constants and utils
