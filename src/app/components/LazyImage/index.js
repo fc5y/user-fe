@@ -5,10 +5,6 @@ import cx from 'classnames';
 import styles from './style.scss';
 import IconFC from 'src/app/common-ui/Icons/IconFC';
 
-import IconBanner from 'src/assets/images/bannerlogo.png';
-import IconUsers from 'src/assets/images/icon-users.png';
-import IconMedal from 'src/assets/images/icon-medal.png';
-
 function LazyImage({ src, alt, placeholder, className, imageClassName, ...rest }) {
   const [isLoaded, setIsLoaded] = React.useState(null);
 
@@ -24,35 +20,6 @@ function LazyImage({ src, alt, placeholder, className, imageClassName, ...rest }
             onError={() => setIsLoaded(false)}
             {...rest}
           />
-          <div className={cx(styles.container_child)}>
-            <div className={cx(styles.container_child_logo)}>
-              <img src={IconBanner} alt="icon-logobanner"></img>
-              <div className={cx(styles.container_child_cnt)}>
-                <p>
-                  <b>5 năm</b>
-                </p>
-                <p>Tổ chức các kỳ thi</p>
-              </div>
-            </div>
-            <div className={cx(styles.container_child_users)}>
-              <img src={IconUsers} alt="icon-users"></img>
-              <div className={cx(styles.container_child_cnt)}>
-                <p>
-                  <b>3800+</b>
-                </p>
-                <p>Thành viên</p>
-              </div>
-            </div>
-            <div className={cx(styles.container_child_medal)}>
-              <img src={IconMedal} alt="icon-medal"></img>
-              <div className={cx(styles.container_child_cnt)}>
-                <p>
-                  <b>Nền tảng lập trình thi đấu</b>
-                </p>
-                <p>hàng đầu Việt Nam</p>
-              </div>
-            </div>
-          </div>
         </div>
       )}
       {!isLoaded && (

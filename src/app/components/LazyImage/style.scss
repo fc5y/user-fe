@@ -25,37 +25,4 @@
     width: 0;
     height: 0;
   }
-  .container_child{
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    position: absolute;
-    top: 0%;
-    left: 0%;
-    .container_child_logo,.container_child_users,.container_child_medal{
-      height: 60%;
-      color: white;
-      margin: 24px 33px;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      align-items: center;
-      img{
-        width: 60px;
-        height: 60px;
-      }
-    }
-    .container_child_cnt{
-      display: grid;
-      grid-template-columns: 100%;
-      grid-template-rows: 50% 50%;
-      p{
-        font-size: 16px;
-        margin-left: 0.35rem;
-        margin-bottom: 0px;
-      }
-    }
-  }
 }

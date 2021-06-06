@@ -1,5 +1,7 @@
 import * as React from 'react';
 import { Helmet } from 'react-helmet';
+import cx from 'classnames';
+import styles from './style.scss';
 
 // Common UI
 import AlertWarning from 'src/app/common-ui/AlertWarning';
@@ -13,7 +15,6 @@ import { UserInfoContext } from 'src/shared/context/UserInfo';
 // Components
 import OngoingContest from 'src/app/components/ContestsOngoing';
 import EndedContests from 'src/app/components/ContestsEnded';
-import LazyImage from 'src/app/components/LazyImage';
 import WelcomeBanner from './components/WelcomeBanner';
 import Footer from 'src/app/components/Footer';
 
@@ -23,6 +24,10 @@ import { API_PROGRESS } from 'src/shared/constants';
 
 // Assets
 import bannerImage from 'assets/images/home_banner.png';
+import IconBanner from 'src/assets/images/bannerlogo.png';
+import IconUsers from 'src/assets/images/icon-users.png';
+import IconMedal from 'src/assets/images/icon-medal.png';
+import IconFC5Y from 'src/assets/images/icon-fc.png';
 
 const Container = styled.div`
   width: 100%;
@@ -93,7 +98,38 @@ function HomePage() {
           contests={onGoingContests}
         />
         <BannerImageWrapper>
-          <LazyImage src={bannerImage} alt="homepage-banner" />
+          <div className={cx(styles.container)}>
+            <img className={cx(styles.image)} src={IconBanner} alt="homepage-banner" />
+            <div className={cx(styles.container_child)}>
+              <div className={cx(styles.container_child_logo)}>
+                <img src={IconFC5Y} alt="icon-logoFC5Y"></img>
+                <div className={cx(styles.container_child_cnt)}>
+                  <p>
+                    <b>5 năm</b>
+                  </p>
+                  <p>Tổ chức các kỳ thi</p>
+                </div>
+              </div>
+              <div className={cx(styles.container_child_users)}>
+                <img src={IconUsers} alt="icon-users"></img>
+                <div className={cx(styles.container_child_cnt)}>
+                  <p>
+                    <b>3800+</b>
+                  </p>
+                  <p>Thành viên</p>
+                </div>
+              </div>
+              <div className={cx(styles.container_child_medal)}>
+                <img src={IconMedal} alt="icon-medal"></img>
+                <div className={cx(styles.container_child_cnt)}>
+                  <p>
+                    <b>Nền tảng lập trình thi đấu</b>
+                  </p>
+                  <p>hàng đầu Việt Nam</p>
+                </div>
+              </div>
+            </div>
+          </div>
         </BannerImageWrapper>
         {userInfo.isFetched && !userInfo.username && <WelcomeBanner />}
         <EndedContests
