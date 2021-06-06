@@ -6,6 +6,7 @@ import AlertWarning from 'src/app/common-ui/AlertWarning';
 
 // Hook
 import useFetchContestInfo from 'src/shared/hook/useFetchContestsInfo';
+import { useHistory } from 'react-router-dom';
 
 // Context
 import { UserInfoContext } from 'src/shared/context/UserInfo';
@@ -55,9 +56,21 @@ const BannerImageWrapper = styled.div`
   border-radius: 4px;
   box-shadow: 0px 0px 12px rgba(188, 188, 188, 0.25);
 `;
+const ContestTitle = styled.h1`
+  font-weight: 700;
+  font-size: 16px;
+  color: var(--primary-default);
+  cursor: pointer;
+`;
 
+const ButtonWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
 function HomePage() {
   const { userInfo } = React.useContext(UserInfoContext);
+  const history = useHistory();
   const { apiState, onGoingContests, endedContests } = useFetchContestInfo({
     limit: 10,
     offset: 0,
@@ -101,6 +114,11 @@ function HomePage() {
           contests={endedContests}
         />
       </Container>
+      <ButtonWrapper>
+        <ContestTitle onClick={() => history.push('/contests')}>
+          Xem thêm các kỳ thi khác
+        </ContestTitle>
+      </ButtonWrapper>
       <Footer />
     </>
   );
