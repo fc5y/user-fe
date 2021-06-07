@@ -89,7 +89,12 @@ const SkeletonText = styled(Skeleton.Text)`
 const SkeletonFooter = styled.div`
   margin-bottom: 20px;
 `;
-
+const RowTable = styled.tr`
+  :hover {
+    color: rgba(0, 0, 0, 0.75);
+    background-color: rgba(0, 0, 0, 0.06);
+  }
+`;
 function Table({
   config,
   border,
@@ -137,7 +142,7 @@ function Table({
   const renderTableBody = () => {
     return ((data || []).slice(0, numberOfRowPerPage) || []).map((row, idx1) => {
       return (
-        <tr key={idx1}>
+        <RowTable key={idx1}>
           {Object.values(row).map((r, idx2) =>
             idx2 === 0 ? (
               <TableFirstBodyData key={idx2}>{r}</TableFirstBodyData>
@@ -145,7 +150,7 @@ function Table({
               <TableBodyData key={idx2}>{r}</TableBodyData>
             ),
           )}
-        </tr>
+        </RowTable>
       );
     });
   };
