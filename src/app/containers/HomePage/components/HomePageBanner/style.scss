@@ -42,10 +42,18 @@
           flex-wrap: wrap;
           justify-content: center;
           align-items: center;
-          img{
-            width: 50px;
-            height: 50px;
-          }
+        }
+        .container_child_logo img {
+          width: 50px;
+          height: 50px;
+        }
+        .container_child_users img{
+          width: 50px;
+          height: 40px;
+        }
+        .container_child_medal img{
+          width: 45px;
+          height: 40px;
         }
         .container_child_cnt{
           display: grid;
