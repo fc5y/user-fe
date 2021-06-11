@@ -14,16 +14,13 @@ import { UserInfoContext } from 'src/shared/context/UserInfo';
 // Components
 import OngoingContest from 'src/app/components/ContestsOngoing';
 import EndedContests from 'src/app/components/ContestsEnded';
-import LazyImage from 'src/app/components/LazyImage';
 import WelcomeBanner from './components/WelcomeBanner';
 import Footer from 'src/app/components/Footer';
+import HomePageBanner from './components/HomePageBanner';
 
 // Utils and constants
 import styled from 'styled-components';
 import { API_PROGRESS } from 'src/shared/constants';
-
-// Assets
-import bannerImage from 'assets/images/home_banner.png';
 
 const Container = styled.div`
   width: 100%;
@@ -106,7 +103,7 @@ function HomePage() {
           contests={onGoingContests}
         />
         <BannerImageWrapper>
-          <LazyImage src={bannerImage} alt="homepage-banner" />
+          <HomePageBanner></HomePageBanner>
         </BannerImageWrapper>
         {userInfo.isFetched && !userInfo.username && <WelcomeBanner />}
         <EndedContests
