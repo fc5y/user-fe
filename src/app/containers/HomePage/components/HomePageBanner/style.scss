@@ -68,7 +68,7 @@
           }
         }
       }
-      @media (min-width: $breakpoint-small-devices) {
+      @media (max-width: $breakpoint-small-devices) {
           .container_child{
             .container_child_logo, .container_child_medal, .container_child_users{
               margin: 0px auto;
