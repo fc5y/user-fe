@@ -1,5 +1,7 @@
 :local{
+    $breakpoint-small-devices: 400px;
     .container {
+        //dưới 395px thì sẽ bị lỗi
         width: 100%;
         height: 100%;
         overflow: hidden;
@@ -65,5 +67,20 @@
             margin-bottom: 0px;
           }
         }
+      }
+      @media (max-width: $breakpoint-small-devices) {
+          .container_child{
+            .container_child_logo, .container_child_medal, .container_child_users{
+              margin: 0px auto;
+              height: 100%;
+            }
+            .container_child_cnt{
+              p{
+                font-size: 14px;
+                margin-left: 0.25rem;
+                margin-bottom: 0px;
+              }
+            }
+          }
       }
 }
