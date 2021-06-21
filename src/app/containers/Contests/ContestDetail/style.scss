@@ -1,0 +1,48 @@
+:local{
+    @mixin displayContent(){
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+    .documentContestPage{
+        width: 100%;
+        height: 100%;
+        &__content{
+            display: grid;
+            grid-template-columns: 100%;
+            grid-template-rows: 30% 70%;
+            width: 100%;
+            height: 125px;
+            margin-bottom: 1rem;
+            &__title{
+                @include displayContent();
+                div:nth-child(2){
+                    width: 30%;
+                    @include displayContent();
+                }
+            }
+            &__btn{
+                width: 100%;
+                @include displayContent();
+                div{
+                    width: 95%;
+                    background-color: aquamarine;
+                    height: 80px;
+                    border-radius: 4px;
+                }
+            }
+        }
+    }
+    .actionButton{
+        @include displayContent();
+    }
+    .line {
+        @include displayContent();
+        div{
+            width: 200px;
+            height: 1px;
+            background-color: rgb(218, 213, 213);
+        }
+    }
+}

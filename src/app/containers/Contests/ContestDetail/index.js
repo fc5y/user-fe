@@ -15,6 +15,8 @@ import { ContestInfoContext } from 'src/shared/context/ContestInfo';
 import styled from 'styled-components';
 import { formatContestTime } from 'src/utils/contest';
 import { getErrorMessage } from 'src/utils/getErrorMessage';
+import cx from 'classnames';
+import styles from './style.scss';
 
 // Constants
 import { API_PROGRESS, CONTEST_STATUS, RANKING_LINK } from 'src/shared/constants';
@@ -188,12 +190,32 @@ function ContestDetail() {
                 );
               case CONTEST_STATUS.ENDED:
                 return (
-                  <ContestActionButton
-                    contestInfo={contestInfo[contestName]}
-                    withTime={false}
-                    materialButtonType="primary"
-                    buttonWidth="240"
-                  />
+                  <div className={cx(styles.documentContestPage)}>
+                    <div className={cx(styles.documentContestPage__content)}>
+                      <div className={cx(styles.documentContestPage__content__title)}>
+                        <div className={cx(styles.line)}>
+                          <div></div>
+                        </div>
+                        <div>
+                          <p> Tư liệu kì thi</p>
+                        </div>
+                        <div className={cx(styles.line)}>
+                          <div></div>
+                        </div>
+                      </div>
+                      <div className={cx(styles.documentContestPage__content__btn)}>
+                        <div></div>
+                      </div>
+                    </div>
+                    <div className={cx(styles.actionButton)}>
+                      <ContestActionButton
+                        contestInfo={contestInfo[contestName]}
+                        withTime={false}
+                        materialButtonType="primary"
+                        buttonWidth="240"
+                      ></ContestActionButton>
+                    </div>
+                  </div>
                 );
               default:
                 return null;
