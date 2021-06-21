@@ -22,7 +22,7 @@ import styles from './style.scss';
 import { API_PROGRESS, CONTEST_STATUS, RANKING_LINK } from 'src/shared/constants';
 
 // Components
-import { Button } from 'src/app/common-ui/Button';
+import { Button, PrimaryButton } from 'src/app/common-ui/Button';
 import Clock from 'src/app/components/Clock';
 import Loading from 'src/app/common-ui/Loading';
 import ErrorContent from 'src/app/components/ErrorContent';
@@ -230,12 +230,17 @@ function ContestDetail() {
                       </div>
                     </div>
                     <div className={cx(styles.actionButton)}>
-                      <ContestActionButton
-                        contestInfo={contestInfo[contestName]}
-                        withTime={false}
-                        materialButtonType="primary"
-                        buttonWidth="240"
-                      ></ContestActionButton>
+                      <PrimaryButton
+                        onClick={() => {
+                          window.open(
+                            contestInfo[contestName].materials.all_materials_url || 'about:blank',
+                            '_blank',
+                            'noopener noreferrer',
+                          );
+                        }}
+                      >
+                        Xem toàn bộ
+                      </PrimaryButton>
                     </div>
                   </div>
                 );
