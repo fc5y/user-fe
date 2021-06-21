@@ -5,6 +5,7 @@
         align-items: center;
         flex-wrap: wrap;
     }
+    $primaryColor: #1C83C6;
     .documentContestPage{
         width: 100%;
         height: 100%;
@@ -25,10 +26,13 @@
             &__btn{
                 width: 100%;
                 @include displayContent();
-                div{
+                &__edited{
                     width: 95%;
-                    background-color: aquamarine;
                     height: 80px;
+                    border-left: 2px solid #1c83c6;
+                    display: flex;
+                    justify-content: space-around;
+                    align-items: center;
                     border-radius: 4px;
                 }
             }

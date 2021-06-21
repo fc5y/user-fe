@@ -29,6 +29,7 @@ import ErrorContent from 'src/app/components/ErrorContent';
 import IconWarning from 'src/app/common-ui/Icons/IconWarning';
 import ContestStatusText from 'src/app/components/ContestStatusText';
 import ContestActionButton from 'src/app/components/ContestActionButton';
+import ButtonContestDocument from 'src/app/components/NewDocumentContestButton';
 
 const ContainerWrapper = styled.div`
   width: 100%;
@@ -197,14 +198,35 @@ function ContestDetail() {
                           <div></div>
                         </div>
                         <div>
-                          <p> Tư liệu kì thi</p>
+                          <h4> Tư liệu kỳ thi</h4>
                         </div>
                         <div className={cx(styles.line)}>
                           <div></div>
                         </div>
                       </div>
                       <div className={cx(styles.documentContestPage__content__btn)}>
-                        <div></div>
+                        <div className={cx(styles.documentContestPage__content__btn__edited)}>
+                          <ButtonContestDocument
+                            content="Đề bài"
+                            linkUrl={contestInfo[contestName].materials.statements_url}
+                          ></ButtonContestDocument>
+                          <ButtonContestDocument
+                            content="Bộ test"
+                            linkUrl={contestInfo[contestName].materials.test_data_url}
+                          ></ButtonContestDocument>
+                          <ButtonContestDocument
+                            content="Bảng điểm"
+                            linkUrl={contestInfo[contestName].materials.ranking_url}
+                          ></ButtonContestDocument>
+                          <ButtonContestDocument
+                            content="Lời giải"
+                            linkUrl={contestInfo[contestName].materials.editorial_url}
+                          ></ButtonContestDocument>
+                          <ButtonContestDocument
+                            content="Bài giải"
+                            linkUrl={contestInfo[contestName].materials.solution_url}
+                          ></ButtonContestDocument>
+                        </div>
                       </div>
                     </div>
                     <div className={cx(styles.actionButton)}>
