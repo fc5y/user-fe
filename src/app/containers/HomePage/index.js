@@ -1,9 +1,6 @@
 import * as React from 'react';
 import { Helmet } from 'react-helmet';
 
-// Common UI
-import AlertWarning from 'src/app/common-ui/AlertWarning';
-
 // Hook
 import useFetchContestInfo from 'src/shared/hook/useFetchContestsInfo';
 import { useHistory } from 'react-router-dom';
@@ -30,17 +27,6 @@ const Container = styled.div`
   align-items: center;
   padding: 40px 10px;
   min-height: calc(100vh - var(--navbar-height) - var(--footer-height));
-`;
-
-const AlertContainer = styled.div`
-  max-width: var(--max-content-width);
-  min-width: var(--min-content-width);
-  width: 100%;
-  margin-bottom: 30px;
-`;
-
-const AlertContent = styled.p`
-  line-height: 24px;
 `;
 
 const BannerImageWrapper = styled.div`
@@ -79,25 +65,6 @@ function HomePage() {
         <Helmet>
           <title>Free Contest</title>
         </Helmet>
-        <AlertContainer>
-          <AlertWarning
-            content={
-              <AlertContent>
-                Quá trình chuyển dữ liệu đã hoàn tất. Các thí sinh có thể đăng nhập bằng username và
-                password của tài khoản cũ (trên trang freecontest.xyz). Nếu gặp bất cứ vấn đề gì,
-                vui lòng liên hệ với fanpage của chúng tôi tại&nbsp;
-                <a
-                  href="https://www.facebook.com/kc97blf"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  đây
-                </a>
-                .
-              </AlertContent>
-            }
-          />
-        </AlertContainer>
         <OngoingContest
           isLoading={apiState.progress === API_PROGRESS.REQ && onGoingContests.length === 0}
           contests={onGoingContests}
