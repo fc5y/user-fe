@@ -29,7 +29,7 @@ import ErrorContent from 'src/app/components/ErrorContent';
 import IconWarning from 'src/app/common-ui/Icons/IconWarning';
 import ContestStatusText from 'src/app/components/ContestStatusText';
 import ContestActionButton from 'src/app/components/ContestActionButton';
-import ButtonContestDocument from 'src/app/components/NewDocumentContestButton';
+import ButtonContestDocument from 'src/app/components/ButtonContestDocument';
 
 const ContainerWrapper = styled.div`
   width: 100%;

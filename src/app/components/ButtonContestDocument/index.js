@@ -2,12 +2,11 @@
 import * as React from 'react';
 
 // Utils
-// Utils
 import cx from 'classnames';
 import styles from './style.scss';
 
 // Assets
-import IconFolder from '../../../assets/images/folder.png';
+import IconFolder from 'src/assets/images/folder.png';
 
 export default function ButtonContestDocument(props) {
   const openLink = (link) => window.open(link || 'about:blank', '_blank', 'noopener noreferrer');
