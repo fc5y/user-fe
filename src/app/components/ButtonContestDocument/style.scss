@@ -1,0 +1,31 @@
+:local{
+    .stylebtn{
+        display: grid;
+        cursor: pointer;
+        grid-template-columns: 100%;
+        grid-template-rows: 50% 50%;
+        color: #1c83c6;
+        width: 112px;
+        height: 80px;
+        border: 2px solid #1c83c6;
+        border-right: 2px solid rgba(28, 131, 198, 0.4);
+        border-left: 0;
+        position: relative;
+        flex-wrap: nowrap;
+        div{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        div:nth-child(1){
+            align-items: flex-end;
+        }
+        div:nth-child(2) 
+        {
+            align-items: flex-start;
+            p{
+                font-size: 16px;
+            }
+        }
+    }
+}

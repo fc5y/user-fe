@@ -15,18 +15,21 @@ import { ContestInfoContext } from 'src/shared/context/ContestInfo';
 import styled from 'styled-components';
 import { formatContestTime } from 'src/utils/contest';
 import { getErrorMessage } from 'src/utils/getErrorMessage';
+import cx from 'classnames';
+import styles from './style.scss';
 
 // Constants
 import { API_PROGRESS, CONTEST_STATUS, RANKING_LINK } from 'src/shared/constants';
 
 // Components
-import { Button } from 'src/app/common-ui/Button';
+import { Button, PrimaryButton } from 'src/app/common-ui/Button';
 import Clock from 'src/app/components/Clock';
 import Loading from 'src/app/common-ui/Loading';
 import ErrorContent from 'src/app/components/ErrorContent';
 import IconWarning from 'src/app/common-ui/Icons/IconWarning';
 import ContestStatusText from 'src/app/components/ContestStatusText';
 import ContestActionButton from 'src/app/components/ContestActionButton';
+import ButtonContestDocument from 'src/app/components/ButtonContestDocument';
 
 const ContainerWrapper = styled.div`
   width: 100%;
@@ -188,12 +191,58 @@ function ContestDetail() {
                 );
               case CONTEST_STATUS.ENDED:
                 return (
-                  <ContestActionButton
-                    contestInfo={contestInfo[contestName]}
-                    withTime={false}
-                    materialButtonType="primary"
-                    buttonWidth="240"
-                  />
+                  <div className={cx(styles.documentContestPage)}>
+                    <div className={cx(styles.documentContestPage__content)}>
+                      <div className={cx(styles.documentContestPage__content__title)}>
+                        <div className={cx(styles.line)}>
+                          <div></div>
+                        </div>
+                        <div>
+                          <h4> Tư liệu kỳ thi</h4>
+                        </div>
+                        <div className={cx(styles.line)}>
+                          <div></div>
+                        </div>
+                      </div>
+                      <div className={cx(styles.documentContestPage__content__btn)}>
+                        <div className={cx(styles.documentContestPage__content__btn__edited)}>
+                          <ButtonContestDocument
+                            content="Đề bài"
+                            linkUrl={contestInfo[contestName].materials.statements_url}
+                          ></ButtonContestDocument>
+                          <ButtonContestDocument
+                            content="Bộ test"
+                            linkUrl={contestInfo[contestName].materials.test_data_url}
+                          ></ButtonContestDocument>
+                          <ButtonContestDocument
+                            content="Bảng điểm"
+                            linkUrl={contestInfo[contestName].materials.ranking_url}
+                          ></ButtonContestDocument>
+                          <ButtonContestDocument
+                            content="Lời giải"
+                            linkUrl={contestInfo[contestName].materials.editorial_url}
+                          ></ButtonContestDocument>
+                          <ButtonContestDocument
+                            content="Bài giải"
+                            linkUrl={contestInfo[contestName].materials.solution_url}
+                          ></ButtonContestDocument>
+                        </div>
+                      </div>
+                    </div>
+                    <div className={cx(styles.actionButton)}>
+                      <PrimaryButton
+                        onClick={() => {
+                          window.open(
+                            contestInfo[contestName].materials.all_materials_url || 'about:blank',
+                            '_blank',
+                            'noopener noreferrer',
+                          );
+                        }}
+                      >
+                        Xem toàn bộ
+                      </PrimaryButton>
+                    </div>
+                  </div>
                 );
               default:
                 return null;

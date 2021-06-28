@@ -90,7 +90,6 @@ function MaterialButton({ materials, type, buttonWidth }) {
   const dropList = [
     {
       text: 'Đề bài',
-
       onClick: () => openLink(materials.statements_url),
     },
     {
