@@ -9,3 +9,11 @@ export const CONTEST_STATUS = Object.freeze({
   JUST_ENDED: 3,
   ENDED: 4,
 });
+
+export const CONTEST_MATERIALS_KEY_MAP = Object.freeze({
+  ranking_url: 'Bảng điểm',
+  solution_url: 'Bài giải',
+  editorial_url: 'Lời giải',
+  test_data_url: 'Bộ test',
+  statements_url: 'Đề bài',
+});

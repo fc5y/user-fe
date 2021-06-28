@@ -162,7 +162,7 @@ function ContestRegister() {
       <TitleContainer>
         <Title>Đăng ký kỳ thi</Title>
         <ContestTitle>
-          {(contestInfo[contestName] && contestInfo[contestName].contest_title) || contestName}
+          {(contestInfo[contestName] && contestInfo[contestName].title) || contestName}
         </ContestTitle>
         <ContestTime>{formatContestTime(contestInfo[contestName]).fullTime}</ContestTime>
       </TitleContainer>
