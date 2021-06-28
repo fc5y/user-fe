@@ -139,7 +139,7 @@ function ContestDetail() {
     <ContainerWrapper>
       <Helmet>
         <title>
-          {(contestInfo && contestInfo[contestName] && contestInfo[contestName].contest_title) ||
+          {(contestInfo && contestInfo[contestName] && contestInfo[contestName].title) ||
             'Các kỳ thi'}
         </title>
       </Helmet>
@@ -148,7 +148,7 @@ function ContestDetail() {
       ) : apiState.progress === API_PROGRESS.SUCCESS ? (
         <Container>
           <ContestTitle>
-            {(contestInfo[contestName] && contestInfo[contestName].contest_title) || contestName}
+            {(contestInfo[contestName] && contestInfo[contestName].title) || contestName}
           </ContestTitle>
           <ContestTime>{formatContestTime(contestInfo[contestName]).fullTimeWithUTC}</ContestTime>
           <ContestStatus

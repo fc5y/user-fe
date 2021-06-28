@@ -5,11 +5,11 @@ export function apiGetContestInfo({ contestName, token }) {
   // return resContestGet({ contestName });
 
   if (token) {
-    return get(`/api/v1/contests/${contestName}`, {
+    return get(`/api/v2/contests/${contestName}`, {
       Authorization: `Bearer ${token}`,
     });
   } else {
-    return get(`/api/v1/contests/${contestName}`);
+    return get(`/api/v2/contests/${contestName}`);
   }
 }
 
@@ -17,11 +17,11 @@ export function apiGetAllContestsInfo({ offset, limit, token }) {
   // return resContestGetAll({ offset, limit });
 
   if (token) {
-    return get(`/api/v1/contests${objectToUrlQuery({ offset, limit })}`, {
+    return get(`/api/v2/contests${objectToUrlQuery({ offset, limit })}`, {
       Authorization: `Bearer ${token}`,
     });
   } else {
-    return get(`/api/v1/contests${objectToUrlQuery({ offset, limit })}`);
+    return get(`/api/v2/contests${objectToUrlQuery({ offset, limit })}`);
   }
 }
 

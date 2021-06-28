@@ -63,7 +63,7 @@ function ContestRegister() {
     <>
       <Helmet>
         <title>
-          {(contestInfo && contestInfo[contestName] && contestInfo[contestName].contest_title) ||
+          {(contestInfo && contestInfo[contestName] && contestInfo[contestName].title) ||
             'Đăng ký kỳ thi'}
         </title>
       </Helmet>

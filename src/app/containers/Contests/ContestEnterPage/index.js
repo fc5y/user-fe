@@ -87,7 +87,7 @@ function EnterPage() {
     <>
       <Helmet>
         <title>
-          {(contestInfo && contestInfo[contestName] && contestInfo[contestName].contest_title) ||
+          {(contestInfo && contestInfo[contestName] && contestInfo[contestName].title) ||
             'Các kỳ thi'}
         </title>
       </Helmet>

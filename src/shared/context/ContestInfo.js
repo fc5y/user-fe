@@ -61,7 +61,7 @@ export function ContestInfoProvider({ children }) {
       // Prepare new myParticipation map
       if (data.my_participation) {
         const newParticipationMap = { ...myParticipationMap };
-        newParticipationMap[data.my_participation.contest_name] = data.my_participation;
+        newParticipationMap[data.my_participation.name] = data.my_participation;
         setMyParticipationMap(newParticipationMap);
       }
     }
@@ -89,7 +89,7 @@ export function ContestInfoProvider({ children }) {
       if (data.my_participations) {
         const newParticipationMap = { ...myParticipationMap };
         (data.my_participations || []).forEach((p) => {
-          newParticipationMap[p.contest_name] = p;
+          newParticipationMap[p.name] = p;
         });
         setMyParticipationMap(newParticipationMap);
       }
