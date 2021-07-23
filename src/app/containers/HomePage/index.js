@@ -63,7 +63,7 @@ function HomePage() {
     <>
       <Container>
         <Helmet>
-          <title>Free Contest</title>
+          <title>Test</title>
         </Helmet>
         <OngoingContest
           isLoading={apiState.progress === API_PROGRESS.REQ && onGoingContests.length === 0}

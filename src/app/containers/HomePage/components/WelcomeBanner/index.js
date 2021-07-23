@@ -10,6 +10,7 @@ import styled from 'styled-components';
 // Components
 import { SecondaryButton } from 'src/app/common-ui/Button';
 import IconClose from 'src/app/common-ui/Icons/IconClose';
+import Loading from 'src/app/common-ui/Loading';
 import LazyImage from 'src/app/components/LazyImage';
 
 // Constants
@@ -92,11 +93,20 @@ const Button = styled(SecondaryButton)`
   margin-top: 15px;
 `;
 
-const EXPIRED_TIME = 7 * 24 * 60 * 60 * 1000;
+const EXPIRED_TIME = 60 * 1000;
 
 function WelcomeBanner() {
   const [showWelcomeBanner, setShowWelcomeBanner] = React.useState(false);
+  const [showLoading, setShowLoading] = React.useState(false);
   const history = useHistory();
+
+  const createAccountHandle = () => {
+    setShowLoading(true);
+    setTimeout(() => {
+      setShowLoading(false);
+      history.push(ROUTE_SIGNUP);
+    }, 3000);
+  };
 
   React.useEffect(() => {
     try {
@@ -160,6 +170,7 @@ function WelcomeBanner() {
 
   return showWelcomeBanner ? (
     <WelcomeWrapper>
+      {!showLoading || <Loading />}
       <WelcomeImage
         src={welcomeImage}
         alt="homepage-welcome"
@@ -188,7 +199,7 @@ function WelcomeBanner() {
         <WelcomeText>
           Chuẩn bị cho các kỳ thi quan trọng như kỳ thi HSG QG môn Tin học, APIO, IOI, ACM-ICPC.
         </WelcomeText>
-        <Button onClick={() => history.push(ROUTE_SIGNUP)}>Tạo tài khoản</Button>
+        <Button onClick={createAccountHandle}>Tạo tài khoản</Button>
       </WelcomeInfo>
     </WelcomeWrapper>
   ) : null;

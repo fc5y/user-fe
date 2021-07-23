@@ -9,6 +9,10 @@ import IconMedal from '../../../../../assets/images/icon-medal.png';
 import IconFC5Y from '../../../../../assets/images/icon-fc.png';
 
 export default function HomePageBanner() {
+  React.useEffect(() => {
+    console.log('test home page baner');
+  }, []);
+
   return (
     <div>
       <div className={cx(styles.container)}>

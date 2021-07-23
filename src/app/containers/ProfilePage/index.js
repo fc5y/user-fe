@@ -23,9 +23,11 @@ import { getErrorMessage } from 'src/utils/getErrorMessage';
 
 // Apis
 import { apiGetUserInfo } from 'src/api/index';
+import { apiGetTimestamp } from 'src/api/timestamp';
 
 function ProfilePage({ match }) {
   const { userInfo } = useContext(UserInfoContext);
+  const [date, setDate] = useState();
   const [apiState, setApiState] = useState({
     progress: API_PROGRESS.INIT,
     code: null,
@@ -39,7 +41,28 @@ function ProfilePage({ match }) {
     rating: '—',
   });
 
+  const formatDate = () => {
+    return (
+      ('00' + date.getDate()).slice(-2) +
+      '/' +
+      ('00' + date.getMonth() + 1).slice(-2) +
+      '/' +
+      date.getFullYear() +
+      ' ' +
+      ('00' + date.getHours()).slice(-2) +
+      ':' +
+      ('00' + date.getMinutes()).slice(-2) +
+      ':' +
+      ('00' + date.getSeconds()).slice(-2)
+    );
+  };
+
   useEffect(() => {
+    const fetchTimestamp = async () => {
+      const temp = await apiGetTimestamp();
+      setDate(new Date(temp.data.timestamp * 1000));
+    };
+    fetchTimestamp();
     const fetchUserInfo = async () => {
       setApiState({ progress: API_PROGRESS.REQ });
       const { code, msg, data } = await apiGetUserInfo({ username: match.params.username });
@@ -102,6 +125,7 @@ function ProfilePage({ match }) {
             </div>
           </div>
         </div>
+        {date && <div>Cập nhật lần cuối: {formatDate(date)}</div>}
         <ParticipatedContests username={match.params.username} rating={userInfo.rating} />
       </div>
     </div>

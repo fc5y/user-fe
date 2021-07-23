@@ -46,6 +46,7 @@ export default function Left() {
       <StyledLink to="/contests">Các kỳ thi</StyledLink>
       <StyledLink to="/ranking">Bảng xếp hạng</StyledLink>
       <StyledLink to="/help">Hướng dẫn</StyledLink>
+      <StyledLink to="/donation">Ủng hộ</StyledLink>
     </Container>
   );
 }
