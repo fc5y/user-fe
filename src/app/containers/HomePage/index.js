@@ -13,7 +13,6 @@ import OngoingContest from 'src/app/components/ContestsOngoing';
 import EndedContests from 'src/app/components/ContestsEnded';
 import WelcomeBanner from './components/WelcomeBanner';
 import Footer from 'src/app/components/Footer';
-import HomePageBanner from './components/HomePageBanner';
 
 // Utils and constants
 import styled from 'styled-components';
@@ -29,16 +28,6 @@ const Container = styled.div`
   min-height: calc(100vh - var(--navbar-height) - var(--footer-height));
 `;
 
-const BannerImageWrapper = styled.div`
-  margin: 20px 0;
-  max-width: var(--max-content-width);
-  min-width: var(--min-content-width);
-  width: 100%;
-  height: 100%;
-  max-height: 90px;
-  border-radius: 4px;
-  box-shadow: 0px 0px 12px rgba(188, 188, 188, 0.25);
-`;
 const ContestTitle = styled.h1`
   font-weight: 700;
   font-size: 16px;
@@ -50,6 +39,19 @@ const ButtonWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+`;
+
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: var(--contest-table-max-width);
+  min-width: var(--contest-table-min-width);
+  padding: 24px;
+  background: #fff;
+  box-shadow: 0px 0px 12px rgba(188, 188, 188, 0.25);
+  border-radius: 4px;
 `;
 function HomePage() {
   const { userInfo } = React.useContext(UserInfoContext);
@@ -65,23 +67,22 @@ function HomePage() {
         <Helmet>
           <title>Free Contest</title>
         </Helmet>
-        <OngoingContest
-          isLoading={apiState.progress === API_PROGRESS.REQ && onGoingContests.length === 0}
-          contests={onGoingContests}
-        />
-        <BannerImageWrapper>
-          <HomePageBanner></HomePageBanner>
-        </BannerImageWrapper>
+        <Wrapper>
+          <OngoingContest
+            isLoading={apiState.progress === API_PROGRESS.REQ && onGoingContests.length === 0}
+            contests={onGoingContests}
+          />
+          <EndedContests
+            isLoading={apiState.progress === API_PROGRESS.REQ && endedContests.length === 0}
+            contests={endedContests}
+          />
+          <ButtonWrapper>
+            <ContestTitle onClick={() => history.push('/contests')}>
+              Xem thêm các kỳ thi khác
+            </ContestTitle>
+          </ButtonWrapper>
+        </Wrapper>
         {userInfo.isFetched && !userInfo.username && <WelcomeBanner />}
-        <EndedContests
-          isLoading={apiState.progress === API_PROGRESS.REQ && endedContests.length === 0}
-          contests={endedContests}
-        />
-        <ButtonWrapper>
-          <ContestTitle onClick={() => history.push('/contests')}>
-            Xem thêm các kỳ thi khác
-          </ContestTitle>
-        </ButtonWrapper>
       </Container>
       <Footer />
     </>
