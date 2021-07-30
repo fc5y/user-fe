@@ -72,15 +72,15 @@ function LoginPage({ history, location }) {
     }
 
     setApiState({ progress: API_PROGRESS.REQ, code: null, msg: null });
-    const { code, data, msg } = await apiLogin({
-      usernameOrEmail: validation.newValues.usernameOrEmail,
+    const { error, data, error_msg } = await apiLogin({
+      auth_key: validation.newValues.usernameOrEmail,
       password: validation.newValues.password,
     });
 
-    if (!!code || !data || !data.access_token) {
-      setApiState({ progress: API_PROGRESS.FAILED, code, msg });
+    if (!!error || !data || !data.access_token) {
+      setApiState({ progress: API_PROGRESS.FAILED, error, error_msg });
     } else {
-      setApiState({ progress: API_PROGRESS.SUCCESS, code, msg });
+      setApiState({ progress: API_PROGRESS.SUCCESS, error, error_msg });
 
       // Save token and set isFetched to false to trigger fetching again
       setUserInfo({ token: data.access_token, isFetched: false });
