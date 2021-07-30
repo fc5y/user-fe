@@ -37,8 +37,8 @@ function LoginPage({ history, location }) {
   const [showWarningForgetPassword, setShowWarningForgetPassword] = React.useState(false);
   const [apiState, setApiState] = React.useState({
     progress: API_PROGRESS.INIT,
-    code: null,
-    msg: null,
+    error: null,
+    error_msg: null,
   });
   const { setUserInfo } = React.useContext(UserInfoContext);
 
@@ -71,7 +71,7 @@ function LoginPage({ history, location }) {
       return;
     }
 
-    setApiState({ progress: API_PROGRESS.REQ, code: null, msg: null });
+    setApiState({ progress: API_PROGRESS.REQ, error: null, error_msg: null });
     const { error, data, error_msg } = await apiLogin({
       auth_key: validation.newValues.usernameOrEmail,
       password: validation.newValues.password,
