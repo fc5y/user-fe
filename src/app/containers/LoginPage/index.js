@@ -73,7 +73,7 @@ function LoginPage({ history, location }) {
 
     setApiState({ progress: API_PROGRESS.REQ, error: null, error_msg: null });
     const { error, data, error_msg } = await apiLogin({
-      auth_key: validation.newValues.usernameOrEmail,
+      usernameOrEmail: validation.newValues.usernameOrEmail,
       password: validation.newValues.password,
     });
 
