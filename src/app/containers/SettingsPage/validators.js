@@ -1,10 +1,4 @@
-import { ERROR_VALIDATION as ERROR } from 'src/shared/constants';
-
-function getRequiredFieldErrorOrNull(field) {
-  if (!field) return ERROR.MSG_ERROR_FIELD_IS_REQUIRED;
-  if (field.length > 255) return ERROR.MSG_ERROR_INPUT_TOO_LONG;
-  return null;
-}
+import { getRequiredFieldErrorOrNull } from 'src/utils/validator';
 
 export function validate(values) {
   const newValues = {
