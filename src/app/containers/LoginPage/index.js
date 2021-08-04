@@ -37,8 +37,8 @@ function LoginPage({ history, location }) {
   const [showWarningForgetPassword, setShowWarningForgetPassword] = React.useState(false);
   const [apiState, setApiState] = React.useState({
     progress: API_PROGRESS.INIT,
-    code: null,
-    msg: null,
+    error: null,
+    error_msg: null,
   });
   const { setUserInfo } = React.useContext(UserInfoContext);
 
@@ -71,16 +71,16 @@ function LoginPage({ history, location }) {
       return;
     }
 
-    setApiState({ progress: API_PROGRESS.REQ, code: null, msg: null });
-    const { code, data, msg } = await apiLogin({
+    setApiState({ progress: API_PROGRESS.REQ, error: null, error_msg: null });
+    const { error, data, error_msg } = await apiLogin({
       usernameOrEmail: validation.newValues.usernameOrEmail,
       password: validation.newValues.password,
     });
 
-    if (!!code || !data || !data.access_token) {
-      setApiState({ progress: API_PROGRESS.FAILED, code, msg });
+    if (!!error || !data || !data.access_token) {
+      setApiState({ progress: API_PROGRESS.FAILED, error, error_msg });
     } else {
-      setApiState({ progress: API_PROGRESS.SUCCESS, code, msg });
+      setApiState({ progress: API_PROGRESS.SUCCESS, error, error_msg });
 
       // Save token and set isFetched to false to trigger fetching again
       setUserInfo({ token: data.access_token, isFetched: false });

@@ -31,8 +31,8 @@ function EnterPage() {
   const { contestInfo, getContestInfoByName } = React.useContext(ContestInfoContext);
   const [apiState, setApiState] = React.useState({
     progress: API_PROGRESS.INIT,
-    code: null,
-    msg: null,
+    error: null,
+    error_msg: null,
   });
   const [contestCredential, setContestCredential] = React.useState({
     username: '',
@@ -47,32 +47,32 @@ function EnterPage() {
       setApiState({ progress: API_PROGRESS.REQ });
 
       // Get contest info
-      const { code, msg } = await getContestInfoByName({ contestName, token: userInfo.token });
+      const { error, msg } = await getContestInfoByName({ contestName, token: userInfo.token });
 
-      if (code) {
+      if (error) {
         setApiState({
           progress: API_PROGRESS.FAILED,
-          code,
-          msg,
+          error,
+          error_msg,
         });
         return;
       }
 
       // Get contest credential
       const {
-        code: credApiCode,
+        error: credApiCode,
         data: credApiData,
-        msg: credApiMsg,
+        error_msg: credApiMsg,
       } = await apiGetContestCredential({ contestName, token: userInfo.token });
       if (credApiCode || !credApiData.contest_username || !credApiData.contest_password) {
         setApiState({ progress: API_PROGRESS.FAILED });
         setApiState({
           progress: API_PROGRESS.FAILED,
-          code: credApiCode,
-          msg: credApiMsg,
+          error: credApiCode,
+          error_msg: credApiMsg,
         });
       } else {
-        setApiState({ progress: API_PROGRESS.SUCCESS, code: null, msg: null });
+        setApiState({ progress: API_PROGRESS.SUCCESS, error: null, error_msg: null });
         setContestCredential({
           username: credApiData.contest_username,
           password: credApiData.contest_password,
@@ -93,7 +93,7 @@ function EnterPage() {
       </Helmet>
       {(() => {
         switch (true) {
-          case apiState.code === API_ERROR.NOT_SYNCED:
+          case apiState.error === API_ERROR.NOT_SYNCED:
             return (
               <div className={styles.errorContainer}>
                 <WarningBox content={getErrorMessage(apiState)} />

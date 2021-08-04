@@ -27,7 +27,7 @@ export function apiGetAllContestsInfo({ offset, limit, token }) {
 
 export function apiRegisterContest({ token, contestName }) {
   return post(
-    `/api/v1/participations`,
+    `/api/v2/contests/${contestName}/participations`,
     { contest_name: contestName, is_hidden: false },
     { Authorization: `Bearer ${token}` },
   );

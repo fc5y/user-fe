@@ -91,8 +91,8 @@ function ContestRegister() {
   const [errors, setErrors] = React.useState({});
   const [apiState, setApiState] = React.useState({
     progress: API_PROGRESS.INIT,
-    code: null,
-    msg: null,
+    error: null,
+    error_msg: null,
   });
   const { contestName } = useParams();
   const history = useHistory();
@@ -119,16 +119,16 @@ function ContestRegister() {
       return;
     }
 
-    setApiState({ progress: API_PROGRESS.REQ, code: null, msg: null });
-    const { code, data, msg } = await apiRegisterContest({
+    setApiState({ progress: API_PROGRESS.REQ, error: null, error_msg: null });
+    const { error, data, error_msg } = await apiRegisterContest({
       token: userInfo.token,
       contestName,
     });
 
-    if (code || !data) {
-      setApiState({ progress: API_PROGRESS.FAILED, code, msg });
+    if (error || !data) {
+      setApiState({ progress: API_PROGRESS.FAILED, error, error_msg });
     } else {
-      setApiState({ progress: API_PROGRESS.SUCCESS, code: null, msg: null });
+      setApiState({ progress: API_PROGRESS.SUCCESS, error: null, error_msg: null });
     }
   };
 
