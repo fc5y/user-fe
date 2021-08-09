@@ -119,16 +119,16 @@ function ContestRegister() {
       return;
     }
 
-    setApiState({ progress: API_PROGRESS.REQ, error: null, error_msg: null });
-    const { error, data, error_msg } = await apiRegisterContest({
+    setApiState({ progress: API_PROGRESS.REQ, error: null, msg: null });
+    const { error, data, error_msg: msg } = await apiRegisterContest({
       token: userInfo.token,
       contestName,
     });
 
     if (error || !data) {
-      setApiState({ progress: API_PROGRESS.FAILED, error, error_msg });
+      setApiState({ progress: API_PROGRESS.FAILED, error, msg });
     } else {
-      setApiState({ progress: API_PROGRESS.SUCCESS, error: null, error_msg: null });
+      setApiState({ progress: API_PROGRESS.SUCCESS, error: null, msg: null });
     }
   };
 

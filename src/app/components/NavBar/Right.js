@@ -102,7 +102,7 @@ export default function Right() {
   const { userInfo, clearUserInfo } = React.useContext(UserInfoContext);
   const { clearAllParticipations } = React.useContext(ContestInfoContext);
   const history = useHistory();
-
+  console.log(userInfo);
   return (
     <Container>
       {!userInfo.isFetched ? (

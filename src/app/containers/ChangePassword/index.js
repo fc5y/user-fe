@@ -47,7 +47,7 @@ function ChangePassword({ history }) {
   const [errors, setErrors] = React.useState({});
   const [apiState, setApiState] = React.useState({
     progress: API_PROGRESS.INIT,
-    code: null,
+    error: null,
     msg: null,
   });
 
@@ -78,15 +78,15 @@ function ChangePassword({ history }) {
       const { currentPassword, newPassword } = values;
       const { token } = userInfo;
 
-      setApiState({ progress: API_PROGRESS.REQ, code: null, msg: null });
-      const { code, data, msg } = await apiChangeUserPassword({
+      setApiState({ progress: API_PROGRESS.REQ, error: null, msg: null });
+      const { error, data, error_msg: msg } = await apiChangeUserPassword({
         currentPassword,
         newPassword,
         token,
       });
 
-      if (code || !data) {
-        setApiState({ progress: API_PROGRESS.FAILED, code, msg });
+      if (error || !data) {
+        setApiState({ progress: API_PROGRESS.FAILED, error, msg });
       } else {
         setApiState({ ...apiState, progress: API_PROGRESS.SUCCESS });
       }
@@ -105,7 +105,7 @@ function ChangePassword({ history }) {
         <ErrorPopup
           show
           content="Đã xảy ra lỗi, vui lòng thử lại sau"
-          onClose={() => setApiState({ progress: API_PROGRESS.INIT, error: null, error_msg: null })}
+          onClose={() => setApiState({ progress: API_PROGRESS.INIT, error: null, msg: null })}
         />
       ) : (
         apiState.progress === API_PROGRESS.SUCCESS && (
@@ -113,7 +113,7 @@ function ChangePassword({ history }) {
             show
             content="Lưu thay đổi thành công"
             onClose={() => {
-              setApiState({ progress: API_PROGRESS.INIT, error: null, error_msg: null });
+              setApiState({ progress: API_PROGRESS.INIT, error: null, msg: null });
               history.push(ROUTE_HOMEPAGE);
             }}
           />

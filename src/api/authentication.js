@@ -1,4 +1,4 @@
-import { post } from '../utils/fetchUtils';
+import { get, post } from '../utils/fetchUtils';
 
 export function apiLogin({ usernameOrEmail, password }) {
   return post('/api/v2/auth/login', { auth_key: usernameOrEmail, password });
@@ -6,6 +6,10 @@ export function apiLogin({ usernameOrEmail, password }) {
 
 export function apiSendOTPEmail({ email }) {
   return post('/api/v2/auth/send-otp', { email });
+}
+
+export function apiLoginStatus() {
+  return get('/api/v2/auth/login-status');
 }
 
 export function apiSignup({ username, otp, fullname, school, email, password }) {

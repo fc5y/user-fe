@@ -1,42 +1,39 @@
 import { get, post } from '../utils/fetchUtils';
 
 export function apiGetMyUserInfo({ token }) {
-  return get(`/api/v1/me`, {
-    Authorization: `Bearer ${token}`,
-    'Access-Control-Allow-Headers': '*',
-  });
+  console.log(token);
+  return get(`/api/v2/me`);
 }
 
 export function apiGetUserInfo({ username }) {
-  return get(`/api/v1/users/${username}`);
+  return get(`/api/v2/users/${username}`);
+}
+
+export function apiGetUserParticipations() {
+  return get('/api/v2/users/me/participations');
 }
 
 export function apiChangeUserPassword({ currentPassword, newPassword, token }) {
-  return post(
-    '/api/v1/me/change-password',
-    {
-      old_password: currentPassword,
-      new_password: newPassword,
-    },
-    {
-      Authorization: `Bearer ${token}`,
-    },
-  );
+  return post('/api/v2/me/change-password', {
+    old_password: currentPassword,
+    new_password: newPassword,
+  });
 }
 
 export function apiUpdateUserInfo({ fullname, school, token }) {
-  return post(
-    '/api/v1/me',
-    {
-      full_name: fullname,
-      school_name: school,
-    },
-    {
-      Authorization: `Bearer ${token}`,
-    },
-  );
+  return post('/api/v2/me/update', {
+    full_name: fullname,
+    school_name: school,
+  });
 }
 
 export function apiGetParticipations({ username, offset, limit }) {
-  return get(`/api/v1/participations/${username}?offset=${offset}&limit=${limit}`, {});
+  return get(`/api/v2/users/${username}/participations?offset=${offset}&limit=${limit}`, {});
+}
+
+export function apiUserParticipationsCreate({ contestName, isHidden }) {
+  return post('/api/v2/me/participations/create', {
+    contest_name: contestName,
+    is_hidden: isHidden,
+  });
 }

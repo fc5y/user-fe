@@ -47,13 +47,16 @@ function EnterPage() {
       setApiState({ progress: API_PROGRESS.REQ });
 
       // Get contest info
-      const { error, msg } = await getContestInfoByName({ contestName, token: userInfo.token });
+      const { error, error_msg: msg } = await getContestInfoByName({
+        contestName,
+        token: userInfo.token,
+      });
 
       if (error) {
         setApiState({
           progress: API_PROGRESS.FAILED,
           error,
-          error_msg,
+          msg,
         });
         return;
       }

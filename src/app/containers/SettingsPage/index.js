@@ -50,7 +50,7 @@ function SettingsPage() {
   const [errors, setErrors] = React.useState({});
   const [apiState, setApiState] = React.useState({
     progress: API_PROGRESS.INIT,
-    code: null,
+    error: null,
     msg: null,
   });
 
@@ -81,15 +81,15 @@ function SettingsPage() {
       const { fullname, school } = values;
       const { token } = userInfo;
 
-      setApiState({ progress: API_PROGRESS.REQ, code: null, msg: null });
-      const { code, data, msg } = await apiUpdateUserInfo({
+      setApiState({ progress: API_PROGRESS.REQ, error: null, msg: null });
+      const { error, data, error_msg: msg } = await apiUpdateUserInfo({
         fullname,
         school,
         token,
       });
 
-      if (code || !data) {
-        setApiState({ progress: API_PROGRESS.FAILED, code, msg });
+      if (error || !data) {
+        setApiState({ progress: API_PROGRESS.FAILED, error, msg });
       } else {
         setApiState({ ...apiState, progress: API_PROGRESS.SUCCESS });
         setUserInfo({ ...userInfo, fullname, school });
@@ -109,7 +109,7 @@ function SettingsPage() {
         <ErrorPopup
           show
           content="Đã xảy ra lỗi, vui lòng thử lại sau"
-          onClose={() => setApiState({ progress: API_PROGRESS.INIT, error: null, error_msg: null })}
+          onClose={() => setApiState({ progress: API_PROGRESS.INIT, error: null, msg: null })}
         />
       ) : (
         apiState.progress === API_PROGRESS.SUCCESS && (
@@ -117,7 +117,7 @@ function SettingsPage() {
             show
             content="Lưu thay đổi thành công!"
             onClose={() => {
-              setApiState({ progress: API_PROGRESS.INIT, error: null, error_msg: null });
+              setApiState({ progress: API_PROGRESS.INIT, error: null, msg: null });
               window.location.reload();
             }}
           />

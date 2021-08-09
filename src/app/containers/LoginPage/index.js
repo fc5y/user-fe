@@ -2,7 +2,7 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 
 // APIs
-import { apiLogin } from 'src/api/authentication';
+import { apiLogin, apiLoginStatus } from 'src/api/authentication';
 
 // HOC
 import { withRouter, Link } from 'react-router-dom';
@@ -38,7 +38,7 @@ function LoginPage({ history, location }) {
   const [apiState, setApiState] = React.useState({
     progress: API_PROGRESS.INIT,
     error: null,
-    error_msg: null,
+    msg: null,
   });
   const { setUserInfo } = React.useContext(UserInfoContext);
 
@@ -71,19 +71,25 @@ function LoginPage({ history, location }) {
       return;
     }
 
-    setApiState({ progress: API_PROGRESS.REQ, error: null, error_msg: null });
-    const { error, data, error_msg } = await apiLogin({
+    setApiState({ progress: API_PROGRESS.REQ, error: null, msg: null });
+    const loginData = await apiLogin({
       usernameOrEmail: validation.newValues.usernameOrEmail,
       password: validation.newValues.password,
     });
 
-    if (!!error || !data || !data.access_token) {
-      setApiState({ progress: API_PROGRESS.FAILED, error, error_msg });
+    const { error, data, error_msg: msg } = loginData;
+
+    if (!!error || !data) {
+      setApiState({ progress: API_PROGRESS.FAILED, error, msg });
     } else {
-      setApiState({ progress: API_PROGRESS.SUCCESS, error, error_msg });
+      const loginStatus = await apiLoginStatus();
+      console.log('login-status', loginStatus);
+      console.log('login:', loginData);
+      setApiState({ progress: API_PROGRESS.SUCCESS, error, msg });
 
       // Save token and set isFetched to false to trigger fetching again
-      setUserInfo({ token: data.access_token, isFetched: false });
+      console.log(data);
+      setUserInfo({ isFetched: true, username: data.username });
 
       // Redirect to the correct URL
       if (!!query && !!query.redirect_url) {

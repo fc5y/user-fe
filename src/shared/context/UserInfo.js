@@ -29,9 +29,9 @@ export function UserInfoProvider({ children }) {
 
   React.useEffect(() => {
     const getUserInfo = async () => {
-      const { code, data } = await apiGetMyUserInfo({ token: userInfo.token });
+      const { error, data } = await apiGetMyUserInfo();
 
-      if (!code && data) {
+      if (!error && data) {
         setUserInfo({
           ...userInfo,
           username: data.user.username || userInfo.username,
