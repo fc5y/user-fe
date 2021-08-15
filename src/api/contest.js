@@ -2,8 +2,6 @@ import { get, post } from '../utils/fetchUtils';
 import { objectToUrlQuery } from '../utils/url';
 
 export function apiGetContestInfo({ contestName, token }) {
-  // return resContestGet({ contestName });
-
   if (token) {
     return get(`/api/v2/contests/${contestName}`, {
       Authorization: `Bearer ${token}`,
@@ -14,8 +12,6 @@ export function apiGetContestInfo({ contestName, token }) {
 }
 
 export function apiGetAllContestsInfo({ offset, limit, token }) {
-  // return resContestGetAll({ offset, limit });
-
   if (token) {
     return get(`/api/v2/contests${objectToUrlQuery({ offset, limit })}`, {
       Authorization: `Bearer ${token}`,

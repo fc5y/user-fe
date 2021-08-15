@@ -82,13 +82,10 @@ function LoginPage({ history, location }) {
     if (!!error || !data) {
       setApiState({ progress: API_PROGRESS.FAILED, error, msg });
     } else {
-      const loginStatus = await apiLoginStatus();
-      console.log('login-status', loginStatus);
-      console.log('login:', loginData);
+      await apiLoginStatus();
       setApiState({ progress: API_PROGRESS.SUCCESS, error, msg });
 
       // Save token and set isFetched to false to trigger fetching again
-      console.log(data);
       setUserInfo({ isFetched: true, username: data.username });
 
       // Redirect to the correct URL

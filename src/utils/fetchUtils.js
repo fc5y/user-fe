@@ -1,18 +1,14 @@
 import axios from 'axios';
 import { getFullApiUrl, isAbsoluteURL } from './url';
 
-const HTTP = axios.create({
-  withCredentials: true,
-});
-
 export const get = async (url, headers = {}) => {
   try {
     const finalUrl = isAbsoluteURL(url) ? url : getFullApiUrl(url);
-    const { data } = await HTTP.get(finalUrl, {
+    const { data } = await axios.get(finalUrl, {
       headers: {
         ...headers,
       },
-      // withCredentials: true,
+      withCredentials: true,
     });
 
     return { ...data };
@@ -24,11 +20,11 @@ export const get = async (url, headers = {}) => {
 export const post = async (url, body, headers = {}) => {
   try {
     const finalUrl = isAbsoluteURL(url) ? url : getFullApiUrl(url);
-    const { data } = await HTTP.post(finalUrl, body, {
+    const { data } = await axios.post(finalUrl, body, {
       headers: {
         ...headers,
       },
-      // withCredentials: true,
+      withCredentials: true,
     });
     return { ...data };
   } catch (err) {
