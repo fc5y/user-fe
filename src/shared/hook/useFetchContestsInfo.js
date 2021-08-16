@@ -2,7 +2,6 @@ import * as React from 'react';
 
 // Context
 import { ContestInfoContext } from 'src/shared/context/ContestInfo';
-import { UserInfoContext } from 'src/shared/context/UserInfo';
 
 // Utils and constants
 import { categorizeContestTypes } from 'src/utils/contest';
@@ -48,7 +47,9 @@ function useFetchContestInfo({ limit, offset, forceFetch, onFetchCompleted }) {
 
   // Fetch new contests
   React.useEffect(() => {
-    fetchContestsInfo();
+    if (forceFetch) {
+      fetchContestsInfo();
+    }
   }, [forceFetch]);
 
   // Get contests from old data and show first
