@@ -2,17 +2,12 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 
 // Apis
-import { apiGetMyUserInfo } from 'src/api';
-
-// Constants
-import { USERINFO_SESSION_KEY } from '../constants';
+import { apiGetMyUserInfo, apiLogout } from 'src/api';
 
 const INITIAL_USER_INFO = {
-  id: null,
   username: '',
   email: '',
   school: '',
-  token: null,
   fullname: '',
   isFetched: null,
 };
@@ -21,65 +16,42 @@ export const UserInfoContext = React.createContext({
   userInfo: INITIAL_USER_INFO,
   setUserInfo: () => {},
   clearUserInfo: () => {},
+  getUserInfo: () => {},
 });
 
 export function UserInfoProvider({ children }) {
   const [userInfo, setUserInfo] = React.useState(INITIAL_USER_INFO);
-  const [isTokenLoaded, setIsTokenLoaded] = React.useState(false);
 
-  React.useEffect(() => {
-    const getUserInfo = async () => {
-      const { error, data } = await apiGetMyUserInfo();
+  const getUserInfo = React.useCallback(async () => {
+    const { error, data } = await apiGetMyUserInfo();
 
-      if (!error && data) {
-        setUserInfo({
-          ...userInfo,
-          username: data.user.username || userInfo.username,
-          id: data.user.id || userInfo.id,
-          email: data.user.email || userInfo.email,
-          school: data.user.school_name || userInfo.school,
-          fullname: data.user.full_name || userInfo.fullname,
-          isFetched: true,
-        });
-      } else {
-        setUserInfo({ ...INITIAL_USER_INFO, isFetched: true });
-      }
-    };
-
-    if (isTokenLoaded) {
-      if (!!userInfo.token && !userInfo.username) {
-        getUserInfo();
-      } else {
-        setUserInfo({ ...userInfo, isFetched: true });
-      }
+    if (!error && data) {
+      setUserInfo({
+        ...userInfo,
+        username: data.user.username || userInfo.username,
+        email: data.user.email || userInfo.email,
+        school: data.user.school_name || userInfo.school,
+        fullname: data.user.full_name || userInfo.fullname,
+        isFetched: true,
+      });
+    } else {
+      setUserInfo({ ...INITIAL_USER_INFO, isFetched: true });
     }
-  }, [userInfo.token, isTokenLoaded]);
-
-  // Get from local storage
-  React.useEffect(() => {
-    const userInfoInLocalStorage = JSON.parse(localStorage.getItem(USERINFO_SESSION_KEY));
-    if (!!userInfoInLocalStorage && !!userInfoInLocalStorage.token) {
-      setUserInfo({ ...userInfo, token: userInfoInLocalStorage.token });
-    }
-    setIsTokenLoaded(true);
-  }, []);
-
-  // Save local storage
-  React.useEffect(() => {
-    localStorage.setItem(USERINFO_SESSION_KEY, JSON.stringify(userInfo));
   }, [userInfo]);
+
+  React.useEffect(() => {
+    getUserInfo();
+  }, []);
 
   const clearUserInfo = React.useCallback(() => {
     setUserInfo({
-      id: null,
       username: '',
       email: '',
       school: '',
-      token: null,
       fullname: '',
+      isFetched: true,
     });
-
-    localStorage.clear(USERINFO_SESSION_KEY);
+    apiLogout();
   }, []);
 
   return (
@@ -88,6 +60,7 @@ export function UserInfoProvider({ children }) {
         userInfo,
         setUserInfo: (data) => setUserInfo((userInfo) => ({ ...userInfo, ...data })),
         clearUserInfo,
+        getUserInfo,
       }}
     >
       <>{children}</>

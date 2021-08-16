@@ -14,29 +14,21 @@ function useFetchContestInfo({ limit, offset, forceFetch, onFetchCompleted }) {
   const [todayContests, setTodayContests] = React.useState([]);
   const [apiState, setApiState] = React.useState({
     progress: API_PROGRESS.INIT,
-    code: null,
-    msg: null,
+    error: null,
+    error_msg: null,
   });
 
   const { getAllContestInfo, totalContests, contests, contestServerTime } = React.useContext(
     ContestInfoContext,
   );
-  const { userInfo } = React.useContext(UserInfoContext);
 
   const fetchContestsInfo = async () => {
-    setApiState({ progress: API_PROGRESS.REQ, code: null, msg: null });
+    setApiState({ progress: API_PROGRESS.REQ, error: null, error_msg: null });
 
-    const params = userInfo.token
-      ? { token: userInfo.token, offset, limit }
-      : {
-          offset,
-          limit,
-        };
+    const { error, data, error_msg } = await getAllContestInfo({ offset, limit });
 
-    const { code, data, msg } = await getAllContestInfo(params);
-
-    if (code || !data || !data.contests) {
-      setApiState({ progress: API_PROGRESS.FAILED, code, msg });
+    if (error || !data || !data.contests) {
+      setApiState({ progress: API_PROGRESS.FAILED, error, error_msg });
     } else {
       const sanitizedContests = categorizeContestTypes(
         data.contests,
@@ -48,7 +40,7 @@ function useFetchContestInfo({ limit, offset, forceFetch, onFetchCompleted }) {
       if (sanitizedContests.todayContests.length) {
         setTodayContests(sanitizedContests.todayContests);
       }
-      setApiState({ progress: API_PROGRESS.SUCCESS, code: null, msg: null });
+      setApiState({ progress: API_PROGRESS.SUCCESS, error: null, error_msg: null });
     }
 
     typeof onFetchCompleted === 'function' && onFetchCompleted();
@@ -57,7 +49,7 @@ function useFetchContestInfo({ limit, offset, forceFetch, onFetchCompleted }) {
   // Fetch new contests
   React.useEffect(() => {
     fetchContestsInfo();
-  }, [forceFetch, userInfo.token]);
+  }, [forceFetch]);
 
   // Get contests from old data and show first
   React.useEffect(() => {

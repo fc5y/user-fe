@@ -92,8 +92,8 @@ function EmailOTP({ email, onSignup, onClickBack }) {
   const [errors, setErrors] = React.useState({});
   const [apiState, setApiState] = React.useState({
     progress: API_PROGRESS.INIT,
-    code: null,
-    msg: null,
+    error: null,
+    error_msg: null,
   });
   const history = useHistory();
 
@@ -122,13 +122,13 @@ function EmailOTP({ email, onSignup, onClickBack }) {
       return;
     }
 
-    setApiState({ progress: API_PROGRESS.REQ, code: null, msg: null });
-    const { code, msg } = await onSignup(validation.newValues.otp);
+    setApiState({ progress: API_PROGRESS.REQ, error: null, error_msg: null });
+    const { error, error_msg } = await onSignup(validation.newValues.otp);
 
-    if (code) {
-      setApiState({ progress: API_PROGRESS.FAILED, code, msg });
+    if (error) {
+      setApiState({ progress: API_PROGRESS.FAILED, error, error_msg });
     } else {
-      setApiState({ progress: API_PROGRESS.SUCCESS, code: null, msg: null });
+      setApiState({ progress: API_PROGRESS.SUCCESS, error: null, error_msg: null });
     }
   };
 
@@ -143,11 +143,13 @@ function EmailOTP({ email, onSignup, onClickBack }) {
           onClose={() => history.push(ROUTE_LOGIN)}
         />
       ) : (
-        apiState.code && (
+        apiState.error && (
           <ErrorPopup
             show
             content={getErrorMessage(apiState)}
-            onClose={() => setApiState({ progress: API_PROGRESS.INIT, code: null, msg: null })}
+            onClose={() =>
+              setApiState({ progress: API_PROGRESS.INIT, error: null, error_msg: null })
+            }
           />
         )
       )}

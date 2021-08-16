@@ -23,7 +23,6 @@ import { getErrorMessage } from 'src/utils/getErrorMessage';
 
 function ContestRegister() {
   const { contestName } = useParams();
-  const { userInfo } = React.useContext(UserInfoContext);
   const { getContestInfoByName, contestInfo } = React.useContext(ContestInfoContext);
   const [apiState, setApiState] = React.useState({
     progress: API_PROGRESS.INIT,
@@ -36,7 +35,6 @@ function ContestRegister() {
       setApiState({ progress: API_PROGRESS.REQ });
       const { code, msg, data } = await getContestInfoByName({
         contestName,
-        token: userInfo.token,
       });
 
       if (code || !data) {
@@ -57,7 +55,7 @@ function ContestRegister() {
     };
 
     fetchContestInfo();
-  }, [userInfo.token]);
+  }, []);
 
   return (
     <>

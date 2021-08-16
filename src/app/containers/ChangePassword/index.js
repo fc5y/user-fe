@@ -35,20 +35,18 @@ const Button = styled(PrimaryButton)`
 `;
 
 const labels = {
-  currentPassword: 'Thay đổi mật khẩu',
+  currentPassword: 'Mật khẩu hiện tại',
   newPassword: 'Mật khẩu mới',
   confirmNewPassword: 'Xác nhận mật khẩu mới',
 };
 
 function ChangePassword({ history }) {
-  const { userInfo } = React.useContext(UserInfoContext);
-
   const [values, setValues] = React.useState({});
   const [errors, setErrors] = React.useState({});
   const [apiState, setApiState] = React.useState({
     progress: API_PROGRESS.INIT,
     error: null,
-    msg: null,
+    error_msg: null,
   });
 
   const handleChange = (name, value) => {
@@ -76,17 +74,15 @@ function ChangePassword({ history }) {
       }
 
       const { currentPassword, newPassword } = values;
-      const { token } = userInfo;
 
-      setApiState({ progress: API_PROGRESS.REQ, error: null, msg: null });
-      const { error, data, error_msg: msg } = await apiChangeUserPassword({
+      setApiState({ progress: API_PROGRESS.REQ, error: null, error_msg: null });
+      const { error, error_msg } = await apiChangeUserPassword({
         currentPassword,
         newPassword,
-        token,
       });
 
-      if (error || !data) {
-        setApiState({ progress: API_PROGRESS.FAILED, error, msg });
+      if (error) {
+        setApiState({ progress: API_PROGRESS.FAILED, error, error_msg });
       } else {
         setApiState({ ...apiState, progress: API_PROGRESS.SUCCESS });
       }
@@ -105,7 +101,7 @@ function ChangePassword({ history }) {
         <ErrorPopup
           show
           content="Đã xảy ra lỗi, vui lòng thử lại sau"
-          onClose={() => setApiState({ progress: API_PROGRESS.INIT, error: null, msg: null })}
+          onClose={() => setApiState({ progress: API_PROGRESS.INIT, error: null, error_msg: null })}
         />
       ) : (
         apiState.progress === API_PROGRESS.SUCCESS && (
@@ -113,7 +109,7 @@ function ChangePassword({ history }) {
             show
             content="Lưu thay đổi thành công"
             onClose={() => {
-              setApiState({ progress: API_PROGRESS.INIT, error: null, msg: null });
+              setApiState({ progress: API_PROGRESS.INIT, error: null, error_msg: null });
               history.push(ROUTE_HOMEPAGE);
             }}
           />

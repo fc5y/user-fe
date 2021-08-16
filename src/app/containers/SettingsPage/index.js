@@ -51,7 +51,7 @@ function SettingsPage() {
   const [apiState, setApiState] = React.useState({
     progress: API_PROGRESS.INIT,
     error: null,
-    msg: null,
+    error_msg: null,
   });
 
   const handleChange = (name, value) => {
@@ -79,17 +79,15 @@ function SettingsPage() {
       }
 
       const { fullname, school } = values;
-      const { token } = userInfo;
 
-      setApiState({ progress: API_PROGRESS.REQ, error: null, msg: null });
-      const { error, data, error_msg: msg } = await apiUpdateUserInfo({
+      setApiState({ progress: API_PROGRESS.REQ, error: null, error_msg: null });
+      const { error, data, error_msg } = await apiUpdateUserInfo({
         fullname,
         school,
-        token,
       });
 
       if (error || !data) {
-        setApiState({ progress: API_PROGRESS.FAILED, error, msg });
+        setApiState({ progress: API_PROGRESS.FAILED, error, error_msg });
       } else {
         setApiState({ ...apiState, progress: API_PROGRESS.SUCCESS });
         setUserInfo({ ...userInfo, fullname, school });

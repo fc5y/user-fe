@@ -31,7 +31,7 @@ export const ContestInfoContext = React.createContext({
   myParticipationMap: {},
   totalContests: 0,
   contestServerTime: Date.now() / 1000,
-  getContestInfoByName: async ({ contestName, token }) => {},
+  getContestInfoByName: async ({ contestName }) => {},
   getAllContestInfo: async ({ offset, limit }) => {},
   clearAllContestInfo: () => {},
   clearAllParticipations: () => {},
@@ -47,11 +47,11 @@ export function ContestInfoProvider({ children }) {
   );
 
   // Get contest info by contest name
-  const getContestInfoByName = async ({ contestName, token }) => {
-    const { code, data } = await apiGetContestInfo({ contestName, token });
+  const getContestInfoByName = async ({ contestName }) => {
+    const { error, data } = await apiGetContestInfo({ contestName });
 
     // Save contest info if fetch successfully
-    if (!code && data && data.contest) {
+    if (!error && data && data.contest) {
       setContestServerTime(data.server_time || contestServerTime);
       setContestInfo({
         ...contestInfo,
@@ -66,15 +66,15 @@ export function ContestInfoProvider({ children }) {
       }
     }
 
-    return { code, data };
+    return { error, data };
   };
 
   // Get all contests info
-  const getAllContestInfo = async ({ offset, limit, token }) => {
-    const { code, data } = await apiGetAllContestsInfo({ offset, limit, token });
+  const getAllContestInfo = async ({ offset, limit }) => {
+    const { error, data } = await apiGetAllContestsInfo({ offset, limit });
 
     // Save contest info if fetch successfully
-    if (!code && data && data.contests) {
+    if (!error && data && data.contests) {
       // Prepare new contest list
       const newContestList = [...contests];
       for (let x = 0; x < limit; x++) {
@@ -95,7 +95,7 @@ export function ContestInfoProvider({ children }) {
       }
     }
 
-    return { code, data };
+    return { error, data };
   };
 
   const clearAllContestInfo = () => {

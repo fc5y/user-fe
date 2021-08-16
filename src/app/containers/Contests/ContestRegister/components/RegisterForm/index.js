@@ -121,7 +121,6 @@ function ContestRegister() {
 
     setApiState({ progress: API_PROGRESS.REQ, error: null, msg: null });
     const { error, data, error_msg: msg } = await apiRegisterContest({
-      token: userInfo.token,
       contestName,
     });
 

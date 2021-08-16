@@ -118,7 +118,7 @@ function ContestDetail() {
   React.useEffect(() => {
     const fetchContestInfo = async () => {
       setApiState({ progress: API_PROGRESS.REQ });
-      const { code, msg } = await getContestInfoByName({ contestName, token: userInfo.token });
+      const { code, msg } = await getContestInfoByName({ contestName });
 
       if (code) {
         setApiState({
@@ -133,7 +133,7 @@ function ContestDetail() {
     };
 
     fetchContestInfo();
-  }, [userInfo.token]);
+  }, []);
 
   return (
     <ContainerWrapper>

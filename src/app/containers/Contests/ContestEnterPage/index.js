@@ -27,7 +27,6 @@ import { getErrorMessage } from 'src/utils/getErrorMessage';
 import styles from './enter.scss';
 
 function EnterPage() {
-  const { userInfo } = React.useContext(UserInfoContext);
   const { contestInfo, getContestInfoByName } = React.useContext(ContestInfoContext);
   const [apiState, setApiState] = React.useState({
     progress: API_PROGRESS.INIT,
@@ -49,7 +48,6 @@ function EnterPage() {
       // Get contest info
       const { error, error_msg: msg } = await getContestInfoByName({
         contestName,
-        token: userInfo.token,
       });
 
       if (error) {
@@ -66,7 +64,7 @@ function EnterPage() {
         error: credApiCode,
         data: credApiData,
         error_msg: credApiMsg,
-      } = await apiGetContestCredential({ contestName, token: userInfo.token });
+      } = await apiGetContestCredential({ contestName });
       if (credApiCode || !credApiData.contest_username || !credApiData.contest_password) {
         setApiState({ progress: API_PROGRESS.FAILED });
         setApiState({
@@ -84,7 +82,7 @@ function EnterPage() {
     };
 
     fetchInfo();
-  }, [userInfo.token]);
+  }, []);
 
   return (
     <>
