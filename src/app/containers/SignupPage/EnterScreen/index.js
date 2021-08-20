@@ -104,7 +104,10 @@ function EnterScreen({ onSubmitForm, userInput }) {
     }
 
     setApiState({ progress: API_PROGRESS.REQ, error: null, error_msg: null });
-    const { error, error_msg } = await apiSendOTPEmail({ email: validation.newValues.email });
+    const { error, error_msg } = await apiSendOTPEmail({
+      email: validation.newValues.email,
+      fullname: validation.newValues.fullname,
+    });
 
     if (error) {
       setApiState({ progress: API_PROGRESS.FAILED, error, error_msg });

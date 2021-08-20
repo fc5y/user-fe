@@ -8,8 +8,8 @@ export function apiLogout() {
   return post('/api/v2/auth/logout');
 }
 
-export function apiSendOTPEmail({ email }) {
-  return post('/api/v2/auth/send-otp', { email });
+export function apiSendOTPEmail({ email, fullname }) {
+  return post('/api/v2/auth/send-otp', { email, full_name: fullname });
 }
 
 export function apiLoginStatus() {
