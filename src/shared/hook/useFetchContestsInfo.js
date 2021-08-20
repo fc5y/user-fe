@@ -31,7 +31,7 @@ function useFetchContestInfo({ limit, offset, forceFetch, onFetchCompleted }) {
     } else {
       const sanitizedContests = categorizeContestTypes(
         data.contests,
-        data.server_time || contestServerTime,
+        data.timestamp || contestServerTime,
       );
       setOnGoingContests(sanitizedContests.onGoingContests);
       setEndedContests(sanitizedContests.endedContests);
@@ -64,6 +64,7 @@ function useFetchContestInfo({ limit, offset, forceFetch, onFetchCompleted }) {
       setOnGoingContests([]);
       setEndedContests([]);
     }
+
     fetchContestsInfo();
   }, [limit, offset]);
 

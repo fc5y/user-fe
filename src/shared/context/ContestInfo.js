@@ -3,7 +3,7 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 
 // API
-import { apiGetContestInfo, apiGetAllContestsInfo } from 'src/api/index';
+import { apiGetContestInfo, apiGetAllContestsInfo, apiGetServerTime } from 'src/api/index';
 
 // Utils
 import { convertTZ } from 'src/utils/time';
@@ -42,68 +42,87 @@ export function ContestInfoProvider({ children }) {
   const [contestInfo, setContestInfo] = React.useState({});
   const [myParticipationMap, setMyParticipationMap] = React.useState({});
   const [totalContests, setTotalContests] = React.useState(0);
-  const [contestServerTime, setContestServerTime] = React.useState(
-    convertTZ(new Date()).time.getTime() / 1000,
-  );
+  const [contestServerTime, setContestServerTime] = React.useState(null);
+
+  const getServerTime = React.useCallback(async () => {
+    const { error, data } = await apiGetServerTime();
+    if (!error && data && data.timestamp) {
+      setContestServerTime(data.timestamp);
+      return data.timestamp;
+    }
+    return null;
+  }, []);
+
+  React.useEffect(() => {
+    getServerTime();
+  }, []);
 
   // Get contest info by contest name
-  const getContestInfoByName = async ({ contestName }) => {
-    const { error, data } = await apiGetContestInfo({ contestName });
+  const getContestInfoByName = React.useCallback(
+    async ({ contestName }) => {
+      const time = await getServerTime();
+      const { error, data } = await apiGetContestInfo({ contestName });
 
-    // Save contest info if fetch successfully
-    if (!error && data && data.contest) {
-      setContestServerTime(data.server_time || contestServerTime);
-      setContestInfo({
-        ...contestInfo,
-        [contestName]: data.contest,
-      });
+      // Save contest info if fetch successfully
+      if (!error && data && data.contest) {
+        data.timestamp = time || convertTZ(new Date()).time.getTime() / 1000;
+        setContestInfo({
+          ...contestInfo,
+          [contestName]: data.contest,
+        });
 
-      // Prepare new myParticipation map
-      if (data.my_participation) {
-        const newParticipationMap = { ...myParticipationMap };
-        newParticipationMap[data.my_participation.name] = data.my_participation;
-        setMyParticipationMap(newParticipationMap);
+        // Prepare new myParticipation map
+        if (data.my_participation) {
+          const newParticipationMap = { ...myParticipationMap };
+          newParticipationMap[data.my_participation.name] = data.my_participation;
+          setMyParticipationMap(newParticipationMap);
+        }
       }
-    }
 
-    return { error, data };
-  };
+      return { error, data };
+    },
+    [contestServerTime],
+  );
 
   // Get all contests info
-  const getAllContestInfo = async ({ offset, limit }) => {
-    const { error, data } = await apiGetAllContestsInfo({ offset, limit });
+  const getAllContestInfo = React.useCallback(
+    async ({ offset, limit }) => {
+      const time = await getServerTime();
+      const { error, data } = await apiGetAllContestsInfo({ offset, limit });
 
-    // Save contest info if fetch successfully
-    if (!error && data && data.contests) {
-      // Prepare new contest list
-      const newContestList = [...contests];
-      for (let x = 0; x < limit; x++) {
-        newContestList[x + offset] = data.contests[x];
+      // Save contest info if fetch successfully
+      if (!error && data && data.contests) {
+        data.timestamp = time || convertTZ(new Date()).time.getTime() / 1000;
+        // Prepare new contest list
+        const newContestList = [...contests];
+        for (let x = 0; x < limit; x++) {
+          newContestList[x + offset] = data.contests[x];
+        }
+
+        setContests(newContestList);
+        setTotalContests(data.total || 0);
+
+        // Prepare new myParticipation map
+        if (data.my_participations) {
+          const newParticipationMap = { ...myParticipationMap };
+          (data.my_participations || []).forEach((p) => {
+            newParticipationMap[p.name] = p;
+          });
+          setMyParticipationMap(newParticipationMap);
+        }
       }
 
-      setContests(newContestList);
-      setTotalContests(data.total || 0);
-      setContestServerTime(data.server_time || contestServerTime);
-
-      // Prepare new myParticipation map
-      if (data.my_participations) {
-        const newParticipationMap = { ...myParticipationMap };
-        (data.my_participations || []).forEach((p) => {
-          newParticipationMap[p.name] = p;
-        });
-        setMyParticipationMap(newParticipationMap);
-      }
-    }
-
-    return { error, data };
-  };
+      return { error, data };
+    },
+    [contestServerTime],
+  );
 
   const clearAllContestInfo = () => {
     setContests([]);
     setContestInfo({});
     setMyParticipationMap({});
     setTotalContests(0);
-    setContestServerTime(convertTZ(new Date()).time.getTime() / 1000);
+    // setContestServerTime(convertTZ(new Date()).time.getTime() / 1000);
   };
 
   const clearAllParticipations = () => {
