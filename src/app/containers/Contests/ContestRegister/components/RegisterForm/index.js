@@ -120,11 +120,11 @@ function ContestRegister() {
     }
 
     setApiState({ progress: API_PROGRESS.REQ, error: null, msg: null });
-    const { error, data, error_msg: msg } = await apiRegisterContest({
+    const { error, error_msg: msg } = await apiRegisterContest({
       contestName,
     });
 
-    if (error || !data) {
+    if (error) {
       setApiState({ progress: API_PROGRESS.FAILED, error, msg });
     } else {
       setApiState({ progress: API_PROGRESS.SUCCESS, error: null, msg: null });

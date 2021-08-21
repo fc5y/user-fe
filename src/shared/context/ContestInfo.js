@@ -3,7 +3,12 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 
 // API
-import { apiGetContestInfo, apiGetAllContestsInfo, apiGetServerTime } from 'src/api/index';
+import {
+  apiGetContestInfo,
+  apiGetAllContestsInfo,
+  apiGetServerTime,
+  apiGetUserParticipations,
+} from 'src/api/index';
 
 // Utils
 import { convertTZ } from 'src/utils/time';
@@ -53,8 +58,21 @@ export function ContestInfoProvider({ children }) {
     return null;
   }, []);
 
+  const getParticipationInfo = React.useCallback(async () => {
+    const { error, data } = await apiGetUserParticipations();
+    if (!error && data && data.participations) {
+      const newParticipationMap = { ...myParticipationMap };
+      (data.participations || []).forEach((p) => {
+        newParticipationMap[p.contest_name] = p;
+      });
+      setMyParticipationMap(newParticipationMap);
+    }
+    return null;
+  }, [myParticipationMap]);
+
   React.useEffect(() => {
     getServerTime();
+    getParticipationInfo();
   }, []);
 
   // Get contest info by contest name
@@ -72,11 +90,11 @@ export function ContestInfoProvider({ children }) {
         });
 
         // Prepare new myParticipation map
-        if (data.my_participation) {
-          const newParticipationMap = { ...myParticipationMap };
-          newParticipationMap[data.my_participation.name] = data.my_participation;
-          setMyParticipationMap(newParticipationMap);
-        }
+        // if (data.my_participation) {
+        //   const newParticipationMap = { ...myParticipationMap };
+        //   newParticipationMap[data.my_participation.contest_name] = data.my_participation;
+        //   setMyParticipationMap(newParticipationMap);
+        // }
       }
 
       return { error, data };
@@ -103,13 +121,13 @@ export function ContestInfoProvider({ children }) {
         setTotalContests(data.total || 0);
 
         // Prepare new myParticipation map
-        if (data.my_participations) {
-          const newParticipationMap = { ...myParticipationMap };
-          (data.my_participations || []).forEach((p) => {
-            newParticipationMap[p.name] = p;
-          });
-          setMyParticipationMap(newParticipationMap);
-        }
+        // if (data.my_participations) {
+        //   const newParticipationMap = { ...myParticipationMap };
+        //   (data.my_participations || []).forEach((p) => {
+        //     newParticipationMap[p.contest_name] = p;
+        //   });
+        //   setMyParticipationMap(newParticipationMap);
+        // }
       }
 
       return { error, data };
