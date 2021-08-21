@@ -16,7 +16,7 @@ import { getRemainingTimeObj } from 'src/utils/time';
 
 // Constants
 import { ROUTE_CONTEST_ENTER, ROUTE_CONTEST_REGISTER } from 'src/app/routes/constants';
-import { CONTEST_STATUS } from 'src/shared/constants';
+import { CONTEST_STATUS, CONTEST_MATERIALS_KEY_MAP } from 'src/shared/constants';
 import { makeUrl } from 'src/utils/url';
 
 // Components
@@ -87,42 +87,27 @@ function EnterContestButton({ remainingText, withTime, buttonWidth, ...otherProp
 
 function MaterialButton({ materials, type, buttonWidth }) {
   const openLink = (link) => window.open(link || 'about:blank', '_blank', 'noopener noreferrer');
-  const dropList = [
-    {
-      text: 'Đề bài',
-      onClick: () => openLink(materials.statements_url),
-    },
-    {
-      text: 'Bộ test',
-      onClick: () => openLink(materials.test_data_url),
-    },
-    {
-      text: 'Bảng điểm',
-      onClick: () => openLink(materials.ranking_url),
-    },
-    {
-      text: 'Lời giải',
-      onClick: () => openLink(materials.editorial_url),
-    },
-    {
-      text: 'Bài giải',
-      onClick: () => openLink(materials.solution_url),
-    },
-  ];
+  const allMaterial = materials.filter((m) => m.name === 'all_materials_url');
+  const dropList = materials
+    .filter((m) => m.name !== 'all_materials_url')
+    .map((m) => ({
+      text: CONTEST_MATERIALS_KEY_MAP[m.name],
+      onClick: () => openLink(m.value),
+    }));
 
   return (
     <ButtonWrapper buttonWidth={buttonWidth}>
       {type === 'primary' ? (
         <PrimaryDropDownButton
           dropList={dropList}
-          onClickAllMaterials={() => openLink(materials.all_materials_url)}
+          onClickAllMaterials={() => openLink(allMaterial[0].value)}
         >
           Xem tư liệu kỳ thi
         </PrimaryDropDownButton>
       ) : (
         <DropDownButton
           dropList={dropList}
-          onClickAllMaterials={() => openLink(materials.all_materials_url)}
+          onClickAllMaterials={() => openLink(allMaterial[0].value)}
         >
           Xem tư liệu kỳ thi
         </DropDownButton>
@@ -141,7 +126,7 @@ export default function ContestActionButton({
   const { userInfo } = React.useContext(UserInfoContext);
   const { myParticipationMap, contestServerTime } = React.useContext(ContestInfoContext);
   const history = useHistory();
-  const isRegistered = !!myParticipationMap[contestInfo.contest_name];
+  const isRegistered = !!myParticipationMap[contestInfo.name];
   const { count, status } = useContestCountDown({
     userInfo,
     contestInfo,
@@ -171,7 +156,7 @@ export default function ContestActionButton({
         remainingText={getRemainingTimeObj(count).timeString}
         buttonWidth={buttonWidth}
         onClick={() => {
-          history.push(makeUrl(ROUTE_CONTEST_REGISTER, { contestName: contestInfo.contest_name }));
+          history.push(makeUrl(ROUTE_CONTEST_REGISTER, { contestName: contestInfo.name }));
         }}
       />
     );
@@ -193,7 +178,7 @@ export default function ContestActionButton({
         remainingText={getRemainingTimeObj(count).timeString}
         buttonWidth={buttonWidth}
         onClick={() => {
-          history.push(makeUrl(ROUTE_CONTEST_ENTER, { contestName: contestInfo.contest_name }));
+          history.push(makeUrl(ROUTE_CONTEST_ENTER, { contestName: contestInfo.name }));
         }}
       >
         Vào thi

@@ -12,6 +12,12 @@ const API_DOMAIN = {
 export const getFullApiUrl = (url, env = __ENV__) => {
   if (!url || !env) return '';
   if (!Object.keys(API_DOMAIN).includes(env.toLowerCase())) return url;
+
+  // For localhost, using proxy from webpack
+  if (env.toLowerCase() === 'dev') {
+    return url;
+  }
+
   return `${API_DOMAIN[env.toLowerCase()]}${url}`;
 };
 

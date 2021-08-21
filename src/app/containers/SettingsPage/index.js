@@ -2,7 +2,7 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 
 // APIs
-import { apiUpdateUserInfo } from 'src/api/user';
+import { apiUpdateUserInfo } from 'src/api';
 
 // HOC
 import withUserLogin from 'src/shared/hoc/withUserLogin';
@@ -50,8 +50,8 @@ function SettingsPage() {
   const [errors, setErrors] = React.useState({});
   const [apiState, setApiState] = React.useState({
     progress: API_PROGRESS.INIT,
-    code: null,
-    msg: null,
+    error: null,
+    error_msg: null,
   });
 
   const handleChange = (name, value) => {
@@ -79,17 +79,15 @@ function SettingsPage() {
       }
 
       const { fullname, school } = values;
-      const { token } = userInfo;
 
-      setApiState({ progress: API_PROGRESS.REQ, code: null, msg: null });
-      const { code, data, msg } = await apiUpdateUserInfo({
+      setApiState({ progress: API_PROGRESS.REQ, error: null, error_msg: null });
+      const { error, data, error_msg } = await apiUpdateUserInfo({
         fullname,
         school,
-        token,
       });
 
-      if (code || !data) {
-        setApiState({ progress: API_PROGRESS.FAILED, code, msg });
+      if (error || !data) {
+        setApiState({ progress: API_PROGRESS.FAILED, error, error_msg });
       } else {
         setApiState({ ...apiState, progress: API_PROGRESS.SUCCESS });
         setUserInfo({ ...userInfo, fullname, school });
@@ -109,7 +107,7 @@ function SettingsPage() {
         <ErrorPopup
           show
           content="Đã xảy ra lỗi, vui lòng thử lại sau"
-          onClose={() => setApiState({ progress: API_PROGRESS.INIT, error: null, error_msg: null })}
+          onClose={() => setApiState({ progress: API_PROGRESS.INIT, error: null, msg: null })}
         />
       ) : (
         apiState.progress === API_PROGRESS.SUCCESS && (
@@ -117,7 +115,7 @@ function SettingsPage() {
             show
             content="Lưu thay đổi thành công!"
             onClose={() => {
-              setApiState({ progress: API_PROGRESS.INIT, error: null, error_msg: null });
+              setApiState({ progress: API_PROGRESS.INIT, error: null, msg: null });
               window.location.reload();
             }}
           />

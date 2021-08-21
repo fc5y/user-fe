@@ -38,9 +38,9 @@ function ParticipatedContests({ username, rating }) {
         index: i + 1 + (currentPage - 1) * currentPageSize,
         contestName: (
           <ContestTitle
-            onClick={() => history.push(makeUrl(ROUTE_CONTEST, { contestName: d.contest_name }))}
+            onClick={() => history.push(makeUrl(ROUTE_CONTEST, { contestName: d.name }))}
           >
-            {d.contest_title || ''}
+            {d.title || ''}
           </ContestTitle>
         ),
         ranking: `${

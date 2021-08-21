@@ -91,8 +91,8 @@ function ContestRegister() {
   const [errors, setErrors] = React.useState({});
   const [apiState, setApiState] = React.useState({
     progress: API_PROGRESS.INIT,
-    code: null,
-    msg: null,
+    error: null,
+    error_msg: null,
   });
   const { contestName } = useParams();
   const history = useHistory();
@@ -119,16 +119,15 @@ function ContestRegister() {
       return;
     }
 
-    setApiState({ progress: API_PROGRESS.REQ, code: null, msg: null });
-    const { code, data, msg } = await apiRegisterContest({
-      token: userInfo.token,
+    setApiState({ progress: API_PROGRESS.REQ, error: null, msg: null });
+    const { error, error_msg: msg } = await apiRegisterContest({
       contestName,
     });
 
-    if (code || !data) {
-      setApiState({ progress: API_PROGRESS.FAILED, code, msg });
+    if (error) {
+      setApiState({ progress: API_PROGRESS.FAILED, error, msg });
     } else {
-      setApiState({ progress: API_PROGRESS.SUCCESS, code: null, msg: null });
+      setApiState({ progress: API_PROGRESS.SUCCESS, error: null, msg: null });
     }
   };
 
@@ -162,7 +161,7 @@ function ContestRegister() {
       <TitleContainer>
         <Title>Đăng ký kỳ thi</Title>
         <ContestTitle>
-          {(contestInfo[contestName] && contestInfo[contestName].contest_title) || contestName}
+          {(contestInfo[contestName] && contestInfo[contestName].title) || contestName}
         </ContestTitle>
         <ContestTime>{formatContestTime(contestInfo[contestName]).fullTime}</ContestTime>
       </TitleContainer>
@@ -176,7 +175,7 @@ function ContestRegister() {
           valueWhenUnchecked=""
         />
         <Form.ButtonGroup>
-          <PrimaryButton onClick={validateAndSubmit} disabled={isRegistered}>
+          <PrimaryButton onClick={validateAndSubmit} disabled={!!isRegistered}>
             {isRegistered ? 'Đã đăng ký' : 'Đăng ký'}
           </PrimaryButton>
         </Form.ButtonGroup>

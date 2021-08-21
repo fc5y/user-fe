@@ -28,7 +28,7 @@ function ProfilePage({ match }) {
   const { userInfo } = useContext(UserInfoContext);
   const [apiState, setApiState] = useState({
     progress: API_PROGRESS.INIT,
-    code: null,
+    error: null,
     msg: null,
   });
   const [handlingUserInfo, setHandlingUserInfo] = useState({
@@ -42,9 +42,11 @@ function ProfilePage({ match }) {
   useEffect(() => {
     const fetchUserInfo = async () => {
       setApiState({ progress: API_PROGRESS.REQ });
-      const { code, msg, data } = await apiGetUserInfo({ username: match.params.username });
-      if (code) {
-        setApiState({ progress: API_PROGRESS.FAILED, code, msg });
+      const { error, error_msg: msg, data } = await apiGetUserInfo({
+        username: match.params.username,
+      });
+      if (error) {
+        setApiState({ progress: API_PROGRESS.FAILED, error, msg });
       } else {
         setHandlingUserInfo({
           username: data.user.username || '',
@@ -53,7 +55,7 @@ function ProfilePage({ match }) {
           ranking: '—',
           rating: '—',
         });
-        setApiState({ progress: API_PROGRESS.SUCCESS, code, msg });
+        setApiState({ progress: API_PROGRESS.SUCCESS, error, msg });
       }
     };
     fetchUserInfo();
@@ -105,7 +107,7 @@ function ProfilePage({ match }) {
         <ParticipatedContests username={match.params.username} rating={userInfo.rating} />
       </div>
     </div>
-  ) : apiState.progress === API_PROGRESS.FAILED && apiState.code === 2001 ? (
+  ) : apiState.progress === API_PROGRESS.FAILED && apiState.error === 2001 ? (
     <ErrorContent content="Thí sinh không tồn tại!" />
   ) : apiState.progress === API_PROGRESS.FAILED ? (
     <ErrorContent content={getErrorMessage(apiState)} />

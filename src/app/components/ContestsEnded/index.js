@@ -58,6 +58,7 @@ const NoContestWrapper = styled.div`
   padding: 20px 0;
   margin-bottom: 20px;
 `;
+
 function ContestsEnded({
   isLoading,
   contests,
@@ -82,9 +83,9 @@ function ContestsEnded({
       return {
         contestName: (
           <ContestTitle
-            onClick={() => history.push(makeUrl(ROUTE_CONTEST, { contestName: d.contest_name }))}
+            onClick={() => history.push(makeUrl(ROUTE_CONTEST, { contestName: d.name }))}
           >
-            {d.contest_title || ''}
+            {d.title || ''}
           </ContestTitle>
         ),
         day: startDate,

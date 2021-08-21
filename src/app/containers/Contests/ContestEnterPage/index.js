@@ -13,7 +13,6 @@ import ErrorBox from 'src/app/common-ui/ErrorBox';
 import WarningBox from 'src/app/common-ui/WarningBox';
 
 // Contexts
-import { UserInfoContext } from 'src/shared/context/UserInfo';
 import { ContestInfoContext } from 'src/shared/context/ContestInfo';
 
 // APIs
@@ -27,12 +26,11 @@ import { getErrorMessage } from 'src/utils/getErrorMessage';
 import styles from './enter.scss';
 
 function EnterPage() {
-  const { userInfo } = React.useContext(UserInfoContext);
   const { contestInfo, getContestInfoByName } = React.useContext(ContestInfoContext);
   const [apiState, setApiState] = React.useState({
     progress: API_PROGRESS.INIT,
-    code: null,
-    msg: null,
+    error: null,
+    error_msg: null,
   });
   const [contestCredential, setContestCredential] = React.useState({
     username: '',
@@ -47,32 +45,33 @@ function EnterPage() {
       setApiState({ progress: API_PROGRESS.REQ });
 
       // Get contest info
-      const { code, msg } = await getContestInfoByName({ contestName, token: userInfo.token });
+      const { error, error_msg } = await getContestInfoByName({
+        contestName,
+      });
 
-      if (code) {
+      if (error) {
         setApiState({
           progress: API_PROGRESS.FAILED,
-          code,
-          msg,
+          error,
+          error_msg,
         });
         return;
       }
 
       // Get contest credential
       const {
-        code: credApiCode,
+        error: credApiCode,
         data: credApiData,
-        msg: credApiMsg,
-      } = await apiGetContestCredential({ contestName, token: userInfo.token });
+        error_msg: credApiMsg,
+      } = await apiGetContestCredential({ contestName });
       if (credApiCode || !credApiData.contest_username || !credApiData.contest_password) {
-        setApiState({ progress: API_PROGRESS.FAILED });
         setApiState({
           progress: API_PROGRESS.FAILED,
-          code: credApiCode,
-          msg: credApiMsg,
+          error: credApiCode,
+          error_msg: credApiMsg,
         });
       } else {
-        setApiState({ progress: API_PROGRESS.SUCCESS, code: null, msg: null });
+        setApiState({ progress: API_PROGRESS.SUCCESS, error: null, error_msg: null });
         setContestCredential({
           username: credApiData.contest_username,
           password: credApiData.contest_password,
@@ -81,24 +80,18 @@ function EnterPage() {
     };
 
     fetchInfo();
-  }, [userInfo.token]);
+  }, []);
 
   return (
     <>
       <Helmet>
         <title>
-          {(contestInfo && contestInfo[contestName] && contestInfo[contestName].contest_title) ||
+          {(contestInfo && contestInfo[contestName] && contestInfo[contestName].title) ||
             'Các kỳ thi'}
         </title>
       </Helmet>
       {(() => {
         switch (true) {
-          case apiState.code === API_ERROR.NOT_SYNCED:
-            return (
-              <div className={styles.errorContainer}>
-                <WarningBox content={getErrorMessage(apiState)} />
-              </div>
-            );
           case apiState.progress === API_PROGRESS.FAILED:
             return (
               <div className={styles.errorContainer}>

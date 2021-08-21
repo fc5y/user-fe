@@ -57,5 +57,12 @@ module.exports = merge(commonConfig, {
     historyApiFallback: true,
     inline: true,
     contentBase: constants.CONTENT_BASE,
+    proxy: {
+      '/api': {
+        target: 'https://test.be.freecontest.net',
+        changeOrigin: true,
+        withCredentials: true,
+      }
+    },
   },
 });

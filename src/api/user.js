@@ -1,42 +1,9 @@
-import { get, post } from '../utils/fetchUtils';
-
-export function apiGetMyUserInfo({ token }) {
-  return get(`/api/v1/me`, {
-    Authorization: `Bearer ${token}`,
-    'Access-Control-Allow-Headers': '*',
-  });
-}
+import { get } from '../utils/fetchUtils';
 
 export function apiGetUserInfo({ username }) {
-  return get(`/api/v1/users/${username}`);
-}
-
-export function apiChangeUserPassword({ currentPassword, newPassword, token }) {
-  return post(
-    '/api/v1/me/change-password',
-    {
-      old_password: currentPassword,
-      new_password: newPassword,
-    },
-    {
-      Authorization: `Bearer ${token}`,
-    },
-  );
-}
-
-export function apiUpdateUserInfo({ fullname, school, token }) {
-  return post(
-    '/api/v1/me',
-    {
-      full_name: fullname,
-      school_name: school,
-    },
-    {
-      Authorization: `Bearer ${token}`,
-    },
-  );
+  return get(`/api/v2/users/${username}`);
 }
 
 export function apiGetParticipations({ username, offset, limit }) {
-  return get(`/api/v1/participations/${username}?offset=${offset}&limit=${limit}`, {});
+  return get(`/api/v2/users/${username}/participations?offset=${offset}&limit=${limit}`, {});
 }

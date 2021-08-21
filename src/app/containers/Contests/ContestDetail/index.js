@@ -106,8 +106,8 @@ function ContestDetail() {
   );
   const [apiState, setApiState] = React.useState({
     progress: API_PROGRESS.INIT,
-    code: null,
-    msg: null,
+    erorr: null,
+    error_msg: null,
   });
   const { count, status } = useContestCountDown({
     userInfo,
@@ -118,28 +118,28 @@ function ContestDetail() {
   React.useEffect(() => {
     const fetchContestInfo = async () => {
       setApiState({ progress: API_PROGRESS.REQ });
-      const { code, msg } = await getContestInfoByName({ contestName, token: userInfo.token });
+      const { erorr, error_msg } = await getContestInfoByName({ contestName });
 
-      if (code) {
+      if (erorr) {
         setApiState({
           progress: API_PROGRESS.FAILED,
-          code,
-          msg,
+          erorr,
+          error_msg,
         });
-        setApiState({ progress: API_PROGRESS.FAILED, code, msg });
+        setApiState({ progress: API_PROGRESS.FAILED, erorr, error_msg });
       } else {
-        setApiState({ progress: API_PROGRESS.SUCCESS, code: null, msg: null });
+        setApiState({ progress: API_PROGRESS.SUCCESS, erorr: null, error_msg: null });
       }
     };
 
     fetchContestInfo();
-  }, [userInfo.token]);
+  }, []);
 
   return (
     <ContainerWrapper>
       <Helmet>
         <title>
-          {(contestInfo && contestInfo[contestName] && contestInfo[contestName].contest_title) ||
+          {(contestInfo && contestInfo[contestName] && contestInfo[contestName].title) ||
             'Các kỳ thi'}
         </title>
       </Helmet>
@@ -148,7 +148,7 @@ function ContestDetail() {
       ) : apiState.progress === API_PROGRESS.SUCCESS ? (
         <Container>
           <ContestTitle>
-            {(contestInfo[contestName] && contestInfo[contestName].contest_title) || contestName}
+            {(contestInfo[contestName] && contestInfo[contestName].title) || contestName}
           </ContestTitle>
           <ContestTime>{formatContestTime(contestInfo[contestName]).fullTimeWithUTC}</ContestTime>
           <ContestStatus

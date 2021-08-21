@@ -28,7 +28,7 @@ export default function withUserLogin(redirectToLogin) {
       }
 
       // Redirect if user not yet logged in
-      if (!userInfo || !userInfo.username || !userInfo.token) {
+      if (!userInfo || !userInfo.username) {
         if (redirectToLogin) {
           return (
             <Redirect to={`${ROUTE_LOGIN}?redirect_url=${encodeURIComponent(location.pathname)}`} />

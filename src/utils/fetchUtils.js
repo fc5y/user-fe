@@ -8,11 +8,12 @@ export const get = async (url, headers = {}) => {
       headers: {
         ...headers,
       },
+      withCredentials: true,
     });
 
     return { ...data };
   } catch (err) {
-    return { code: -1, ...err.response.data };
+    return { error: -1, ...err.response.data };
   }
 };
 
@@ -23,9 +24,10 @@ export const post = async (url, body, headers = {}) => {
       headers: {
         ...headers,
       },
+      withCredentials: true,
     });
     return { ...data };
   } catch (err) {
-    return { code: -1, ...err.response.data };
+    return { error: -1, ...err.response.data };
   }
 };

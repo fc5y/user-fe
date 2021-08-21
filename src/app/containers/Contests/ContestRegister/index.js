@@ -9,7 +9,6 @@ import { useParams } from 'react-router-dom';
 
 // Context
 import { ContestInfoContext } from 'src/shared/context/ContestInfo';
-import { UserInfoContext } from 'src/shared/context/UserInfo';
 
 // Components
 import RegisterFrom from './components/RegisterForm';
@@ -23,47 +22,51 @@ import { getErrorMessage } from 'src/utils/getErrorMessage';
 
 function ContestRegister() {
   const { contestName } = useParams();
-  const { userInfo } = React.useContext(UserInfoContext);
-  const { getContestInfoByName, contestInfo } = React.useContext(ContestInfoContext);
+  const { getContestInfoByName, contestInfo, contestServerTime } = React.useContext(
+    ContestInfoContext,
+  );
   const [apiState, setApiState] = React.useState({
     progress: API_PROGRESS.INIT,
-    code: null,
-    msg: null,
+    error: null,
+    error_msg: null,
   });
 
   React.useEffect(() => {
     const fetchContestInfo = async () => {
       setApiState({ progress: API_PROGRESS.REQ });
-      const { code, msg, data } = await getContestInfoByName({
+      const { error, error_msg, data } = await getContestInfoByName({
         contestName,
-        token: userInfo.token,
       });
 
-      if (code || !data) {
+      if (error || !data) {
         setApiState({
           progress: API_PROGRESS.FAILED,
-          code,
-          msg,
+          error,
+          error_msg,
         });
         return null;
       }
 
-      const status = getContestStatus(data.contest, data.server_time);
+      const status = getContestStatus(data.contest, contestServerTime);
       if (status === CONTEST_STATUS.JUST_ENDED || status === CONTEST_STATUS.ENDED) {
-        setApiState({ progress: API_PROGRESS.FAILED, code: API_ERROR.CONTEST_OVER, msg: null });
+        setApiState({
+          progress: API_PROGRESS.FAILED,
+          error: API_ERROR.CONTEST_OVER,
+          error_msg: null,
+        });
       } else {
-        setApiState({ progress: API_PROGRESS.SUCCESS, code: null, msg: null });
+        setApiState({ progress: API_PROGRESS.SUCCESS, error: null, error_msg: null });
       }
     };
 
     fetchContestInfo();
-  }, [userInfo.token]);
+  }, []);
 
   return (
     <>
       <Helmet>
         <title>
-          {(contestInfo && contestInfo[contestName] && contestInfo[contestName].contest_title) ||
+          {(contestInfo && contestInfo[contestName] && contestInfo[contestName].title) ||
             'Đăng ký kỳ thi'}
         </title>
       </Helmet>

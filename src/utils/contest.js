@@ -15,14 +15,19 @@ export function getContestStatus(contestInfo, contestServerTime) {
   const formattedStartTime = start_time;
   const formattedDuration = duration;
   const endTime = formattedStartTime + formattedDuration;
+  const isMaterialAvailable =
+    materials &&
+    Array.isArray(materials) &&
+    materials.length > 0 &&
+    materials.some((m) => m.name === 'all_materials_url');
 
   if (!can_enter && now < formattedStartTime) {
     return CONTEST_STATUS.NOT_STARTED;
   } else if (can_enter || (now >= formattedStartTime && now < endTime)) {
     return CONTEST_STATUS.STARTING;
-  } else if (!can_enter && now >= endTime && !materials.all_materials_url) {
+  } else if (!can_enter && now >= endTime && !isMaterialAvailable) {
     return CONTEST_STATUS.JUST_ENDED;
-  } else if (!can_enter && now >= endTime && materials.all_materials_url) {
+  } else if (!can_enter && now >= endTime && isMaterialAvailable) {
     return CONTEST_STATUS.ENDED;
   } else {
     return CONTEST_STATUS.UNSET;

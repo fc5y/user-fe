@@ -7,7 +7,6 @@ import { apiLogin } from 'src/api/authentication';
 // HOC
 import { withRouter, Link } from 'react-router-dom';
 import { UserInfoContext } from 'src/shared/context/UserInfo';
-import withUserNotLogin from 'src/shared/hoc/withUserNotLogin';
 
 // Components
 import * as MainPanel from '../../common-ui/MainPanel';
@@ -37,10 +36,10 @@ function LoginPage({ history, location }) {
   const [showWarningForgetPassword, setShowWarningForgetPassword] = React.useState(false);
   const [apiState, setApiState] = React.useState({
     progress: API_PROGRESS.INIT,
-    code: null,
-    msg: null,
+    error: null,
+    error_msg: null,
   });
-  const { setUserInfo } = React.useContext(UserInfoContext);
+  const { getUserInfo } = React.useContext(UserInfoContext);
 
   const updateValue = (name, value) => {
     setValues({ ...values, [name]: value });
@@ -71,19 +70,20 @@ function LoginPage({ history, location }) {
       return;
     }
 
-    setApiState({ progress: API_PROGRESS.REQ, code: null, msg: null });
-    const { code, data, msg } = await apiLogin({
+    setApiState({ progress: API_PROGRESS.REQ, error: null, error_msg: null });
+    const loginData = await apiLogin({
       usernameOrEmail: validation.newValues.usernameOrEmail,
       password: validation.newValues.password,
     });
 
-    if (!!code || !data || !data.access_token) {
-      setApiState({ progress: API_PROGRESS.FAILED, code, msg });
-    } else {
-      setApiState({ progress: API_PROGRESS.SUCCESS, code, msg });
+    const { error, data, error_msg } = loginData;
 
-      // Save token and set isFetched to false to trigger fetching again
-      setUserInfo({ token: data.access_token, isFetched: false });
+    if (!!error || !data) {
+      setApiState({ progress: API_PROGRESS.FAILED, error, error_msg });
+    } else {
+      // Call api to get other user information
+      await getUserInfo();
+      setApiState({ progress: API_PROGRESS.SUCCESS, error, error_msg });
 
       // Redirect to the correct URL
       if (!!query && !!query.redirect_url) {
@@ -161,4 +161,4 @@ LoginPage.propTypes = {
   location: PropTypes.any,
 };
 
-export default withRouter(withUserNotLogin()(LoginPage));
+export default withRouter(LoginPage);

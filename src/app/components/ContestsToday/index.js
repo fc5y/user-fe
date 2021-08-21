@@ -109,9 +109,9 @@ function ContestsToday({ contests, isLoading }) {
         contestInfos: (
           <LeftInfo>
             <ContestTitle
-              onClick={() => history.push(makeUrl(ROUTE_CONTEST, { contestName: d.contest_name }))}
+              onClick={() => history.push(makeUrl(ROUTE_CONTEST, { contestName: d.name }))}
             >
-              {d.contest_title}
+              {d.title}
             </ContestTitle>
             <ContestTime>{formatContestTime(d).fullTime}</ContestTime>
             <ContestStatusText status={status} numberOfParticipants={d.total_participations} />
@@ -120,7 +120,7 @@ function ContestsToday({ contests, isLoading }) {
         actions: (
           <RightInfo>
             {(status === CONTEST_STATUS.STARTING ||
-              (status === CONTEST_STATUS.NOT_STARTED && showRankingButton[d.contest_name])) && (
+              (status === CONTEST_STATUS.NOT_STARTED && showRankingButton[d.name])) && (
               <RankingButton
                 onClick={() => window.open(RANKING_LINK, '_blank', 'noopener noreferrer')}
               >
@@ -131,7 +131,7 @@ function ContestsToday({ contests, isLoading }) {
               buttonWidth="200"
               contestInfo={d}
               onChangeToStarting={() =>
-                setShowRankingButton({ ...showRankingButton, [d.contest_name]: true })
+                setShowRankingButton({ ...showRankingButton, [d.name]: true })
               }
             />
           </RightInfo>
