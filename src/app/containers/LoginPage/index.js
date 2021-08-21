@@ -82,10 +82,9 @@ function LoginPage({ history, location }) {
     if (!!error || !data) {
       setApiState({ progress: API_PROGRESS.FAILED, error, error_msg });
     } else {
-      setApiState({ progress: API_PROGRESS.SUCCESS, error, error_msg });
-
       // Call api to get other user information
-      getUserInfo();
+      await getUserInfo();
+      setApiState({ progress: API_PROGRESS.SUCCESS, error, error_msg });
 
       // Redirect to the correct URL
       if (!!query && !!query.redirect_url) {
@@ -163,4 +162,4 @@ LoginPage.propTypes = {
   location: PropTypes.any,
 };
 
-export default withRouter(withUserNotLogin()(LoginPage));
+export default withRouter(LoginPage);

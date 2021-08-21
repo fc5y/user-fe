@@ -175,7 +175,7 @@ function ContestRegister() {
           valueWhenUnchecked=""
         />
         <Form.ButtonGroup>
-          <PrimaryButton onClick={validateAndSubmit} disabled={isRegistered}>
+          <PrimaryButton onClick={validateAndSubmit} disabled={!!isRegistered}>
             {isRegistered ? 'Đã đăng ký' : 'Đăng ký'}
           </PrimaryButton>
         </Form.ButtonGroup>
