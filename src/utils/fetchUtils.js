@@ -13,7 +13,7 @@ export const get = async (url, headers = {}) => {
 
     return { ...data };
   } catch (err) {
-    return { ...err.response.data, error: -1 };
+    return { error: -1, ...err.response.data };
   }
 };
 
@@ -28,6 +28,6 @@ export const post = async (url, body, headers = {}) => {
     });
     return { ...data };
   } catch (err) {
-    return { ...err.response.data, error: -1 };
+    return { error: -1, ...err.response.data };
   }
 };

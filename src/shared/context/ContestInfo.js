@@ -8,6 +8,7 @@ import {
   apiGetAllContestsInfo,
   apiGetServerTime,
   apiGetUserParticipations,
+  apiGetContestParticipation,
 } from 'src/api/index';
 
 // Utils
@@ -72,7 +73,6 @@ export function ContestInfoProvider({ children }) {
 
   React.useEffect(() => {
     getServerTime();
-    getParticipationInfo();
   }, []);
 
   // Get contest info by contest name
@@ -90,11 +90,11 @@ export function ContestInfoProvider({ children }) {
         });
 
         // Prepare new myParticipation map
-        // if (data.my_participation) {
-        //   const newParticipationMap = { ...myParticipationMap };
-        //   newParticipationMap[data.my_participation.contest_name] = data.my_participation;
-        //   setMyParticipationMap(newParticipationMap);
-        // }
+        if (data.contest.my_participation) {
+          const newParticipationMap = { ...myParticipationMap };
+          newParticipationMap[data.contest.name] = { ...data.contest.my_participation };
+          setMyParticipationMap(newParticipationMap);
+        }
       }
 
       return { error, data };
@@ -121,13 +121,13 @@ export function ContestInfoProvider({ children }) {
         setTotalContests(data.total || 0);
 
         // Prepare new myParticipation map
-        // if (data.my_participations) {
-        //   const newParticipationMap = { ...myParticipationMap };
-        //   (data.my_participations || []).forEach((p) => {
-        //     newParticipationMap[p.contest_name] = p;
-        //   });
-        //   setMyParticipationMap(newParticipationMap);
-        // }
+        const newParticipationMap = { ...myParticipationMap };
+        (data.contests || []).forEach((contest) => {
+          if (contest.my_participation) {
+            newParticipationMap[contest.name] = { ...contest.my_participation };
+          }
+        });
+        setMyParticipationMap(newParticipationMap);
       }
 
       return { error, data };

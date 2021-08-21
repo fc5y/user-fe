@@ -2,7 +2,7 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 
 // APIs
-import { apiUpdateUserInfo } from 'src/api/user';
+import { apiUpdateUserInfo } from 'src/api';
 
 // HOC
 import withUserLogin from 'src/shared/hoc/withUserLogin';

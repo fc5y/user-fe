@@ -11,8 +11,8 @@ export function apiGetMyUserInfo() {
   return get(`/api/v2/me`);
 }
 
-export function apiGetUserParticipations() {
-  return get('/api/v2/me/participations?offset=0&limit=200');
+export function apiGetUserParticipations({ offset, limit }) {
+  return get(`/api/v2/me/participations?offset=${offset}&limit=${limit}`);
 }
 
 export function apiChangeUserPassword({ currentPassword, newPassword }) {

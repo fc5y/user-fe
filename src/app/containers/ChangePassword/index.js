@@ -2,12 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // APIs
-import { apiChangeUserPassword } from 'src/api/user';
+import { apiChangeUserPassword } from 'src/api';
 
 // HOC
 import { withRouter } from 'react-router-dom';
 import withUserLogin from 'src/shared/hoc/withUserLogin';
-import { UserInfoContext } from 'src/shared/context/UserInfo';
 
 // Components
 import Loading from '../../common-ui/Loading';

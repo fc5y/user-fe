@@ -13,7 +13,6 @@ import ErrorBox from 'src/app/common-ui/ErrorBox';
 import WarningBox from 'src/app/common-ui/WarningBox';
 
 // Contexts
-import { UserInfoContext } from 'src/shared/context/UserInfo';
 import { ContestInfoContext } from 'src/shared/context/ContestInfo';
 
 // APIs
@@ -46,7 +45,7 @@ function EnterPage() {
       setApiState({ progress: API_PROGRESS.REQ });
 
       // Get contest info
-      const { error, error_msg: msg } = await getContestInfoByName({
+      const { error, error_msg } = await getContestInfoByName({
         contestName,
       });
 
@@ -54,7 +53,7 @@ function EnterPage() {
         setApiState({
           progress: API_PROGRESS.FAILED,
           error,
-          msg,
+          error_msg,
         });
         return;
       }
@@ -66,7 +65,6 @@ function EnterPage() {
         error_msg: credApiMsg,
       } = await apiGetContestCredential({ contestName });
       if (credApiCode || !credApiData.contest_username || !credApiData.contest_password) {
-        setApiState({ progress: API_PROGRESS.FAILED });
         setApiState({
           progress: API_PROGRESS.FAILED,
           error: credApiCode,
