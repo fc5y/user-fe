@@ -13,7 +13,7 @@ const Container = styled.div`
   width: 100%;
   border: ${(props) => (props.border ? '1px solid var(--black06)' : '0')};
   border-radius: ${(props) => (props.border ? '4px' : '0')};
-  box-shadow: ${(props) => (props.border ? '0px 0px 12px rgba(188, 188, 188, 0.25)' : '0')};
+  box-shadow: ${(props) => (props.shadow ? '0px 0px 12px rgba(188, 188, 188, 0.25)' : '0')};
   background-color: ${(props) => (props.background ? '#fff' : 'none')};
 `;
 
@@ -28,6 +28,7 @@ const TableHeader = styled.thead`
   width: 100%;
   font-weight: bold;
   font-size: 16px;
+  color: var(--black80);
 `;
 
 const TableHeaderData = styled.td`
@@ -98,6 +99,7 @@ const RowTable = styled.tr`
 function Table({
   config,
   border,
+  shadow,
   background,
   pagination,
   pageSize,
@@ -184,7 +186,7 @@ function Table({
   if (showSkeleton) {
     return (
       <>
-        <Container border background>
+        <Container border shadow background>
           <TableContainer>
             <colgroup>
               {(colWidths || []).map((w, k) => (w ? <col key={k} width={w} /> : <col key={k} />))}
@@ -226,7 +228,7 @@ function Table({
   // Main content
   return (
     <>
-      <Container border={border} background={background}>
+      <Container border={border} shadow={shadow} background={background}>
         <TableContainer>
           <colgroup>
             {(colWidths || []).map((w, k) => (w ? <col key={k} width={w} /> : <col key={k} />))}
@@ -294,6 +296,7 @@ function Table({
 Table.propTypes = {
   config: PropTypes.any,
   border: PropTypes.bool,
+  shadow: PropTypes.bool,
   isAddingNewRows: PropTypes.bool,
   background: PropTypes.bool,
   showSkeleton: PropTypes.bool,

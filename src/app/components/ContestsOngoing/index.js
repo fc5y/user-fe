@@ -57,12 +57,12 @@ const NoContestWrapper = styled.div`
   text-align: center;
   border: 1px solid var(--black06);
   border-radius: 4px;
-  box-shadow: 0px 0px 12px rgba(188, 188, 188, 0.25);
+  box-shadow: ${(props) => (props.showShadow ? '0px 0px 12px rgba(188, 188, 188, 0.25)' : '0')};
   padding: 20px 0;
   margin-bottom: 20px;
 `;
 
-function ContestsOnGoing({ isLoading, contests }) {
+function ContestsOnGoing({ isLoading, showShadow, contests }) {
   const [tableConfig, setTableConfig] = React.useState(TABLE_CONFIG);
   const { userInfo } = React.useContext(UserInfoContext);
   const history = useHistory();
@@ -100,9 +100,17 @@ function ContestsOnGoing({ isLoading, contests }) {
     <Container>
       <Title>Các kỳ thi sắp/đang diễn ra</Title>
       {!isLoading && contests && !contests.length ? (
-        <NoContestWrapper>Không có kỳ thi nào sắp/đang diễn ra</NoContestWrapper>
+        <NoContestWrapper showShadow={showShadow}>
+          Không có kỳ thi nào sắp/đang diễn ra
+        </NoContestWrapper>
       ) : (
-        <Table border background config={tableConfig} showSkeleton={isLoading} />
+        <Table
+          border
+          shadow={showShadow}
+          background
+          config={tableConfig}
+          showSkeleton={isLoading}
+        />
       )}
     </Container>
   );
@@ -110,6 +118,7 @@ function ContestsOnGoing({ isLoading, contests }) {
 
 ContestsOnGoing.propTypes = {
   contests: PropTypes.any,
+  showShadow: PropTypes.bool,
   isLoading: PropTypes.bool,
 };
 

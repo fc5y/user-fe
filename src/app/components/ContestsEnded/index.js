@@ -62,6 +62,7 @@ const NoContestWrapper = styled.div`
 function ContestsEnded({
   isLoading,
   contests,
+  showShadow,
   onClickPageSize,
   onClickPageNumber,
   totalContests,
@@ -107,6 +108,7 @@ function ContestsEnded({
       ) : (
         <Table
           border
+          shadow={showShadow}
           background
           config={tableConfig}
           showSkeleton={isLoading}
@@ -133,6 +135,7 @@ function ContestsEnded({
 }
 
 ContestsEnded.propTypes = {
+  showShadow: PropTypes.bool,
   contests: PropTypes.any,
   isLoading: PropTypes.bool,
   isAddingNewRows: PropTypes.bool,
