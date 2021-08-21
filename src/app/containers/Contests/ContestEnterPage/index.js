@@ -92,12 +92,6 @@ function EnterPage() {
       </Helmet>
       {(() => {
         switch (true) {
-          case apiState.error === API_ERROR.NOT_SYNCED:
-            return (
-              <div className={styles.errorContainer}>
-                <WarningBox content={getErrorMessage(apiState)} />
-              </div>
-            );
           case apiState.progress === API_PROGRESS.FAILED:
             return (
               <div className={styles.errorContainer}>

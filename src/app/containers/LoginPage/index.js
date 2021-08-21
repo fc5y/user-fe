@@ -7,7 +7,6 @@ import { apiLogin } from 'src/api/authentication';
 // HOC
 import { withRouter, Link } from 'react-router-dom';
 import { UserInfoContext } from 'src/shared/context/UserInfo';
-import withUserNotLogin from 'src/shared/hoc/withUserNotLogin';
 
 // Components
 import * as MainPanel from '../../common-ui/MainPanel';
