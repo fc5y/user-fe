@@ -48,10 +48,12 @@ function Contests() {
       />
       <OngoingContest
         isLoading={apiState.progress === API_PROGRESS.REQ && onGoingContests.length === 0}
+        showShadow
         contests={onGoingContests}
       />
       <EndedContests
         isLoading={apiState.progress === API_PROGRESS.REQ && endedContests.length === 0}
+        showShadow
         contests={endedContests}
         totalContests={totalContests}
         onClickPageSize={(newSize) => {
