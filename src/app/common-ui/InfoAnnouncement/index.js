@@ -31,7 +31,7 @@ const IconContainer = styled.div`
 `;
 
 const Content = styled.div`
-  text-align: justify;
+  text-align: left;
   font-size: 16px;
   line-height: 25px;
   margin: 0px 10px;
