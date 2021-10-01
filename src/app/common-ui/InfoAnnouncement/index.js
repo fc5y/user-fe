@@ -39,7 +39,6 @@ const Content = styled.div`
 `;
 
 export default function InfoAnnouncement(props) {
-  console.log(props);
   return (
     <Container>
       <IconContainer>

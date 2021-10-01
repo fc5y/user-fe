@@ -1,8 +1,6 @@
 import { get, post } from '../utils/fetchUtils';
 
 export function apiGetAnnouncements({ offset, limit }) {
-  console.log(offset);
-  console.log(limit);
   return get(`/api/v2/announcements?offset=${offset}&limit=${limit}`);
 }
 
