@@ -14,6 +14,9 @@ import EndedContests from 'src/app/components/ContestsEnded';
 import WelcomeBanner from './components/WelcomeBanner';
 import Footer from 'src/app/components/Footer';
 
+// common-ui
+import InfoAnnouncement from 'src/app/common-ui/InfoAnnouncement';
+
 // Utils and constants
 import styled from 'styled-components';
 import { API_PROGRESS } from 'src/shared/constants';
@@ -67,6 +70,7 @@ function HomePage() {
         <Helmet>
           <title>Free Contest</title>
         </Helmet>
+        <InfoAnnouncement content="Chào bạn! Đây là một thông báo mới vui lòng để ý giùm mình nha." />
         <Wrapper>
           <OngoingContest
             isLoading={apiState.progress === API_PROGRESS.REQ && onGoingContests.length === 0}
