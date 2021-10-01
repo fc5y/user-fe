@@ -9,13 +9,11 @@ import { useHistory } from 'react-router-dom';
 import { UserInfoContext } from 'src/shared/context/UserInfo';
 
 // Components
+import Announcements from './components/Announcements';
 import OngoingContest from 'src/app/components/ContestsOngoing';
 import EndedContests from 'src/app/components/ContestsEnded';
 import WelcomeBanner from './components/WelcomeBanner';
 import Footer from 'src/app/components/Footer';
-
-// common-ui
-import InfoAnnouncement from 'src/app/common-ui/InfoAnnouncement';
 
 // Utils and constants
 import styled from 'styled-components';
@@ -70,7 +68,7 @@ function HomePage() {
         <Helmet>
           <title>Free Contest</title>
         </Helmet>
-        <InfoAnnouncement content="Chào bạn! Đây là một thông báo mới vui lòng để ý giùm mình nha." />
+        <Announcements offset={0} limit={10} />
         <Wrapper>
           <OngoingContest
             isLoading={apiState.progress === API_PROGRESS.REQ && onGoingContests.length === 0}

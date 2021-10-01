@@ -25,25 +25,31 @@ const Container = styled.div`
 `;
 
 const IconContainer = styled.div`
-  min-width: 60px;
+  min-width: 50px;
+  max-width: 50px;
+  transform: translateX(5%);
 `;
 
 const Content = styled.div`
   text-align: justify;
-  padding-right: 22px;
+  font-size: 16px;
+  line-height: 25px;
+  margin: 0px 10px;
+  color: #ffffff;
 `;
 
-export default function InfoAnnouncement({ content }) {
+export default function InfoAnnouncement(props) {
+  console.log(props);
   return (
     <Container>
       <IconContainer>
         <IconAnnouncement />
       </IconContainer>
-      <Content>{content}</Content>
+      <Content>{props.children}</Content>
     </Container>
   );
 }
 
 InfoAnnouncement.propTypes = {
-  content: PropTypes.any,
+  children: PropTypes.any,
 };
