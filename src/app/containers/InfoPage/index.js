@@ -24,14 +24,6 @@ function InfoPage() {
             </div>
           </div>
         </Link>
-        <Link to={ROUTE_HELP_CMS}>
-          <div className={styles.item}>
-            <div className={styles.itemTitle}>Hướng dẫn đăng ký thi trên hệ thống CMS</div>
-            <div className={styles.description}>
-              Hướng dẫn đăng nhập, nộp bài, xem kết quả, xem thông báo, gửi câu hỏi, ...
-            </div>
-          </div>
-        </Link>
       </div>
     </div>
   );
