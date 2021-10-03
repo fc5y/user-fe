@@ -19,7 +19,12 @@ import cx from 'classnames';
 import styles from './style.scss';
 
 // Constants
-import { API_PROGRESS, CONTEST_STATUS, RANKING_LINK } from 'src/shared/constants';
+import {
+  API_PROGRESS,
+  CONTEST_STATUS,
+  RANKING_LINK,
+  CONTEST_MATERIALS_KEY_MAP,
+} from 'src/shared/constants';
 
 // Components
 import { Button, PrimaryButton } from 'src/app/common-ui/Button';
@@ -206,26 +211,17 @@ function ContestDetail() {
                       </div>
                       <div className={cx(styles.documentContestPage__content__btn)}>
                         <div className={cx(styles.documentContestPage__content__btn__edited)}>
-                          <ButtonContestDocument
-                            content="Đề bài"
-                            linkUrl={contestInfo[contestName].materials.statements_url}
-                          ></ButtonContestDocument>
-                          <ButtonContestDocument
-                            content="Bộ test"
-                            linkUrl={contestInfo[contestName].materials.test_data_url}
-                          ></ButtonContestDocument>
-                          <ButtonContestDocument
-                            content="Bảng điểm"
-                            linkUrl={contestInfo[contestName].materials.ranking_url}
-                          ></ButtonContestDocument>
-                          <ButtonContestDocument
-                            content="Lời giải"
-                            linkUrl={contestInfo[contestName].materials.editorial_url}
-                          ></ButtonContestDocument>
-                          <ButtonContestDocument
-                            content="Bài giải"
-                            linkUrl={contestInfo[contestName].materials.solution_url}
-                          ></ButtonContestDocument>
+                          {contestInfo[contestName].materials
+                            .filter((m) => m.name !== 'all_materials_url')
+                            .map((m) => {
+                              return (
+                                <ButtonContestDocument
+                                  content={CONTEST_MATERIALS_KEY_MAP[m.name]}
+                                  linkUrl={m.value}
+                                  key={m.name}
+                                ></ButtonContestDocument>
+                              );
+                            })}
                         </div>
                       </div>
                     </div>
@@ -233,7 +229,9 @@ function ContestDetail() {
                       <PrimaryButton
                         onClick={() => {
                           window.open(
-                            contestInfo[contestName].materials.all_materials_url || 'about:blank',
+                            contestInfo[contestName].materials.filter(
+                              (m) => m.name === 'all_materials_url',
+                            )[0].value || 'about:blank',
                             '_blank',
                             'noopener noreferrer',
                           );
