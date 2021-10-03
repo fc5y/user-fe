@@ -1,4 +1,5 @@
 import * as React from 'react';
+import PropTypes from 'prop-types';
 
 // commoon-ui
 import InfoAnnouncement from 'src/app/common-ui/InfoAnnouncement';
@@ -29,14 +30,19 @@ export default function Announcements({ offset, limit }) {
 
   React.useEffect(() => {
     fetchAnnouncementInfo(offset, limit);
-  }, []);
+  }, [offset, limit]);
 
-  const renderAnnouncements = (announcements) => {
-    if (apiState.progress === API_PROGRESS.FAILED) return null;
-    return announcements.map((announcement) => (
-      <InfoAnnouncement key={announcement.name}>{announcement.description}</InfoAnnouncement>
-    ));
-  };
-
-  return renderAnnouncements(announcements);
+  return (
+    <>
+      {apiState.progress !== API_PROGRESS.SUCCESS &&
+        announcements.map((announcement) => (
+          <InfoAnnouncement key={announcement.name}>{announcement.description}</InfoAnnouncement>
+        ))}
+    </>
+  );
 }
+
+Announcements.propTypes = {
+  offset: PropTypes.number,
+  limit: PropTypes.number,
+};
