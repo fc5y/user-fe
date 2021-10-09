@@ -11,11 +11,11 @@ import styles from './style.scss';
 export default function ButtonContestDocument(props) {
   const openLink = (link) => window.open(link || 'about:blank', '_blank', 'noopener noreferrer');
   return (
-    <div className={cx(styles.stylebtn)}>
+    <div className={cx(styles.stylebtn)} onClick={() => openLink(props.linkUrl)}>
       <div>
         <IconFolder />
       </div>
-      <div onClick={() => openLink(props.linkUrl)}>
+      <div>
         <p>{props.content}</p>
       </div>
     </div>
