@@ -4,8 +4,7 @@ import * as ROUTES from './constants';
 import HomePage from '../containers/HomePage';
 import Page404 from '../containers/Page404';
 import InfoPage from '../containers/InfoPage';
-import CmsHelpPage from '../containers/HelpPage/CmsHelpPage';
-import JoinHelpPage from '../containers/HelpPage/JoinHelpPage';
+import UpdatedHelpPage from '../containers/HelpPage';
 import LoginPage from '../containers/LoginPage';
 import SignupPage from '../containers/SignupPage';
 import ProfilePage from '../containers/ProfilePage';
@@ -37,14 +36,9 @@ const ROUTES_CONFIG = [
     component: InfoPage,
   },
   {
-    path: ROUTES.ROUTE_HELP_CMS,
-    exact: true,
-    component: CmsHelpPage,
-  },
-  {
     path: ROUTES.ROUTE_HELP_JOIN,
     exact: true,
-    component: JoinHelpPage,
+    component: UpdatedHelpPage,
   },
   /**
    * USER REGION
