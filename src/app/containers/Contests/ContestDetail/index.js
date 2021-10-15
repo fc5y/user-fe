@@ -111,7 +111,7 @@ function ContestDetail() {
   );
   const [apiState, setApiState] = React.useState({
     progress: API_PROGRESS.INIT,
-    erorr: null,
+    error: null,
     error_msg: null,
   });
   const { count, status } = useContestCountDown({
@@ -123,17 +123,16 @@ function ContestDetail() {
   React.useEffect(() => {
     const fetchContestInfo = async () => {
       setApiState({ progress: API_PROGRESS.REQ });
-      const { erorr, error_msg } = await getContestInfoByName({ contestName });
-
-      if (erorr) {
+      const { error, error_msg } = await getContestInfoByName({ contestName });
+      if (error) {
         setApiState({
           progress: API_PROGRESS.FAILED,
-          erorr,
+          error,
           error_msg,
         });
-        setApiState({ progress: API_PROGRESS.FAILED, erorr, error_msg });
+        setApiState({ progress: API_PROGRESS.FAILED, error, error_msg });
       } else {
-        setApiState({ progress: API_PROGRESS.SUCCESS, erorr: null, error_msg: null });
+        setApiState({ progress: API_PROGRESS.SUCCESS, error: null, error_msg: null });
       }
     };
 
