@@ -1,6 +1,6 @@
 import { ERROR_VALIDATION as ERROR } from 'src/shared/constants';
 
-const PASSWORD_REGEX = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
+const PASSWORD_REGEX = /^([\x20-\x7E]+$)/;
 const USERNAME_REGEX = /^[a-zA-Z0-9_-]{3,16}$/;
 const EMAIL_REGEX = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+$/;
 const OTP_REGEX = /^[0-9]+$/;
