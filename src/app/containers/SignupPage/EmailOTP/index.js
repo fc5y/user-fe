@@ -8,6 +8,9 @@ import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import { validate } from './validators';
 
+// API
+import { apiVerifyOTP } from 'src/api';
+
 // Components
 import Loading from 'src/app/common-ui/Loading';
 import { LabeledInput } from 'src/app/common-ui/Form';
@@ -87,7 +90,7 @@ const labels = {
   otp: 'Mã xác minh',
 };
 
-function EmailOTP({ email, onSignup, onClickBack }) {
+function EmailOTP({ email, username, onSignup, onClickBack }) {
   const [values, setValues] = React.useState({});
   const [errors, setErrors] = React.useState({});
   const [apiState, setApiState] = React.useState({
@@ -110,6 +113,17 @@ function EmailOTP({ email, onSignup, onClickBack }) {
     error: errors[name],
   });
 
+  const verifyOTP = async (otp) => {
+    const { error, data, error_msg } = await apiVerifyOTP({ email, username, otp });
+
+    if (error || !data || !data.token) {
+      setApiState({ progress: API_PROGRESS.FAILED, error, error_msg });
+      return null;
+    } else {
+      return data.token;
+    }
+  };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
 
@@ -123,7 +137,16 @@ function EmailOTP({ email, onSignup, onClickBack }) {
     }
 
     setApiState({ progress: API_PROGRESS.REQ, error: null, error_msg: null });
-    const { error, error_msg } = await onSignup(validation.newValues.otp);
+
+    // Verify OTP to get token
+    const otpToken = await verifyOTP(values.otp);
+
+    if (!otpToken) {
+      return;
+    }
+
+    // Use token to register
+    const { error, error_msg } = await onSignup(otpToken);
 
     if (error) {
       setApiState({ progress: API_PROGRESS.FAILED, error, error_msg });
@@ -170,6 +193,7 @@ function EmailOTP({ email, onSignup, onClickBack }) {
 
 EmailOTP.propTypes = {
   email: PropTypes.string,
+  username: PropTypes.string,
   onSignup: PropTypes.func,
   onClickBack: PropTypes.func,
 };

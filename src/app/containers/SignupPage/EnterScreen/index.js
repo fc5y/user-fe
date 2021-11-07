@@ -2,7 +2,7 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 
 // APIs
-import { apiSendOTPEmail } from 'src/api';
+import { apiRequestSignup } from 'src/api';
 
 // Utils
 import styled from 'styled-components';
@@ -104,16 +104,17 @@ function EnterScreen({ onSubmitForm, userInput }) {
     }
 
     setApiState({ progress: API_PROGRESS.REQ, error: null, error_msg: null });
-    const { error, error_msg } = await apiSendOTPEmail({
-      email: validation.newValues.email,
-      fullname: validation.newValues.fullname,
+    const { error, error_msg } = await apiRequestSignup({
+      email: values.email,
+      username: values.username,
+      fullname: values.fullname,
     });
 
     if (error) {
       setApiState({ progress: API_PROGRESS.FAILED, error, error_msg });
     } else {
       setApiState({ progress: API_PROGRESS.SUCCESS, error: null, error_msg: null });
-      onSubmitForm(validation.newValues);
+      onSubmitForm(values);
     }
   };
 
