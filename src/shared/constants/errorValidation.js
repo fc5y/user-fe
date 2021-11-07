@@ -1,6 +1,6 @@
 export const ERROR_VALIDATION = Object.freeze({
   MSG_ERROR_FIELD_IS_REQUIRED: 'Mục này là bắt buộc',
-  MSG_ERROR_USERNAME_WRONG_FORMAT: `Tên đăng nhập chỉ được gồm các ký tự a-z, A-Z, 0-9, ".", "-", "_"`,
+  MSG_ERROR_USERNAME_WRONG_FORMAT: `Tên đăng nhập chỉ được gồm các ký tự a-z, A-Z, 0-9, "-", "_"`,
   MSG_ERROR_INPUT_TOO_SHORT: 'Thông tin nhập quá ngắn',
   MSG_ERROR_INPUT_TOO_LONG: 'Thông tin nhập quá dài',
   MSG_ERROR_INVALID_EMAIL: 'Email không hợp lệ',
