@@ -29,7 +29,8 @@ function SignupPageFC5Y() {
       return (
         <EmailOTP
           email={userInput.email}
-          onSignup={(otp) => apiSignup({ ...userInput, otp })}
+          username={userInput.username}
+          onSignup={(token) => apiSignup({ ...userInput, token })}
           onClickBack={() => setState(STATE.ENTER_INFO)}
         />
       );
