@@ -1,4 +1,3 @@
-/* eslint-disable no-use-before-define */
 import { getEmailErrorOrNull } from 'src/utils/validator';
 
 export function validate(values) {

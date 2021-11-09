@@ -1,5 +1,3 @@
-/* eslint-disable no-use-before-define */
-/* eslint-disable no-use-before-define */
 import { getConfirmPasswordErrorOrNull, getPasswordErrorOrNull } from 'src/utils/validator';
 
 export function validate(values) {
