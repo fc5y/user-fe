@@ -20,6 +20,20 @@ export function apiRequestSignup({ email, username, fullname }) {
   });
 }
 
+export function apiRequestResetPassword({ email }) {
+  return post('/api/v2/auth/request-reset-password', {
+    email,
+  });
+}
+
+export function apiResetPassword({ email, new_password, token }) {
+  return post('/api/v2/auth/reset-password', {
+    email,
+    new_password,
+    token,
+  });
+}
+
 export function apiVerifyOTP({ email, username, otp }) {
   return post('/api/v2/auth/verify-otp', {
     email,

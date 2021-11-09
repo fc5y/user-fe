@@ -12,6 +12,7 @@ import ContestDetail from '../containers/Contests/ContestDetail';
 import ContestsHome from '../containers/Contests/ContestsHome';
 import ContestEnterPage from '../containers/Contests/ContestEnterPage';
 import ContestRegister from '../containers/Contests/ContestRegister';
+import ResetPasswordPage from '../containers/ResetPassword';
 import ChangePasswordPage from '../containers/ChangePassword';
 import RankingPage from '../containers/RankingPage';
 import SettingsPage from '../containers/SettingsPage';
@@ -60,6 +61,11 @@ const ROUTES_CONFIG = [
     path: ROUTES.ROUTE_SIGNUP,
     exact: true,
     component: SignupPage,
+  },
+  {
+    path: ROUTES.ROUTE_RESET_PASSWORD,
+    exact: true,
+    component: ResetPasswordPage,
   },
   /**
    * CONTEST REGION

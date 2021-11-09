@@ -5,7 +5,8 @@ export const ERROR_VALIDATION = Object.freeze({
   MSG_ERROR_INPUT_TOO_LONG: 'Thông tin nhập quá dài',
   MSG_ERROR_INVALID_EMAIL: 'Email không hợp lệ',
   MSG_ERROR_PASSWORD_MINIMUM_LENGTH: 'Mật khẩu phải có ít nhất 8 ký tự',
-  MSG_ERROR_PASSWORD_WRONG_FORMAT: '"Mật khẩu chỉ được gồm các ký tự ASCII (#32..#126)',
+  MSG_ERROR_PASSWORD_WRONG_FORMAT:
+    'Mật khẩu phải bao gồm ít nhất một ký tự viết hoa, một ký tự viết thường, và một chữ số.',
   MSG_ERROR_CONFIRM_PASSWORD_MISMATCHED: 'Mật khẩu không khớp',
   MSG_ERROR_OTP_WRONG_FORMAT: 'Mã xác minh bao gồm 6 chữ số',
 });
