@@ -53,12 +53,12 @@ export const ERROR_MAP = Object.freeze({
   [API_ERROR.UNKNOWN_ERROR]: 'Đã có lỗi xảy ra, vui lòng thử lại.',
 
   // Auth
-  [API_ERROR.INVALID_EMAIL]: 'Tên đăng nhập/email hoặc mật khẩu không hợp lệ. Vui lòng thử lại.',
-  [API_ERROR.INVALID_PASSWORD]: 'Tên đăng nhập/email hoặc mật khẩu không hợp lệ. Vui lòng thử lại.',
+  [API_ERROR.INVALID_EMAIL]: 'Tên đăng nhập/email không hợp lệ. Vui lòng thử lại.',
+  [API_ERROR.INVALID_PASSWORD]: 'Mật khẩu không hợp lệ. Vui lòng thử lại.',
   [API_ERROR.EMAIL_EXISTED]: 'Email đã được sử dụng.',
   [API_ERROR.USERNAME_EXISTED]: 'Tên đăng nhập đã được sử dụng.',
   [API_ERROR.REQUIRE_ADMIN]: 'Đã có lỗi xảy ra, vui lòng thử lại.',
-  [API_ERROR.UNAUTHORIZED]: 'Đã có lỗi xảy ra, vui lòng thử lại.',
+  [API_ERROR.UNAUTHORIZED]: 'Tên đăng nhập/email hoặc mật khẩu không hợp lệ. Vui lòng thử lại.',
 
   // User
   [API_ERROR.USER_NOT_FOUND]: 'Thí sinh không tồn tại',
