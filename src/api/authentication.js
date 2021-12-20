@@ -12,6 +12,21 @@ export function apiLoginStatus() {
   return get('/api/v2/auth/login-status');
 }
 
+export function apiRequestChangeEmail({ email }) {
+  console.log(email);
+  return post('/api/v2/auth/request-change-email', {
+    new_email: email,
+  });
+}
+
+export function apiChangeEmail({ email, token }) {
+  console.log(email, token);
+  return post('/api/v2/auth/change-email', {
+    new_email: email,
+    token,
+  });
+}
+
 export function apiRequestSignup({ email, username, fullname }) {
   return post('/api/v2/auth/request-signup', {
     email,

@@ -18,7 +18,6 @@ import { SuccessPopup, ErrorPopup } from 'src/app/common-ui/Popup';
 
 // Constants
 import { API_PROGRESS } from 'src/shared/constants';
-import { ROUTE_LOGIN } from 'src/app/routes/constants';
 
 // Utils
 import { getErrorMessage } from 'src/utils/getErrorMessage';
@@ -61,7 +60,7 @@ const ButtonGroups = styled.div`
   width: 100%;
 `;
 
-const CommonButton = `
+const CommonSubmit = `
   background: none;
   border: 1px solid var(--primary-default);
   box-shadow: none;
@@ -75,13 +74,13 @@ const CommonButton = `
 `;
 
 const ReturnButton = styled.button`
-  ${CommonButton}
+  ${CommonSubmit}
   background-color: #fff;
   color: var(--primary-default);
 `;
 
 const CreateAccountButton = styled.button`
-  ${CommonButton}
+  ${CommonSubmit}
   background-color: var(--primary-default);
   color: white;
 `;
@@ -90,7 +89,8 @@ const labels = {
   otp: 'Mã xác minh',
 };
 
-function EmailOTP({ email, username, onSignup, onClickBack }) {
+function EmailOTP({ email, username, onSubmit, onClickBack, route, btnSubmitContent }) {
+  console.log(email);
   const [values, setValues] = React.useState({});
   const [errors, setErrors] = React.useState({});
   const [apiState, setApiState] = React.useState({
@@ -126,19 +126,22 @@ function EmailOTP({ email, username, onSignup, onClickBack }) {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
+    console.log(values);
     const validation = validate(values);
     setValues(validation.newValues);
     setErrors(validation.errors);
 
     // Return if error exists
-    if (validation.hasError || typeof onSignup !== 'function') {
+    console.log(validation.hasError);
+    console.log(typeof onSubmit);
+    if (validation.hasError || typeof onSubmit !== 'function') {
       return;
     }
-
+    console.log('Processing');
     setApiState({ progress: API_PROGRESS.REQ, error: null, error_msg: null });
 
     // Verify OTP to get token
+    console.log(values.otp);
     const otpToken = await verifyOTP(values.otp);
 
     if (!otpToken) {
@@ -146,7 +149,9 @@ function EmailOTP({ email, username, onSignup, onClickBack }) {
     }
 
     // Use token to register
-    const { error, error_msg } = await onSignup(otpToken);
+    const { data, error, error_msg } = await onSubmit(otpToken);
+
+    console.log(data, error, error_msg);
 
     if (error) {
       setApiState({ progress: API_PROGRESS.FAILED, error, error_msg });
@@ -160,11 +165,7 @@ function EmailOTP({ email, username, onSignup, onClickBack }) {
       {apiState.progress === API_PROGRESS.REQ ? (
         <Loading />
       ) : apiState.progress === API_PROGRESS.SUCCESS ? (
-        <SuccessPopup
-          show
-          content="Tạo tài khoản thành công"
-          onClose={() => history.push(ROUTE_LOGIN)}
-        />
+        <SuccessPopup show content="Tạo tài khoản thành công" onClose={() => history.push(route)} />
       ) : (
         apiState.error && (
           <ErrorPopup
@@ -185,7 +186,7 @@ function EmailOTP({ email, username, onSignup, onClickBack }) {
       </OTPInput>
       <ButtonGroups>
         <ReturnButton onClick={onClickBack}>Trở về</ReturnButton>
-        <CreateAccountButton onClick={handleSubmit}>Tạo tài khoản</CreateAccountButton>
+        <CreateAccountButton onClick={handleSubmit}>{btnSubmitContent}</CreateAccountButton>
       </ButtonGroups>
     </Container>
   );
@@ -194,8 +195,10 @@ function EmailOTP({ email, username, onSignup, onClickBack }) {
 EmailOTP.propTypes = {
   email: PropTypes.string,
   username: PropTypes.string,
-  onSignup: PropTypes.func,
+  onSubmit: PropTypes.func,
   onClickBack: PropTypes.func,
+  route: PropTypes.string,
+  btnSubmitContent: PropTypes.string,
 };
 
 export default EmailOTP;

@@ -9,5 +9,6 @@ export function validate(values) {
     otp: getOTPValidationError(values.otp),
   };
   const hasError = Object.values(errors).some((error) => !!error);
+  console.log(errors, hasError);
   return { newValues, errors, hasError };
 }
