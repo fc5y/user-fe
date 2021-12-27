@@ -101,8 +101,11 @@ function EnterPage() {
           case apiState.progress === API_PROGRESS.SUCCESS:
             return (
               <div className={styles.container}>
-                <div className={styles.title}>Vào Thi</div>
+                <div className={styles.title}>Vào thi</div>
                 <div className={styles.enterContest}>
+                  <div className={styles.announcement}>
+                    Lưu ý quá trình đăng ký thông tin có thể mất 30 giây để hoàn tất
+                  </div>
                   <div className={styles.text}>
                     1. Truy cập vào địa chỉ:&nbsp;
                     <a

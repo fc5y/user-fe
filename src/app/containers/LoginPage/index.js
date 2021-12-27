@@ -19,7 +19,7 @@ import { ErrorPopup, WarningPopup } from '../../common-ui/Popup';
 // Constants and utils
 import { validate } from './validators';
 import { parseUrlQuery } from 'src/utils/url';
-import { ROUTE_SIGNUP } from 'src/app/routes/constants';
+import { ROUTE_SIGNUP, ROUTE_RESET_PASSWORD } from 'src/app/routes/constants';
 import { getErrorMessage } from 'src/utils/getErrorMessage';
 import { API_PROGRESS, FORGET_PASSWORD_HELP } from 'src/shared/constants';
 
@@ -143,7 +143,7 @@ function LoginPage({ history, location }) {
           type="password"
           onKeyEnter={handleSubmit}
         />
-        <span className={styles.forgotAccount} onClick={() => setShowWarningForgetPassword(true)}>
+        <span className={styles.forgotAccount} onClick={() => history.push(ROUTE_RESET_PASSWORD)}>
           Quên mật khẩu?
         </span>
         <Form.ButtonGroup>

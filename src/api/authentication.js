@@ -8,18 +8,44 @@ export function apiLogout() {
   return post('/api/v2/auth/logout');
 }
 
-export function apiSendOTPEmail({ email, fullname }) {
-  return post('/api/v2/auth/send-otp', { email, full_name: fullname });
-}
-
 export function apiLoginStatus() {
   return get('/api/v2/auth/login-status');
 }
 
-export function apiSignup({ username, otp, fullname, school, email, password }) {
+export function apiRequestSignup({ email, username, fullname }) {
+  return post('/api/v2/auth/request-signup', {
+    email,
+    username,
+    full_name: fullname,
+  });
+}
+
+export function apiRequestResetPassword({ email }) {
+  return post('/api/v2/auth/request-reset-password', {
+    email,
+  });
+}
+
+export function apiResetPassword({ email, new_password, token }) {
+  return post('/api/v2/auth/reset-password', {
+    email,
+    new_password,
+    token,
+  });
+}
+
+export function apiVerifyOTP({ email, username, otp }) {
+  return post('/api/v2/auth/verify-otp', {
+    email,
+    otp,
+    username,
+  });
+}
+
+export function apiSignup({ username, token, fullname, school, email, password }) {
   return post('/api/v2/auth/signup', {
     username,
-    otp,
+    token,
     full_name: fullname,
     school_name: school,
     email,

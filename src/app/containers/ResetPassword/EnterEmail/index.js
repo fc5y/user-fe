@@ -2,7 +2,7 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 
 // APIs
-import { apiRequestSignup } from 'src/api';
+import { apiRequestResetPassword } from 'src/api';
 
 // Utils
 import styled from 'styled-components';
@@ -18,7 +18,7 @@ import { PrimaryButton } from 'src/app/common-ui/Button';
 import { ErrorPopup } from 'src/app/common-ui/Popup';
 
 // Constants
-import { ROUTE_LOGIN, ROUTE_POLICY } from 'src/app/routes/constants';
+import { ROUTE_LOGIN } from 'src/app/routes/constants';
 import { API_PROGRESS } from 'src/shared/constants';
 
 const Container = styled.div`
@@ -49,30 +49,12 @@ const TitleLeft = styled.div`
 const TitleRight = styled.div``;
 
 const labels = {
-  fullname: 'Họ và tên',
   email: 'Email',
-  username: 'Tên đăng nhập',
-  password: 'Mật khẩu',
-  confirmPassword: 'Xác nhận mật khẩu',
-  school: 'Trường',
-  isTermsAccepted: (
-    <span>
-      Tôi đã đọc và đồng ý với{' '}
-      <Link target="_blank" to={ROUTE_POLICY}>
-        điều khoản của Free Contest
-      </Link>
-    </span>
-  ),
 };
 
-function EnterScreen({ onSubmitForm, userInput }) {
+function EnterEmail({ onSubmitForm, userInput }) {
   const [values, setValues] = React.useState({
-    fullname: userInput.fullname || '',
     email: userInput.email || '',
-    username: userInput.username || '',
-    password: userInput.password || '',
-    confirmPassword: userInput.confirmPassword || '',
-    school: userInput.school || '',
   });
   const [errors, setErrors] = React.useState({});
   const [apiState, setApiState] = React.useState({
@@ -104,24 +86,22 @@ function EnterScreen({ onSubmitForm, userInput }) {
     }
 
     setApiState({ progress: API_PROGRESS.REQ, error: null, error_msg: null });
-    const { error, error_msg } = await apiRequestSignup({
-      email: values.email,
-      username: values.username,
-      fullname: values.fullname,
+    const { error, error_msg } = await apiRequestResetPassword({
+      email: validation.newValues.email,
     });
 
     if (error) {
       setApiState({ progress: API_PROGRESS.FAILED, error, error_msg });
     } else {
       setApiState({ progress: API_PROGRESS.SUCCESS, error: null, error_msg: null });
-      onSubmitForm(values);
+      onSubmitForm(validation.newValues);
     }
   };
 
   return (
     <Container>
       <Helmet>
-        <title>Tạo tài khoản</title>
+        <title>Quên mật khẩu</title>
       </Helmet>
       {apiState.progress === API_PROGRESS.REQ ? (
         <Loading />
@@ -137,23 +117,13 @@ function EnterScreen({ onSubmitForm, userInput }) {
         )
       )}
       <Title>
-        <TitleLeft>Tạo tài khoản</TitleLeft>
+        <TitleLeft>Quên mật khẩu</TitleLeft>
         <TitleRight>
           <Link to={ROUTE_LOGIN}>Đăng nhập</Link>
         </TitleRight>
       </Title>
       <Form.Form>
-        <Form.LabeledInput {...defaultProps('fullname')} type="text" />
-        <Form.LabeledInput {...defaultProps('email')} type="email" />
-        <Form.LabeledInput {...defaultProps('username')} type="text" />
-        <Form.LabeledInput {...defaultProps('password')} type="password" />
-        <Form.LabeledInput {...defaultProps('confirmPassword')} type="password" />
-        <Form.LabeledInput {...defaultProps('school')} type="text" />
-        <Form.LabeledCheckbox
-          {...defaultProps('isTermsAccepted')}
-          valueWhenChecked="checked"
-          valueWhenUnchecked=""
-        />
+        <Form.LabeledInput {...defaultProps('email')} type="email" onKeyEnter={validateAndSubmit} />
         <Form.ButtonGroup>
           <PrimaryButton onClick={validateAndSubmit}>Tiếp</PrimaryButton>
         </Form.ButtonGroup>
@@ -162,9 +132,9 @@ function EnterScreen({ onSubmitForm, userInput }) {
   );
 }
 
-EnterScreen.propTypes = {
+EnterEmail.propTypes = {
   onSubmitForm: PropTypes.func,
   userInput: PropTypes.object,
 };
 
-export default EnterScreen;
+export default EnterEmail;

@@ -2,26 +2,22 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 
 // Hook
-import { useHistory } from 'react-router-dom';
 
 // Utils
 import styled from 'styled-components';
 import { validate } from './validators';
 
-// API
-import { apiVerifyOTP } from 'src/api';
-
 // Components
 import Loading from 'src/app/common-ui/Loading';
 import { LabeledInput } from 'src/app/common-ui/Form';
-import { SuccessPopup, ErrorPopup } from 'src/app/common-ui/Popup';
+import { ErrorPopup } from 'src/app/common-ui/Popup';
 
 // Constants
 import { API_PROGRESS } from 'src/shared/constants';
-import { ROUTE_LOGIN } from 'src/app/routes/constants';
 
 // Utils
 import { getErrorMessage } from 'src/utils/getErrorMessage';
+import { apiVerifyOTP } from 'src/api';
 
 const Container = styled.div`
   width: 600px;
@@ -90,7 +86,7 @@ const labels = {
   otp: 'Mã xác minh',
 };
 
-function EmailOTP({ email, username, onSignup, onClickBack }) {
+function EmailOTP({ email, onVerified, onClickBack }) {
   const [values, setValues] = React.useState({});
   const [errors, setErrors] = React.useState({});
   const [apiState, setApiState] = React.useState({
@@ -98,7 +94,6 @@ function EmailOTP({ email, username, onSignup, onClickBack }) {
     error: null,
     error_msg: null,
   });
-  const history = useHistory();
 
   const updateValue = (name, value) => {
     setValues({ ...values, [name]: value });
@@ -114,12 +109,12 @@ function EmailOTP({ email, username, onSignup, onClickBack }) {
   });
 
   const verifyOTP = async (otp) => {
-    const { error, data, error_msg } = await apiVerifyOTP({ email, username, otp });
-
+    const { error, data, error_msg } = await apiVerifyOTP({ email, username: null, otp });
     if (error || !data || !data.token) {
       setApiState({ progress: API_PROGRESS.FAILED, error, error_msg });
       return null;
     } else {
+      setApiState({ progress: API_PROGRESS.SUCCESS, error: null, error_msg: null });
       return data.token;
     }
   };
@@ -132,39 +127,22 @@ function EmailOTP({ email, username, onSignup, onClickBack }) {
     setErrors(validation.errors);
 
     // Return if error exists
-    if (validation.hasError || typeof onSignup !== 'function') {
+    if (validation.hasError || typeof onVerified !== 'function') {
       return;
     }
 
     setApiState({ progress: API_PROGRESS.REQ, error: null, error_msg: null });
+    const otpToken = await verifyOTP(validation.newValues.otp);
 
-    // Verify OTP to get token
-    const otpToken = await verifyOTP(values.otp);
+    if (!otpToken) return;
 
-    if (!otpToken) {
-      return;
-    }
-
-    // Use token to register
-    const { error, error_msg } = await onSignup(otpToken);
-
-    if (error) {
-      setApiState({ progress: API_PROGRESS.FAILED, error, error_msg });
-    } else {
-      setApiState({ progress: API_PROGRESS.SUCCESS, error: null, error_msg: null });
-    }
+    onVerified(otpToken);
   };
 
   return (
     <Container>
       {apiState.progress === API_PROGRESS.REQ ? (
         <Loading />
-      ) : apiState.progress === API_PROGRESS.SUCCESS ? (
-        <SuccessPopup
-          show
-          content="Tạo tài khoản thành công"
-          onClose={() => history.push(ROUTE_LOGIN)}
-        />
       ) : (
         apiState.error && (
           <ErrorPopup
@@ -185,7 +163,7 @@ function EmailOTP({ email, username, onSignup, onClickBack }) {
       </OTPInput>
       <ButtonGroups>
         <ReturnButton onClick={onClickBack}>Trở về</ReturnButton>
-        <CreateAccountButton onClick={handleSubmit}>Tạo tài khoản</CreateAccountButton>
+        <CreateAccountButton onClick={handleSubmit}>Xác nhận</CreateAccountButton>
       </ButtonGroups>
     </Container>
   );
@@ -193,8 +171,7 @@ function EmailOTP({ email, username, onSignup, onClickBack }) {
 
 EmailOTP.propTypes = {
   email: PropTypes.string,
-  username: PropTypes.string,
-  onSignup: PropTypes.func,
+  onVerified: PropTypes.func,
   onClickBack: PropTypes.func,
 };
 

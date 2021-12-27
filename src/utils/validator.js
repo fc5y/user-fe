@@ -1,6 +1,9 @@
 import { ERROR_VALIDATION as ERROR } from 'src/shared/constants';
 
-const PASSWORD_REGEX = /^([\x20-\x7E]+$)/;
+const PASSWORD_REGEX = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
+const USERNAME_REGEX = /^[a-zA-Z0-9_-]{3,16}$/;
+const EMAIL_REGEX = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+$/;
+const OTP_REGEX = /^[0-9]+$/;
 
 export function getConfirmPasswordErrorOrNull(confirmPassword, password) {
   if (!confirmPassword) return ERROR.MSG_ERROR_FIELD_IS_REQUIRED;
@@ -28,17 +31,12 @@ export function getRequiredFieldErrorOrNull(field) {
   return null;
 }
 
-const OTP_REGEX = /^[0-9]+$/;
-
 export function getOTPValidationError(otp) {
   if (!otp) return ERROR.MSG_ERROR_FIELD_IS_REQUIRED;
   if (otp.length !== 6) return ERROR.MSG_ERROR_OTP_WRONG_FORMAT;
   if (!OTP_REGEX.test(otp)) return ERROR.MSG_ERROR_OTP_WRONG_FORMAT;
   return null;
 }
-
-const EMAIL_REGEX = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+$/;
-const USERNAME_REGEX = /^([a-zA-Z0-9\\.\-_]+$)/;
 
 export function getUsernameOrEmailErrorOrNull(usernameOrEmail) {
   if (!usernameOrEmail) {

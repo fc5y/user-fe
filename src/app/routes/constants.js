@@ -8,6 +8,7 @@ export const ROUTE_HELP_JOIN = '/help/join';
 // Authentication routes
 export const ROUTE_LOGIN = '/auth/login';
 export const ROUTE_SIGNUP = '/auth/signup';
+export const ROUTE_RESET_PASSWORD = '/auth/reset-password';
 
 // Contest
 export const ROUTE_CONTESTS = '/contests';
