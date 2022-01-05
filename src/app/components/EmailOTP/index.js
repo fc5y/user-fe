@@ -90,7 +90,6 @@ const labels = {
 };
 
 function EmailOTP({ email, username, onSubmit, onClickBack, route, btnSubmitContent }) {
-  console.log(email);
   const [values, setValues] = React.useState({});
   const [errors, setErrors] = React.useState({});
   const [apiState, setApiState] = React.useState({
@@ -126,22 +125,17 @@ function EmailOTP({ email, username, onSubmit, onClickBack, route, btnSubmitCont
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log(values);
     const validation = validate(values);
     setValues(validation.newValues);
     setErrors(validation.errors);
 
     // Return if error exists
-    console.log(validation.hasError);
-    console.log(typeof onSubmit);
     if (validation.hasError || typeof onSubmit !== 'function') {
       return;
     }
-    console.log('Processing');
     setApiState({ progress: API_PROGRESS.REQ, error: null, error_msg: null });
 
     // Verify OTP to get token
-    console.log(values.otp);
     const otpToken = await verifyOTP(values.otp);
 
     if (!otpToken) {
@@ -150,9 +144,6 @@ function EmailOTP({ email, username, onSubmit, onClickBack, route, btnSubmitCont
 
     // Use token to register
     const { data, error, error_msg } = await onSubmit(otpToken);
-
-    console.log(data, error, error_msg);
-
     if (error) {
       setApiState({ progress: API_PROGRESS.FAILED, error, error_msg });
     } else {
