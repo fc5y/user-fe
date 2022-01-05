@@ -158,10 +158,8 @@ function SettingsPage() {
         <EmailOTP
           email={values.email}
           username={userInfo.username}
-          onSubmit={(token) => {
-            apiChangeEmail({ email: values.email, token });
-            setState(STATE.USER_INFO);
-          }}
+          onSubmit={(token) => apiChangeEmail({ email: values.email, token })}
+          onSubmitSuccess={() => setState(STATE.USER_INFO)}
           onClickBack={() => {
             setState(STATE.USER_INFO);
             setApiState({ progress: API_PROGRESS.INIT, error: null, error_msg: null });

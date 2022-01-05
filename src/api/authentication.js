@@ -13,14 +13,12 @@ export function apiLoginStatus() {
 }
 
 export function apiRequestChangeEmail({ email }) {
-  console.log(email);
   return post('/api/v2/auth/request-change-email', {
     new_email: email,
   });
 }
 
 export function apiChangeEmail({ email, token }) {
-  console.log(email, token);
   return post('/api/v2/auth/change-email', {
     new_email: email,
     token,

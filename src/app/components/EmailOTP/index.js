@@ -89,7 +89,15 @@ const labels = {
   otp: 'Mã xác minh',
 };
 
-function EmailOTP({ email, username, onSubmit, onClickBack, route, btnSubmitContent }) {
+function EmailOTP({
+  email,
+  username,
+  onSubmit,
+  onClickBack,
+  route,
+  btnSubmitContent,
+  onSubmitSuccess,
+}) {
   const [values, setValues] = React.useState({});
   const [errors, setErrors] = React.useState({});
   const [apiState, setApiState] = React.useState({
@@ -98,7 +106,6 @@ function EmailOTP({ email, username, onSubmit, onClickBack, route, btnSubmitCont
     error_msg: null,
   });
   const history = useHistory();
-
   const updateValue = (name, value) => {
     setValues({ ...values, [name]: value });
     setErrors({ ...errors, [name]: null });
@@ -141,13 +148,15 @@ function EmailOTP({ email, username, onSubmit, onClickBack, route, btnSubmitCont
     if (!otpToken) {
       return;
     }
-
     // Use token to register
     const { data, error, error_msg } = await onSubmit(otpToken);
     if (error) {
       setApiState({ progress: API_PROGRESS.FAILED, error, error_msg });
     } else {
       setApiState({ progress: API_PROGRESS.SUCCESS, error: null, error_msg: null });
+      if (onSubmitSuccess && typeof onSubmitSuccess === 'function') {
+        onSubmitSuccess();
+      }
     }
   };
 
@@ -190,6 +199,7 @@ EmailOTP.propTypes = {
   onClickBack: PropTypes.func,
   route: PropTypes.string,
   btnSubmitContent: PropTypes.string,
+  onSubmitSuccess: PropTypes.func,
 };
 
 export default EmailOTP;
