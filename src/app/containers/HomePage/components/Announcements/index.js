@@ -23,7 +23,7 @@ export default function Announcements({ offset, limit }) {
     if (!!error || !data) {
       setApiState({ progress: API_PROGRESS.FAILED, error, error_msg: msg });
     } else {
-      setApiState(API_PROGRESS.SUCCESS);
+      setApiState({ progress: API_PROGRESS.SUCCESS, error, error_msg: msg });
       setAnnouncements(data.announcements);
     }
   };
@@ -34,7 +34,7 @@ export default function Announcements({ offset, limit }) {
 
   return (
     <>
-      {apiState.progress !== API_PROGRESS.SUCCESS &&
+      {apiState.progress === API_PROGRESS.SUCCESS &&
         announcements.map((announcement) => (
           <InfoAnnouncement key={announcement.name}>{announcement.description}</InfoAnnouncement>
         ))}
