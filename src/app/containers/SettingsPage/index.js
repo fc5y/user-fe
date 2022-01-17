@@ -2,7 +2,7 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 
 // APIs
-import { apiUpdateUserInfo } from 'src/api';
+import { apiRequestChangeEmail, apiUpdateUserInfo, apiChangeEmail } from 'src/api';
 
 // HOC
 import withUserLogin from 'src/shared/hoc/withUserLogin';
@@ -10,6 +10,7 @@ import { UserInfoContext } from 'src/shared/context/UserInfo';
 
 // Components
 import Loading from '../../common-ui/Loading';
+import EmailOTP from '../../components/EmailOTP';
 
 // UI
 import * as MainPanel from '../../common-ui/MainPanel';
@@ -22,7 +23,8 @@ import { ErrorPopup, SuccessPopup } from '../../common-ui/Popup';
 // Constants and utils
 import { API_PROGRESS } from 'src/shared/constants';
 import { validate } from './validators';
-import { ROUTE_LOGIN } from '../../routes/constants';
+import { ROUTE_SETTINGS, ROUTE_LOGIN } from '../../routes/constants';
+import { STATE } from './config';
 
 const TitleWrapper = styled.div`
   margin-bottom: 30px;
@@ -42,6 +44,8 @@ const labels = {
 function SettingsPage() {
   const { userInfo, setUserInfo } = React.useContext(UserInfoContext);
   const [values, setValues] = React.useState({});
+  const [isEmailChanged, setIsEmailChanged] = React.useState(false);
+  const [state, setState] = React.useState(STATE.USER_INFO);
   React.useEffect(() => {
     const { fullname, school, email } = userInfo;
     setValues({ fullname, school, email });
@@ -57,6 +61,7 @@ function SettingsPage() {
   const handleChange = (name, value) => {
     setValues({ ...values, [name]: value });
     setErrors({ ...errors, [name]: null });
+    if (labels[name] === labels.email) setIsEmailChanged(true);
   };
 
   const defaultProps = (name) => ({
@@ -78,9 +83,20 @@ function SettingsPage() {
         return;
       }
 
-      const { fullname, school } = values;
-
+      const { fullname, school, email } = values;
       setApiState({ progress: API_PROGRESS.REQ, error: null, error_msg: null });
+
+      if (isEmailChanged) {
+        const { error, data, error_msg } = await apiRequestChangeEmail({ email });
+        if (error || !data) {
+          setApiState({ progress: API_PROGRESS.FAILED, error, error_msg });
+          return null;
+        } else {
+          setApiState({ ...apiState, progress: API_PROGRESS.SUCCESS });
+          setUserInfo({ ...userInfo, email });
+          setState(STATE.EMAIL_OTP);
+        }
+      }
       const { error, data, error_msg } = await apiUpdateUserInfo({
         fullname,
         school,
@@ -95,47 +111,66 @@ function SettingsPage() {
     },
     [values],
   );
-
-  return (
-    <MainPanel.Container>
-      <Helmet>
-        <title>Cài đặt</title>
-      </Helmet>
-      {apiState.progress === API_PROGRESS.REQ ? (
-        <Loading />
-      ) : apiState.progress === API_PROGRESS.FAILED ? (
-        <ErrorPopup
-          show
-          content="Đã xảy ra lỗi, vui lòng thử lại sau"
-          onClose={() => setApiState({ progress: API_PROGRESS.INIT, error: null, msg: null })}
+  switch (state) {
+    case STATE.USER_INFO:
+      return (
+        <MainPanel.Container>
+          <Helmet>
+            <title>Cài đặt</title>
+          </Helmet>
+          {apiState.progress === API_PROGRESS.REQ ? (
+            <Loading />
+          ) : apiState.progress === API_PROGRESS.FAILED ? (
+            <ErrorPopup
+              show
+              content="Đã xảy ra lỗi, vui lòng thử lại sau"
+              onClose={() => setApiState({ progress: API_PROGRESS.INIT, error: null, msg: null })}
+            />
+          ) : (
+            apiState.progress === API_PROGRESS.SUCCESS && (
+              <SuccessPopup
+                show
+                content="Lưu thay đổi thành công!"
+                onClose={() => {
+                  setApiState({ progress: API_PROGRESS.INIT, error: null, msg: null });
+                  window.location.reload();
+                }}
+              />
+            )
+          )}
+          <TitleWrapper>
+            <MainPanel.Title>Thông tin cá nhân</MainPanel.Title>
+          </TitleWrapper>
+          <Form.Form>
+            <Form.LabeledInput {...defaultProps('fullname')} type="text" />
+            <Form.LabeledInput {...defaultProps('school')} type="text" />
+            <Form.LabeledInput {...defaultProps('email')} type="text" />
+            <Form.ButtonGroup>
+              <Button disabled={apiState.progress === API_PROGRESS.REQ} onClick={handleSubmit}>
+                Lưu thay đổi
+              </Button>
+            </Form.ButtonGroup>
+          </Form.Form>
+        </MainPanel.Container>
+      );
+    case STATE.EMAIL_OTP:
+      return (
+        <EmailOTP
+          email={values.email}
+          username={userInfo.username}
+          onSubmit={(token) => apiChangeEmail({ email: values.email, token })}
+          onSubmitSuccess={() => setState(STATE.USER_INFO)}
+          onClickBack={() => {
+            setState(STATE.USER_INFO);
+            setApiState({ progress: API_PROGRESS.INIT, error: null, error_msg: null });
+          }}
+          route={ROUTE_SETTINGS}
+          btnSubmitContent="Thay đổi"
         />
-      ) : (
-        apiState.progress === API_PROGRESS.SUCCESS && (
-          <SuccessPopup
-            show
-            content="Lưu thay đổi thành công!"
-            onClose={() => {
-              setApiState({ progress: API_PROGRESS.INIT, error: null, msg: null });
-              window.location.reload();
-            }}
-          />
-        )
-      )}
-      <TitleWrapper>
-        <MainPanel.Title>Thông tin cá nhân</MainPanel.Title>
-      </TitleWrapper>
-      <Form.Form>
-        <Form.LabeledInput {...defaultProps('fullname')} type="text" />
-        <Form.LabeledInput {...defaultProps('school')} type="text" />
-        <Form.LabeledInput {...defaultProps('email')} disabled type="text" />
-        <Form.ButtonGroup>
-          <Button disabled={apiState.progress === API_PROGRESS.REQ} onClick={handleSubmit}>
-            Lưu thay đổi
-          </Button>
-        </Form.ButtonGroup>
-      </Form.Form>
-    </MainPanel.Container>
-  );
+      );
+    default:
+      return null;
+  }
 }
 
 SettingsPage.propTypes = {
