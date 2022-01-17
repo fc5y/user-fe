@@ -25,6 +25,7 @@ import { API_PROGRESS } from 'src/shared/constants';
 import { validate } from './validators';
 import { ROUTE_SETTINGS, ROUTE_LOGIN } from '../../routes/constants';
 import { STATE } from './config';
+import { getErrorMessage } from 'src/utils/getErrorMessage';
 
 const TitleWrapper = styled.div`
   margin-bottom: 30px;
@@ -123,7 +124,7 @@ function SettingsPage() {
           ) : apiState.progress === API_PROGRESS.FAILED ? (
             <ErrorPopup
               show
-              content="Đã xảy ra lỗi, vui lòng thử lại sau"
+              content={getErrorMessage(apiState)}
               onClose={() => setApiState({ progress: API_PROGRESS.INIT, error: null, msg: null })}
             />
           ) : (
