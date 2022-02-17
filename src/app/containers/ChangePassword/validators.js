@@ -8,7 +8,6 @@ export function validate(values) {
     confirmNewPassword: values.confirmNewPassword || '',
   };
   const errors = {
-    currentPassword: getPasswordErrorOrNull(values.currentPassword),
     newPassword: getPasswordErrorOrNull(values.newPassword),
     confirmNewPassword: getConfirmPasswordErrorOrNull(
       values.confirmNewPassword,
